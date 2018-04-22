@@ -9,14 +9,36 @@
  *   of the control panel, so they can log in.
  */
  CREATE TABLE IF NOT EXISTS `control_panel_users` (
-    `id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `login` VARCHAR(100) UNIQUE NOT NULL,
-    `salt`  CHAR(128) NOT NULL,
-    `pass`  CHAR(128) NOT NULL,
+    `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `login`   VARCHAR(100) UNIQUE NOT NULL,
+    `salt`    CHAR(128) NOT NULL,
+    `pass`    CHAR(128) NOT NULL,
     
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`user_id`)
  )
  COMMENT "Control panel users and their (hashed) passwords";
+ 
+ /* Categories
+  *   This table will store information about the categories
+  *   the items can belong to.
+  */
+ CREATE TABLE IF NOT EXISTS `categories` (
+	`category_code` CHAR(10) NOT NULL,
+	`name`          VARCHAR(100) UNIQUE NOT NULL,
+	
+	PRIMARY KEY (`category_code`)
+ )
+ COMMENT "Categories for the items displayed in the application";
+ 
+ /* Languages
+  *	  Languages in which the items are offered to the people
+  */
+ CREATE TABLE IF NOT EXISTS `languages` (
+	`lang_code` CHAR(2) NOT NULL,
+	`iconUri`   VARCHAR(100) UNIQUE NOT NULL,
+	
+	PRIMARY KEY(`lang_code`)
+ );
  
  /* Items
   *   This table will store information about the
@@ -24,14 +46,30 @@
   *   the application: Services, Leisure, Links, etc.
   */
 CREATE TABLE IF NOT EXISTS `items` (
-    `id`      INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name`    VARCHAR(255) NOT NULL,
-	`address` VARCHAR(255) NOT NULL,
+    `item_id`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name`     VARCHAR(255) NOT NULL,
+	`address`  VARCHAR(255) NOT NULL,
 	`web_link` VARCHAR(255),
 	`place_id` VARCHAR(255),
 	`icon_uri` VARCHAR(255) NOT NULL,
+	`is_free`  TINYINT NOT NULL,
+	`coord_lat` DECIMAL(8, 6),
+	`coord_lon` DECIMAL(9, 6),
+	`itemType` ENUM(
+		'service', 'leisure', 'link', 'help', 'info')
+		NOT NULL,
 	
-	PRIMARY KEY(`id`)
+	`category_code` CHAR(10),
+	`lang_code`     CHAR(2),
+	
+	FOREIGN KEY (`category_code`) REFERENCES `categories`(`category_code`)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+	FOREIGN KEY (`lang_code`) REFERENCES `languages`(`lang_code`)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+	
+	PRIMARY KEY(`item_id`)
 )
 COMMENT "Items to display in the application lists (services, leisure, links...)";
 
@@ -41,7 +79,7 @@ COMMENT "Items to display in the application lists (services, leisure, links...)
  *   period, i.e. from sunday 17:30 till monday 01:30.
  */
  CREATE TABLE IF NOT EXISTS `opening_hours` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`period_id`     INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`start_day`     ENUM(
 		'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
 		NOT NULL,
@@ -53,12 +91,19 @@ COMMENT "Items to display in the application lists (services, leisure, links...)
 	`end_hour`      TINYINT UNSIGNED NOT NULL,
 	`end_minutes`   TINYINT UNSIGNED NOT NULL,
 	
-	`item_id` INT UNSIGNED NOT NULL,
+	`item_id`       INT UNSIGNED NOT NULL,
 	
-	FOREIGN KEY (`item_id`) REFERENCES `items`(`id`)
+	PRIMARY KEY (`item_id`, `period_id`),
+	
+	FOREIGN KEY (`item_id`) REFERENCES `items`(`item_id`)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE,
 	
-	PRIMARY KEY (`item_id`, `id`)
+	CONSTRAINT `chk_hours` CHECK (
+		`start_hour` >= 0 AND `start_hour` <= 23 AND
+		`end_hour` >= 0 AND `end_hour` <= 23),
+	CONSTRAINT `chk_minutes` CHECK (
+		`start_minutes` >= 0 AND `start_minutes` <= 59 AND
+		`end_minutes` >= 0 AND `end_minutes` <= 59),
  )
  COMMENT "Opening hours periods for the items";
