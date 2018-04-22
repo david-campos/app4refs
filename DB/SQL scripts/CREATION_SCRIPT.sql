@@ -35,7 +35,7 @@
   */
  CREATE TABLE IF NOT EXISTS `languages` (
 	`lang_code` CHAR(2) NOT NULL,
-	`iconUri`   VARCHAR(100) UNIQUE NOT NULL,
+	`icon_uri`   VARCHAR(100) UNIQUE NOT NULL,
 	
 	PRIMARY KEY(`lang_code`)
  );
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `items` (
 	`is_free`  TINYINT NOT NULL,
 	`coord_lat` DECIMAL(8, 6),
 	`coord_lon` DECIMAL(9, 6),
-	`itemType` ENUM(
+	`item_type` ENUM(
 		'service', 'leisure', 'link', 'help', 'info')
 		NOT NULL,
 	
