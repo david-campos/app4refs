@@ -25,6 +25,9 @@
  CREATE TABLE IF NOT EXISTS `categories` (
 	`category_code` CHAR(10) NOT NULL,
 	`name`          VARCHAR(100) UNIQUE NOT NULL,
+	`item_type`     ENUM(
+		'service', 'leisure', 'link', 'help', 'info')
+		NOT NULL,
 	
 	PRIMARY KEY (`category_code`)
  )
@@ -55,11 +58,8 @@ CREATE TABLE IF NOT EXISTS `items` (
 	`is_free`  TINYINT NOT NULL,
 	`coord_lat` DECIMAL(8, 6),
 	`coord_lon` DECIMAL(9, 6),
-	`item_type` ENUM(
-		'service', 'leisure', 'link', 'help', 'info')
-		NOT NULL,
 	
-	`category_code` CHAR(10),
+	`category_code` CHAR(10) NOT NULL,
 	`lang_code`     CHAR(2),
 	
 	FOREIGN KEY (`category_code`) REFERENCES `categories`(`category_code`)
