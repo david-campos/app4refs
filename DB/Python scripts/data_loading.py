@@ -116,7 +116,7 @@ def load(items_type, file_fields, cursor, def_cat=''):
     print("Inserting " + items_type + "...")
     info_file = input(items_type + "s csv file: ")
     with open(info_file, 'r') as csvfile:
-        csvreader = csv.DictReader(csvfile, delimiter=';', quotechar='"', fieldnames=file_fields)
+        csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"', fieldnames=file_fields)
         for row in csvreader:
             print("\t", row)
             coords = row['coordinates'].split(',')

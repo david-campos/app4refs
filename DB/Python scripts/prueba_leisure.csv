@@ -1,0 +1,11 @@
+"Category
+(Write it always
+in the same way)",Name,Address,Website,Hours,Language,Free / Pay,Coordinates (optional),Description (optional),Notes
+"Possible Categories: 
+Cultural, Educational, Parks, Sports",,,,,"Posible values:
+Greek, English","Posible values:
+Free,  Pay",,,
+Cultural,National Park,"Leoforos Amalias 1, 02321 Athens, Greece",www.cityofathens.gr,9am-5pm,,,,,
+Sports,Diadromes,"Mezonos 45, Athina 104 38, Greece",http://www.diadromes.org,,,,"37.9877227,23.722333299999946 ",Tai-chi,
+Sports,Anasa Cultural Center,"Sfaktirias ke Plateon, Athina 104 35, Greece",http://www.anasa.org.gr,,,,"37.9817664,23.715977100000032",Acting and dancing classes,
+Educational,Victoria Square Project,"Elpidos 13, Athina 104 34, Greece",http://victoriasquareproject.gr,,,,"37.994201,23.729785300000003","Acting lessons, dance lessons and knitting lessons.",
