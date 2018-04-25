@@ -1,4 +1,5 @@
 #!/bin/python
+# -*- coding: utf-8 -*-
 
 # Script to load the data supplied by the Greek Forum of Migrants
 # into the database.
@@ -21,9 +22,9 @@ except ImportError:
 
 def insert_item(crs, item):
     add_item = ("INSERT INTO items"
-                "(name, address, web_link, place_id, icon_uri,is_free,coord_lat,coord_lon,item_type,category_code,"
+                "(name, address, web_link, place_id, icon_uri,is_free,coord_lat,coord_lon,category_code,"
                 "lang_code) "
-                "VALUES (%(name)s, %(addr)s, %(link)s, %(place)s, %(icon)s, %(free)s,%(lat)s,%(lon)s,%(type)s,"
+                "VALUES (%(name)s, %(addr)s, %(link)s, %(place)s, %(icon)s, %(free)s,%(lat)s,%(lon)s,"
                 "%(category)s,%(lang)s)")
     crs.execute(add_item, item)
     return crs.lastrowid
@@ -41,10 +42,11 @@ def category_for(cursor, item_type, field_value):
     field_value = field_value.strip()
     query = "SELECT category_code FROM categories WHERE name = %s AND item_type = %s"
     cursor.execute(query, (field_value, item_type))
-    if cursor.rowcount != 1:
-        print("category_for: Error, rowcount != 1 for ", field_value)
-        sys.exit(1)
     rows = cursor.fetchall()
+    if cursor.rowcount < 1:
+        print("category_for: Error, rowcount = ", cursor.rowcount, " < 1 for ", field_value, " with item_type ", item_type)
+        print(cursor.fetchall())
+        sys.exit(1)
     return rows[0][0]
 
 
@@ -52,7 +54,8 @@ def language_for(lang):
     lang = lang.strip().lower()
     languages = {
         'greek': 'el',
-        'english': 'en'
+        'english': 'en',
+        '': 'en' # let's use 'english' for the empty ones
     }
     if lang not in languages:
         print("language_for: Error, invalid language: ", lang)
@@ -78,9 +81,9 @@ def parse_hour(hour_str):
 
 
 def day_enum_for(day_str):
-    day_enum = day_str.strip().lower()[:2]
+    day_enum = day_str.strip().lower()[:3]
     if day_enum not in ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'):
-        print("Error, unrecognised day: ", day_str)
+        print("Error, unrecognised day: ", day_str, " => ", day_enum)
         sys.exit(1)
     return day_enum
 
@@ -109,6 +112,7 @@ def hours_for(field_value):
             'ini_h': h0, 'ini_m': m0,
             'end_h': hf, 'end_m': mf
         })
+    print("New period:", periods_list)
     return periods_list
 
 
@@ -118,7 +122,7 @@ def load(items_type, file_fields, cursor, def_cat=''):
     with open(info_file, 'r') as csvfile:
         csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"', fieldnames=file_fields)
         for row in csvreader:
-            print("\t", row)
+            print("\trow: ", row)
             coords = row['coordinates'].split(',')
             if coords != '' and len(coords) != 2 and 'coordinates' in file_fields:
                     print("Warning: coordinates not parsed: ", row['coordinates'])
@@ -129,20 +133,21 @@ def load(items_type, file_fields, cursor, def_cat=''):
                 'link': row['web_link'] if 'web_link' in file_fields else None,
                 'place': None,
                 'icon': '',
-                'free': (row['free'].lower() != 'free') if 'free' in file_fields else False,
+                'free': (row['free'].lower() == 'free') if 'free' in file_fields else False,
                 'lat': coords[0] if len(coords) == 2 else None,
                 'lon': coords[1] if len(coords) == 2 else None,
                 'category': category_for(
                     cursor, items_type.lower(), row['category']) if 'category' in file_fields else def_cat,
                 'lang': language_for(row['language']) if 'language' in file_fields else None,
             }
+            print("\titem: ", item)
             item_id = insert_item(cursor, item)
             hours = hours_for(row['hours'])
 
             for period in hours:
                 period['item'] = item_id
                 insert_period(cursor, period)
-    print(items_type + "inserted")
+    print(items_type + " inserted")
 
 if sys.version_info < (3, 0):
     print("Python 3.0 or later required.")

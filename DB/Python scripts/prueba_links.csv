@@ -1,11 +1,3 @@
-"Category
-(Write it always
-in the same way)",Name,Address,Website,Hours,Language,Free / Pay,Coordinates (optional),Notes
-"Possible Categories: Education,
-RefugeeInfo, Communities, Health, 
-Hairdresser, Parks, Churches, Banks",,,,,"Posible values:
-Greek, English","Posible values:
-Free,  Pay",,
 Education,British Hellenic College,"Rethumnou 2, Athens,",www.elea.gr,9am-5pm,,,,
 Communities,Afghan M&R Community,"Chalkokondili 35, Athina 104 32, Greece",,,,,"37.9863174,23.726800400000002",
 Communities,"Ethiopian Socio-Cultural Center ""Aithiops""","Skirou 22, Athina 113 62, Greece",,,,,"37.9999399,23.741663300000027",
