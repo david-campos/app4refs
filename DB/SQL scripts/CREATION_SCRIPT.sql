@@ -24,7 +24,7 @@
   */
  CREATE TABLE IF NOT EXISTS `categories` (
 	`category_code` CHAR(10) NOT NULL,
-	`name`          VARCHAR(100) UNIQUE NOT NULL,
+	`name`          VARCHAR(100) NOT NULL,
 	`item_type`     ENUM(
 		'service', 'leisure', 'link', 'help', 'info')
 		NOT NULL,
@@ -93,17 +93,48 @@ COMMENT "Items to display in the application lists (services, leisure, links...)
 	
 	`item_id`       INT UNSIGNED NOT NULL,
 	
-	PRIMARY KEY (`item_id`, `period_id`),
+	PRIMARY KEY (`period_id`),
 	
 	FOREIGN KEY (`item_id`) REFERENCES `items`(`item_id`)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	
-	CONSTRAINT `chk_hours` CHECK (
-		`start_hour` >= 0 AND `start_hour` <= 23 AND
-		`end_hour` >= 0 AND `end_hour` <= 23),
-	CONSTRAINT `chk_minutes` CHECK (
-		`start_minutes` >= 0 AND `start_minutes` <= 59 AND
-		`end_minutes` >= 0 AND `end_minutes` <= 59),
+		ON DELETE CASCADE
  )
  COMMENT "Opening hours periods for the items";
+ 
+/**
+ * Triggers to check the hours and minutes for the opening_hours
+ */
+ -- Procedures
+DELIMITER $$
+CREATE PROCEDURE IF NOT EXISTS `check_minutes`(IN minutes TINYINT UNSIGNED)
+BEGIN
+    IF minutes > 59 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'invalid minutes value (greater than 59)';
+    END IF;
+END$$
+CREATE PROCEDURE IF NOT EXISTS `check_hours`(IN hours TINYINT UNSIGNED)
+BEGIN
+    IF hours > 23 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'invalid hours value (greater than 23)';
+    END IF;
+END$$
+-- Triggers
+CREATE TRIGGER IF NOT EXISTS `opening_hours_before_insert` BEFORE INSERT ON `opening_hours`
+FOR EACH ROW
+BEGIN
+    CALL check_hours(new.start_hour);
+	CALL check_hours(new.end_hour);
+	CALL check_minutes(new.start_minutes);
+	CALL check_minutes(new.start_minutes);
+END$$
+CREATE TRIGGER IF NOT EXISTS `opening_hours_before_update` BEFORE UPDATE ON `opening_hours`
+FOR EACH ROW
+BEGIN
+    CALL check_hours(new.start_hour);
+	CALL check_hours(new.end_hour);
+	CALL check_minutes(new.start_minutes);
+	CALL check_minutes(new.start_minutes);
+END$$   
+DELIMITER ;
