@@ -38,7 +38,6 @@
   */
  CREATE TABLE IF NOT EXISTS `languages` (
 	`lang_code` CHAR(2) NOT NULL,
-	`icon_uri`   VARCHAR(100) UNIQUE NOT NULL,
 	
 	PRIMARY KEY(`lang_code`)
  );

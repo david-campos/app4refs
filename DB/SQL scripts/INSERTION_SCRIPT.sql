@@ -8,10 +8,10 @@
  ******************************************************************************/
 -- Languages are intented to use the ISO 639-1 Language Codes
 -- More info on https://www.iso.org/iso-639-language-codes.html
-INSERT INTO `languages`(`lang_code`, `icon_uri`)
-	VALUES ('en','en.png');
-INSERT INTO `languages`(`lang_code`, `icon_uri`)
-	VALUES ('el','el.png');
+INSERT INTO `languages`(`lang_code`)
+	VALUES ('en');
+INSERT INTO `languages`(`lang_code`)
+	VALUES ('el');
 
 /******************************************************************************
  * CATEGORIES
