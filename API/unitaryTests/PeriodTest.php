@@ -4,10 +4,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-include_once "../code/gateways/IPeriodsGateway.php";
-include_once "../code/Period.php";
-include_once "../code/exceptions.php";
-include_once "PeriodGatewayStub.php";
+require_once(dirname(__FILE__).'/testing_config.php');
 
 class PeriodTest extends TestCase {
     /**
@@ -33,7 +30,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting a negative start hour
-     * @expectedException InvalidHourException
+     * @expectedException exceptions\InvalidHourException
      */
     public function testPeriodThrowsExceptionOnNegativeStartHour() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),
@@ -43,7 +40,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting too big start hours
-     * @expectedException InvalidHourException
+     * @expectedException exceptions\InvalidHourException
      */
     public function testPeriodThrowsExceptionOnStartHourGreaterThan23() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),
@@ -53,7 +50,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting a negative end hour
-     * @expectedException InvalidHourException
+     * @expectedException exceptions\InvalidHourException
      */
     public function testPeriodThrowsExceptionOnNegativeEndHour() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),
@@ -63,7 +60,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting too big end hours
-     * @expectedException InvalidHourException
+     * @expectedException exceptions\InvalidHourException
      */
     public function testPeriodThrowsExceptionOnEndHourGreaterThan23() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),
@@ -73,7 +70,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting a negative start minutes
-     * @expectedException InvalidMinutesException
+     * @expectedException exceptions\InvalidMinutesException
      */
     public function testPeriodThrowsExceptionOnNegativeStartMinutes() {
         $p = new Period(1, WeekDays::MONDAY(), 0, 1, WeekDays::MONDAY(),
@@ -83,7 +80,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting too big start minutes
-     * @expectedException InvalidMinutesException
+     * @expectedException exceptions\InvalidMinutesException
      */
     public function testPeriodThrowsExceptionOnStartMinutesGreaterThan59() {
         $p = new Period(1, WeekDays::MONDAY(), 0, 2, WeekDays::MONDAY(),
@@ -93,7 +90,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting a negative end minutes
-     * @expectedException InvalidMinutesException
+     * @expectedException exceptions\InvalidMinutesException
      */
     public function testPeriodThrowsExceptionOnNegativeEndMinutes() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),
@@ -103,7 +100,7 @@ class PeriodTest extends TestCase {
 
     /**
      * Test the period fails on setting too big end minutes
-     * @expectedException InvalidMinutesException
+     * @expectedException exceptions\InvalidMinutesException
      */
     public function testPeriodThrowsExceptionOnEndMinutesGreaterThan59() {
         $p = new Period(1, WeekDays::MONDAY(), 1, 0, WeekDays::MONDAY(),

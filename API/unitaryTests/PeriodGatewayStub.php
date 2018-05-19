@@ -3,7 +3,7 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
-class PeriodGatewayStub implements IPeriodsGateway {
+class PeriodGatewayStub implements gateways\IPeriodsGateway {
     private $stubId;
 
     /**

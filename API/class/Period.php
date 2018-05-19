@@ -23,7 +23,7 @@ class Period {
     private $endMinutes;
     /** @var int */
     private $itemId;
-    /** @var IPeriodsGateway */
+    /** @var gateways\IPeriodsGateway */
     private $gateway;
 
     /**
@@ -36,10 +36,10 @@ class Period {
      * @param int $endHour the hour when the period ends
      * @param int $endMinutes the minutes when the period ends
      * @param int $itemId the item opened in this period
-     * @param IPeriodsGateway $gateway the gateway which manages this period
+     * @param gateways\IPeriodsGateway $gateway the gateway which manages this period
      */
     public function __construct(int $periodId, WeekDays $startDay, int $startHour, int $startMinutes, WeekDays $endDay,
-                                int $endHour, int $endMinutes, int $itemId, IPeriodsGateway $gateway) {
+                                int $endHour, int $endMinutes, int $itemId, gateways\IPeriodsGateway $gateway) {
         $this->periodId = $periodId;
         $this->startDay = $startDay;
         $this->startHour = $startHour;
@@ -94,11 +94,11 @@ class Period {
 
     /**
      * @param int $startHour
-     * @throws InvalidHourException
+     * @throws exceptions\InvalidHourException
      */
     public function setStartHour(int $startHour) {
         if($startHour < 0 || $startHour > 23) {
-            throw new InvalidHourException(400, "$startHour is not a valid hour");
+            throw new exceptions\InvalidHourException(400, "$startHour is not a valid hour");
         }
         $this->startHour = $startHour;
     }
@@ -112,11 +112,11 @@ class Period {
 
     /**
      * @param int $startMinutes
-     * @throws InvalidMinutesException
+     * @throws exceptions\InvalidMinutesException
      */
     public function setStartMinutes(int $startMinutes) {
         if($startMinutes < 0 || $startMinutes > 59) {
-            throw new InvalidMinutesException(400, "$startMinutes is not a valid amount of minutes");
+            throw new exceptions\InvalidMinutesException(400, "$startMinutes is not a valid amount of minutes");
         }
         $this->startMinutes = $startMinutes;
     }
@@ -130,11 +130,11 @@ class Period {
 
     /**
      * @param int $endHour
-     * @throws InvalidHourException
+     * @throws exceptions\InvalidHourException
      */
     public function setEndHour(int $endHour) {
         if($endHour < 0 || $endHour > 23) {
-            throw new InvalidHourException(400, "$endHour is not a valid hour");
+            throw new exceptions\InvalidHourException(400, "$endHour is not a valid hour");
         }
         $this->endHour = $endHour;
     }
@@ -148,11 +148,11 @@ class Period {
 
     /**
      * @param int $endMinutes
-     * @throws InvalidMinutesException
+     * @throws exceptions\InvalidMinutesException
      */
     public function setEndMinutes(int $endMinutes) {
         if($endMinutes < 0 || $endMinutes > 59) {
-            throw new InvalidMinutesException(400, "$endMinutes is not a valid amount of minutes");
+            throw new exceptions\InvalidMinutesException(400, "$endMinutes is not a valid amount of minutes");
         }
         $this->endMinutes = $endMinutes;
     }

@@ -4,8 +4,7 @@
  */
 
 use PHPUnit\Framework\TestCase;
-include_once "../code/FakeEnum.php";
-include_once "../code/ItemType.php";
+require_once(dirname(__FILE__).'/testing_config.php');
 
 class ItemTypeTest extends TestCase {
     // Simply check they are all different in value between them
