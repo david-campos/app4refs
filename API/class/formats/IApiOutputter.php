@@ -3,6 +3,8 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+namespace formats;
+
 interface IApiOutputter {
     /**
      * Outputs the specified array with the given format to the php response
