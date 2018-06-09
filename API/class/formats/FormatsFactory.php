@@ -6,6 +6,7 @@
 namespace formats;
 
 use exceptions\UnknownInputFormatException;
+use exceptions\UnknownOutputFormatException;
 
 class FormatsFactory {
     /** @var FormatsFactory */
@@ -29,20 +30,25 @@ class FormatsFactory {
      * @throws UnknownInputFormatException
      */
     public function getParserForFormat($format) {
-        if(strtolower(trim($format)) === 'json') {
+        if(strtolower(trim($format)) === \IApiInterface::FORMATS_JSON) {
             return new JsonBodyParser();
         }
 
-        throw new UnknownInputFormatException(401, $format);
+        throw new UnknownInputFormatException(IApiOutputter::HTTP_BAD_REQUEST, $format);
     }
 
     /**
      * Gets an outputter for the given format
      * @param string $format some format
-     * @returns IApiOutputter
+     * @return IApiOutputter
+     * @throws UnknownOutputFormatException
      */
     public function getOutputterForFormat($format) {
-        throw new Exception('not implemented yet');
+        if(strtolower(trim($format)) === \IApiInterface::FORMATS_JSON) {
+            return new JsonOutputter();
+        }
+
+        throw new UnknownOutputFormatException(IApiOutputter::HTTP_BAD_REQUEST, $format);
     }
 
     /**

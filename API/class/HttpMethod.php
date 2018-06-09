@@ -1,6 +1,7 @@
 <?php
 
 use exceptions\UnknownHttpMethodException;
+use formats\IApiOutputter;
 
 /**
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
@@ -31,6 +32,6 @@ class HttpMethod extends FakeEnum {
             case 'PUT': return new self('put');
             case 'DELETE': return new self('delete');
         }
-        throw new UnknownHttpMethodException(401, "Unknown http method '$string'");
+        throw new UnknownHttpMethodException(IApiOutputter::HTTP_BAD_REQUEST, "Unknown http method '$string'");
     }
 }

@@ -3,6 +3,8 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+use formats\IApiOutputter;
+
 /**
  * Class Period. Represents a period of time as in the database
  */
@@ -98,7 +100,7 @@ class Period {
      */
     public function setStartHour(int $startHour) {
         if($startHour < 0 || $startHour > 23) {
-            throw new exceptions\InvalidHourException(400, "$startHour is not a valid hour");
+            throw new exceptions\InvalidHourException(IApiOutputter::HTTP_BAD_REQUEST, "$startHour is not a valid hour");
         }
         $this->startHour = $startHour;
     }
@@ -116,7 +118,7 @@ class Period {
      */
     public function setStartMinutes(int $startMinutes) {
         if($startMinutes < 0 || $startMinutes > 59) {
-            throw new exceptions\InvalidMinutesException(400, "$startMinutes is not a valid amount of minutes");
+            throw new exceptions\InvalidMinutesException(IApiOutputter::HTTP_BAD_REQUEST, "$startMinutes is not a valid amount of minutes");
         }
         $this->startMinutes = $startMinutes;
     }
@@ -134,7 +136,7 @@ class Period {
      */
     public function setEndHour(int $endHour) {
         if($endHour < 0 || $endHour > 23) {
-            throw new exceptions\InvalidHourException(400, "$endHour is not a valid hour");
+            throw new exceptions\InvalidHourException(IApiOutputter::HTTP_BAD_REQUEST, "$endHour is not a valid hour");
         }
         $this->endHour = $endHour;
     }
@@ -152,7 +154,7 @@ class Period {
      */
     public function setEndMinutes(int $endMinutes) {
         if($endMinutes < 0 || $endMinutes > 59) {
-            throw new exceptions\InvalidMinutesException(400, "$endMinutes is not a valid amount of minutes");
+            throw new exceptions\InvalidMinutesException(IApiOutputter::HTTP_BAD_REQUEST, "$endMinutes is not a valid amount of minutes");
         }
         $this->endMinutes = $endMinutes;
     }

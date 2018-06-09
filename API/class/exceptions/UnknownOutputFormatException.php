@@ -6,8 +6,8 @@
 namespace exceptions;
 
 
-class UnknownInputFormatException extends PrintableException {
+class UnknownOutputFormatException extends PrintableException {
     public function __construct($status, $format, $code = 0) {
-        parent::__construct($status, "Unknown format for input: '$format'", $code);
+        parent::__construct($status, "Unknown format for output: '$format'", $code);
     }
 }

@@ -6,6 +6,7 @@
 namespace gateways\gtmysqli;
 use exceptions\DatabaseCategoryNotFoundException;
 use exceptions\DatabaseInternalException;
+use formats\IApiOutputter;
 use gateways\ICategoriesGateway;
 use mysqli;
 
@@ -33,7 +34,7 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
             }
             $stmt->bind_result($name);
             if (!$stmt->fetch()) {
-                throw new DatabaseCategoryNotFoundException(401, "Couldn't find the category '$categoryCode'.");
+                throw new DatabaseCategoryNotFoundException(IApiOutputter::HTTP_NOT_FOUND, "Couldn't find the category '$categoryCode'.");
             }
         } finally {
             $stmt->close();
@@ -52,7 +53,7 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
             }
             $stmt->bind_result($typeStr);
             if (!$stmt->fetch()) {
-                throw new DatabaseCategoryNotFoundException(401, "Couldn't find the category '$categoryCode'.");
+                throw new DatabaseCategoryNotFoundException(IApiOutputter::HTTP_NOT_FOUND, "Couldn't find the category '$categoryCode'.");
             }
         } finally {
             $stmt->close();

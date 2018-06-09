@@ -5,7 +5,7 @@
 
 namespace gateways;
 
-use gtmysqli\MysqliGatewayFactory;
+use gateways\gtmysqli\MysqliGatewayFactory;
 
 /**
  * Class GatewayFactory from the abstract factory pattern which allow the application to abstract from the
