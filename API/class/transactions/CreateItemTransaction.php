@@ -169,7 +169,7 @@ class CreateItemTransaction extends Transaction {
      */
     public function execute() {
         $itemGtw = GatewayFactory::getInstance()->getItemsGateway();
-        GatewayFactory::getInstance()->startTransaction();
+        GatewayFactory::getInstance()->startTransaction(true);
         $item = $itemGtw->newItem(
             $this->name,
             $this->address,

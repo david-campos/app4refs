@@ -57,9 +57,10 @@ class MysqliGatewayFactory extends GatewayFactory {
 
     /**
      * Starts a new database transaction (if possible)
+     * @param bool $readWrite
      */
-    public function startTransaction() {
-        $this->mysqli->begin_transaction();
+    public function startTransaction($readWrite=false) {
+        $this->mysqli->begin_transaction($readWrite?MYSQLI_TRANS_START_READ_WRITE:MYSQLI_TRANS_START_READ_ONLY);
     }
 
     /**

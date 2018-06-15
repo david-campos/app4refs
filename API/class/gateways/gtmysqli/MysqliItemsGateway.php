@@ -149,8 +149,23 @@ class MysqliItemsGateway implements IItemsGateway {
     /**
      * Removes the given item from the database
      * @param Item $item
+     * @throws DatabaseInternalException if any error happens while executing the query
      */
     function removeItem($item) {
-        // TODO: Implement removeItem() method.
+        $itemId = $item->getItemId();
+        $stmt = $this->mysqli->prepare(
+            // Notice that opening_hours has ON DELETE CASCADE restriction :)
+            'DELETE FROM items WHERE item_id=? LIMIT 1');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('i', $itemId);
+            if (!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+        } finally {
+            $stmt->close();
+        }
     }
 }

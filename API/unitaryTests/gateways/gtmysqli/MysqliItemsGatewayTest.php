@@ -112,4 +112,35 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
         $gateway = new MysqliItemsGateway($mysqliMock);
         $gateway->findItem(1);
     }
+
+    /**
+     * Test we can delete items successfully.
+     */
+    public function testRemoveItemSuccessful() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['DELETE FROM items WHERE item_id=? LIMIT 1'=>[[]]],
+            true, false
+        );
+        $gateway = new MysqliItemsGateway($mysqliMock);
+        $gateway->removeItem(new Item(
+            1, "whatever", "whatever", null, null,
+            "whatever", true, null, null, "whatever",
+            null, $gateway));
+    }
+
+    /**
+     * Test that we receive a DatabaseInternalException when we can't execute the query to delete an item
+     * @expectedException exceptions\DatabaseInternalException
+     */
+    public function testRemoveItemThrowsExceptionOnExecuteFail() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['DELETE FROM items WHERE item_id=? LIMIT 1'=>[[]]],
+            false, false
+        );
+        $gateway = new MysqliItemsGateway($mysqliMock);
+        $gateway->removeItem(new Item(
+            1, "whatever", "whatever", null, null,
+            "whatever", true, null, null, "whatever",
+            null, $gateway));
+    }
 }

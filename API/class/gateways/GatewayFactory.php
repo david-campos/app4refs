@@ -47,8 +47,10 @@ abstract class GatewayFactory {
 
     /**
      * Starts a new database transaction (if possible)
+     * @param bool $readWrite param to indicate whether it is a READ-WRITE transaction or not
+     * @return
      */
-    public abstract function startTransaction();
+    public abstract function startTransaction($readWrite=false);
     /**
      * Commits the database transaction
      */
