@@ -55,13 +55,13 @@ class Period {
 
     function toMap(): array {
         return [
-            "periodId" => $this->periodId,
-            "startDay" => $this->startDay,
-            "startHour" => $this->startHour,
-            "startMinutes" => $this->startMinutes,
-            "endDay" => $this->endDay,
-            "endHour" => $this->endHour,
-            "endMinutes" => $this->endMinutes
+            IApiInterface::PERIOD_ID => $this->periodId,
+            IApiInterface::PERIOD_START_DAY => $this->startDay->val(),
+            IApiInterface::PERIOD_START_HOUR => $this->startHour,
+            IApiInterface::PERIOD_START_MINUTES => $this->startMinutes,
+            IApiInterface::PERIOD_END_DAY => $this->endDay->val(),
+            IApiInterface::PERIOD_END_HOUR => $this->endHour,
+            IApiInterface::PERIOD_END_MINUTES => $this->endMinutes
         ];
     }
 

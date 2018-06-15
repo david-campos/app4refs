@@ -19,6 +19,10 @@ class JsonBodyParser implements IApiBodyParser {
      * @return array associative array for the received json string
      */
     public function parse($bodyString) {
+        if($bodyString === '') {
+            return [];
+        }
+
         $array = json_decode($bodyString, true);
         if($array === null) {
             // json_last_error_msg()

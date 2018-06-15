@@ -23,6 +23,8 @@ class JsonBodyParserTest extends TestCase {
         $this->assertEquals([], $array, 'Parse {} should return an empty array');
         $array = $this->parser->parse('[]');
         $this->assertEquals([], $array, 'Parse [] should return an empty array');
+        $array = $this->parser->parse('');
+        $this->assertEquals([], $array, 'Parse "" should return an empty array');
     }
 
     /**

@@ -48,15 +48,15 @@ abstract class GatewayFactory {
     /**
      * Starts a new database transaction (if possible)
      */
-    public abstract function startTransaction(): void;
+    public abstract function startTransaction();
     /**
      * Commits the database transaction
      */
-    public abstract function commit(): void;
+    public abstract function commit();
     /**
      * Rollback the database transaction
      */
-    public abstract function rollback(): void;
+    public abstract function rollback();
 
     /**
      * GatewayFactory constructor. Private by "singleton-like" pattern

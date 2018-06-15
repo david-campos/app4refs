@@ -24,6 +24,15 @@ class WeekDaysTest extends TestCase {
         }
     }
 
+    /**
+     * Tests that WeekDay throws an exception when we try to create a weekday with
+     * an invalid value.
+     * @expectedException \exceptions\InvalidWeekDayStrException
+     */
+    public function testWeekDaysThrowsExceptionOnInvalidStr() {
+        WeekDays::forStr('invalid str');
+    }
+
     private function day(int $day): WeekDays {
         switch($day) {
             case 0:

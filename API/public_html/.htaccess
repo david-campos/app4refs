@@ -1,0 +1,30 @@
+# NOTE: this file should be removed in production, as configuration
+# should be made on the server. Just for development environment.
+RewriteEngine On
+
+# Do not remove this line, otherwise mod_rewrite rules will stop working
+RewriteBase /
+
+# Prevent clickjacking
+Header set X-Frame-Options SAMEORIGIN
+
+# Redirec /whatever to index.php
+RewriteCond %{REQUEST_URI} !/index.php\/?$
+RewriteRule ^\/?.+\/?$ "/index.php" [QSA,L,NC]
+
+#UTF-8
+AddDefaultCharset UTF-8
+
+# Las direcciones de tipo:
+# api/imagenes/1/
+# api/imagenes/1/200px
+# se redirigen a sus php correspondientes
+# RewriteRule ^imagenes/([0-9]+)/*$ /api/imagenes/index.php?id=$1 [L]
+# RewriteRule ^imagenes/([0-9]+)/([0-9]+)px/*$ "/api/imagenes/index.php?id=$1&ancho=$2" [L]
+
+# Las direcciones de tipo:
+# api/miniaturas/1/
+# api/miniaturas/1/200px
+# se redirigen a sus php correspondientes
+# RewriteRule ^miniaturas/([0-9]+)/*$ /api/miniaturas/index.php?id=$1 [L]
+# RewriteRule ^miniaturas/([0-9]+)/([0-9]+)px\/*?$ "/api/miniaturas/index.php?id=$1&ancho=$2" [L]

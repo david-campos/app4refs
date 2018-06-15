@@ -4,11 +4,9 @@
  */
 
 require_once(dirname(__FILE__).'/../../testing_config.php');
-include dirname(__FILE__).'/MysqliStmtMock.php';
 use gateways\gtmysqli\MysqliCategoriesGateway;
-use PHPUnit\Framework\TestCase;
 
-class MysqliCategoriesGatewayTest extends TestCase {
+class MysqliCategoriesGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase  {
 
     /**
      * Test we can obtain the category name successfully.
@@ -124,23 +122,5 @@ class MysqliCategoriesGatewayTest extends TestCase {
         $gateway = new MysqliCategoriesGateway($mysqliMock);
         $testResult = $gateway->getCategoriesForItemType(ItemType::INFO());
         $this->assertEquals($codes, $testResult);
-    }
-
-    private function buildMockToExpectQueries($queries, $canExecute, $canFetch) {
-        $mysqli = $this->getMockBuilder(mysqli::class)
-            ->setMethods(array('prepare'))
-            ->getMock();
-        $mysqli->expects($this->any())
-            ->method('prepare')
-            ->will($this->returnCallback(function ($query) use ($queries, $canExecute, $canFetch) {
-                $this->assertTrue(isset($queries[$query]), 'The required query is not an expected one ('.$query.')');
-                return $this->buildStmtMock($canExecute, $canFetch, $queries[$query]);
-            }));
-        return $mysqli;
-    }
-
-    private function buildStmtMock($canExecute, $canFetch, $resultValues) {
-        $mockStmt = new MysqliStmtMock($this, $canExecute, $canFetch, $resultValues);
-        return $mockStmt;
     }
 }

@@ -6,6 +6,6 @@
 namespace exceptions;
 
 /**
- * Class InvalidMinutesException, thrown when a given hour is not in the right range
+ * Class InvalidMinutesException, thrown when a given amount of minutes is not in the right range
  */
 class InvalidMinutesException extends PrintableException {}

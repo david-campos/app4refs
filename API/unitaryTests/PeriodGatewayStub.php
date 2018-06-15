@@ -30,17 +30,16 @@ class PeriodGatewayStub implements gateways\IPeriodsGateway {
 
     /**
      * Inserts a new period in the database and returns it.
-     * @param int $periodId
-     * @param string $startDay
+     * @param WeekDays $startDay
      * @param int $startHour
      * @param int $startMinutes
-     * @param string $endDay
+     * @param WeekDays $endDay
      * @param int $endHour
      * @param int $endMinutes
      * @param int $itemId
      * @return Period
      */
-    function newPeriod(int $periodId, string $startDay, int $startHour, int $startMinutes, string $endDay,
+    function newPeriod(\WeekDays $startDay, int $startHour, int $startMinutes, \WeekDays $endDay,
                        int $endHour, int $endMinutes, int $itemId): Period {
         // Do nothing
     }

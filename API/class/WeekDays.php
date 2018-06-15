@@ -32,4 +32,21 @@ class WeekDays extends FakeEnum {
     public static function SUNDAY() {
         return new self('sun');
     }
+
+    /**
+     * Creates the fake enum value from a string
+     * @param string $str should be a valid value
+     * @return WeekDays
+     */
+    public static function forStr($str) {
+        /** @var WeekDays[] $values */
+        $values = [static::MONDAY(), static::TUESDAY(), static::WEDNESDAY(),
+            static::THURSDAY(), static::FRIDAY(), static::SATURDAY(), static::SUNDAY()];
+        foreach($values as $val) {
+            if($val->val() === $str) {
+                return $val;
+            }
+        }
+        throw new \exceptions\InvalidWeekDayStrException("The str '$str' is not a valid WeekDay value.");
+    }
 }

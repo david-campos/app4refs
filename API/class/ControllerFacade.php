@@ -1,6 +1,7 @@
 <?php
 
 use formats\FormatsFactory;
+use url\UrlMatcher;
 
 /**
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
@@ -18,22 +19,29 @@ class ControllerFacade {
     }
 
     /**
-     * Processes the incoming request, executing the right transaction and giving the answer to the client
+     * Processes the incoming request, executing the right transaction and giving the answer to the client.
+     * This method catches and outputs all the printable exceptions the process may throw.
      * @param HttpMethod $httpMethod the http method used for the request
      * @param string $url the requested url
      * @param array $getParams the params sent with the url
      * @param string $requestBody the request body
      */
     public function processRequest($httpMethod, $url, $getParams, $requestBody) {
-        $formatIn = $this->getInputFormat($getParams);
-        $parser = FormatsFactory::getInstance()->getParserForFormat($formatIn);
-        $formatOut = $this->getOutputFormat($getParams);
-        $outputter = FormatsFactory::getInstance()->getOutputterForFormat($formatOut);
+        try {
+            $formatOut = $this->getOutputFormat($getParams);
+            $outputter = FormatsFactory::getInstance()->getOutputterForFormat($formatOut);
+            $formatIn = $this->getInputFormat($getParams);
+            $parser = FormatsFactory::getInstance()->getParserForFormat($formatIn);
 
-        $parsedBody = $parser->parse($requestBody);
-        $transaction = $this->createTransaction($httpMethod, $url, $getParams, $parsedBody);
-        $transaction->execute();
-        $outputter->output($transaction->getStatus(), $transaction->getResult());
+            $parsedBody = $parser->parse($requestBody);
+            $requestParams = ['body' => $parsedBody, 'get' => $getParams];
+            $transaction = UrlMatcher::getInstance()->match($httpMethod, $url, $requestParams);
+            $transaction->execute();
+            $outputter->output($transaction->getStatus(), $transaction->getResult());
+        } catch (\exceptions\PrintableException $exception) {
+            $outputter = new \formats\JsonOutputter();
+            $outputter->output($exception->getStatus(), ['error'=>$exception->getMessage()]);
+        }
     }
 
     /**
@@ -89,17 +97,5 @@ class ControllerFacade {
             }
         }
         return $selected;
-    }
-
-    /**
-     * Creates a transaction for an http request given some information about it
-     * @param int $httpMethod the http method used for the request
-     * @param string $url the url requested, as you would expect it from the server global REQUEST_URI
-     * @param array $getParams params sent with the request in the url (GET params)
-     * @param array $requestParsedBody body of the request, already parsed by an IApiBodyParser into an associative array
-     * @return \transactions\ITransaction
-     */
-    private function createTransaction($httpMethod, $url, $getParams, $requestParsedBody): transactions\ITransaction {
-        
     }
 }

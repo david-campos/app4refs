@@ -5,6 +5,7 @@
 
 namespace gateways\gtmysqli;
 
+use exceptions\DatabaseInternalException;
 use gateways\GatewayFactory;
 use gateways\ICategoriesGateway;
 use gateways\IItemsGateway;
@@ -19,7 +20,14 @@ class MysqliGatewayFactory extends GatewayFactory {
      * MysqliGatewayFactory constructor.
      */
     public function __construct() {
-        $this->mysqli = new mysqli();
+        $this->mysqli = new mysqli('localhost', 'root', '', 'pruebas_tfg');
+        if ($this->mysqli->connect_error) {
+            throw new DatabaseInternalException('Database connection error (' . $this->mysqli->connect_errno . ') '
+                . $this->mysqli->connect_error);
+        }
+        if (!$this->mysqli->set_charset("utf8")) {
+            throw new DatabaseInternalException("Error loading charset utf8: %s\n", $this->mysqli->error);
+        }
     }
 
     /**
@@ -27,7 +35,7 @@ class MysqliGatewayFactory extends GatewayFactory {
      * @return IItemsGateway
      */
     public function getItemsGateway(): IItemsGateway {
-        // TODO: Implement getItemsGateway() method.
+        return new MysqliItemsGateway($this->mysqli);
     }
 
     /**
@@ -43,27 +51,27 @@ class MysqliGatewayFactory extends GatewayFactory {
      * @return IPeriodsGateway
      */
     public function getPeriodsGateway(): IPeriodsGateway {
-        // TODO: Implement getPeriodsGateway() method.
+        return new MysqliPeriodsGateway($this->mysqli);
     }
 
     /**
      * Starts a new database transaction (if possible)
      */
-    public function startTransaction(): void {
+    public function startTransaction() {
         $this->mysqli->begin_transaction();
     }
 
     /**
      * Commits the database transaction
      */
-    public function commit(): void {
-        $this->commit();
+    public function commit() {
+        $this->mysqli->commit();
     }
 
     /**
      * Rollback the database transaction
      */
-    public function rollback(): void {
-        $this->rollback();
+    public function rollback() {
+        $this->mysqli->rollback();
     }
 }
