@@ -25,6 +25,7 @@ class MysqliGatewayFactory extends GatewayFactory {
             throw new DatabaseInternalException('Database connection error (' . $this->mysqli->connect_errno . ') '
                 . $this->mysqli->connect_error);
         }
+        $this->mysqli->autocommit(false);
         if (!$this->mysqli->set_charset("utf8")) {
             throw new DatabaseInternalException("Error loading charset utf8: %s\n", $this->mysqli->error);
         }

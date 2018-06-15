@@ -35,6 +35,9 @@ class MysqliItemsGateway implements IItemsGateway {
         $item = null;
         $stmt = $this->mysqli->prepare(
             'SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,category_code,lang_code FROM items WHERE item_id=? LIMIT 1');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('i', $itemId);
             if (!$stmt->execute()) {
@@ -62,6 +65,9 @@ class MysqliItemsGateway implements IItemsGateway {
         $items = [];
         // Check that the category exists (just to make the function more meaningful)
         $stmt = $this->mysqli->prepare('SELECT category_code FROM categories WHERE category_code=?');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('s', $categoryCode);
             if(!$stmt->execute()) {
@@ -76,6 +82,9 @@ class MysqliItemsGateway implements IItemsGateway {
 
         $stmt = $this->mysqli->prepare(
             'SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('s', $categoryCode);
             if (!$stmt->execute()) {
@@ -110,9 +119,11 @@ class MysqliItemsGateway implements IItemsGateway {
     function newItem($name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
                      $categoryCode, $languageCode): Item {
         $itemId = -1;
-        error_log('category: '.$categoryCode);
         $stmt = $this->mysqli->prepare(
             'INSERT INTO items(`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code,category_code) VALUES (?,?,?,?,?,?,?,?,?,?)');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('sssssissss', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon, $languageCode, $categoryCode);
             if (!$stmt->execute()) {

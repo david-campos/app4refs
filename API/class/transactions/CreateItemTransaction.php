@@ -115,7 +115,7 @@ class CreateItemTransaction extends Transaction {
                 }
             }
             if(count($values) < 6) {
-                throw $this->paramNotFoundInPeriod(array_keys($values), $i+1);
+                throw $this->paramNotFoundInPeriod(array_keys($values), $i);
             }
             $this->periods[] = $values;
         }

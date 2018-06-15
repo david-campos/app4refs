@@ -109,14 +109,14 @@ CREATE PROCEDURE IF NOT EXISTS `check_minutes`(IN minutes TINYINT UNSIGNED)
 BEGIN
     IF minutes > 59 THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'invalid minutes value (greater than 59)';
+            SET MESSAGE_TEXT = 'Invalid minutes value (greater than 59)';
     END IF;
 END$$
 CREATE PROCEDURE IF NOT EXISTS `check_hours`(IN hours TINYINT UNSIGNED)
 BEGIN
     IF hours > 23 THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'invalid hours value (greater than 23)';
+            SET MESSAGE_TEXT = 'Invalid hours value (greater than 23)';
     END IF;
 END$$
 -- Triggers

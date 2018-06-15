@@ -7,6 +7,8 @@ namespace gateways\gtmysqli;
 
 
 use exceptions\DatabaseInternalException;
+use exceptions\InvalidParamInBodyException;
+use exceptions\InvalidValueInBodyException;
 use gateways\IPeriodsGateway;
 use Period;
 
@@ -33,6 +35,7 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
      * @param int $itemId
      * @return Period
      * @throws DatabaseInternalException
+     * @throws InvalidValueInBodyException
      */
     function newPeriod(\WeekDays $startDay, int $startHour, int $startMinutes, \WeekDays $endDay,
                        int $endHour, int $endMinutes, int $itemId): \Period {
@@ -40,11 +43,19 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
         $start = $startDay->val();
         $end = $endDay->val();
         $stmt = $this->mysqli->prepare(
-            'INSERT INTO opening_hours(start_day,start_hour,start_minute,end_day,end_hour,end_minutes,item_id) VALUES (?,?,?,?,?,?,?)');
+            'INSERT INTO opening_hours(start_day,start_hour,start_minutes,end_day,end_hour,end_minutes,item_id) VALUES (?,?,?,?,?,?,?)');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
-            $stmt->bind_param('siisiii', $start, $startHour, $startMinutes, $end, $endHour, $endMinutes,$itemId);
+            $stmt->bind_param('siisiii', $start, $startHour, $startMinutes, $end, $endHour, $endMinutes, $itemId);
             if (!$stmt->execute()) {
-                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                // Check for invalid hour or minute triggers
+                if($this->mysqli->sqlstate == 45000) {
+                    throw new InvalidValueInBodyException($this->mysqli->error);
+                } else {
+                    throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                }
             }
             // Last inserted id
             $periodId = $this->mysqli->insert_id;
@@ -59,6 +70,9 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
         $stmt = $this->mysqli->prepare(
             'SELECT start_day,start_hour,start_minutes,end_day,end_hour,end_minutes,item_id FROM opening_hours WHERE period_id=?'
         );
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('i', $periodId);
             if (!$stmt->execute()) {
@@ -102,6 +116,9 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
         $periods = [];
         $stmt = $this->mysqli->prepare(
             'SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=?');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('i', $itemId);
             if (!$stmt->execute()) {

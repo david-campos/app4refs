@@ -27,6 +27,9 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
         $name = "";
         $stmt = $this->mysqli->prepare(
             "SELECT `name` FROM categories WHERE category_code=? LIMIT 1");
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('s', $categoryCode);
             if (!$stmt->execute()) {
@@ -46,6 +49,9 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
         $typeStr = "";
         $stmt = $this->mysqli->prepare(
             "SELECT `item_type` FROM categories WHERE category_code=? LIMIT 1");
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('s', $categoryCode);
             if (!$stmt->execute()) {
@@ -67,6 +73,9 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
         $itemTypeStr = $itemType->val();
         $stmt = $this->mysqli->prepare(
             "SELECT category_code FROM categories WHERE item_type=?");
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
         try {
             $stmt->bind_param('s', $itemTypeStr);
             if (!$stmt->execute()) {
