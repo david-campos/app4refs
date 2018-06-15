@@ -143,4 +143,37 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
             "whatever", true, null, null, "whatever",
             null, $gateway));
     }
+
+    /**
+     * Tests we can save successfully items
+     */
+    public function testSaveItemSuccessful() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
+                'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,lang_code=?,category_code=? WHERE item_id=?' => [[]]],
+            true, false);
+        $gateway = new MysqliItemsGateway($mysqliMock);
+        $gateway->saveItem(new Item(
+            1, "whatever", "whatever", null, null,
+            "whatever", true, null, null, "whatever",
+            null, $gateway));
+    }
+
+    /**
+     * Tests we receive an internal database exception when we can't execute
+     * @expectedException \exceptions\DatabaseInternalException
+     */
+    public function testSaveItemThrowsExceptionOnFailing() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
+            'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,lang_code=?,category_code=? WHERE item_id=?' => [[]]],
+            false, false);
+        $gateway = new MysqliItemsGateway($mysqliMock);
+        $gateway->saveItem(new Item(
+            1, "whatever", "whatever", null, null,
+            "whatever", true, null, null, "whatever",
+            null, $gateway));
+    }
+
+
 }

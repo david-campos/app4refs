@@ -20,4 +20,8 @@ abstract class FakeEnum {
     public function val() {
         return $this->value;
     }
+
+    public function __toString() {
+        return $this->val();
+    }
 }

@@ -41,11 +41,11 @@ class JsonOutputterTest extends TestCase {
     }
 
     /**
-     * Tests the output of a null array produces a non-content status
+     * Tests the output of an empty array produces a non-content status
      * @runInSeparateProcess
      */
     public function testNoContent() {
-        $this->outputter->output(IApiOutputter::HTTP_OK, null);
+        $this->outputter->output(IApiOutputter::HTTP_OK, []);
         $this->assertEquals(IApiOutputter::HTTP_NO_CONTENT, http_response_code());
     }
 }

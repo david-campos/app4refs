@@ -92,17 +92,55 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
     /**
      * Saves the given period to the database
      * @param \Period $period
+     * @throws DatabaseInternalException
      */
     function savePeriod(\Period $period) {
-        // TODO: Implement savePeriod() method.
+        // We need the attributes in local variables
+        $periodId = $period->getPeriodId();
+        $startDay = $period->getStartDay()->val();
+        $startHour = $period->getStartHour();
+        $startMin = $period->getStartMinutes();
+        $endDay = $period->getEndDay()->val();
+        $endHour = $period->getEndHour();
+        $endMin = $period->getEndMinutes();
+        $itemId = $period->getItemId();
+
+        $stmt = $this->mysqli->prepare(
+            'UPDATE opening_hours SET start_day=?,start_hour=?,start_minutes=?,end_day=?,end_hour=?,end_minutes=?,item_id=? WHERE period_id=?');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('siisiiii', $startDay, $startHour, $startMin, $endDay, $endHour, $endMin, $itemId, $periodId);
+            if (!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+        } finally {
+            $stmt->close();
+        }
     }
 
     /**
      * Removes the given period from the database
      * @param \Period $period
+     * @throws DatabaseInternalException if there is some problem while executing the query
      */
     function removePeriod(\Period $period) {
-        // TODO: Implement removePeriod() method.
+        $periodId = $period->getPeriodId();
+        $stmt = $this->mysqli->prepare(
+        // Notice that opening_hours has ON DELETE CASCADE restriction :)
+            'DELETE FROM opening_hours WHERE period_id=? LIMIT 1');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('i', $periodId);
+            if (!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+        } finally {
+            $stmt->close();
+        }
     }
 
     /**

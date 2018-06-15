@@ -85,6 +85,7 @@ class MysqliGatewayFactory extends GatewayFactory {
                     'the --version option.';
             }
             error_log($warningMsg);
+            $this->mysqli->begin_transaction();
         }
     }
 

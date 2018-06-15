@@ -13,9 +13,9 @@ use formats\IApiOutputter;
  * @package exceptions
  */
 class InvalidParamInBodyException extends PrintableException {
-    public function __construct($param, $code = 0) {
+    public function __construct($param, $message='', $code = 0) {
         parent::__construct(IApiOutputter::HTTP_BAD_REQUEST,
-            "Invalid param '$param' found in request body.",
+            "Invalid param '$param' found in request body. ".$message,
             $code);
     }
 }

@@ -19,27 +19,30 @@ class JsonOutputter implements IApiOutputter {
      * be sent. If, instead, it is null, the indicated httpStatusCode is sent.
      */
     public function output($httpStatusCode, $array) {
-        if($array) {
-            // Impresión
-            $json = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-            if ($json === false) {
-                // Avoid echo of an empty string (invalid JSON)
-                $json = json_encode(array("jsonError", json_last_error_msg()));
+        if($array !== null) {
+            if(count($array) > 0) {
+                // Impresión
+                $json = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
                 if ($json === false) {
-                    $json = '{"jsonError": "unknown"}';
+                    // Avoid echo of an empty string (invalid JSON)
+                    $json = json_encode(array("jsonError", json_last_error_msg()));
+                    if ($json === false) {
+                        $json = '{"jsonError": "unknown"}';
+                    }
+                    $httpStatusCode = IApiOutputter::HTTP_INTERNAL_SERVER_ERROR;
                 }
-                $httpStatusCode = IApiOutputter::HTTP_INTERNAL_SERVER_ERROR;
-            }
-            if($json !== '') {
-                http_response_code($httpStatusCode);
-                header('Content-Type: application/json; charset=UTF-8');
-                echo $json;
-                return;
+                if ($json !== '') {
+                    http_response_code($httpStatusCode);
+                    header('Content-Type: application/json; charset=UTF-8');
+                    echo $json;
+                    return;
+                }
             }
             // Nothing sent then
             http_response_code(IApiOutputter::HTTP_NO_CONTENT);
+        } else {
+            // If array is null, we respect the given status code
+            http_response_code($httpStatusCode);
         }
-        // If array is null, we respect the given status code
-        http_response_code($httpStatusCode);
     }
 }

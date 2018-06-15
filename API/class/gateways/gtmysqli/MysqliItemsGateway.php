@@ -141,9 +141,36 @@ class MysqliItemsGateway implements IItemsGateway {
     /**
      * Saves the given item in the database
      * @param Item $item
+     * @throws DatabaseInternalException if something goes wrong internally
      */
     function saveItem($item) {
-        // TODO: Implement saveItem() method.
+        // We need the attributes in local variables
+        $itemId = $item->getItemId();
+        $name = $item->getName();
+        $address = $item->getAddress();
+        $webLink = $item->getWebLink();
+        $placeId = $item->getPlaceId();
+        $iconUri = $item->getIconUri();
+        $isFree = $item->isFree();
+        $coordLat = $item->getCoordLat();
+        $coordLon = $item->getCoordLon();
+        $languageCode = $item->getLanguageCode();
+        $categoryCode = $item->getCategoryCode();
+
+        $stmt = $this->mysqli->prepare(
+            'UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
+            'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,lang_code=?,category_code=? WHERE item_id=?');
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('sssssissssi', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon, $languageCode, $categoryCode, $itemId);
+            if (!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+        } finally {
+            $stmt->close();
+        }
     }
 
     /**

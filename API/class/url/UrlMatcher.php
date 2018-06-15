@@ -5,12 +5,14 @@
 
 namespace url;
 use exceptions\UnknownResourceUriException;
+use formats\IApiOutputter;
 use HttpMethod;
 use transactions\CreateItemTransaction;
 use transactions\DeleteItemTransaction;
 use transactions\GetCategoriesTransaction;
 use transactions\GetItemsTransaction;
 use transactions\ITransaction;
+use transactions\UpdateItemTransaction;
 
 /**
  * Class UrlMatcher, it takes a request and matchs for the right UrlPattern to get the
@@ -54,7 +56,7 @@ class UrlMatcher {
                 return $transaction;
             }
         }
-        throw new UnknownResourceUriException(404, "The URL ('$url') and method provided do not lead to any valid resource.");
+        throw new UnknownResourceUriException(IApiOutputter::HTTP_NOT_FOUND, "The URL ('$url') and method provided do not lead to any valid resource.");
     }
 
     /**
@@ -68,12 +70,17 @@ class UrlMatcher {
         // this will be loaded for every single request!)
         $tmCategories = new TransactionMap();
         $tmCategories->put(HttpMethod::GET(), GetCategoriesTransaction::class);
+
         $tmCategoryItems = new TransactionMap();
         $tmCategoryItems->put(HttpMethod::GET(), GetItemsTransaction::class);
+
         $tmItems = new TransactionMap();
         $tmItems->put(HttpMethod::POST(), CreateItemTransaction::class);
+
         $tmItem = new TransactionMap();
         $tmItem->put(HttpMethod::DELETE(), DeleteItemTransaction::class);
+        $tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
+
         //$tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
         $this->urls = [
             new UrlPattern('/item-types/:itemType<str>/categories/', $tmCategories),

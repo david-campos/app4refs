@@ -18,6 +18,8 @@ interface IApiInterface {
     const INPUT_FORMAT_DEFAULT = IApiInterface::FORMATS_JSON;
     /** @var string default output format for the answers */
     const OUTPUT_FORMAT_DEFAULT = IApiInterface::FORMATS_JSON;
+    /** @var string value we must set the period id to if we want to create a new one */
+    const PERIOD_ID_CREATE_NEW_VALUE = 'new';
 
     // ITEM INTERFACE (texts for the items to output and input values)
     const ITEM_ID = 'itemId';

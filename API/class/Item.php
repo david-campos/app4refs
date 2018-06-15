@@ -182,4 +182,74 @@ class Item {
     public function getLanguageCode() {
         return $this->languageCode;
     }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address) {
+        $this->address = $address;
+    }
+
+    /**
+     * @param null|string $webLink
+     */
+    public function setWebLink($webLink) {
+        $this->webLink = $webLink;
+    }
+
+    /**
+     * @param null|string $placeId
+     */
+    public function setPlaceId($placeId) {
+        $this->placeId = $placeId;
+    }
+
+    /**
+     * @param string $iconUri
+     */
+    public function setIconUri(string $iconUri) {
+        $this->iconUri = $iconUri;
+    }
+
+    /**
+     * @param bool $isFree
+     */
+    public function setIsFree(bool $isFree) {
+        $this->isFree = $isFree;
+    }
+
+    /**
+     * @param float|null $coordLat
+     */
+    public function setCoordLat($coordLat) {
+        $this->coordLat = $coordLat;
+    }
+
+    /**
+     * @param float|null $coordLon
+     */
+    public function setCoordLon($coordLon) {
+        $this->coordLon = $coordLon;
+    }
+
+    /**
+     * @param string $categoryCode
+     */
+    public function setCategoryCode(string $categoryCode) {
+        $this->categoryCode = $categoryCode;
+    }
+
+    /**
+     * @param null|string $languageCode
+     */
+    public function setLanguageCode($languageCode) {
+        $this->languageCode = $languageCode;
+    }
 }

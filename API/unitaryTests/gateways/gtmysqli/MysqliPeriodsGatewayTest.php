@@ -70,4 +70,60 @@ class MysqliPeriodsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase 
             \WeekDays::forStr($periods[0][3]), $periods[0][4], $periods[0][5], $periods[0][6], $gateway);
         $this->assertEquals($expected, $period, 'The returned period should countain information from the database, rather than the passed one.');
     }
+
+    /**
+     * Test we can delete periods successfully.
+     */
+    public function testRemoveItemSuccessful() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['DELETE FROM opening_hours WHERE period_id=? LIMIT 1'=>[[]]],
+            true, false
+        );
+        $gateway = new MysqliPeriodsGateway($mysqliMock);
+        $gateway->removePeriod(new Period(
+            1, \WeekDays::SUNDAY(), 2, 0, WeekDays::SUNDAY(),
+            4, 0, 1, $gateway));
+    }
+
+    /**
+     * Test that we receive a DatabaseInternalException when we can't execute the query to delete a period
+     * @expectedException exceptions\DatabaseInternalException
+     */
+    public function testRemoveItemThrowsExceptionOnExecuteFail() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['DELETE FROM opening_hours WHERE period_id=? LIMIT 1'=>[[]]],
+            false, false
+        );
+        $gateway = new MysqliPeriodsGateway($mysqliMock);
+        $gateway->removePeriod(new Period(
+            1, \WeekDays::SUNDAY(), 2, 0, WeekDays::SUNDAY(),
+            4, 0, 1, $gateway));
+    }
+
+    /**
+     * Tests we can save successfully periods
+     */
+    public function testSavePeriodSuccessful() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['UPDATE opening_hours SET start_day=?,start_hour=?,start_minutes=?,end_day=?,end_hour=?,end_minutes=?,item_id=? WHERE period_id=?' => [[]]],
+            true, false);
+        $gateway = new MysqliPeriodsGateway($mysqliMock);
+        $gateway->savePeriod(new Period(
+            1, \WeekDays::SUNDAY(), 2, 0, WeekDays::SUNDAY(),
+            4, 0, 1, $gateway));
+    }
+
+    /**
+     * Tests we receive an internal database exception when we can't execute
+     * @expectedException \exceptions\DatabaseInternalException
+     */
+    public function testSavePeriodThrowsExceptionOnFailing() {
+        $mysqliMock = $this->buildMockToExpectQueries(
+            ['UPDATE opening_hours SET start_day=?,start_hour=?,start_minutes=?,end_day=?,end_hour=?,end_minutes=?,item_id=? WHERE period_id=?' => [[]]],
+            false, false);
+        $gateway = new MysqliPeriodsGateway($mysqliMock);
+        $gateway->savePeriod(new Period(
+            1, \WeekDays::SUNDAY(), 2, 0, WeekDays::SUNDAY(),
+            4, 0, 1, $gateway));
+    }
 }
