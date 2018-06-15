@@ -59,7 +59,7 @@ class MysqliPeriodsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase 
         ];
         $mysqliMock = $this->buildMockToExpectQueries(
             ['SELECT start_day,start_hour,start_minutes,end_day,end_hour,end_minutes,item_id FROM opening_hours WHERE period_id=?'=>$periods,
-                'INSERT INTO opening_hours(start_day,start_hour,start_minute,end_day,end_hour,end_minutes,item_id) VALUES (?,?,?,?,?,?,?)'=>[[]]],
+                'INSERT INTO opening_hours(start_day,start_hour,start_minutes,end_day,end_hour,end_minutes,item_id) VALUES (?,?,?,?,?,?,?)'=>[[]]],
             true, true
         );
         $gateway = new MysqliPeriodsGateway($mysqliMock);

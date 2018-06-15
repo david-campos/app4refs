@@ -73,6 +73,7 @@ class MysqliItemsGateway implements IItemsGateway {
             if(!$stmt->execute()) {
                 throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
             }
+            $stmt->bind_result($categoryCodeCheck);
             if(!$stmt->fetch()) {
                 throw new DatabaseCategoryNotFoundException(IApiOutputter::HTTP_NOT_FOUND, "Couldn't find any category with category code '$categoryCode'.");
             }

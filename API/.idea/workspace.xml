@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MysqliPeriodsGateway.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MysqliPeriodsGateway.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliPeriodsGateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+            <state relative-caret-position="190">
+              <caret line="45" column="13" lean-forward="true" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="134" />
               <folding>
                 <marker date="1529060778562" expanded="true" signature="1271:1281" ph="INSERT INTO items... " />
                 <marker date="1529060778562" expanded="true" signature="1271:1392" ph="INSERT INTO opening_hours... " />
@@ -39,16 +39,73 @@
       <file leaf-file-name="MysqliItemsGateway.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1757">
-              <caret line="40" column="8" lean-forward="false" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
+            <state relative-caret-position="366">
+              <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
               <folding>
                 <element signature="e#108#157#0#PHP" expanded="true" />
-                <marker date="1529060047183" expanded="true" signature="970:1105" ph="SELECT `name... items" />
-                <marker date="1529060047183" expanded="true" signature="2414:2471" ph="SELECT categ... categories" />
-                <marker date="1529060047183" expanded="true" signature="2414:2472" ph="SELECT categ... categories" />
-                <marker date="1529060047183" expanded="true" signature="2414:2474" ph="SELECT categ... categories" />
-                <marker date="1529060047183" expanded="true" signature="3139:3266" ph="SELECT item_... items" />
-                <marker date="1529060047183" expanded="true" signature="4644:4785" ph="INSERT INTO items... " />
+                <marker date="1529061349080" expanded="true" signature="970:1105" ph="SELECT `name... items" />
+                <marker date="1529061349080" expanded="true" signature="2414:2471" ph="SELECT categ... categories" />
+                <marker date="1529061349080" expanded="true" signature="2414:2472" ph="SELECT categ... categories" />
+                <marker date="1529061349080" expanded="true" signature="2414:2474" ph="SELECT categ... categories" />
+                <marker date="1529061349080" expanded="true" signature="3191:3318" ph="SELECT item_... items" />
+                <marker date="1529061349080" expanded="true" signature="4696:4837" ph="INSERT INTO items... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MysqliItemsGatewayTest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="440">
+              <caret line="38" column="16" lean-forward="false" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+              <folding>
+                <marker date="1529061393868" expanded="true" signature="642:769" ph="SELECT item_... items" />
+                <marker date="1529061393868" expanded="true" signature="793:851" ph="SELECT categ... categories" />
+                <marker date="1529061393868" expanded="true" signature="1702:1829" ph="SELECT item_... items" />
+                <marker date="1529061393868" expanded="true" signature="1857:1915" ph="SELECT categ... categories" />
+                <marker date="1529061393868" expanded="true" signature="2372:2507" ph="SELECT `name... items" />
+                <marker date="1529061393868" expanded="true" signature="3362:3497" ph="SELECT `name... items" />
+                <marker date="1529061393868" expanded="true" signature="4056:4191" ph="SELECT `name... items" />
+                <marker date="1529061393868" expanded="true" signature="4215:4356" ph="INSERT INTO items... " />
+                <marker date="1529061393868" expanded="true" signature="5512:5647" ph="SELECT `name... items" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MysqliPeriodsGatewayTest.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="57" column="43" lean-forward="false" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+              <folding>
+                <marker date="1529061442004" expanded="true" signature="603:718" ph="SELECT perio... opening_hours" />
+                <marker date="1529061442004" expanded="true" signature="1924:2039" ph="SELECT perio... opening_hours" />
+                <marker date="1529061442004" expanded="true" signature="2586:2701" ph="SELECT start... opening_hours" />
+                <marker date="1529061442004" expanded="true" signature="2731:2852" ph="INSERT INTO opening_hours... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MysqliStmtMock.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliStmtMock.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MysqliGatewayTestBase.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <element signature="e#163#174#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,7 +190,6 @@
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php" />
         <option value="$PROJECT_DIR$/class/gateways/IPeriodsGateway.php" />
         <option value="$PROJECT_DIR$/unitaryTests/PeriodGatewayStub.php" />
-        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php" />
         <option value="$PROJECT_DIR$/class/Item.php" />
         <option value="$PROJECT_DIR$/class/IApiInterface.php" />
         <option value="$PROJECT_DIR$/class/Period.php" />
@@ -141,15 +197,16 @@
         <option value="$PROJECT_DIR$/class/exceptions/RepeatedParamInBodyException.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidParamInBodyException.php" />
         <option value="$PROJECT_DIR$/class/url/UrlMatcher.php" />
-        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
         <option value="$PROJECT_DIR$/class/exceptions/ParamsNotFoundInBodyException.php" />
         <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliGatewayFactory.php" />
-        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliCategoriesGateway.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidValueInBodyException.php" />
         <option value="$PROJECT_DIR$/public_html/index.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliPeriodsGateway.php" />
+        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
+        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
+        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php" />
       </list>
     </option>
   </component>
@@ -233,6 +290,19 @@
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gtmysqli" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
@@ -333,26 +403,11 @@
       <workItem from="1528798794964" duration="23296000" />
       <workItem from="1528832243668" duration="7356000" />
       <workItem from="1528973091417" duration="13206000" />
-      <workItem from="1529048129183" duration="10467000" />
+      <workItem from="1529048129183" duration="10953000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 06m 16s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 08m 50s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 12m 41s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 13m 06s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 13m 46s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 14m 00s.xml">
       <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -368,9 +423,24 @@
     <history-entry file="Run_all_unitary_tests - 2018.06.14 at 19h 38m 23s.xml">
       <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 13h 10m 54s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 13h 12m 28s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 13h 15m 52s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 13h 16m 43s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 13h 17m 25s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98660000" />
+    <option name="totallyTimeSpent" value="99146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -381,7 +451,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -476,14 +546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliStmtMock.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/WeekDays.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="795">
@@ -553,16 +615,6 @@
         <state relative-caret-position="220">
           <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="31" column="31" lean-forward="true" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
-          <folding>
-            <element signature="e#163#174#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -734,35 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
-          <folding>
-            <marker date="1528997938653" expanded="true" signature="603:718" ph="SELECT perio... opening_hours" />
-            <marker date="1528997938653" expanded="true" signature="1924:2039" ph="SELECT perio... opening_hours" />
-            <marker date="1528997938653" expanded="true" signature="2586:2701" ph="SELECT start... opening_hours" />
-            <marker date="1528997938653" expanded="true" signature="2731:2851" ph="INSERT INTO items... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-          <folding>
-            <marker date="1529056223182" expanded="true" signature="642:769" ph="SELECT item_... items" />
-            <marker date="1529056223182" expanded="true" signature="1607:1734" ph="SELECT item_... items" />
-            <marker date="1529056223182" expanded="true" signature="2178:2313" ph="SELECT `name... items" />
-            <marker date="1529056223182" expanded="true" signature="3168:3303" ph="SELECT `name... items" />
-            <marker date="1529056223182" expanded="true" signature="3862:3997" ph="SELECT `name... items" />
-            <marker date="1529056223182" expanded="true" signature="4021:4162" ph="INSERT INTO items... " />
-            <marker date="1529056223182" expanded="true" signature="5318:5453" ph="SELECT `name... items" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/exceptions/ParamsNotFoundInBodyException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -817,22 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1757">
-          <caret line="40" column="8" lean-forward="false" selection-start-line="40" selection-start-column="8" selection-end-line="40" selection-end-column="8" />
-          <folding>
-            <element signature="e#108#157#0#PHP" expanded="true" />
-            <marker date="1529060047183" expanded="true" signature="970:1105" ph="SELECT `name... items" />
-            <marker date="1529060047183" expanded="true" signature="2414:2471" ph="SELECT categ... categories" />
-            <marker date="1529060047183" expanded="true" signature="2414:2472" ph="SELECT categ... categories" />
-            <marker date="1529060047183" expanded="true" signature="2414:2474" ph="SELECT categ... categories" />
-            <marker date="1529060047183" expanded="true" signature="3139:3266" ph="SELECT item_... items" />
-            <marker date="1529060047183" expanded="true" signature="4644:4785" ph="INSERT INTO items... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidValueInBodyException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -849,15 +856,80 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliStmtMock.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
+          <folding>
+            <element signature="e#108#157#0#PHP" expanded="true" />
+            <marker date="1529061349080" expanded="true" signature="970:1105" ph="SELECT `name... items" />
+            <marker date="1529061349080" expanded="true" signature="2414:2471" ph="SELECT categ... categories" />
+            <marker date="1529061349080" expanded="true" signature="2414:2472" ph="SELECT categ... categories" />
+            <marker date="1529061349080" expanded="true" signature="2414:2474" ph="SELECT categ... categories" />
+            <marker date="1529061349080" expanded="true" signature="3191:3318" ph="SELECT item_... items" />
+            <marker date="1529061349080" expanded="true" signature="4696:4837" ph="INSERT INTO items... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="38" column="16" lean-forward="false" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+          <folding>
+            <marker date="1529061393868" expanded="true" signature="642:769" ph="SELECT item_... items" />
+            <marker date="1529061393868" expanded="true" signature="793:851" ph="SELECT categ... categories" />
+            <marker date="1529061393868" expanded="true" signature="1702:1829" ph="SELECT item_... items" />
+            <marker date="1529061393868" expanded="true" signature="1857:1915" ph="SELECT categ... categories" />
+            <marker date="1529061393868" expanded="true" signature="2372:2507" ph="SELECT `name... items" />
+            <marker date="1529061393868" expanded="true" signature="3362:3497" ph="SELECT `name... items" />
+            <marker date="1529061393868" expanded="true" signature="4056:4191" ph="SELECT `name... items" />
+            <marker date="1529061393868" expanded="true" signature="4215:4356" ph="INSERT INTO items... " />
+            <marker date="1529061393868" expanded="true" signature="5512:5647" ph="SELECT `name... items" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="e#163#174#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliPeriodsGateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+        <state relative-caret-position="190">
+          <caret line="45" column="13" lean-forward="true" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="134" />
           <folding>
             <marker date="1529060778562" expanded="true" signature="1271:1281" ph="INSERT INTO items... " />
             <marker date="1529060778562" expanded="true" signature="1271:1392" ph="INSERT INTO opening_hours... " />
             <marker date="1529060778562" expanded="true" signature="2364:2479" ph="SELECT start... opening_hours" />
             <marker date="1529060778562" expanded="true" signature="3986:4101" ph="SELECT perio... opening_hours" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="57" column="43" lean-forward="false" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+          <folding>
+            <marker date="1529061442004" expanded="true" signature="603:718" ph="SELECT perio... opening_hours" />
+            <marker date="1529061442004" expanded="true" signature="1924:2039" ph="SELECT perio... opening_hours" />
+            <marker date="1529061442004" expanded="true" signature="2586:2701" ph="SELECT start... opening_hours" />
+            <marker date="1529061442004" expanded="true" signature="2731:2852" ph="INSERT INTO opening_hours... " />
           </folding>
         </state>
       </provider>

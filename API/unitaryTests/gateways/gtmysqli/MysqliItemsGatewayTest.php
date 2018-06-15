@@ -15,7 +15,8 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
             [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en'],
             [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, 'es']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items],
+            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items,
+            'SELECT category_code FROM categories WHERE category_code=?'=>[['category_code']]],
             true, true
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
@@ -34,7 +35,8 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
             [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en'],
             [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, 'es']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items],
+            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items,
+                'SELECT category_code FROM categories WHERE category_code=?'=>[['category_code']]],
             false, true
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
