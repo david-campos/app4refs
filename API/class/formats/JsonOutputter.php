@@ -13,9 +13,10 @@ namespace formats;
 class JsonOutputter implements IApiOutputter {
     /**
      * Outputs the specified array with the given format to the php response
-     * and sets the response http status code
+     * and sets the response http status code.
      * @param int $httpStatusCode
-     * @param array $array
+     * @param array|null $array the output. Notice that if this values is an empty array, no content will
+     * be sent. If, instead, it is null, the indicated httpStatusCode is sent.
      */
     public function output($httpStatusCode, $array) {
         if($array) {
@@ -35,8 +36,10 @@ class JsonOutputter implements IApiOutputter {
                 echo $json;
                 return;
             }
+            // Nothing sent then
+            http_response_code(IApiOutputter::HTTP_NO_CONTENT);
         }
-        // Nothing sent then
-        http_response_code(IApiOutputter::HTTP_NO_CONTENT);
+        // If array is null, we respect the given status code
+        http_response_code($httpStatusCode);
     }
 }

@@ -5,12 +5,9 @@
 
 namespace transactions;
 
-
-use exceptions\DatabaseCategoryNotFoundException;
 use exceptions\InvalidParamInBodyException;
 use exceptions\ListExpectedException;
 use exceptions\ParamsNotFoundInBodyException;
-use exceptions\PrintableException;
 use exceptions\RepeatedParamInBodyException;
 use gateways\GatewayFactory;
 
@@ -46,8 +43,6 @@ class CreateItemTransaction extends Transaction {
      * @throws RepeatedParamInBodyException if some param for the item is repeated inside the body
      */
     public function __construct($requestParams) {
-        // The category code is taken from the URL
-        $this->categoryCode = $requestParams['get']['categoryCode'];
         $usedKeys = [];
         foreach($requestParams['body'] as $key=>$val) {
             if($key === \IApiInterface::ITEM_NAME) {
@@ -66,6 +61,8 @@ class CreateItemTransaction extends Transaction {
                 $this->coordLat = $val;
             } else if($key === \IApiInterface::ITEM_COORD_LON) {
                 $this->coordLon = $val;
+            } else if($key == \IApiInterface::ITEM_CATEGORY_CODE) {
+                $this->categoryCode = $val;
             } else if($key === \IApiInterface::ITEM_LANGUAGE_CODE) {
                 $this->languageCode = $val;
             } else if($key === \IApiInterface::ITEM_OPENING_HOURS) {
@@ -137,6 +134,7 @@ class CreateItemTransaction extends Transaction {
             \IApiInterface::ITEM_IS_FREE,
             \IApiInterface::ITEM_COORD_LAT,
             \IApiInterface::ITEM_COORD_LON,
+            \IApiInterface::ITEM_CATEGORY_CODE,
             \IApiInterface::ITEM_LANGUAGE_CODE,
             \IApiInterface::ITEM_OPENING_HOURS
         ];

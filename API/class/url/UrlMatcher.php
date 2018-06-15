@@ -7,6 +7,7 @@ namespace url;
 use exceptions\UnknownResourceUriException;
 use HttpMethod;
 use transactions\CreateItemTransaction;
+use transactions\DeleteItemTransaction;
 use transactions\GetCategoriesTransaction;
 use transactions\GetItemsTransaction;
 use transactions\ITransaction;
@@ -65,14 +66,20 @@ class UrlMatcher {
         // structure of urls maybe we will need to implement some kind of
         // loading from a file or whatever (pay attention to performance as
         // this will be loaded for every single request!)
-        $tm = new TransactionMap();
-        $tm->put(HttpMethod::GET(), GetCategoriesTransaction::class);
-        $tm2 = new TransactionMap();
-        $tm2->put(HttpMethod::GET(), GetItemsTransaction::class);
-        $tm2->put(HttpMethod::POST(), CreateItemTransaction::class);
+        $tmCategories = new TransactionMap();
+        $tmCategories->put(HttpMethod::GET(), GetCategoriesTransaction::class);
+        $tmCategoryItems = new TransactionMap();
+        $tmCategoryItems->put(HttpMethod::GET(), GetItemsTransaction::class);
+        $tmItems = new TransactionMap();
+        $tmItems->put(HttpMethod::POST(), CreateItemTransaction::class);
+        $tmItem = new TransactionMap();
+        $tmItem->put(HttpMethod::DELETE(), DeleteItemTransaction::class);
+        //$tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
         $this->urls = [
-            new UrlPattern('/item-types/:itemType<str>/categories/', $tm),
-            new UrlPattern('/categories/:categoryCode<str>/items/', $tm2),
+            new UrlPattern('/item-types/:itemType<str>/categories/', $tmCategories),
+            new UrlPattern('/categories/:categoryCode<str>/items/', $tmCategoryItems),
+            new UrlPattern('/items/:itemId<int>', $tmItem),
+            new UrlPattern('/items/', $tmItems),
         ];
     }
 }

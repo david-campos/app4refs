@@ -50683,6 +50683,29 @@
 									},
 									"showProperty": true,
 									"showType": true
+								},
+								{
+									"_type": "UMLNoteView",
+									"_id": "AAAAAAFkA03boFeqlI8=",
+									"_parent": {
+										"$ref": "AAAAAAFjOjGQq0xus9c="
+									},
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 280,
+									"top": 424,
+									"width": 83.96533203125,
+									"height": 53,
+									"autoResize": false,
+									"text": "result = null\nstatus=200",
+									"wordWrap": true
 								}
 							],
 							"showSequenceNumber": true,
