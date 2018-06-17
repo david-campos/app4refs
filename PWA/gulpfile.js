@@ -10,6 +10,7 @@ var runSequence = require('run-sequence');
 var concat      = require('gulp-concat');
 //var rename      = require('gulp-rename');
 var sourcemaps  = require('gulp-sourcemaps');
+//var babel       = require('gulp-babel');
 var uglifyJs    = require('gulp-uglify');
 var minifyCss   = require('gulp-minify-css');
 var htmlmin     = require('gulp-htmlmin');
@@ -83,7 +84,7 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
 gulp.task('default', ['build']);
 
 gulp.task('watch', function() {
-   gulp.watch(DEV_JS_SRC, ['dist-js']);
+   gulp.watch(DEV_JS_SRC, ['dist-javascript']);
    gulp.watch(DEV_CSS_SRC, ['dist-css']);
    gulp.watch(DEV_HTML_SRC, ['dist-html']);
 });
@@ -95,6 +96,7 @@ gulp.task('build', function(callback) {
 gulp.task('dist-javascript', function(){
   return gulp.src(DEV_JS_SRC)
     .pipe(sourcemaps.init({largeFile: true}))
+      //.pipe(babel({presets:['env']}))
       .pipe(concat(DIST_JS_FILE))
       .pipe(uglifyJs({mangle: true}))
     .pipe(sourcemaps.write('.'))

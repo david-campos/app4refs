@@ -3,3 +3,6 @@ https://tools.ietf.org/html/rfc6750
 
 Sobre OAuth2.0:
 https://tools.ietf.org/html/rfc6749
+
+Atribución requerida en PWA:
+https://fontawesome.com/license

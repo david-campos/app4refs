@@ -2,7 +2,7 @@
  * This file is based on Google's example at
  * https://github.com/GoogleChromeLabs/sw-precache/blob/master/demo/app/js/service-worker-registration.js
  */
-
+/*
 'use strict';
 
 if ('serviceWorker' in navigator) {
@@ -41,4 +41,4 @@ if ('serviceWorker' in navigator) {
       console.error('Error during service worker registration:', e);
     });
   });
-}
+}*/

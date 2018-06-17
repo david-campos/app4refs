@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(white, #c0cbe0);
+    font-family: sans-serif;
+}
+
+/* nav and container-fluid should sum up to 100vh */
+nav {
+    height: 10vh;
+}
+.container-fluid {
+    height: 90vh;
+}
+
+body.noNav nav {
+    display: none;
+}
+
+body.noNav .container-fluid {
+    height: 100vh;
+}
