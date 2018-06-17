@@ -1,6 +1,9 @@
-# Node modules (npm) #
+# PWA #
 ######################
 PWA/node_modules
+PWA/node_modules/*
+PWA/dist
+PWA/dist/*
 
 # Compiled source #
 ###################
