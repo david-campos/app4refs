@@ -1,0 +1,12 @@
+{
+  "name": "app4refs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "App4Refs app",
+  "author": "David Campos R. <david.campos.r96@gmail.com> (https://david-campos.github.io/)",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "sw-precache": "^5.2.1"
+  }
+}
