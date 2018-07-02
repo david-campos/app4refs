@@ -1,0 +1,41 @@
+nav {
+    background-color: #212121;
+    color: white;
+    width: 100%;
+    padding: 2.5vh;
+    z-index: 9999;
+    box-shadow: 0 0 1em 0.2em rgba(0,0,0,0.2);
+}
+
+nav .nav-title-col {
+    padding-top: 1vh; /* keeps the title in its place */
+}
+nav #app-nav-title {
+    display: inline;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 3vh;
+}
+
+nav button {
+    border: none;
+    color: white;
+    background: #7C0D82;
+    height: 5vh;
+    width: 5vh;
+    border-radius: 5vh;
+}
+
+nav button svg {
+    fill: currentColor;
+    height: 100%;
+}
+
+nav #nav-home-btn svg {
+    width: 80%;
+}
+
+nav #nav-back-btn svg {
+    width: 70%;
+}

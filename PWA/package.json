@@ -1,0 +1,19 @@
+{
+  "name": "app4refs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "App4Refs app",
+  "author": "David Campos R. <david.campos.r96@gmail.com> (https://david-campos.github.io/)",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "path": "^0.12.7",
+    "run-sequence": "^2.2.1",
+    "sw-precache": "^5.2.1"
+  }
+}
