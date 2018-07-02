@@ -3,20 +3,6 @@
 --   for the back-end of the application to work.
 -- 
 -- Author: David Campos R. <david.campos.r96@gmail.com>
-
-/* ControlPanelUsers
- *   This table will store information about the users
- *   of the control panel, so they can log in.
- */
- CREATE TABLE IF NOT EXISTS `control_panel_users` (
-    `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `login`   VARCHAR(100) UNIQUE NOT NULL,
-    `salt`    CHAR(128) NOT NULL,
-    `pass`    CHAR(128) NOT NULL,
-    
-    PRIMARY KEY (`user_id`)
- )
- COMMENT "Control panel users and their (hashed) passwords";
  
  /* Categories
   *   This table will store information about the categories
@@ -54,9 +40,11 @@ CREATE TABLE IF NOT EXISTS `items` (
 	`web_link` VARCHAR(255),
 	`place_id` VARCHAR(255),
 	`icon_uri` VARCHAR(255) NOT NULL,
-	`is_free`  TINYINT NOT NULL,
+	`is_free`  TINYINT(1) NOT NULL,
 	`coord_lat` DECIMAL(8, 6),
 	`coord_lon` DECIMAL(9, 6),
+    `phone` VARCHAR(100),
+    `call_for_appointment` TINYINT(1) NOT NULL,
 	
 	`category_code` CHAR(10) NOT NULL,
 	`lang_code`     CHAR(2),
