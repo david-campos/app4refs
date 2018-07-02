@@ -22,6 +22,10 @@ class Item {
     private $coordLat;
     /** @var double|null */
     private $coordLon;
+    /** @var string|null */
+    private $phone;
+    /** @var bool */
+    private $callForAppointment;
     /** @var string */
     private $categoryCode;
     /** @var string|null */
@@ -40,12 +44,14 @@ class Item {
      * @param bool $isFree
      * @param float|null $coordLat
      * @param float|null $coordLon
+     * @param string|null $phone
+     * @param bool $callForAppoint
      * @param string $categoryCode
      * @param string|null $languageCode
      * @param gateways\IItemsGateway $gateway
      */
     public function __construct($itemId, $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
-                                $categoryCode, $languageCode, $gateway) {
+                                $phone, $callForAppoint, $categoryCode, $languageCode, $gateway) {
         $this->itemId = $itemId;
         $this->name = $name;
         $this->address = $address;
@@ -55,6 +61,8 @@ class Item {
         $this->isFree = $isFree;
         $this->coordLat = $coordLat;
         $this->coordLon = $coordLon;
+        $this->phone = $phone;
+        $this->callForAppointment = $callForAppoint;
         $this->categoryCode = $categoryCode;
         $this->languageCode = $languageCode;
         $this->gateway = $gateway;
@@ -78,6 +86,8 @@ class Item {
             IApiInterface::ITEM_IS_FREE => $this->isFree,
             IApiInterface::ITEM_COORD_LAT => $this->coordLat,
             IApiInterface::ITEM_COORD_LON => $this->coordLon,
+            IApiInterface::ITEM_PHONE => $this->phone,
+            IApiInterface::ITEM_CALL_FOR_APPOINTMENT => $this->callForAppointment,
             IApiInterface::ITEM_CATEGORY_CODE => $this->categoryCode,
             IApiInterface::ITEM_LANGUAGE_CODE => $this->languageCode
         ];
@@ -170,6 +180,20 @@ class Item {
     }
 
     /**
+     * @return null|string
+     */
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldCallForAppointment(): bool {
+        return $this->callForAppointment;
+    }
+
+    /**
      * @return string
      */
     public function getCategoryCode(): string {
@@ -237,6 +261,20 @@ class Item {
      */
     public function setCoordLon($coordLon) {
         $this->coordLon = $coordLon;
+    }
+
+    /**
+     * @param null|string $phone
+     */
+    public function setPhone($phone) {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @param bool $callForAppointment
+     */
+    public function setCallForAppointment(bool $callForAppointment) {
+        $this->callForAppointment = $callForAppointment;
     }
 
     /**

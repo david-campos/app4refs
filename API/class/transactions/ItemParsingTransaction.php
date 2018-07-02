@@ -6,6 +6,7 @@
 namespace transactions;
 
 use exceptions\InvalidParamInBodyException;
+use exceptions\InvalidValueInBodyException;
 use exceptions\ListExpectedException;
 use exceptions\ParamsNotFoundInBodyException;
 use exceptions\RepeatedParamInBodyException;
@@ -29,6 +30,10 @@ abstract class ItemParsingTransaction extends Transaction {
     protected $coordLat;
     /** @var double|null */
     protected $coordLon;
+    /** @var string|null */
+    protected $phone;
+    /** @var bool */
+    protected $callForAppointment;
     /** @var string */
     protected $categoryCode;
     /** @var string|null */
@@ -60,6 +65,10 @@ abstract class ItemParsingTransaction extends Transaction {
                 $this->coordLat = $val;
             } else if($key === \IApiInterface::ITEM_COORD_LON) {
                 $this->coordLon = $val;
+            } else if($key === \IApiInterface::ITEM_PHONE) {
+                $this->phone = $val;
+            } else if($key === \IApiInterface::ITEM_CALL_FOR_APPOINTMENT) {
+                $this->callForAppointment = $val;
             } else if($key == \IApiInterface::ITEM_CATEGORY_CODE) {
                 $this->categoryCode = $val;
             } else if($key === \IApiInterface::ITEM_LANGUAGE_CODE) {
@@ -72,10 +81,11 @@ abstract class ItemParsingTransaction extends Transaction {
             $usedKeys[] = $key;
         }
         // Check all values have been set
-        if(count($usedKeys) < 11) {
+        if(count($usedKeys) < 13) {
             throw $this->paramNotFoundInItem($usedKeys);
         }
 
+        $this->checkNulls();
     }
 
     /**
@@ -111,11 +121,34 @@ abstract class ItemParsingTransaction extends Transaction {
                 } else {
                     throw new InvalidParamInBodyException($key);
                 }
+                // None of the period params can be null
+                if($val === null) {
+                    throw new InvalidValueInBodyException(
+                        "The param $key in ".\IApiInterface::ITEM_OPENING_HOURS." cannot be null.");
+                }
             }
             if(count($values) < 7) {
                 throw $this->paramNotFoundInPeriod(array_keys($values), $i);
             }
             $this->periods[] = $values;
+        }
+    }
+
+    /**
+     * Checks that all the fields which can't be null have a non-null value
+     */
+    private function checkNulls() {
+        $notNullOnes = [
+            \IApiInterface::ITEM_NAME => $this->name,
+            \IApiInterface::ITEM_ADDR => $this->address,
+            \IApiInterface::ITEM_ICON => $this->iconUri,
+            \IApiInterface::ITEM_IS_FREE => $this->isFree,
+            \IApiInterface::ITEM_CALL_FOR_APPOINTMENT => $this->callForAppointment,
+            \IApiInterface::ITEM_CATEGORY_CODE => $this->categoryCode];
+        foreach($notNullOnes as $key=>$val) {
+            if($val === null) {
+                throw new InvalidValueInBodyException("Param $key can't be null.");
+            }
         }
     }
 
@@ -135,6 +168,8 @@ abstract class ItemParsingTransaction extends Transaction {
             \IApiInterface::ITEM_IS_FREE,
             \IApiInterface::ITEM_COORD_LAT,
             \IApiInterface::ITEM_COORD_LON,
+            \IApiInterface::ITEM_PHONE,
+            \IApiInterface::ITEM_CALL_FOR_APPOINTMENT,
             \IApiInterface::ITEM_CATEGORY_CODE,
             \IApiInterface::ITEM_LANGUAGE_CODE,
             \IApiInterface::ITEM_OPENING_HOURS

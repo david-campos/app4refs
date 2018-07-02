@@ -6,7 +6,7 @@ namespace transactions;
 
 interface ITransaction {
     /**
-     * Executes the transaction, has no return
+     * Executes the transaction, has no return value
      */
     public function execute();
 

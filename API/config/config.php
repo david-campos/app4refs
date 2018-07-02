@@ -14,4 +14,16 @@ if(defined('UNIT_TESTING')) {
 spl_autoload_extensions('.php');
 
 // Register autoload
-spl_autoload_register();
+spl_autoload_register(function ($class) {
+    $paths = explode(PATH_SEPARATOR, get_include_path());
+    foreach($paths as $includePath) {
+        $file = $includePath . DIRECTORY_SEPARATOR
+            . str_replace('\\', DIRECTORY_SEPARATOR, $class)
+            . '.php';
+        if (file_exists($file)) {
+            require $file;
+            return true;
+        }
+    }
+    return false;
+});

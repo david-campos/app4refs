@@ -6,3 +6,6 @@ https://tools.ietf.org/html/rfc6749
 
 Atribución requerida en PWA:
 https://fontawesome.com/license
+
+Phan:
+https://github.com/phan/phan

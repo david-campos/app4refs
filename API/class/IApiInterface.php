@@ -8,6 +8,10 @@
  * of the api together in one file
  */
 interface IApiInterface {
+    /** @var string API base URI, this URI will be removed at the start of $_SERVER['REQUEST_URI'] to correct the URIs
+     * before matching. */
+    const API_BASE_URI = '';
+
     /** @var string key of the get param to set the input format */
     const INPUT_FORMAT_PARAM = 'in';
     /** @var string key of the get param to set the output format */
@@ -31,6 +35,8 @@ interface IApiInterface {
     const ITEM_IS_FREE = 'isFree';
     const ITEM_COORD_LAT = 'coordLat';
     const ITEM_COORD_LON = 'coordLon';
+    const ITEM_PHONE = 'phone';
+    const ITEM_CALL_FOR_APPOINTMENT = 'callForAppointment';
     const ITEM_CATEGORY_CODE = 'categoryCode';
     const ITEM_LANGUAGE_CODE = 'languageCode';
     const ITEM_OPENING_HOURS = 'openingHours';

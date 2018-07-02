@@ -37,6 +37,8 @@ class UpdateItemTransaction extends ItemParsingTransaction {
         $item->setIsFree($this->isFree);
         $item->setCoordLat($this->coordLat);
         $item->setCoordLon($this->coordLon);
+        $item->setPhone($this->phone);
+        $item->setCallForAppointment($this->callForAppointment);
         $item->setCategoryCode($this->categoryCode);
         $item->setPlaceId($this->placeId);
         $item->setLanguageCode($this->languageCode);
