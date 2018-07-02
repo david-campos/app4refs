@@ -12,10 +12,10 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
      */
     public function testGetItemsForCategorySuccessful() {
         $items = [
-            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en'],
-            [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, 'es']];
+            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'en'],
+            [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, '+34987654321', 1, 'es']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items,
+            ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,lang_code FROM items WHERE category_code=?'=>$items,
             'SELECT category_code FROM categories WHERE category_code=?'=>[['category_code']]],
             true, true
         );
@@ -32,8 +32,8 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
      */
     public function testGetItemsForCategoryThrowsExceptionOnExecuteFail() {
         $items = [
-            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en'],
-            [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, 'es']];
+            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'en'],
+            [2, 'name2', 'addr2', 'link2', null, 'icon2', 0, null, null, null, 0, 'es']];
         $mysqliMock = $this->buildMockToExpectQueries(
             ['SELECT item_id,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code FROM items WHERE category_code=?'=>$items,
                 'SELECT category_code FROM categories WHERE category_code=?'=>[['category_code']]],
@@ -48,16 +48,16 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
      */
     public function testFindItemSuccessful() {
         $items = [
-            ['name', 'addr', 'link', null, 'icon', 1, null, null, 'category', 'en']];
+            ['name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'category', 'en']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
+            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
             true, true
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
         $item = $gateway->findItem(1);
         $this->assertInstanceOf(Item::class, $item);
         $expected = new Item(1, $items[0][0], $items[0][1], $items[0][2], $items[0][3], $items[0][4],
-            $items[0][5], $items[0][6], $items[0][7], $items[0][8], $items[0][9],$gateway);
+            $items[0][5], $items[0][6], $items[0][7], $items[0][8], $items[0][9], $items[0][10], $items[0][11], $gateway);
         $this->assertEquals($expected, $item);
     }
 
@@ -67,9 +67,9 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
      */
     public function testFindItemThrowsExceptionOnExecuteFail() {
         $items = [
-            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en']];
+            [1, 'name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'en']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
+            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
             false, true
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
@@ -83,19 +83,19 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
     public function testCreateItemSuccessful() {
         // For finding, not to create
         $items = [
-            ['name', 'addr', 'link', null, 'icon', 1, null, null, 'category', 'en']];
+            ['name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'category', 'en']];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items,
-            'INSERT INTO items(`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,lang_code,category_code) VALUES (?,?,?,?,?,?,?,?,?,?)'=>[[]]],
+            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items,
+            'INSERT INTO items(`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,lang_code,category_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'=>[[]]],
             true, true
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
         $item = $gateway->newItem('otherName', 'otherAddr', 'otherLink', 'id', 'otherIcon',
-            0, 1.1, 2.2, 'otherCategory', 'es');
+            0, 1.1, 2.2, 'otherPhone', 1, 'otherCategory', 'es');
         $this->assertInstanceOf(Item::class, $item);
         // insert_id is always 1 for the mysqli mock
         $expected = new Item(1, $items[0][0], $items[0][1], $items[0][2], $items[0][3], $items[0][4],
-            $items[0][5], $items[0][6], $items[0][7], $items[0][8], $items[0][9],$gateway);
+            $items[0][5], $items[0][6], $items[0][7], $items[0][8], $items[0][9], $items[0][10], $items[0][11], $gateway);
         $this->assertEquals($expected, $item, 'The returned item should countain information from the database, rather than the passed one.');
     }
 
@@ -104,9 +104,9 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
      * @expectedException exceptions\DatabaseItemNotFoundException
      */
     public function testFindItemThrowsExceptionOnFetchFail() {
-        $items = [[1, 'name', 'addr', 'link', null, 'icon', 1, null, null, 'en']]; // Needed as mock binding uses this number of items to check
+        $items = [[1, 'name', 'addr', 'link', null, 'icon', 1, null, null, null, 0, 'en']]; // Needed as mock binding uses this number of items to check
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
+            ['SELECT `name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code,lang_code FROM items WHERE item_id=? LIMIT 1'=>$items],
             true, false // <- NOTICE THE false!
         );
         $gateway = new MysqliItemsGateway($mysqliMock);
@@ -124,8 +124,8 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
         $gateway = new MysqliItemsGateway($mysqliMock);
         $gateway->removeItem(new Item(
             1, "whatever", "whatever", null, null,
-            "whatever", true, null, null, "whatever",
-            null, $gateway));
+            "whatever", true, null, null, null, false,
+            "whatever", null, $gateway));
     }
 
     /**
@@ -140,7 +140,7 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
         $gateway = new MysqliItemsGateway($mysqliMock);
         $gateway->removeItem(new Item(
             1, "whatever", "whatever", null, null,
-            "whatever", true, null, null, "whatever",
+            "whatever", true, null, null, null, false, "whatever",
             null, $gateway));
     }
 
@@ -150,13 +150,14 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
     public function testSaveItemSuccessful() {
         $mysqliMock = $this->buildMockToExpectQueries(
             ['UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
-                'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,lang_code=?,category_code=? WHERE item_id=?' => [[]]],
+                'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,phone=?,call_for_appointment=?,'.
+                'lang_code=?,category_code=? WHERE item_id=?' => [[]]],
             true, false);
         $gateway = new MysqliItemsGateway($mysqliMock);
         $gateway->saveItem(new Item(
             1, "whatever", "whatever", null, null,
-            "whatever", true, null, null, "whatever",
-            null, $gateway));
+            "whatever", true, null, null, null, false,
+            "whatever", null, $gateway));
     }
 
     /**
@@ -166,13 +167,14 @@ class MysqliItemsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase {
     public function testSaveItemThrowsExceptionOnFailing() {
         $mysqliMock = $this->buildMockToExpectQueries(
             ['UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
-            'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,lang_code=?,category_code=? WHERE item_id=?' => [[]]],
+            'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,phone=?,call_for_appointment=?,'.
+            'lang_code=?,category_code=? WHERE item_id=?' => [[]]],
             false, false);
         $gateway = new MysqliItemsGateway($mysqliMock);
         $gateway->saveItem(new Item(
             1, "whatever", "whatever", null, null,
-            "whatever", true, null, null, "whatever",
-            null, $gateway));
+            "whatever", true, null, null, null, false,
+            "whatever", null, $gateway));
     }
 
 

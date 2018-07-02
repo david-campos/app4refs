@@ -37,13 +37,13 @@ CREATE TABLE IF NOT EXISTS `items` (
     `item_id`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name`     VARCHAR(255) NOT NULL,
 	`address`  VARCHAR(255) NOT NULL,
-	`web_link` VARCHAR(255),
-	`place_id` VARCHAR(255),
+	`web_link` VARCHAR(255), -- NULLABLE
+	`place_id` VARCHAR(255), -- NULLABLE
 	`icon_uri` VARCHAR(255) NOT NULL,
 	`is_free`  TINYINT(1) NOT NULL,
-	`coord_lat` DECIMAL(8, 6),
-	`coord_lon` DECIMAL(9, 6),
-    `phone` VARCHAR(100),
+	`coord_lat` DECIMAL(8, 6), -- NULLABLE
+	`coord_lon` DECIMAL(9, 6), -- NULLABLE
+    `phone`    VARCHAR(100), -- NULLABLE
     `call_for_appointment` TINYINT(1) NOT NULL,
 	
 	`category_code` CHAR(10) NOT NULL,

@@ -31,6 +31,8 @@ interface IApiInterface {
     const ITEM_IS_FREE = 'isFree';
     const ITEM_COORD_LAT = 'coordLat';
     const ITEM_COORD_LON = 'coordLon';
+    const ITEM_PHONE = 'phone';
+    const ITEM_CALL_FOR_APPOINTMENT = 'callForAppointment';
     const ITEM_CATEGORY_CODE = 'categoryCode';
     const ITEM_LANGUAGE_CODE = 'languageCode';
     const ITEM_OPENING_HOURS = 'openingHours';

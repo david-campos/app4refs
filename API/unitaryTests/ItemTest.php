@@ -27,12 +27,15 @@ class ItemTest extends TestCase {
             'free'=>true,
             'lat'=>37.983587,
             'lon'=>23.732831900000065,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
             'cat'=>'cat_food',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
-            $data['lat'],$data['lon'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
+            $data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -42,6 +45,8 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['free'], $item->isFree());
         $this->assertEquals($data['lat'], $item->getCoordLat());
         $this->assertEquals($data['lon'], $item->getCoordLon());
+        $this->assertEquals($data['phone'], $item->getPhone());
+        $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
         $this->assertEquals($data['lg'], $item->getLanguageCode());
     }
@@ -60,16 +65,18 @@ class ItemTest extends TestCase {
             'ico'=>'solidarity4all.png',
             'lat'=>37.983587,
             'lon'=>23.732831900000065,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
             'cat'=>'cat_food',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'], 1, // notice
-            $data['lat'],$data['lon'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals(true, $item->isFree());
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'], 0, // notice
-            $data['lat'],$data['lon'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals(false, $item->isFree());
     }
 
@@ -87,12 +94,15 @@ class ItemTest extends TestCase {
             'free' => true,
             'lat' => 37.983587,
             'lon' => 23.732831900000065,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
             'cat' => 'cat_food',
             'lg' => 'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
-            $data['web'], $data['plId'], $data['ico'], $data['free'],
-            $data['lat'], $data['lon'], $data['cat'], $data['lg'], $this->fakeGateway);
+            $data['web'],$data['plId'],$data['ico'],$data['free'],
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
+            $data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -102,6 +112,8 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['free'], $item->isFree());
         $this->assertEquals($data['lat'], $item->getCoordLat());
         $this->assertEquals($data['lon'], $item->getCoordLon());
+        $this->assertEquals($data['phone'], $item->getPhone());
+        $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
         $this->assertEquals($data['lg'], $item->getLanguageCode());
     }
@@ -120,12 +132,15 @@ class ItemTest extends TestCase {
             'free'=>true,
             'lat'=>37.983587,
             'lon'=>23.732831900000065,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
             'cat'=>'cat_food',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
-            $data['lat'],$data['lon'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
+            $data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -135,6 +150,8 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['free'], $item->isFree());
         $this->assertEquals($data['lat'], $item->getCoordLat());
         $this->assertEquals($data['lon'], $item->getCoordLon());
+        $this->assertEquals($data['phone'], $item->getPhone());
+        $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
         $this->assertEquals($data['lg'], $item->getLanguageCode());
     }
@@ -153,12 +170,15 @@ class ItemTest extends TestCase {
             'free'=>true,
             'lat'=>null,
             'lon'=>null,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
             'cat'=>'cat_food',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
-            $data['lat'],$data['lon'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
+            $data['cat'],$data['lg'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -168,6 +188,8 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['free'], $item->isFree());
         $this->assertEquals($data['lat'], $item->getCoordLat());
         $this->assertEquals($data['lon'], $item->getCoordLon());
+        $this->assertEquals($data['phone'], $item->getPhone());
+        $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
         $this->assertEquals($data['lg'], $item->getLanguageCode());
     }

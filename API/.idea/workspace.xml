@@ -25,7 +25,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/class/url/TransactionMap.php" />
         <option value="$PROJECT_DIR$/unitaryTests/url/FakeTransaction.php" />
         <option value="$PROJECT_DIR$/class/exceptions/UnknownResourceUriException.php" />
         <option value="$PROJECT_DIR$/unitaryTests/formats/JsonBodyParserTest.php" />
@@ -33,7 +32,6 @@
         <option value="$PROJECT_DIR$/public_html/.htaccess" />
         <option value="$PROJECT_DIR$/class/transactions/GetCategoriesTransaction.php" />
         <option value="$PROJECT_DIR$/class/transactions/GetItemsTransaction.php" />
-        <option value="$PROJECT_DIR$/unitaryTests/ItemTest.php" />
         <option value="$PROJECT_DIR$/class/url/UrlPattern.php" />
         <option value="$PROJECT_DIR$/unitaryTests/url/UrlPatternTest.php" />
         <option value="$PROJECT_DIR$/class/exceptions/DatabaseItemNotFoundException.php" />
@@ -61,21 +59,23 @@
         <option value="$PROJECT_DIR$/class/transactions/DeleteItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/formats/IApiOutputter.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidParamInBodyException.php" />
-        <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
-        <option value="$PROJECT_DIR$/class/Item.php" />
-        <option value="$PROJECT_DIR$/class/IApiInterface.php" />
         <option value="$PROJECT_DIR$/unitaryTests/formats/JsonOutputterTest.php" />
         <option value="$PROJECT_DIR$/class/formats/JsonOutputter.php" />
-        <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliGatewayFactory.php" />
         <option value="$PROJECT_DIR$/class/url/UrlMatcher.php" />
-        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
-        <option value="$PROJECT_DIR$/class/gateways/IItemsGateway.php" />
-        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
-        <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTest.php" />
         <option value="$PROJECT_DIR$/class/FakeEnum.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliPeriodsGateway.php" />
+        <option value="$PROJECT_DIR$/class/gateways/IItemsGateway.php" />
+        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
+        <option value="$PROJECT_DIR$/class/IApiInterface.php" />
+        <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
+        <option value="$PROJECT_DIR$/unitaryTests/ItemTest.php" />
+        <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
+        <option value="$PROJECT_DIR$/class/Item.php" />
+        <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
+        <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
+        <option value="$PROJECT_DIR$/class/transactions/ITransaction.php" />
       </list>
     </option>
   </component>
@@ -86,7 +86,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php_installation_7" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -137,25 +137,13 @@
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="API" type="b2602c69:ProjectViewProjectNode" />
-              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="API" type="b2602c69:ProjectViewProjectNode" />
-              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="unitaryTests" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gtmysqli" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="transactions" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
@@ -257,28 +245,11 @@
       <workItem from="1528832243668" duration="7356000" />
       <workItem from="1528973091417" duration="13206000" />
       <workItem from="1529048129183" duration="28905000" />
+      <workItem from="1530543571714" duration="1861000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="MysqliItemsGatewayTest_testSaveItemSuccessful - 2018.06.15 at 17h 42m 00s.xml">
-      <configuration name="MysqliItemsGatewayTest.testSaveItemSuccessful" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="MysqliPeriodsGatewayTest - 2018.06.15 at 17h 21m 07s.xml">
-      <configuration name="MysqliPeriodsGatewayTest" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 16h 30m 54s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 16h 32m 02s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 16h 32m 40s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Run_all_unitary_tests - 2018.06.15 at 17h 21m 12s.xml">
-      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="Run_all_unitary_tests - 2018.06.15 at 17h 49m 50s.xml">
       <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -291,9 +262,27 @@
     <history-entry file="Run_all_unitary_tests - 2018.06.15 at 18h 17m 04s.xml">
       <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 14h 01m 18s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 14h 09m 37s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 14h 10m 25s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 14h 10m 51s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 14h 11m 20s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Run_all_unitary_tests - 2018.07.02 at 17h 30m 43s.xml">
+      <configuration name="Run all unitary tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117098000" />
+    <option name="totallyTimeSpent" value="121337000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -305,16 +294,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19635417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19635417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -324,28 +311,10 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27604166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -355,27 +324,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/unitaryTests/WeekDaysTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGateway.php" />
     <entry file="file://$PROJECT_DIR$/class/url/TransactionMap.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
           <caret line="36" column="27" lean-forward="true" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
-          <folding>
-            <element signature="e#94#137#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -383,9 +340,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="41" column="7" lean-forward="true" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
-          <folding>
-            <element signature="e#137#168#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -416,7 +370,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="15" column="36" lean-forward="true" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -424,7 +377,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="12" column="62" lean-forward="false" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -432,7 +384,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -440,7 +391,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -448,7 +398,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -456,7 +405,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -480,7 +428,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -488,7 +435,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -496,7 +442,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +449,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -512,7 +456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -520,7 +463,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -528,7 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="9" column="37" lean-forward="false" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -536,7 +477,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
           <caret line="14" column="52" lean-forward="false" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -560,11 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1001">
           <caret line="78" column="13" lean-forward="true" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-          <folding>
-            <marker date="1529060061759" expanded="true" signature="680:739" ph="SELECT name categories" />
-            <marker date="1529060061759" expanded="true" signature="1547:1611" ph="SELECT `item... categories" />
-            <marker date="1529060061759" expanded="true" signature="2483:2537" ph="SELECT categ... categories" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -572,17 +507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="e#163#174#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -590,7 +514,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
           <caret line="15" column="59" lean-forward="false" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -606,14 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="377">
           <caret line="49" column="93" lean-forward="false" selection-start-line="49" selection-start-column="93" selection-end-line="49" selection-end-column="93" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -644,29 +559,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="74" column="32" lean-forward="false" selection-start-line="74" selection-start-column="32" selection-end-line="74" selection-end-column="32" />
-          <folding>
-            <element signature="e#103#146#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/IApiInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/unitaryTests/formats/JsonOutputterTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="48" column="61" lean-forward="false" selection-start-line="48" selection-start-column="61" selection-end-line="48" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,7 +570,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="707">
           <caret line="45" column="9" lean-forward="false" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,86 +581,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/Item.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4331">
-          <caret line="23" column="22" lean-forward="true" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/url/UrlMatcher.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="69" column="25" lean-forward="false" selection-start-line="69" selection-start-column="25" selection-end-line="69" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/IItemsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="48" column="24" lean-forward="false" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/CreateItemTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="44" column="13" lean-forward="true" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
-          <folding>
-            <element signature="e#103#146#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="77" column="21" lean-forward="false" selection-start-line="77" selection-start-column="21" selection-end-line="77" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="144" column="7" lean-forward="true" selection-start-line="144" selection-start-column="7" selection-end-line="144" selection-end-column="7" />
-          <folding>
-            <marker date="1529077594583" expanded="true" signature="970:1105" ph="SELECT `name... items" />
-            <marker date="1529077594583" expanded="true" signature="2414:2471" ph="SELECT categ... categories" />
-            <marker date="1529077594583" expanded="true" signature="2414:2472" ph="SELECT categ... categories" />
-            <marker date="1529077594583" expanded="true" signature="2414:2474" ph="SELECT categ... categories" />
-            <marker date="1529077594583" expanded="true" signature="3191:3318" ph="SELECT item_... items" />
-            <marker date="1529077594583" expanded="true" signature="4696:4837" ph="INSERT INTO items... " />
-            <marker date="1529077594583" expanded="true" signature="6225:6371" ph="UPDATE items... " />
-            <marker date="1529077594583" expanded="true" signature="6225:6387" ph="UPDATE items... " />
-            <marker date="1529077594583" expanded="true" signature="6231:6371" ph="INSERT INTO items... " />
-            <marker date="1529077594583" expanded="true" signature="7293:7334" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="169" column="19" lean-forward="true" selection-start-line="169" selection-start-column="19" selection-end-line="169" selection-end-column="19" />
-          <folding>
-            <marker date="1529077785485" expanded="true" signature="642:769" ph="SELECT item_... items" />
-            <marker date="1529077785485" expanded="true" signature="793:851" ph="SELECT categ... categories" />
-            <marker date="1529077785485" expanded="true" signature="1702:1829" ph="SELECT item_... items" />
-            <marker date="1529077785485" expanded="true" signature="1857:1915" ph="SELECT categ... categories" />
-            <marker date="1529077785485" expanded="true" signature="2372:2507" ph="SELECT `name... items" />
-            <marker date="1529077785485" expanded="true" signature="3362:3497" ph="SELECT `name... items" />
-            <marker date="1529077785485" expanded="true" signature="4056:4191" ph="SELECT `name... items" />
-            <marker date="1529077785485" expanded="true" signature="4215:4356" ph="INSERT INTO items... " />
-            <marker date="1529077785485" expanded="true" signature="5512:5647" ph="SELECT `name... items" />
-            <marker date="1529077785485" expanded="true" signature="5992:6033" ph="DELETE FROM " />
-            <marker date="1529077785485" expanded="true" signature="6636:6677" ph="DELETE FROM " />
-            <marker date="1529077785485" expanded="true" signature="7136:7302" ph="UPDATE items... " />
-            <marker date="1529077785485" expanded="true" signature="7862:8024" ph="UPDATE items... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -804,16 +623,128 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="517">
           <caret line="111" column="17" lean-forward="false" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/IItemsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="45" column="21" lean-forward="true" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2508">
+          <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
           <folding>
-            <marker date="1529079420334" expanded="true" signature="603:718" ph="SELECT perio... opening_hours" />
-            <marker date="1529079420334" expanded="true" signature="1924:2039" ph="SELECT perio... opening_hours" />
-            <marker date="1529079420334" expanded="true" signature="2586:2701" ph="SELECT start... opening_hours" />
-            <marker date="1529079420334" expanded="true" signature="2731:2852" ph="INSERT INTO opening_hours... " />
-            <marker date="1529079420334" expanded="true" signature="3702:3753" ph="DELETE FROM " />
-            <marker date="1529079420334" expanded="true" signature="4323:4374" ph="DELETE FROM " />
-            <marker date="1529079420334" expanded="true" signature="4803:4931" ph="UPDATE items... " />
-            <marker date="1529079420334" expanded="true" signature="5459:5587" ph="UPDATE items... " />
+            <marker date="1530532333310" expanded="true" signature="970:1132" ph="SELECT `name... items" />
+            <marker date="1530532333310" expanded="true" signature="2481:2538" ph="SELECT categ... categories" />
+            <marker date="1530532333310" expanded="true" signature="2481:2539" ph="SELECT categ... categories" />
+            <marker date="1530532333310" expanded="true" signature="2481:2541" ph="SELECT categ... categories" />
+            <marker date="1530532333310" expanded="true" signature="3258:3412" ph="SELECT item_... items" />
+            <marker date="1530532333310" expanded="true" signature="4910:5082" ph="INSERT INTO items... " />
+            <marker date="1530532333310" expanded="true" signature="6602:6779" ph="UPDATE items... " />
+            <marker date="1530532333310" expanded="true" signature="6602:6795" ph="UPDATE items... " />
+            <marker date="1530532333310" expanded="true" signature="6608:6779" ph="INSERT INTO items... " />
+            <marker date="1530532333310" expanded="true" signature="7740:7781" ph="DELETE FROM " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1012">
+          <caret line="48" column="46" lean-forward="true" selection-start-line="48" selection-start-column="46" selection-end-line="48" selection-end-column="46" />
+          <folding>
+            <marker date="1530533477741" expanded="true" signature="670:824" ph="SELECT item_... items" />
+            <marker date="1530533477741" expanded="true" signature="848:906" ph="SELECT categ... categories" />
+            <marker date="1530533477741" expanded="true" signature="1775:1902" ph="SELECT item_... items" />
+            <marker date="1530533477741" expanded="true" signature="1930:1988" ph="SELECT categ... categories" />
+            <marker date="1530533477741" expanded="true" signature="2454:2616" ph="SELECT `name... items" />
+            <marker date="1530533477741" expanded="true" signature="3511:3673" ph="SELECT `name... items" />
+            <marker date="1530533477741" expanded="true" signature="4241:4403" ph="SELECT `name... items" />
+            <marker date="1530533477741" expanded="true" signature="4427:4599" ph="INSERT INTO items... " />
+            <marker date="1530533477741" expanded="true" signature="5812:5974" ph="SELECT `name... items" />
+            <marker date="1530533477741" expanded="true" signature="6319:6360" ph="DELETE FROM " />
+            <marker date="1530533477741" expanded="true" signature="6976:7017" ph="DELETE FROM " />
+            <marker date="1530533477741" expanded="true" signature="7489:7706" ph="UPDATE items... " />
+            <marker date="1530533477741" expanded="true" signature="8279:8404" ph="UPDATE items... " />
+            <marker date="1530533477741" expanded="true" signature="8279:8488" ph="UPDATE items... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unitaryTests/ItemTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/IApiInterface.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="616">
+          <caret line="30" column="34" lean-forward="true" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="39" column="25" lean-forward="true" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Item.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5442">
+          <caret line="277" column="5" lean-forward="true" selection-start-line="277" selection-start-column="5" selection-end-line="277" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="27" column="31" lean-forward="true" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="124" column="35" lean-forward="true" selection-start-line="124" selection-start-column="35" selection-end-line="124" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/CreateItemTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="22" column="52" lean-forward="false" selection-start-line="22" selection-start-column="52" selection-end-line="22" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/ITransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="8" column="52" lean-forward="false" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>

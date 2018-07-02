@@ -20,7 +20,7 @@ class CreateItemTransaction extends ItemParsingTransaction {
     }
 
     /**
-     * Executes the transaction, has no return
+     * Executes the transaction, has no return value
      */
     public function execute() {
         $itemGtw = GatewayFactory::getInstance()->getItemsGateway();
@@ -34,6 +34,8 @@ class CreateItemTransaction extends ItemParsingTransaction {
             $this->isFree,
             $this->coordLat,
             $this->coordLon,
+            $this->phone,
+            $this->callForAppointment,
             $this->categoryCode,
             $this->languageCode);
         $periodsGtw = GatewayFactory::getInstance()->getPeriodsGateway();
