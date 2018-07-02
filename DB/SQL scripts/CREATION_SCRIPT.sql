@@ -107,6 +107,7 @@ BEGIN
             SET MESSAGE_TEXT = 'Invalid hours value (greater than 23)';
     END IF;
 END$$
+
 -- Triggers
 CREATE TRIGGER IF NOT EXISTS `opening_hours_before_insert` BEFORE INSERT ON `opening_hours`
 FOR EACH ROW
@@ -123,5 +124,21 @@ BEGIN
 	CALL check_hours(new.end_hour);
 	CALL check_minutes(new.start_minutes);
 	CALL check_minutes(new.start_minutes);
-END$$   
+END$$
+CREATE TRIGGER IF NOT EXISTS `call_for_appointment_require_phone_on_insert` BEFORE INSERT ON `items`
+FOR EACH ROW
+BEGIN
+    IF new.call_for_appointment AND new.phone IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = '"Call for appointment" to true requires a phone number different from null';
+    END IF;
+END$$ 
+CREATE TRIGGER IF NOT EXISTS `call_for_appointment_require_phone_on_update` BEFORE UPDATE ON `items`
+FOR EACH ROW
+BEGIN
+    IF new.call_for_appointment AND new.phone IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = '"Call for appointment" to true requires a phone number different from null';
+    END IF;
+END$$ 
 DELIMITER ;

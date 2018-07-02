@@ -93,6 +93,7 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
      * Saves the given period to the database
      * @param \Period $period
      * @throws DatabaseInternalException
+     * @throws InvalidValueInBodyException
      */
     function savePeriod(\Period $period) {
         // We need the attributes in local variables
@@ -113,7 +114,12 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
         try {
             $stmt->bind_param('siisiiii', $startDay, $startHour, $startMin, $endDay, $endHour, $endMin, $itemId, $periodId);
             if (!$stmt->execute()) {
-                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                // Check for invalid hour or minute triggers
+                if($this->mysqli->sqlstate == 45000) {
+                    throw new InvalidValueInBodyException($this->mysqli->error);
+                } else {
+                    throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                }
             }
         } finally {
             $stmt->close();

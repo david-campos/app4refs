@@ -8,6 +8,7 @@ namespace gateways\gtmysqli;
 use exceptions\DatabaseCategoryNotFoundException;
 use exceptions\DatabaseInternalException;
 use exceptions\DatabaseItemNotFoundException;
+use exceptions\InvalidValueInBodyException;
 use formats\IApiOutputter;
 use gateways\IItemsGateway;
 use Item;
@@ -131,7 +132,12 @@ class MysqliItemsGateway implements IItemsGateway {
             $stmt->bind_param('sssssisssiss', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
                 $coordLon, $phone, $callForApp, $languageCode, $categoryCode);
             if (!$stmt->execute()) {
-                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                // Check for trigger of call for appointment
+                if($this->mysqli->sqlstate == 45000) {
+                    throw new InvalidValueInBodyException($this->mysqli->error);
+                } else {
+                    throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                }
             }
             // Last inserted id
             $itemId = $this->mysqli->insert_id;
@@ -172,7 +178,12 @@ class MysqliItemsGateway implements IItemsGateway {
             $stmt->bind_param('sssssisssissi', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
                 $coordLon, $phone, $callForApp, $languageCode, $categoryCode, $itemId);
             if (!$stmt->execute()) {
-                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                // Check for trigger of call for appointment
+                if($this->mysqli->sqlstate == 45000) {
+                    throw new InvalidValueInBodyException($this->mysqli->error);
+                } else {
+                    throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+                }
             }
         } finally {
             $stmt->close();
