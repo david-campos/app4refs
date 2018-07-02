@@ -38,7 +38,13 @@ class TransactionMap {
         if(isset($interfaces[ITransaction::class])) {
             $this->pairs[$httpMethod->val()] = $transactionClass;
         } else {
-            throw new InvalidTransactionException();
+            if(class_exists($transactionClass)) {
+                throw new InvalidTransactionException(
+                    "$transactionClass is not an implementation of ITransaction.");
+            } else {
+                throw new InvalidTransactionException(
+                    "Class $transactionClass does not exist.");
+            }
         }
     }
 
