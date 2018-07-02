@@ -35,6 +35,7 @@ class ControllerFacade {
 
             $parsedBody = $parser->parse($requestBody);
             $requestParams = ['body' => $parsedBody, 'get' => $getParams];
+            $url = $this->processUrl($url);
             $transaction = UrlMatcher::getInstance()->match($httpMethod, $url, $requestParams);
             $transaction->execute();
             $outputter->output($transaction->getStatus(), $transaction->getResult());
@@ -97,5 +98,22 @@ class ControllerFacade {
             }
         }
         return $selected;
+    }
+
+    /**
+     * @param string $url checks if the URL contains the base URI of the API
+     * and removes this prefix to have the real URL for the comparison
+     * @return string|bool FALSE if there is some error, otherwise the URL without the API base URI
+     */
+    private function processUrl($url) {
+        if($url === "") return $url;
+        // Check to remove starting base uri
+        if(substr($url, 0, strlen(IApiInterface::API_BASE_URI)) === IApiInterface::API_BASE_URI) {
+           return substr($url, strlen(IApiInterface::API_BASE_URI));
+        }
+        if(substr($url,0, 1 + strlen(IApiInterface::API_BASE_URI)) === '/' . IApiInterface::API_BASE_URI) {
+            return substr($url, strlen(IApiInterface::API_BASE_URI)+1);
+        }
+        return $url;
     }
 }

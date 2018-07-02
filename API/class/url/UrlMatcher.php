@@ -56,7 +56,8 @@ class UrlMatcher {
                 return $transaction;
             }
         }
-        throw new UnknownResourceUriException(IApiOutputter::HTTP_NOT_FOUND, "The URL ('$url') and method provided do not lead to any valid resource.");
+        throw new UnknownResourceUriException(IApiOutputter::HTTP_NOT_FOUND,
+            "The URL ('$url') and method provided do not lead to any valid resource.");
     }
 
     /**

@@ -151,6 +151,7 @@ class MysqliItemsGateway implements IItemsGateway {
      * Saves the given item in the database
      * @param Item $item
      * @throws DatabaseInternalException if something goes wrong internally
+     * @throws InvalidValueInBodyException
      */
     function saveItem($item) {
         // We need the attributes in local variables
