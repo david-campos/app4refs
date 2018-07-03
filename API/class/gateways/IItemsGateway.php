@@ -40,11 +40,11 @@ interface IItemsGateway {
      * @param string $phone
      * @param bool $callForApp
      * @param string $categoryCode
-     * @param string $languageCode
+     * @param string[] $languageCodes
      * @return Item
      */
     function newItem($name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
-                     $phone, $callForApp, $categoryCode, $languageCode): Item;
+                     $phone, $callForApp, $categoryCode, $languageCodes): Item;
 
     /**
      * Saves the given item in the database

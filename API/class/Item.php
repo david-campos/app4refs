@@ -28,8 +28,8 @@ class Item {
     private $callForAppointment;
     /** @var string */
     private $categoryCode;
-    /** @var string|null */
-    private $languageCode;
+    /** @var string[] */
+    private $languageCodes;
     /** @var gateways\IItemsGateway */
     private $gateway;
 
@@ -47,12 +47,12 @@ class Item {
      * @param string|null $phone
      * @param bool $callForAppoint
      * @param string $categoryCode
-     * @param string|null $languageCode
+     * @param string[] $languageCodes
      * @param gateways\IItemsGateway $gateway
      */
     public function __construct($itemId, $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
-                                $phone, $callForAppoint, $categoryCode, $languageCode, $gateway) {
-        $this->itemId = $itemId;
+                                $phone, $callForAppoint, $categoryCode, $languageCodes, $gateway) {
+        $this->itemId = intval($itemId);
         $this->name = $name;
         $this->address = $address;
         $this->webLink = $webLink;
@@ -64,7 +64,7 @@ class Item {
         $this->phone = $phone;
         $this->callForAppointment = $callForAppoint;
         $this->categoryCode = $categoryCode;
-        $this->languageCode = $languageCode;
+        $this->languageCodes = $languageCodes;
         $this->gateway = $gateway;
     }
 
@@ -89,7 +89,7 @@ class Item {
             IApiInterface::ITEM_PHONE => $this->phone,
             IApiInterface::ITEM_CALL_FOR_APPOINTMENT => $this->callForAppointment,
             IApiInterface::ITEM_CATEGORY_CODE => $this->categoryCode,
-            IApiInterface::ITEM_LANGUAGE_CODE => $this->languageCode
+            IApiInterface::ITEM_LANGUAGE_CODES => $this->languageCodes
         ];
         if($withOpeningHours) {
             $array[IApiInterface::ITEM_OPENING_HOURS] =
@@ -201,10 +201,10 @@ class Item {
     }
 
     /**
-     * @return null|string
+     * @return string[]
      */
-    public function getLanguageCode() {
-        return $this->languageCode;
+    public function getLanguageCodes() {
+        return $this->languageCodes;
     }
 
     /**
@@ -285,9 +285,9 @@ class Item {
     }
 
     /**
-     * @param null|string $languageCode
+     * @param string[] $languageCodes
      */
-    public function setLanguageCode($languageCode) {
-        $this->languageCode = $languageCode;
+    public function setLanguageCodes($languageCodes) {
+        $this->languageCodes = $languageCodes;
     }
 }

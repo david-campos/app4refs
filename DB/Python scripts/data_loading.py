@@ -22,10 +22,10 @@ except ImportError:
 
 def insert_item(crs, item):
     add_item = ("INSERT INTO items"
-                "(name, address, web_link, place_id, icon_uri,is_free,coord_lat,coord_lon,category_code,"
-                "lang_code) "
+                "(name, address, web_link, place_id, icon_uri,is_free,coord_lat,coord_lon,"
+                "phone,call_for_appointment,category_code,lang_code) "
                 "VALUES (%(name)s, %(addr)s, %(link)s, %(place)s, %(icon)s, %(free)s,%(lat)s,%(lon)s,"
-                "%(category)s,%(lang)s)")
+                "%(phone)s,%(cfapp)s,%(category)s,%(lang)s)")
     crs.execute(add_item, item)
     return crs.lastrowid
 
@@ -55,7 +55,7 @@ def language_for(lang):
     languages = {
         'greek': 'el',
         'english': 'en',
-        '': 'en' # let's use 'english' for the empty ones
+        '': 'en'  # let's use 'english' for the empty ones
     }
     if lang not in languages:
         print("language_for: Error, invalid language: ", lang)

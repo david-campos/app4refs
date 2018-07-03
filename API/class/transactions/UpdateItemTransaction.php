@@ -41,7 +41,7 @@ class UpdateItemTransaction extends ItemParsingTransaction {
         $item->setCallForAppointment($this->callForAppointment);
         $item->setCategoryCode($this->categoryCode);
         $item->setPlaceId($this->placeId);
-        $item->setLanguageCode($this->languageCode);
+        $item->setLanguageCodes($this->languageCodes);
         // Save item
         $item->saveItem();
 

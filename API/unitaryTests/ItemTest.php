@@ -48,7 +48,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
-        $this->assertEquals($data['lg'], $item->getLanguageCode());
+        $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
     /**
@@ -115,7 +115,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
-        $this->assertEquals($data['lg'], $item->getLanguageCode());
+        $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
     /**
@@ -153,7 +153,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
-        $this->assertEquals($data['lg'], $item->getLanguageCode());
+        $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
     /**
@@ -191,6 +191,6 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
-        $this->assertEquals($data['lg'], $item->getLanguageCode());
+        $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 }

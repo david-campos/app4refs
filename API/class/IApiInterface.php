@@ -38,7 +38,7 @@ interface IApiInterface {
     const ITEM_PHONE = 'phone';
     const ITEM_CALL_FOR_APPOINTMENT = 'callForAppointment';
     const ITEM_CATEGORY_CODE = 'categoryCode';
-    const ITEM_LANGUAGE_CODE = 'languageCode';
+    const ITEM_LANGUAGE_CODES = 'languageCodes';
     const ITEM_OPENING_HOURS = 'openingHours';
 
     // PERIOD INTERFACE (text for the periods/opening hours to output and input values)
