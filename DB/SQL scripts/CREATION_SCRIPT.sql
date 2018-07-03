@@ -47,18 +47,35 @@ CREATE TABLE IF NOT EXISTS `items` (
     `call_for_appointment` TINYINT(1) NOT NULL,
 	
 	`category_code` CHAR(10) NOT NULL,
-	`lang_code`     CHAR(2),
-	
+    
 	FOREIGN KEY (`category_code`) REFERENCES `categories`(`category_code`)
-		ON UPDATE CASCADE
-		ON DELETE RESTRICT,
-	FOREIGN KEY (`lang_code`) REFERENCES `languages`(`lang_code`)
 		ON UPDATE CASCADE
 		ON DELETE RESTRICT,
 	
 	PRIMARY KEY(`item_id`)
 )
 COMMENT "Items to display in the application lists (services, leisure, links...)";
+
+/**
+ * Item languages
+ *  This table will store the relation between items and
+ *  languages, as one language can be associated to several
+ *  items and an item can be associated to several languages.
+ */
+CREATE TABLE IF NOT EXISTS `item_languages` (
+    `item_id`   INT UNSIGNED,
+	`lang_code` CHAR(2),
+    
+    FOREIGN KEY (`item_id`) REFERENCES `items`(`item_id`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+	FOREIGN KEY (`lang_code`) REFERENCES `languages`(`lang_code`)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT,
+    
+    PRIMARY KEY(`item_id`, `lang_code`)
+)
+COMMENT "Relationship between items and the languages they are offered in";
 
 /* Opening hours
  *   This table will store information about the opening
