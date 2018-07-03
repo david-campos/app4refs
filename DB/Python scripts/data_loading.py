@@ -23,9 +23,9 @@ except ImportError:
 def insert_item(crs, item):
     add_item = ("INSERT INTO items"
                 "(name, address, web_link, place_id, icon_uri,is_free,coord_lat,coord_lon,"
-                "phone,call_for_appointment,category_code,lang_code) "
+                "phone,call_for_appointment,category_code) "
                 "VALUES (%(name)s, %(addr)s, %(link)s, %(place)s, %(icon)s, %(free)s,%(lat)s,%(lon)s,"
-                "%(phone)s,%(cfapp)s,%(category)s,%(lang)s)")
+                "%(phone)s,%(cfapp)s,%(category)s)")
     crs.execute(add_item, item)
     return crs.lastrowid
 
@@ -50,17 +50,21 @@ def category_for(cursor, item_type, field_value):
     return rows[0][0]
 
 
-def language_for(lang):
-    lang = lang.strip().lower()
+def languages_for(lang):
     languages = {
         'greek': 'el',
         'english': 'en',
         '': 'en'  # let's use 'english' for the empty ones
     }
-    if lang not in languages:
-        print("language_for: Error, invalid language: ", lang)
-        sys.exit(1)
-    return languages[lang]
+    langs = lang.split(',')
+    result = []
+    for ln in langs:
+        ln = ln.strip().lower()
+        if ln not in languages:
+            print("language_for: Error, invalid language: ", ln)
+            sys.exit(1)
+        result.append(languages[ln])
+    return result
 
 
 def parse_hour(hour_str):
@@ -88,32 +92,124 @@ def day_enum_for(day_str):
     return day_enum
 
 
-def hours_for(field_value):
-    parts = field_value.split(' ')
-    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday')
-    if len(parts) == 2:
-        days = parts[0].split(',')
-        field_value = parts[1]
+def day_list(value):
+    # DayList  -> WeekDay ("," WeekDay)* | WeekDay "-" WeekDay
+    value = value.strip().replace(" ", "")
 
-    field_value = field_value.replace(" ", "")
-    hours = field_value.split('-')
+    days = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
+    linePos = value.find("-")
+    if linePos != -1:
+        day_start = value[:linePos].strip().lower()
+        day_end = value[linePos+1:].strip().lower()
+        if day_start in days and day_end in days:
+            start = days.index(day_start)
+            end = days.index(day_end)
+            result = []
+            if start < end:
+                for i in range(start, end+1):
+                    result.append(days[i])
+            else:
+                for i in range(end, len(days)):
+                    result.append(days[i])
+                for i in range(start):
+                    result.append(days[i])
+            return result
+        else:
+            print('Error, unknown days in range: ', day_start, '-', day_end)
+            sys.exit(1)
+    else:
+        week_days = value.split(',')
+        result = []
+        for week_day in week_days:
+            week_day = week_day.strip().lower()
+            if week_day in days:
+                result.append(week_day)
+            else:
+                print('Error, unknown day in list: ', week_day)
+                sys.exit(1)
+        return result
+
+
+def hour_range(value):
+    # HourRange -> Hour ":" Minutes ("am"|"pm") "-" Hour ":" Minutes ("am"|"pm")
+    value = value.strip().replace(" ", "")
+
+    hours = value.split('-')
     if len(hours) != 2:
-        print("Warning, cannot parse hours (no '-'): ", field_value)
-        return []
+        print("Error, cannot parse hours (no '-'): ", value)
+        sys.exit(1)
 
     (h0, m0) = parse_hour(hours[0])
     (hf, mf) = parse_hour(hours[1])
+    return [[h0, m0], [hf, mf]]
 
-    periods_list = []
-    for day in days:
-        periods_list.append({
-            'ini_d': day_enum_for(day),
-            'end_d': day_enum_for(day),
-            'ini_h': h0, 'ini_m': m0,
-            'end_h': hf, 'end_m': mf
-        })
-    print("New period:", periods_list)
-    return periods_list
+
+def schedule(value):
+    # Schedule -> DayList " " HourRange ("&" HourRange)*
+    value = value.strip()
+
+    spacePos = value.find(" ")
+    if spacePos == -1:
+        print("Error, invalid schedule (no space): ", value)
+        sys.exit(1)
+    daylist = value[:spacePos]
+    rest = value[spacePos+1:]
+    d_l = day_list(daylist)
+    hour_ranges = rest.split("&")
+    hour_pairs = []
+    for h_r in hour_ranges:
+        hour_pairs.append(hour_range(h_r))
+
+    # now we create all the resulting "periods" to return
+    result = []
+    for day in d_l:
+        for hour_pair in hour_pairs:
+            result.append({
+                'ini_d': day_enum_for(day),
+                'end_d': day_enum_for(day),
+                'ini_h': hour_pair[0][0], 'ini_m': hour_pair[0][1],
+                'end_h': hour_pair[1][0], 'end_m': hour_pair[1][1]
+            })
+    return result
+
+
+def hours_for(field_value):
+    field_value = field_value.strip().lower()
+    if field_value == "":
+        return []
+
+    if field_value.startswith('appointment'):
+        return []  # no hours cause we have to call
+    else:
+        # The format will be the following:
+        # S        -> Schedule (";" Schedule) *
+        # Schedule -> DayList " " HourRange ("&" HourRange)*
+        # DayList  -> WeekDay ("," WeekDay)* | WeekDay "-" WeekDay
+        # HourRange -> Hour ":" Minutes ("am"|"pm") "-" Hour ":" Minutes ("am"|"pm")
+        schedules = field_value.split(';')
+        periods_list = []
+        for sched in schedules:
+            periods_list += schedule(sched)
+        print("Periods:", periods_list)
+        return periods_list
+
+
+def call_for_appointment(hours):
+    hours = hours.strip().lower()
+    if hours.startswith("appointment"):
+        return True
+    else:
+        return False
+
+
+def get_phone(hours):
+    hours = hours.strip().lower()
+    if hours.startswith("appointment"):
+        idx = hours.find("(")+1
+        idxEnd = hours.find(")")
+        return hours[idx:idxEnd]
+    else:
+        return None
 
 
 def load(items_type, file_fields, cursor, def_cat=''):
@@ -136,9 +232,10 @@ def load(items_type, file_fields, cursor, def_cat=''):
                 'free': (row['free'].lower() == 'free') if 'free' in file_fields else False,
                 'lat': coords[0] if len(coords) == 2 else None,
                 'lon': coords[1] if len(coords) == 2 else None,
+                'phone': get_phone(row['hours']),
+                'cfapp': call_for_appointment(row['hours']),
                 'category': category_for(
-                    cursor, items_type.lower(), row['category']) if 'category' in file_fields else def_cat,
-                'lang': language_for(row['language']) if 'language' in file_fields else None,
+                    cursor, items_type.lower(), row['category']) if 'category' in file_fields else def_cat
             }
             print("\titem: ", item)
             item_id = insert_item(cursor, item)
@@ -147,6 +244,11 @@ def load(items_type, file_fields, cursor, def_cat=''):
             for period in hours:
                 period['item'] = item_id
                 insert_period(cursor, period)
+
+            langs = languages_for(row['language']) if 'language' in file_fields else []
+            for ln in langs:
+                print("\t\tlangs: ", ln)
+
     print(items_type + " inserted")
 
 if sys.version_info < (3, 0):
@@ -175,16 +277,16 @@ except mysql.connector.Error as err:
 print("Connected.")
 crsr = cnx.cursor()
 
-load('Info',
-     ('name', 'category', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+#load('Info',
+#     ('name', 'category', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
 load('Leisure',
      ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
-load('Help',
-     ('name', 'web_link', 'c', 'd', 'e', 'f', 'g', 'language', 'free'), crsr, 'help_help_')
-load('Link',
-     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
-load('Service',
-     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+#load('Help',
+#     ('name', 'web_link', 'c', 'd', 'e', 'f', 'g', 'language', 'free'), crsr, 'help_help_')
+#load('Link',
+#     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+#load('Service',
+#     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
 
 cnx.commit()
 crsr.close()
