@@ -4,6 +4,7 @@
  * Author: David Campos R. <david.campos.r96@gmail.com>
  */
 
+var babel       = require('gulp-babel');
 var gulp        = require('gulp');
 var path        = require('path');
 var runSequence = require('run-sequence');
@@ -96,8 +97,8 @@ gulp.task('build', function(callback) {
 gulp.task('dist-javascript', function(){
   return gulp.src(DEV_JS_SRC)
     .pipe(sourcemaps.init({largeFile: true}))
-      //.pipe(babel({presets:['env']}))
       .pipe(concat(DIST_JS_FILE))
+      .pipe(babel())
       .pipe(uglifyJs({mangle: true}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.join(DIST_DIR, 'js')));  // saved in the DIST folder

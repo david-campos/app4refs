@@ -6,7 +6,10 @@
   "author": "David Campos R. <david.campos.r96@gmail.com> (https://david-campos.github.io/)",
   "dependencies": {},
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^4.0.0",
     "gulp-minify-css": "^1.2.4",
