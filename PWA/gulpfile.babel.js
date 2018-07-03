@@ -4,6 +4,7 @@
  * Author: David Campos R. <david.campos.r96@gmail.com>
  */
 
+var babel       = require('gulp-babel');
 var gulp        = require('gulp');
 var path        = require('path');
 var runSequence = require('run-sequence');
@@ -23,7 +24,16 @@ var CSS_DIR = 'css';
 var DEV_DIR = 'src';
 var DEV_JS_DIR = path.join(DEV_DIR, JS_DIR);
 var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
-var DEV_JS_SRC = path.join(DEV_JS_DIR, '*.js');
+var DEV_JS_SRC = [
+    'utils.js',
+    'NavBar.js',
+    'Page.js',
+    'GridPage.js',
+    'HomePage.js',
+    'App.js',
+    'main.js',
+    'service-worker-registration.js'
+    ];
 var DEV_CSS_SRC = path.join(DEV_CSS_DIR, '*.css');
 var DEV_HTML_SRC = path.join(DEV_DIR, '*.html');
 
@@ -33,6 +43,11 @@ var DIST_JS_FILE = 'javascript.min.js';
 var DIST_CSS_DIR = path.join(DIST_DIR, CSS_DIR);
 var DIST_CSS_FILE = 'style.min.css';
 var SERVICE_WORKER_NAME = 'cache-service-worker.js';
+
+// Add DEV_DIR to the JS_SRC
+for(var idx in DEV_JS_SRC) {
+    DEV_JS_SRC[idx] = path.join(DEV_JS_DIR, DEV_JS_SRC[idx]);
+}
 
 function writeServiceWorkerFile(rootDir, handleFetch, callback) {
   var config = {
@@ -96,8 +111,8 @@ gulp.task('build', function(callback) {
 gulp.task('dist-javascript', function(){
   return gulp.src(DEV_JS_SRC)
     .pipe(sourcemaps.init({largeFile: true}))
-      //.pipe(babel({presets:['env']}))
       .pipe(concat(DIST_JS_FILE))
+      .pipe(babel())
       .pipe(uglifyJs({mangle: true}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.join(DIST_DIR, 'js')));  // saved in the DIST folder
