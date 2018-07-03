@@ -1,33 +1,39 @@
-(function(app4refs) {
+/**
+ * @author David Campos Rodríguez <david.campos.r96@gmail.com>
+ */
+
+/**
+ * A page of our application
+ * @abstract
+ */
+class Page {
     /**
-     * Page constructor, constructs a page
-     *
-     * @class
-     * @classdesc A page of our application
-     *
-     * @param {app4refs.Page} parentPage    - The parent page to go when pressing back
-     * @param {string} title                - The title to display when we are in the page
-     * @param {boolean} displayNav          - Display the navigation bar?
-     * @constructor
+     * @param {Page} parentPage     - The parent page to go when pressing back
+     * @param {string} title        - The title to display when we are in the page
+     * @param {boolean} displayNav  - Display the navigation bar?
      * @abstract
      */
-    app4refs.Page = function(parentPage, title, displayNav) {
+    constructor(parentPage, title, displayNav) {
         this.parentPage = parentPage;
         this.title = title;
         this.displayNav = displayNav;
     };
 
-    app4refs.Page.prototype.load = function() {
-
-    };
+    /**
+     * Called when the page is loaded, it can receive parameters from the previous page.
+     * The default implementation does nothing.
+     * @param loadingParams - Parameters sent by the previous page
+     */
+    load(...loadingParams) {}
 
     /**
      * Called to render the page
+     * @param {Element} container - The container node to render pages in
      * @abstract
      */
-    app4refs.Page.prototype.render = function() {
+    render(container) {
         throw new Error('Page::render must be implemented!');
-    };
+    }
 
     /**
      * Called when the viewport is resized
@@ -35,13 +41,13 @@
      * @param {int} height  - The new height of the viewport
      * @abstract
      */
-    app4refs.Page.prototype.resize = function(width, height) {
+    resize(width, height) {
         throw new Error('Page::resize must be implemented!');
-    };
+    }
 
     /**
      * Called when the page is destroyed. The default implementation
      * does nothing.
      */
-    app4refs.Page.prototype.destroy = function() {};
-})(window.app4refs = window.app4refs || {});
+    destroy() {}
+}
