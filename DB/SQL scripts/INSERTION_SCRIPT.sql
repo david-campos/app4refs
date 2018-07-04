@@ -31,6 +31,8 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_food_','Food', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('srvc_ctrfd','CountriesFood', 'service');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_cloth','Clothing', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_shelt','Shelters', 'service');
@@ -62,6 +64,11 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_lantr','LangTraining', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_smcrd','SimCards', 'service');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('srvc_trans','Transport', 'service');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('srvc_laund','Laundry', 'service');
+
 -- LEISURE
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('leis_cultu','Cultural', 'leisure');
@@ -71,6 +78,7 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('leis_parks','Parks', 'leisure');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('leis_sport','Sports', 'leisure');
+
 -- LINKS
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_educa','Education', 'link');
@@ -84,10 +92,27 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_haird','Hairdresser', 'link');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_parks','Parks', 'link');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('link_churc','Churches', 'link');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('link_banks','Banks', 'link');
+-- INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+-- 	VALUES ('link_churc','Churches', 'link');
+-- INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+-- 	VALUES ('link_banks','Banks', 'link');
+
 -- HELP
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_help_','Help', 'help');
+	VALUES ('help_banka','BankAccount', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_ssnum','SocSecNumber', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_kateh','Register', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_healt','Health', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_food_','Food', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_showe','Showers', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_women','Women', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_disab','Disability', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+	VALUES ('help_lgbt_','LGBT+', 'help');

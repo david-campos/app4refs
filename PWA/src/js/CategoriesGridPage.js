@@ -35,7 +35,7 @@ class CategoriesGridPage extends GridPage {
     _categoriesReceived(categories) {
         let icons = {};
         for(let c of categories) {
-            icons[c] = 'ico/costandlanguage/pay.png';
+            icons[c] = ResourcesProvider.getCategoryIconUrl(c);
         }
         super.changeIcons(icons);
         this._app.clearContainer();
