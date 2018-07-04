@@ -37,7 +37,7 @@ class CreateItemTransaction extends ItemParsingTransaction {
             $this->phone,
             $this->callForAppointment,
             $this->categoryCode,
-            $this->languageCode);
+            $this->languageCodes);
         $periodsGtw = GatewayFactory::getInstance()->getPeriodsGateway();
         foreach($this->periods as $periodValues) {
             if($periodValues[\IApiInterface::PERIOD_ID] !== \IApiInterface::PERIOD_ID_CREATE_NEW_VALUE) {

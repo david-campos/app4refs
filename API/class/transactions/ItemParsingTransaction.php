@@ -36,15 +36,15 @@ abstract class ItemParsingTransaction extends Transaction {
     protected $callForAppointment;
     /** @var string */
     protected $categoryCode;
-    /** @var string|null */
-    protected $languageCode;
+    /** @var string[] */
+    protected $languageCodes;
 
     /**
      * CreateItemTransaction constructor.
      * @param array $requestParams The params of the request, including body parsed and get params
      * @throws InvalidParamInBodyException if an invalid param is found
+     * @throws InvalidValueInBodyException if an invalida value for a param is found
      * @throws ParamsNotFoundInBodyException if some required param couldn't be found
-     * @throws RepeatedParamInBodyException if some param for the item is repeated inside the body
      */
     public function __construct($requestParams) {
         $usedKeys = [];
@@ -71,8 +71,24 @@ abstract class ItemParsingTransaction extends Transaction {
                 $this->callForAppointment = $val;
             } else if($key == \IApiInterface::ITEM_CATEGORY_CODE) {
                 $this->categoryCode = $val;
-            } else if($key === \IApiInterface::ITEM_LANGUAGE_CODE) {
-                $this->languageCode = $val;
+            } else if($key === \IApiInterface::ITEM_LANGUAGE_CODES) {
+                $valid = true;
+                if(gettype($val) !== 'array') {
+                    $valid = false;
+                } else {
+                    $this->languageCodes = [];
+                    foreach($val as $code) {
+                        if(gettype($code) !== 'string') {
+                            $valid = false;
+                            break;
+                        }
+                        $this->languageCodes[] = $code;
+                    }
+                }
+                if(!$valid) {
+                    throw new InvalidValueInBodyException(
+                        \IApiInterface::ITEM_LANGUAGE_CODES.' should be an array of strings.');
+                }
             } else if($key === \IApiInterface::ITEM_OPENING_HOURS) {
                 $this->readPeriods($val);
             } else {
@@ -93,6 +109,7 @@ abstract class ItemParsingTransaction extends Transaction {
      * for the item.
      * @param array $periodsArray an array with the values for the periods
      * @throws InvalidParamInBodyException if some invalid param is found
+     * @throws InvalidValueInBodyException if some value is not valid
      * @throws ListExpectedException if the keys are not numeric (so it was not a list but rather a dictionary)
      * @throws ParamsNotFoundInBodyException if some required params are not found
      */
@@ -171,7 +188,7 @@ abstract class ItemParsingTransaction extends Transaction {
             \IApiInterface::ITEM_PHONE,
             \IApiInterface::ITEM_CALL_FOR_APPOINTMENT,
             \IApiInterface::ITEM_CATEGORY_CODE,
-            \IApiInterface::ITEM_LANGUAGE_CODE,
+            \IApiInterface::ITEM_LANGUAGE_CODES,
             \IApiInterface::ITEM_OPENING_HOURS
         ];
         $notFound = array_diff($itemKeys, $foundOnes);
