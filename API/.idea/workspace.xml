@@ -14,28 +14,28 @@
       <file leaf-file-name="MysqliItemsGateway.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="225" column="0" lean-forward="false" selection-start-line="225" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
-              <folding>
-                <marker date="1530640005169" expanded="true" signature="479:629" ph="SELECT `name... items" />
-                <marker date="1530640005169" expanded="true" signature="638:718" ph="/** * Mysqli... " />
-                <marker date="1530640005169" expanded="true" signature="2581:2635" ph="SELECT lang_... item_languages" />
-                <marker date="1530640005169" expanded="true" signature="5526:5584" ph="SELECT categ... categories" />
-                <marker date="1530640005169" expanded="true" signature="7096:7256" ph="INSERT INTO items... " />
-                <marker date="1530640005169" expanded="true" signature="8585:8643" ph="INSERT INTO item_languages... " />
-                <marker date="1530640005169" expanded="true" signature="10029:10210" ph="UPDATE items... " />
-                <marker date="1530640005169" expanded="true" signature="11385:11427" ph="DELETE FROM " />
-                <marker date="1530640005169" expanded="true" signature="12215:12256" ph="DELETE FROM " />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="323" column="0" lean-forward="false" selection-start-line="323" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MysqliStmtMock.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ControllerFacade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="95" column="25" lean-forward="false" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MysqliStmtMock.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliStmtMock.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+            <state relative-caret-position="366">
+              <caret line="61" column="20" lean-forward="true" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -44,9 +44,11 @@
       <file leaf-file-name="Item.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/class/Item.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
+            <state relative-caret-position="660">
               <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-              <folding />
+              <folding>
+                <marker date="1530725000084" expanded="true" signature="90:7077" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,7 +93,6 @@
         <option value="$PROJECT_DIR$/class/exceptions/ParamsNotFoundInBodyException.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliCategoriesGateway.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidValueInBodyException.php" />
-        <option value="$PROJECT_DIR$/public_html/index.php" />
         <option value="$PROJECT_DIR$/class/gateways/GatewayFactory.php" />
         <option value="$PROJECT_DIR$/class/transactions/DeleteItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/formats/IApiOutputter.php" />
@@ -117,6 +118,7 @@
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
         <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
+        <option value="$PROJECT_DIR$/public_html/index.php" />
       </list>
     </option>
   </component>
@@ -166,6 +168,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -188,6 +191,11 @@
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="public_html" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
@@ -215,7 +223,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -313,6 +320,7 @@
       <workItem from="1530548514809" duration="5110000" />
       <workItem from="1530613646947" duration="94000" />
       <workItem from="1530635426136" duration="5084000" />
+      <workItem from="1530730594228" duration="111000" />
     </task>
     <servers />
   </component>
@@ -349,7 +357,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132763000" />
+    <option name="totallyTimeSpent" value="132874000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -368,12 +376,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -530,13 +538,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public_html/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidValueInBodyException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -635,7 +636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -670,14 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="839">
-          <caret line="115" column="9" lean-forward="true" selection-start-line="115" selection-start-column="9" selection-end-line="115" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/url/UrlMatcher.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="531">
@@ -692,7 +684,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="866">
           <caret line="78" column="13" lean-forward="true" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,7 +691,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
           <caret line="42" column="37" lean-forward="false" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -708,7 +698,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -730,9 +719,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/class/Item.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="660">
           <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-          <folding />
+          <folding>
+            <marker date="1530725000084" expanded="true" signature="90:7077" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -746,19 +737,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="225" column="0" lean-forward="false" selection-start-line="225" selection-start-column="0" selection-end-line="225" selection-end-column="0" />
-          <folding>
-            <marker date="1530640005169" expanded="true" signature="479:629" ph="SELECT `name... items" />
-            <marker date="1530640005169" expanded="true" signature="638:718" ph="/** * Mysqli... " />
-            <marker date="1530640005169" expanded="true" signature="2581:2635" ph="SELECT lang_... item_languages" />
-            <marker date="1530640005169" expanded="true" signature="5526:5584" ph="SELECT categ... categories" />
-            <marker date="1530640005169" expanded="true" signature="7096:7256" ph="INSERT INTO items... " />
-            <marker date="1530640005169" expanded="true" signature="8585:8643" ph="INSERT INTO item_languages... " />
-            <marker date="1530640005169" expanded="true" signature="10029:10210" ph="UPDATE items... " />
-            <marker date="1530640005169" expanded="true" signature="11385:11427" ph="DELETE FROM " />
-            <marker date="1530640005169" expanded="true" signature="12215:12256" ph="DELETE FROM " />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="323" column="0" lean-forward="false" selection-start-line="323" selection-start-column="0" selection-end-line="323" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -766,7 +747,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,36 +754,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="181" column="42" lean-forward="false" selection-start-line="181" selection-start-column="42" selection-end-line="181" selection-end-column="42" />
-          <folding>
-            <marker date="1530640444485" expanded="true" signature="716:737" ph="SELECT item_... items" />
-            <marker date="1530640444485" expanded="true" signature="761:815" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="848:906" ph="SELECT categ... categories" />
-            <marker date="1530640444485" expanded="true" signature="2251:2272" ph="SELECT item_... items" />
-            <marker date="1530640444485" expanded="true" signature="2300:2354" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="2391:2449" ph="SELECT categ... categories" />
-            <marker date="1530640444485" expanded="true" signature="2946:2969" ph="SELECT `name... items" />
-            <marker date="1530640444485" expanded="true" signature="2997:3051" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="4045:4099" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="4758:4812" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="4849:5009" ph="INSERT INTO items... " />
-            <marker date="1530640444485" expanded="true" signature="5035:5093" ph="INSERT INTO item_languages... " />
-            <marker date="1530640444485" expanded="true" signature="6366:6420" ph="SELECT lang_... item_languages" />
-            <marker date="1530640444485" expanded="true" signature="6750:6791" ph="DELETE FROM " />
-            <marker date="1530640444485" expanded="true" signature="7407:7448" ph="DELETE FROM " />
-            <marker date="1530640444485" expanded="true" signature="7920:8125" ph="UPDATE items... " />
-            <marker date="1530640444485" expanded="true" signature="8153:8195" ph="DELETE FROM " />
-            <marker date="1530640444485" expanded="true" signature="8221:8279" ph="INSERT INTO item_languages... " />
-            <marker date="1530640444485" expanded="true" signature="8845:9034" ph="UPDATE items... " />
-            <marker date="1530640444485" expanded="true" signature="9058:9100" ph="DELETE FROM " />
-            <marker date="1530640444485" expanded="true" signature="9122:9180" ph="INSERT INTO item_languages... " />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliStmtMock.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="65" column="31" lean-forward="true" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
+        <state relative-caret-position="366">
+          <caret line="61" column="20" lean-forward="true" selection-start-line="61" selection-start-column="20" selection-end-line="61" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public_html/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="95" column="25" lean-forward="false" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
           <folding />
         </state>
       </provider>

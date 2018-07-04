@@ -7,7 +7,7 @@ try {
     $controller = ControllerFacade::getInstance();
     $controller->processRequest(
         HttpMethod::fromStr($_SERVER['REQUEST_METHOD']),
-        $_SERVER['REQUEST_URI'],
+        urldecode(explode('?', $_SERVER['REQUEST_URI'], 2)[0]),
         $_GET,
         file_get_contents('php://input'));
 } catch (Exception $exception) {
