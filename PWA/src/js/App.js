@@ -26,7 +26,7 @@ class App {
          */
         this._container = document.getElementById("app-container");
 
-        this.navigateToPage(new HomePage());
+        this.navigateToPage(new HomePage(this));
     }
 
     /**

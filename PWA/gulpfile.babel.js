@@ -29,6 +29,7 @@ var DEV_JS_SRC = [
     'NavBar.js',
     'Page.js',
     'GridPage.js',
+    'CategoriesGridPage.js',
     'HomePage.js',
     'App.js',
     'main.js',

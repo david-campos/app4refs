@@ -24,7 +24,7 @@ class GridPage extends Page {
         this._columns = columns;
         /**
          * Associative array of the icon urls where the key is an id for the icon (used on click callback)
-         * @type {{string: string}}
+         * @type {{string}}
          */
         this._icons = icons;
         /**
@@ -42,6 +42,14 @@ class GridPage extends Page {
         container.appendChild(mainRow);
         this._drawGridOfIcons(mainRow);
         this._generateEventListeners(mainRow);
+    }
+
+    /**
+     * Changes the icons (it does not render the page!)
+     * @param {{string}} newIcons - The new icons to set the page to, render should be called after for them to be displayed
+     */
+    changeIcons(newIcons) {
+        this._icons = newIcons;
     }
 
     /**

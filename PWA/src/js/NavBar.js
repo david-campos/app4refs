@@ -19,13 +19,15 @@ class NavBar {
      */
     constructor(app) {
         this.app = app;
+
         this.element = document.getElementById("app-nav");
         this.backBtn = document.getElementById("nav-back-btn");
         this.titleElement = document.getElementById("nav-title");
         this.homeBtn = document.getElementById("nav-home-btn");
 
-        this.backBtn.addEventListener('click', this._back);
-        this.homeBtn.addEventListener('click', this._home);
+        let self = this;
+        this.backBtn.addEventListener('click', ()=>self._back());
+        this.homeBtn.addEventListener('click', ()=>self._home());
     }
 
     /**
@@ -67,6 +69,6 @@ class NavBar {
      * @private
      */
     _home() {
-        this.app.navigateToPage(new HomePage());
+        this.app.navigateToPage(new HomePage(this.app));
     }
 }

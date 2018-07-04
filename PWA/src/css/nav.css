@@ -10,7 +10,7 @@ nav {
 nav .nav-title-col {
     padding-top: 1vh; /* keeps the title in its place */
 }
-nav #app-nav-title {
+nav #nav-title {
     display: inline;
     font-weight: normal;
     text-transform: uppercase;
