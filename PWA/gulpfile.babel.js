@@ -28,6 +28,8 @@ var DEV_JS_SRC = [
     'utils.js',
     'NavBar.js',
     'Page.js',
+    'ApiService.js',
+    'ApiAjaxAdapter.js',
     'GridPage.js',
     'CategoriesGridPage.js',
     'HomePage.js',

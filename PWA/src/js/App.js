@@ -50,16 +50,23 @@ class App {
         } else {
             this._nav.hide();
         }
-        this._clearContainer();
+        this.clearContainer();
         page.render(this._container);
         this._currentPage = page;
     }
 
     /**
-     * Clears the application container
-     * @private
+     * Gets the container for the pages to render on
+     * @return {Element}
      */
-    _clearContainer() {
+    getContainer() {
+        return this._container;
+    }
+
+    /**
+     * Clears the application container
+     */
+    clearContainer() {
         // This seems to be the fastest method to clear it
         let cNode = this._container.cloneNode(false);
         this._container.parentNode.replaceChild(cNode, this._container);
