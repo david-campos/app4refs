@@ -27,7 +27,6 @@ class ApiAjaxAdapter {
 
         relativeUrl = ApiAjaxAdapter._cleanRelativeUrl(relativeUrl);
         let url = this._baseUrl + relativeUrl + "?" + ApiAjaxAdapter._urlParams(params);
-        console.log("Request url", url);
         if(this._onSuccess !== null) {
             // Ongoing callback not finished, discard
             // (maybe in the future add handle for several requests at the same time)
@@ -48,7 +47,6 @@ class ApiAjaxAdapter {
             let status = this._xhttp.status;
             // we know the body will be json (id there is some)
             let body = {};
-            console.log("Response text:", this._xhttp.responseText);
             if(this._xhttp.responseText) {
                 body = JSON.parse(this._xhttp.responseText);
             }

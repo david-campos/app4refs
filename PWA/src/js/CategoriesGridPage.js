@@ -21,8 +21,9 @@ class CategoriesGridPage extends GridPage {
             (itemType==='service'?3:2), // services is displayed in 3 cols
             icons, CategoriesGridPage._categoryClicked, home, title, true);
 
+        let self = this;
         this._app = app;
-        svc.getCategories(itemType, this._categoriesReceived);
+        svc.getCategories(itemType, (...x)=>self._categoriesReceived(...x));
     }
 
     /**
@@ -32,7 +33,6 @@ class CategoriesGridPage extends GridPage {
      * @private
      */
     _categoriesReceived(categories) {
-        console.log("Categories received");
         let icons = {};
         for(let c of categories) {
             icons[c] = 'ico/costandlanguage/pay.png';
