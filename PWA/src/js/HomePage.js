@@ -23,14 +23,11 @@ class HomePage extends GridPage {
      * @param {App} app
      */
     constructor(app) {
-        let icons = {
-            'info': 'ico/mainmenu/infonew.png',
-            'help': 'ico/mainmenu/helpnew.png',
-            'service': 'ico/mainmenu/servicesnew2.png',
-            'leisure': 'ico/mainmenu/leisurenew.png',
-            'link': 'ico/mainmenu/ser-internet.png',
-            'emergency': 'ico/mainmenu/emergency.png'
-        };
+        let icons = {};
+        for(let [key, val] of Object.entries(TITLES)) {
+            icons[key] = ResourcesProvider.getMainMenuIconUrl(key);
+        }
+
         /**
          * @param {string} id - id of the clicked icon
          */
@@ -43,7 +40,8 @@ class HomePage extends GridPage {
                     app.navigateToPage(new CategoriesGridPage(app, this, TITLES[id], id));
                     break;
                 case 'help':
-                    // Items for help_help_ in grid style
+                    // help is special cause each category leads directly to the first item
+                    // without a intermediate list
                     break;
                 case 'emergency':
                     // emergency page

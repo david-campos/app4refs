@@ -5,6 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.min.css">
+  <script>
+      /**
+       * Base url to access the resources, it will be useful as we might be accessing
+       * the page through a redirection that is not the real directory to find the
+       * things, needing to adjust the relative URL to the right places. This
+       * base will be added at the start of the resources URL's.
+       * @type {string}
+       */
+      const RESOURCE_BASE_URL = "";
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="js/javascript.min.js"></script>
 </head>
