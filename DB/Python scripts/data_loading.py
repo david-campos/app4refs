@@ -38,6 +38,14 @@ def insert_period(crs, period):
     return crs.lastrowid
 
 
+def insert_language(crs, item_id, lang):
+    add_lang = ("INSERT INTO item_languages"
+                "(item_id, lang_code) "
+                "VALUES (%(item_id)s, %(lang_code)s)")
+    crs.execute(add_lang, {'item_id': item_id, 'lang_code': lang})
+    return crs.lastrowid
+
+
 def category_for(cursor, item_type, field_value):
     field_value = field_value.strip()
     query = "SELECT category_code FROM categories WHERE name = %s AND item_type = %s"
@@ -190,7 +198,7 @@ def hours_for(field_value):
         periods_list = []
         for sched in schedules:
             periods_list += schedule(sched)
-        print("Periods:", periods_list)
+        #print("Periods:", periods_list)
         return periods_list
 
 
@@ -213,12 +221,13 @@ def get_phone(hours):
 
 
 def load(items_type, file_fields, cursor, def_cat=''):
+    i = 1
     print("Inserting " + items_type + "...")
     info_file = input(items_type + "s csv file: ")
     with open(info_file, 'r') as csvfile:
         csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"', fieldnames=file_fields)
         for row in csvreader:
-            print("\trow: ", row)
+            print(i, "\trow: ", row)
             coords = row['coordinates'].split(',')
             if coords != '' and len(coords) != 2 and 'coordinates' in file_fields:
                     print("Warning: coordinates not parsed: ", row['coordinates'])
@@ -237,7 +246,8 @@ def load(items_type, file_fields, cursor, def_cat=''):
                 'category': category_for(
                     cursor, items_type.lower(), row['category']) if 'category' in file_fields else def_cat
             }
-            print("\titem: ", item)
+            # print(i, "\titem: ", item)
+            i+=1
             item_id = insert_item(cursor, item)
             hours = hours_for(row['hours'])
 
@@ -247,7 +257,7 @@ def load(items_type, file_fields, cursor, def_cat=''):
 
             langs = languages_for(row['language']) if 'language' in file_fields else []
             for ln in langs:
-                print("\t\tlangs: ", ln)
+                insert_language(cursor, item_id, ln)
 
     print(items_type + " inserted")
 
@@ -277,16 +287,16 @@ except mysql.connector.Error as err:
 print("Connected.")
 crsr = cnx.cursor()
 
-#load('Info',
-#     ('name', 'category', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+load('Info',
+     ('name', 'category', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
 load('Leisure',
+     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+load('Link',
+     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
+load('Service',
      ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
 #load('Help',
 #     ('name', 'web_link', 'c', 'd', 'e', 'f', 'g', 'language', 'free'), crsr, 'help_help_')
-#load('Link',
-#     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
-#load('Service',
-#     ('category', 'name', 'address', 'web_link', 'hours', 'language', 'free', 'coordinates'), crsr)
 
 cnx.commit()
 crsr.close()
