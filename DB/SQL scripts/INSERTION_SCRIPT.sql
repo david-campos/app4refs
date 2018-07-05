@@ -98,21 +98,21 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 VALUES ('link_banks','Banks', 'link');
 
 -- HELP
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_banka','BankAccount', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_ssnum','SocSecNumber', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_kateh','Register', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_healt','Health', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_food_','Food', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_showe','Showers', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_women','Women', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_disab','Disability', 'help');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('help_lgbt_','LGBT+', 'help');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_banka','BankAccount', 'help', 'http://www.piraeusbank.gr/en/personal-banking/proionta/katatheseis/personal-banking');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_ssnum','SocSecNumber', 'help', 'https://www.amka.gr/aparaitita.html');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_kateh','Register', 'help', 'http://asylo.gov.gr/en/');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_healt','Health', 'help', 'http://medinfo.gr/index.php');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_food_','Food', 'help', 'https://sosrefugiados.org/');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_showe','Showers', 'help', 'http://www.katafigio-agapis.gr');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_women','Women', 'help', 'https://www.facebook.com/Melissanetworkgreece33/');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_disab','Disability', 'help', 'http://www.esamea.gr/');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
+	VALUES ('help_lgbt_','LGBT+', 'help', 'http://www.colouryouth.gr/en/');
