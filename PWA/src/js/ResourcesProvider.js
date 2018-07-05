@@ -95,9 +95,6 @@ class ResourcesProvider {
         if(url === "")
             return "";
 
-        while(url.startsWith("/")) {
-            url = url.substring(1);
-        }
         while(url.endsWith("/")) {
             url = url.substring(0, url.length - 1);
         }

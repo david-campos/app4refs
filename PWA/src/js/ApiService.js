@@ -13,7 +13,7 @@ const API_BASE_URL = "api_v1";
  */
 class ApiService {
     constructor() {
-        this._api = new ApiAjaxAdapter(API_BASE_URL);
+        this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
     }
 
     /**
