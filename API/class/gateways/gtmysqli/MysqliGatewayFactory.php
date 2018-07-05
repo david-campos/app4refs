@@ -20,7 +20,7 @@ class MysqliGatewayFactory extends GatewayFactory {
      * MysqliGatewayFactory constructor.
      */
     public function __construct() {
-        $this->mysqli = new mysqli('localhost', 'root', '', 'para_eliminar');
+        $this->mysqli = new mysqli('localhost', 'root', '', 'app4refs');
         if ($this->mysqli->connect_error) {
             throw new DatabaseInternalException('Database connection error (' . $this->mysqli->connect_errno . ') '
                 . $this->mysqli->connect_error);

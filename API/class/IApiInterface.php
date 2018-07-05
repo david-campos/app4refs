@@ -49,4 +49,10 @@ interface IApiInterface {
     const PERIOD_END_DAY = 'endDay';
     const PERIOD_END_HOUR = 'endHour';
     const PERIOD_END_MINUTES = 'endMinutes';
+
+    // CATEGORY INTERFACE
+    const CATEGORY_CODE = 'code';
+    const CATEGORY_NAME = 'name';
+    const CATEGORY_ITEM_TYPE = 'itemType';
+    const CATEGORY_LINK = 'link';
 }

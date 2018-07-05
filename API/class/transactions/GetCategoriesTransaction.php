@@ -36,8 +36,11 @@ class GetCategoriesTransaction extends Transaction {
     public function execute() {
         $gateway = GatewayFactory::getInstance()->getCategoriesGateway();
         GatewayFactory::getInstance()->startTransaction();
+        $this->result = [];
         $categories = $gateway->getCategoriesForItemType($this->itemType);
-        $this->result = $categories;
+        foreach($categories as $category) {
+            $this->result[] = $category->toMap();
+        }
         $this->status = IApiOutputter::HTTP_OK;
         GatewayFactory::getInstance()->commit();
     }
