@@ -53,6 +53,14 @@ class GridPage extends Page {
     }
 
     /**
+     * Changes the callback to be called when an icon is clicked.
+     * @param {GridPage~ClickCallback} clickcallback - The new callback to be called
+     */
+    setClickCallback(clickcallback) {
+        this._clickCallback = clickcallback;
+    }
+
+    /**
      * Draws the grid of icons
      * @param {Element} mainRow the main row to draw the grid in
      * @private

@@ -14,15 +14,35 @@ const API_BASE_URL = "api_v1";
 class ApiService {
     constructor() {
         this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
+        this._callback = null;
     }
 
     /**
      * Gets a list with all the category ids associated with the given item type
      * @param {string} itemType - Item type to search categories for
-     * @param {function} callback - Function to be called when we have the categories
+     * @param {GetCategoriesCallback} callback - Function to be called when we have the categories
      */
     getCategories(itemType, callback) {
-        this._api.get(ApiService.buildCategoriesUrl(itemType), {}, callback);
+        this._callback = callback;
+        this._api.get(ApiService.buildCategoriesUrl(itemType), {}, this._categoriesSuccess);
+    }
+
+    /**
+     * Called when we obtain the categories from the API successfully
+     * @param {[Category]} categories
+     * @private
+     */
+    _categoriesSuccess(categories) {
+        if(this._callback) {
+            let sortedCategories = {};
+            for(let category of categories) {
+                if(category.code) {
+                    sortedCategories[category.code] = category;
+                }
+            }
+            this._callback(sortedCategories);
+            this._callback = null;
+        }
     }
 
     /**
@@ -34,3 +54,16 @@ class ApiService {
         return `item-types/${itemType}/categories/`;
     }
 }
+
+/**
+ * @callback GetCategoriesCallback
+ * @param {{Category}} categories - The categories received, using as key the codes.
+ */
+/**
+ * Categories interface
+ * @typedef {Object} Category
+ * @property {string} code
+ * @property {string} itemType
+ * @property {string} name
+ * @property {string} [link]
+ */
