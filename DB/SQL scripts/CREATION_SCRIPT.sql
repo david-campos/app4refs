@@ -11,10 +11,11 @@
  CREATE TABLE IF NOT EXISTS `categories` (
 	`category_code` CHAR(10) NOT NULL,
 	`name`          VARCHAR(100) NOT NULL,
+    `link`          VARCHAR(255) DEFAULT NULL, -- NULLABLE
 	`item_type`     ENUM(
 		'service', 'leisure', 'link', 'help', 'info')
 		NOT NULL,
-	
+    
 	PRIMARY KEY (`category_code`)
  )
  COMMENT "Categories for the items displayed in the application";
