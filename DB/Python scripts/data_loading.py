@@ -223,7 +223,7 @@ def get_phone(hours):
 def load(items_type, file_fields, cursor, def_cat=''):
     i = 1
     print("Inserting " + items_type + "...")
-    info_file = input(items_type + "s csv file: ")
+    info_file = raw_input(items_type + "s csv file: ")
     with open(info_file, 'r') as csvfile:
         csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"', fieldnames=file_fields)
         for row in csvreader:
@@ -261,15 +261,15 @@ def load(items_type, file_fields, cursor, def_cat=''):
 
     print(items_type + " inserted")
 
-if sys.version_info < (3, 0):
-    print("Python 3.0 or later required.")
-    sys.exit(1)
+# if sys.version_info < (3, 0):
+#     print("Python 3.0 or later required.")
+#     sys.exit(1)
 
 # Obtain data
-dbhost = input("Database host: ")
-dbuser = input("Database user: ")
-dbpassword = input("Database password: ")
-dbdatabase = input("Database: ")
+dbhost = raw_input("Database host: ")
+dbuser = raw_input("Database user: ")
+dbpassword = raw_input("Database password: ")
+dbdatabase = raw_input("Database: ")
 
 print("Connecting...")
 try:

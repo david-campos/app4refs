@@ -84,8 +84,8 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_educa','Education', 'link');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_refug','RefugeeInfo', 'link');
---INSERT INTO `categories`(`category_code`, `name`, `item_type`)
---	VALUES ('link_commu','Communities', 'link');
+INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+  VALUES ('link_commu','Communities', 'link');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('link_healt','Health', 'link');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
@@ -95,7 +95,7 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 -- INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 -- 	VALUES ('link_churc','Churches', 'link');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-VALUES ('link_banks','Banks', 'link');
+    VALUES ('link_banks','Banks', 'link');
 
 -- HELP
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `link`)
