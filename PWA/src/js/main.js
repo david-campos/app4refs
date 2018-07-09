@@ -1,3 +1,5 @@
+// Makes it easier for debug to have access to the app
+let glob_app = null;
 window.addEventListener('load', (event)=>{
-    new App();
+    glob_app = new App();
 });

@@ -11,12 +11,14 @@ class Page {
      * @param {Page} parentPage     - The parent page to go when pressing back
      * @param {string} title        - The title to display when we are in the page
      * @param {boolean} displayNav  - Display the navigation bar?
+     * @param {PageState} [state]     - If present, the other parameters will be ignored and taken from the state (except
+     * the parent page ).
      * @abstract
      */
-    constructor(parentPage, title, displayNav) {
+    constructor(parentPage, title, displayNav, state) {
         this.parentPage = parentPage;
-        this.title = title;
-        this.displayNav = displayNav;
+        this.title = state ? state.title : title;
+        this.displayNav = state ? state.displayNav : displayNav;
     };
 
     /**
@@ -50,4 +52,22 @@ class Page {
      * does nothing.
      */
     destroy() {}
+
+    /**
+     * Gets the state of the page to save. Should be overloaded
+     * by the classes extending this one.
+     * @return {PageState}
+     */
+    getState() {
+       return {
+           title: this.title,
+           displayNav: this.displayNav
+       };
+    }
 }
+/**
+ * PageState
+ * @typedef {Object} PageState
+ * @property {string} title
+ * @property {boolean} displayNav
+ */

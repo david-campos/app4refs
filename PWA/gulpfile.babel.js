@@ -35,6 +35,7 @@ var DEV_JS_SRC = [
     'CategoriesGridPage.js',
     'HomePage.js',
     'App.js',
+    'Router.js',
     'main.js',
     'service-worker-registration.js'
     ];

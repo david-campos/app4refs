@@ -24,7 +24,8 @@ class ApiService {
      */
     getCategories(itemType, callback) {
         this._callback = callback;
-        this._api.get(ApiService.buildCategoriesUrl(itemType), {}, this._categoriesSuccess);
+        let self = this;
+        this._api.get(ApiService.buildCategoriesUrl(itemType), {}, (...x)=>self._categoriesSuccess(...x));
     }
 
     /**

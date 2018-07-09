@@ -14,34 +14,42 @@ class GridPage extends Page {
      * @param {Page}          parentPage     - Parent page to go back when pressing "back"
      * @param {string}        title          - Title to show in the nav bar
      * @param {boolean}       displayNav     - Decides whether we should display the nav bar or not
+     * @param {GridPageState} [state] - The state to restore, if present the parameters in the state will replace
+     * the ones passed (the passed ones will be ignored).
      */
-    constructor(columns, icons, clickCallback, parentPage, title, displayNav) {
-        super(parentPage, title, displayNav);
+    constructor(columns, icons, clickCallback, parentPage, title, displayNav, state) {
+        super(parentPage, title, displayNav, state);
         /**
          * Number of columns for the display
          * @type {Number}
          */
-        this._columns = columns;
+        this._columns = state ? state.columns : columns;
         /**
          * Associative array of the icon urls where the key is an id for the icon (used on click callback)
          * @type {{string}}
          */
-        this._icons = icons;
+        this._icons = state ? state.icons : icons;
         /**
          * Callback to call when icons are clicked
          * @type {GridPage~ClickCallback}
          */
         this._clickCallback = clickCallback;
+        /**
+         * Main row of the grid (if created)
+         * @type {Element|null}
+         * @private
+         */
+        this._mainRow = null;
     }
 
     render(container) {
         // Creating the mainRow
-        let mainRow = document.createElement("div");
-        mainRow.setAttribute("class", "row");
+        this._mainRow = document.createElement("div");
+        this._mainRow.setAttribute("class", "row grid-page-main");
         // Create grid
-        container.appendChild(mainRow);
-        this._drawGridOfIcons(mainRow);
-        this._generateEventListeners(mainRow);
+        container.appendChild(this._mainRow);
+        this._drawGridOfIcons();
+        this._generateEventListeners();
     }
 
     /**
@@ -62,10 +70,11 @@ class GridPage extends Page {
 
     /**
      * Draws the grid of icons
-     * @param {Element} mainRow the main row to draw the grid in
      * @private
      */
-    _drawGridOfIcons(mainRow) {
+    _drawGridOfIcons() {
+        if(!this._mainRow) return;
+
         const rows = this._icons.length / this._columns;
         const colW = 12 / this._columns; // width is relative to 12 as it will be set with bootstrap grid
         const heightPerc = 100.0 / rows; // height is in percantage
@@ -75,17 +84,18 @@ class GridPage extends Page {
         for(let [id, icon] of Object.entries(this._icons)) {
             html += `<div class="col-${colW} btn" data-id="${id}" style="height: ${heightPerc}%; background-image: url(${icon});"></div>`;
         }
-        mainRow.innerHTML = html;
+        this._mainRow.innerHTML = html;
     }
 
     /**
      * With the icon grid generated, it associates the clickCallback to them
-     * @param {Element} mainRow the main row of the grid
      * @private
      */
-    _generateEventListeners(mainRow) {
+    _generateEventListeners() {
+        if(!this._mainRow) return;
+
         let self = this;
-        for(let iconDiv of mainRow.childNodes) {
+        for(let iconDiv of this._mainRow.childNodes) {
             iconDiv.addEventListener('click', (e)=>{this._onClick.call(self, e);});
         }
     }
@@ -99,9 +109,26 @@ class GridPage extends Page {
         let id = event.currentTarget.getAttribute("data-id");
         this._clickCallback(id);
     }
+
+    /**
+     * @inheritDoc
+     * @return {GridPageState}
+     */
+    getState() {
+        let state = super.getState();
+        state.columns = this._columns;
+        state.icons = this._icons;
+        return state;
+    }
 }
 
 /**
  * @callback GridPage~ClickCallback
  * @param {string} iconId - the id of the clicked icon
+ */
+/**
+ * GridPageState
+ * @typedef {PageState} GridPageState
+ * @property {int} columns
+ * @property {{string}} icons
  */

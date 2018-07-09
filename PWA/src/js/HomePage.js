@@ -37,11 +37,8 @@ class HomePage extends GridPage {
                 case 'info':
                 case 'service':
                 case 'link':
-                    app.navigateToPage(new CategoriesGridPage(app, this, TITLES[id], id));
-                    break;
                 case 'help':
-                    // help is special cause each category leads directly to the first item
-                    // without a intermediate list
+                    app.navigateToPage(new CategoriesGridPage(app, this, TITLES[id], id));
                     break;
                 case 'emergency':
                     // emergency page
@@ -49,5 +46,9 @@ class HomePage extends GridPage {
             }
         };
         super(2, icons, iconClicked, null, "App4Refs", false);
+    }
+
+    getState() {
+        return null; // No state for home screen
     }
 }

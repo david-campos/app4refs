@@ -58,10 +58,11 @@ class NavBar {
      * @private
      */
     _back() {
-        let parentPage = this.app.getCurrentPage().parentPage;
+        history.back();
+        /*let parentPage = this.app.getCurrentPage().parentPage;
         if(parentPage !== null) {
             this.app.navigateToPage(parentPage);
-        }
+        }*/
     }
 
     /**

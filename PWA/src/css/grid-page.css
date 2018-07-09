@@ -1,0 +1,13 @@
+.grid-page-main {
+    height: 100%;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.grid-page-main .btn {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    min-height: 16vh;
+}
