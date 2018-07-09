@@ -24,21 +24,42 @@
       <file leaf-file-name="app.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/app.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+            <state relative-caret-position="242">
+              <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Page.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/Page.js">
+      <file leaf-file-name="GridPage.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/GridPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="179">
+              <caret line="73" column="7" lean-forward="true" selection-start-line="73" selection-start-column="7" selection-end-line="73" selection-end-column="7" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list-page.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/css/list-page.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CategoriesGridPage.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/CategoriesGridPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="421">
+              <caret line="101" column="71" lean-forward="false" selection-start-line="101" selection-start-column="71" selection-end-line="101" selection-end-column="71" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,12 +84,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Router.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Router.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Router.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="531">
               <caret line="71" column="26" lean-forward="false" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListPage.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ListPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <marker date="1531164940653" expanded="true" signature="3956:3976" ph="..." />
+                <marker date="1531164940653" expanded="true" signature="4328:4361" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -83,26 +118,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GridPage.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/GridPage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="117" column="28" lean-forward="false" selection-start-line="117" selection-start-column="28" selection-end-line="117" selection-end-column="28" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -117,14 +139,11 @@
         <option value="$PROJECT_DIR$/js/generation-test.js" />
         <option value="$PROJECT_DIR$/css/nav.css" />
         <option value="$PROJECT_DIR$/js/ResourceProvider.js" />
-        <option value="$PROJECT_DIR$/js/ResourcesProvider.js" />
         <option value="$PROJECT_DIR$/js/utils.js" />
         <option value="$PROJECT_DIR$/js/ApiAjaxAdapter.js" />
         <option value="$PROJECT_DIR$/js/ApiService.js" />
         <option value="$PROJECT_DIR$/js/NavBar.js" />
         <option value="$PROJECT_DIR$/js/Page.js" />
-        <option value="$PROJECT_DIR$/js/CategoriesGridPage.js" />
-        <option value="$PROJECT_DIR$/js/GridPage.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/css/container.css" />
         <option value="$PROJECT_DIR$/css/grid-page.css" />
@@ -133,6 +152,11 @@
         <option value="$PROJECT_DIR$/js/App.js" />
         <option value="$PROJECT_DIR$/js/HomePage.js" />
         <option value="$PROJECT_DIR$/js/Router.js" />
+        <option value="$PROJECT_DIR$/js/GridPage.js" />
+        <option value="$PROJECT_DIR$/css/list-page.css" />
+        <option value="$PROJECT_DIR$/js/ResourcesProvider.js" />
+        <option value="$PROJECT_DIR$/js/CategoriesGridPage.js" />
+        <option value="$PROJECT_DIR$/js/ListPage.js" />
       </list>
     </option>
   </component>
@@ -143,7 +167,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -246,17 +270,18 @@
       <workItem from="1530730707135" duration="5094000" />
       <workItem from="1530802416169" duration="630000" />
       <workItem from="1530874440881" duration="4210000" />
-      <workItem from="1531134433702" duration="12322000" />
+      <workItem from="1531134433702" duration="18738000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43955000" />
+    <option name="totallyTimeSpent" value="50371000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14791666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29645094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -288,24 +313,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/Page.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="31" column="16" lean-forward="true" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -319,7 +326,7 @@
           <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
           </folding>
         </state>
       </provider>
@@ -375,7 +382,7 @@
           <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
           </folding>
         </state>
       </provider>
@@ -460,7 +467,7 @@
           <caret line="59" column="33" lean-forward="false" selection-start-line="59" selection-start-column="33" selection-end-line="59" selection-end-column="33" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
           </folding>
         </state>
       </provider>
@@ -497,7 +504,7 @@
           <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
           </folding>
         </state>
       </provider>
@@ -556,7 +563,7 @@
           <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
           </folding>
         </state>
       </provider>
@@ -572,14 +579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="303">
           <caret line="68" column="35" lean-forward="true" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ResourcesProvider.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="74" column="5" lean-forward="true" selection-start-line="74" selection-start-column="5" selection-end-line="74" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -604,33 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="619">
           <caret line="63" column="4" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="69" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/CategoriesGridPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="110" column="29" lean-forward="true" selection-start-line="110" selection-start-column="29" selection-end-line="110" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/GridPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="117" column="28" lean-forward="false" selection-start-line="117" selection-start-column="28" selection-end-line="117" selection-end-column="28" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <marker date="1531152374282" expanded="true" signature="3205:3260" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="54" lean-forward="false" selection-start-line="0" selection-start-column="54" selection-end-line="0" selection-end-column="54" />
           <folding />
         </state>
       </provider>
@@ -675,24 +647,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Page.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="531">
@@ -713,6 +667,79 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="531">
           <caret line="71" column="26" lean-forward="false" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="54" lean-forward="false" selection-start-line="0" selection-start-column="54" selection-end-line="0" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/GridPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="73" column="7" lean-forward="true" selection-start-line="73" selection-start-column="7" selection-end-line="73" selection-end-column="7" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1531158204831" expanded="true" signature="3205:3236" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Page.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ResourcesProvider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="98" column="5" lean-forward="true" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/CategoriesGridPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="101" column="71" lean-forward="false" selection-start-line="101" selection-start-column="71" selection-end-line="101" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ListPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1531164940653" expanded="true" signature="3956:3976" ph="..." />
+            <marker date="1531164940653" expanded="true" signature="4328:4361" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/list-page.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

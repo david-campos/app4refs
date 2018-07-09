@@ -99,7 +99,7 @@ class CategoriesGridPage extends GridPage {
                 // we need to set up a link or whatever in fact.
                 window.location.href = category.link;
             } else {
-                alert("Ahora se mostraria ListPage para: " + JSON.stringify(category));
+                this._app.navigateToPage(new ListPage(this, category));
             }
         }
     }

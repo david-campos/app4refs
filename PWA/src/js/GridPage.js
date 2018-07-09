@@ -82,7 +82,7 @@ class GridPage extends Page {
         // Draw all divs at once (it is more efficient)
         let html = '';
         for(let [id, icon] of Object.entries(this._icons)) {
-            html += `<div class="col-${colW} btn" data-id="${id}" style="height: ${heightPerc}%; background-image: url(${icon});"></div>`;
+            html += `<div class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></div>`;
         }
         this._mainRow.innerHTML = html;
     }
@@ -127,7 +127,7 @@ class GridPage extends Page {
  * @param {string} iconId - the id of the clicked icon
  */
 /**
- * GridPageState
+ * GridPageState is mean to save the state of a GridPage
  * @typedef {PageState} GridPageState
  * @property {int} columns
  * @property {{string}} icons
