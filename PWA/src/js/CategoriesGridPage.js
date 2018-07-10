@@ -2,7 +2,23 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+/**
+ * pageClass for the Router to know this is the page it should load
+ * @type {string}
+ */
 const CATEGORIES_GRID_PAGE_CLASS = "CategoriesGridPage";
+
+/**
+ * Titles for the page based on the item-type
+ * @type {{info: string, help: string, service: string, leisure: string, link: string}}
+ */
+const TITLES = {
+    'info': 'Info',
+    'help': 'Help',
+    'service': 'Services',
+    'leisure': 'Leisure',
+    'link': 'Links'
+};
 
 /**
  * Page which displays the categories associated to an item type in a grid layout.
@@ -12,22 +28,16 @@ const CATEGORIES_GRID_PAGE_CLASS = "CategoriesGridPage";
 class CategoriesGridPage extends GridPage {
     /**
      * @param {App} app - The app the page is running on
-     * @param {Page} home - Home page to go back
-     * @param {string} title - Title for the page
      * @param {string} itemType - Item-type of the categories we should display
      * @param {CategoriesGridPageState} [state] - Saved state to restore from
      */
-    constructor(app, home, title, itemType, state) {
-        let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache
+    constructor(app, itemType, state) {
+        let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache (in load)
 
         let icons = CategoriesGridPage._categoriesToIcons(categories);
         let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
 
-        super(columns, icons, null, home, title, true, state);
-
-        let self = this;
-
-        super.setClickCallback((...x)=>self._categoryClicked(...x));
+        super(columns, icons, null, new HomePage(app), TITLES[itemType], true, state);
 
         /**
          * The app the Page is running on
@@ -48,9 +58,19 @@ class CategoriesGridPage extends GridPage {
          * @private
          */
         this._itemType = itemType;
+    }
+
+    load(...loadingParams) {
+        // We move the AJAX call to load since we don't want this to be
+        // performed in the constructor. For example when a subpage creates
+        // this page as a parent, it might be not necessary to ever
+        // get to perform this action
+        let self = this;
+
+        super.setClickCallback((...x)=>self._categoryClicked(...x));
 
         let svc = new ApiService();
-        svc.getCategories(itemType, (...x)=>self._categoriesReceived(...x));
+        svc.getCategories(this._itemType, (...x)=>self._categoriesReceived(...x));
     }
 
     /**
@@ -99,7 +119,7 @@ class CategoriesGridPage extends GridPage {
                 // we need to set up a link or whatever in fact.
                 window.location.href = category.link;
             } else {
-                this._app.navigateToPage(new ListPage(this, category));
+                this._app.navigateToPage(new ListPage(this._app, this, category));
             }
         }
     }
@@ -124,7 +144,7 @@ class CategoriesGridPage extends GridPage {
         if(state.pageClass !== CATEGORIES_GRID_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${CATEGORIES_GRID_PAGE_CLASS}"`);
         }
-        return new CategoriesGridPage(app, new HomePage(app), state.title, state.itemType, state);
+        return new CategoriesGridPage(app, state.itemType, state);
     }
 }
 /**

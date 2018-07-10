@@ -116,7 +116,10 @@ class ResourcesProvider {
         let relUrl = item.iconUri;
         if(!relUrl || relUrl === "") {
             // If we have no iconUri, take the name in lowercase and replace spaces by nothing, adding .jpg
-            relUrl = item.name.toLowerCase().replace(" ", "") + ".jpg";
+            relUrl = item.name.toLowerCase();
+            while(/\(|\)|\s|\?|-|"/.test(relUrl))
+                relUrl = relUrl.replace(/\(|\)|\s|\?|-|"/, "");
+            relUrl +=  ".jpg";
         }
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_ITEM_ICONS_DIR}/${relUrl}`;
     }

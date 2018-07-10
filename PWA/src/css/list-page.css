@@ -1,0 +1,72 @@
+.item-row {
+    font-weight: bold;
+    margin-bottom: 3em;
+}
+
+.item-icon {
+    text-align: center;
+}
+
+.item-icon img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.item-row h3 {
+    margin: 0;
+}
+
+.item-addr {
+    margin: 0;
+    user-select: text;
+}
+
+.item-cost-lang {
+    margin: 0.5em 0;
+}
+
+.item-cost-lang img {
+    height: 1.5em;
+}
+
+.item-link {
+    color: #7C0D82;
+    text-decoration: none;
+}
+
+.item-link span {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% - 2em);
+}
+
+.item-link svg {
+    width: 1em;
+    position: relative;
+    bottom: 0.18em;
+}
+
+.item-periods {
+    margin: 0;
+}
+
+.item-map {
+    color: white;
+    text-transform: uppercase;
+    background-color: #7C0D82;
+    border: none;
+    width: 100%;
+    border-radius: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+.item-map svg {
+    height: 1em;
+    float: right;
+    margin-right: 0.5em;
+}

@@ -63,6 +63,9 @@ class ApiAjaxAdapter {
     _requestFinished(status, body) {
         if(status === 200) {
             this._onSuccess(body);
+        } else if(status === 204) {
+            // No content
+            this._onSuccess(null);
         } else {
             // TODO: API error management
             console.log("API error:", status, body);

@@ -44,8 +44,8 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_legal','Legal', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_embas','Embassies', 'service');
-INSERT INTO `categories`(`category_code`, `name`, `item_type`)
-	VALUES ('srvc_shops','Shops', 'service');
+-- INSERT INTO `categories`(`category_code`, `name`, `item_type`)
+-- 	VALUES ('srvc_shops','Shops', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)
 	VALUES ('srvc_lgbt_','LGBT', 'service');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`)

@@ -36,12 +36,38 @@ class ApiService {
     _categoriesSuccess(categories) {
         if(this._callback) {
             let sortedCategories = {};
-            for(let category of categories) {
-                if(category.code) {
-                    sortedCategories[category.code] = category;
+            if(categories) {
+                for (let category of categories) {
+                    if (category.code) {
+                        sortedCategories[category.code] = category;
+                    }
                 }
             }
             this._callback(sortedCategories);
+            this._callback = null;
+        }
+    }
+
+    /**
+     * Gets a list with all the items for the given category
+     * @param {string} categoryCode - The category code to get the items for
+     * @param {GetItemsCallback} callback - A callback to be called when we have the items
+     */
+    getItems(categoryCode, callback) {
+        this._callback = callback;
+        let self = this;
+        this._api.get(ApiService.buildItemsUrl(categoryCode), {}, (...x)=>self._itemsSuccess(...x));
+    }
+
+    /**
+     * Called when we obtain the items from the API successfully
+     * @param {[Item]} items
+     * @private
+     */
+    _itemsSuccess(items) {
+        if(this._callback) {
+            if(items === null) items = [];
+            this._callback(items);
             this._callback = null;
         }
     }
@@ -54,11 +80,24 @@ class ApiService {
         itemType = encodeURIComponent(itemType);
         return `item-types/${itemType}/categories/`;
     }
+
+    /**
+     * Builds the url to get the items for the given category
+     * @param categoryCode - The code of the category to get the items for
+     */
+    static buildItemsUrl(categoryCode) {
+        categoryCode = encodeURIComponent(categoryCode);
+        return `categories/${categoryCode}/items/`;
+    }
 }
 
 /**
  * @callback GetCategoriesCallback
  * @param {{Category}} categories - The categories received, using as key the codes.
+ */
+/**
+ * @callback GetItemsCallback
+ * @param {Item[]} items - The received items
  */
 /**
  * Categories interface

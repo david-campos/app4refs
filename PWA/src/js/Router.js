@@ -45,6 +45,9 @@ class Router {
                 case CATEGORIES_GRID_PAGE_CLASS:
                     page = CategoriesGridPage.fromState(this._app, event.state);
                     break;
+                case LIST_PAGE_CLASS:
+                    page = ListPage.fromState(this._app, event.state);
+                    break;
                 default:
                     page = new HomePage(this._app);
                     break;

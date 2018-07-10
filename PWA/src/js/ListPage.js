@@ -2,25 +2,45 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+const LIST_PAGE_CLASS = "ListPage";
+
+const LINK_ICON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"external-link-alt\" class=\"svg-inline--fa fa-external-link-alt fa-w-18\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z\"></path></svg>";
+const MAP_BUTTON_HTML = "<button class=\"item-map\">Map <svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marker-alt\" class=\"svg-inline--fa fa-map-marker-alt fa-w-12\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><path fill=\"currentColor\" d=\"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z\"></path></svg></button>";
+
 /**
  * ListPage is a page with a list kind of layout. It displays an array of items
  * with several properties: an icon, name, adress, whether is is free or not, languages, link, schedules, map button
  */
 class ListPage extends Page {
     /**
-     * @param {Page}          parentPage - Parent page to go back when pressing "back"
-     * @param {ListPageState} [state]    - The state to restore, if present the parameters in the state will replace
+     * @param {App} app                 - The app we are running
+     * @param {Page} parentPage         - Parent page to go back when pressing "back"
+     * @param {Category} category       - The category to list the items in it
+     * @param {ListPageState} [state]   - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(parentPage, category, state) {
+    constructor(app, parentPage, category, state) {
+        if(!parentPage) {
+            parentPage = new CategoriesGridPage(app, category.itemType);
+        }
+
         super(parentPage, category.name, true, state);
 
-        // To test
+        this._app = app;
+
+        this._category = state ? state.category : category;
+
         /**
          * @type {Item[]}
          * @private
          */
-        this._items = [{"itemId":88,"name":"National Bank of Greece","address":"3rd September str. 75, Athens 104 34","webLink":"https://www.nbg.gr/en/branches-atms","placeId":null,"iconUri":"","isFree":0,"coordLat":"37.991829","coordLon":"23.729901","phone":null,"callForAppointment":0,"categoryCode":"link_banks","languageCodes":["el","en"],"openingHours":[{"periodId":333,"startDay":"mon","startHour":8,"startMinutes":0,"endDay":"mon","endHour":14,"endMinutes":30},{"periodId":334,"startDay":"tue","startHour":8,"startMinutes":0,"endDay":"tue","endHour":14,"endMinutes":30},{"periodId":335,"startDay":"wed","startHour":8,"startMinutes":0,"endDay":"wed","endHour":14,"endMinutes":30},{"periodId":336,"startDay":"thu","startHour":8,"startMinutes":0,"endDay":"thu","endHour":14,"endMinutes":30},{"periodId":337,"startDay":"fri","startHour":8,"startMinutes":0,"endDay":"fri","endHour":14,"endMinutes":0}]},{"itemId":89,"name":"Peiraios Bank","address":"28th of October str. 70, Athens 104 34","webLink":"http://www.piraeusbank.gr/en/idiwtes/kanalia-eksypiretisis/diktio-eksipiretisis","placeId":null,"iconUri":"","isFree":0,"coordLat":"37.990514","coordLon":"23.731084","phone":null,"callForAppointment":0,"categoryCode":"link_banks","languageCodes":["el","en"],"openingHours":[{"periodId":338,"startDay":"mon","startHour":8,"startMinutes":0,"endDay":"mon","endHour":14,"endMinutes":30},{"periodId":339,"startDay":"tue","startHour":8,"startMinutes":0,"endDay":"tue","endHour":14,"endMinutes":30},{"periodId":340,"startDay":"wed","startHour":8,"startMinutes":0,"endDay":"wed","endHour":14,"endMinutes":30},{"periodId":341,"startDay":"thu","startHour":8,"startMinutes":0,"endDay":"thu","endHour":14,"endMinutes":30},{"periodId":342,"startDay":"fri","startHour":8,"startMinutes":0,"endDay":"fri","endHour":14,"endMinutes":0}]},{"itemId":90,"name":"Alpha Bank","address":"28th of October str. 172, Athens 112 52","webLink":"https://secure.alpha.gr/AlphaLookUp/Search.aspx?LookUpID=4","placeId":null,"iconUri":"","isFree":0,"coordLat":"38.002069","coordLon":"23.733997","phone":null,"callForAppointment":0,"categoryCode":"link_banks","languageCodes":["el","en"],"openingHours":[{"periodId":343,"startDay":"mon","startHour":8,"startMinutes":0,"endDay":"mon","endHour":14,"endMinutes":30},{"periodId":344,"startDay":"tue","startHour":8,"startMinutes":0,"endDay":"tue","endHour":14,"endMinutes":30},{"periodId":345,"startDay":"wed","startHour":8,"startMinutes":0,"endDay":"wed","endHour":14,"endMinutes":30},{"periodId":346,"startDay":"thu","startHour":8,"startMinutes":0,"endDay":"thu","endHour":14,"endMinutes":30},{"periodId":347,"startDay":"fri","startHour":8,"startMinutes":0,"endDay":"fri","endHour":14,"endMinutes":0}]}];
+        this._items = state ? state.items : []; // TODO: load from cache ( on load function )
+    }
+
+    load(...loadingParams) {
+        let self = this;
+        let svc = new ApiService();
+        svc.getItems(this._category.code, (...x)=>self._itemsReceived(...x));
     }
 
     render(container) {
@@ -33,16 +53,28 @@ class ListPage extends Page {
             let textString = `<h3>${item.name}</h3>`;
             textString += `<p class="item-addr">${item.address}</p>`;
             textString += `<div class="item-cost-lang">${costAndLang}</div>`;
-            if(item.weblink) {
-                textString += `<a class="item-link" href="${item.weblink}">${item.weblink}</a>`;
+            if(item.webLink) {
+                textString += `<a class="item-link" href="${item.webLink}"><span>${item.webLink}</span> ${LINK_ICON_SVG}</a>`;
             }
             textString += `<p class="item-periods">${periods}</p>`;
-            textString += `<button class="item-map">Map</button>`;
+            textString += MAP_BUTTON_HTML;
 
-            htmlString += `<div class='row'><div class="col-4" style="background-image: url(${iconUrl})"></div>`+
+            htmlString += `<div class='row item-row'><div class="col-4 item-icon"><img src="${iconUrl}"></div>`+
                 `<div class="col-8">${textString}</div></div>`;
         }
         container.innerHTML = htmlString;
+    }
+
+    /**
+     * Callback to be called when we receive the items from the AJAX call
+     * @param {Item[]} items
+     * @private
+     */
+    _itemsReceived(items) {
+        this._items = items;
+        this._app.updateCurrentSavedState();
+        this._app.clearContainer();
+        this.render(this._app.getContainer());
     }
 
     _periodsStrFor(item) {
@@ -54,16 +86,38 @@ class ListPage extends Page {
         let iconB = ResourcesProvider.getLanguageIconUrl('el');
         return `<img src='${iconA}'><img src='${iconB}'>`;
     }
+
+    getState() {
+        let state = super.getState();
+        state.items = this._items;
+        state.pageClass = LIST_PAGE_CLASS;
+        state.category = this._category;
+        return state;
+    }
+
+    /**
+     * @param {App} app
+     * @param {ListPageState} state
+     */
+    static fromState(app, state) {
+        if(state.pageClass !== LIST_PAGE_CLASS) {
+            throw new Error( `The passed state has not pageClass="${LIST_PAGE_CLASS}"`);
+        }
+        return new ListPage(app, null, state.category, state);
+    }
 }
 /**
  * @typedef {PageState} ListPageState
+ * @property {Item[]} items
+ * @property {Category} category
+ * @property {string} pageClass
  */
 /**
  * @typedef {Object} Item
  * @property {int} itemId
  * @property {string} name
  * @property {string} address
- * @property {string} [weblink]
+ * @property {string} [webLink]
  * @property {string} [placeId]
  * @property {string} iconUri
  * @property {boolean} isFree
