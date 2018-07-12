@@ -37,14 +37,7 @@ class CategoriesGridPage extends GridPage {
         let icons = CategoriesGridPage._categoriesToIcons(categories);
         let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
 
-        super(columns, icons, null, new HomePage(app), TITLES[itemType], true, state);
-
-        /**
-         * The app the Page is running on
-         * @type {App}
-         * @private
-         */
-        this._app = app;
+        super(app, columns, icons, null, new HomePage(app), TITLES[itemType], true, state);
 
         /**
          * The categories we are displaying
@@ -80,12 +73,17 @@ class CategoriesGridPage extends GridPage {
      * @private
      */
     _categoriesReceived(categories) {
+        // If the page is hidden we ignore this
+        if(!this.isVisible()) {
+            return;
+        }
+
         this._categories = categories;
         let icons = CategoriesGridPage._categoriesToIcons(this._categories);
         super.changeIcons(icons);
-        this._app.updateCurrentSavedState();
-        this._app.clearContainer();
-        super.render(this._app.getContainer());
+        this.app.updateCurrentSavedState();
+        this.app.clearContainer();
+        super.render(this.app.getContainer());
     }
 
     /**
@@ -119,7 +117,7 @@ class CategoriesGridPage extends GridPage {
                 // we need to set up a link or whatever in fact.
                 window.location.href = category.link;
             } else {
-                this._app.navigateToPage(new ListPage(this._app, this, category));
+                this.app.navigateToPage(new ListPage(this.app, this, category));
             }
         }
     }

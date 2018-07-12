@@ -26,6 +26,7 @@ var DEV_JS_DIR = path.join(DEV_DIR, JS_DIR);
 var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
 var DEV_JS_SRC = [
     'utils.js',
+    'Period.js',
     'NavBar.js',
     'ResourcesProvider.js',
     'Page.js',

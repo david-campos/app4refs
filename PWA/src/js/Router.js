@@ -8,7 +8,7 @@
  */
 class Router {
     constructor(app) {
-        this._app = app;
+        this.app = app;
         if(history.state) {
             this.onStatePopping({state: history.state});
         } else {
@@ -43,18 +43,18 @@ class Router {
             let page;
             switch(event.state.pageClass) {
                 case CATEGORIES_GRID_PAGE_CLASS:
-                    page = CategoriesGridPage.fromState(this._app, event.state);
+                    page = CategoriesGridPage.fromState(this.app, event.state);
                     break;
                 case LIST_PAGE_CLASS:
-                    page = ListPage.fromState(this._app, event.state);
+                    page = ListPage.fromState(this.app, event.state);
                     break;
                 default:
-                    page = new HomePage(this._app);
+                    page = new HomePage(this.app);
                     break;
             }
-            this._app.loadAndRenderPage(page);
+            this.app.loadAndRenderPage(page);
         } else {
-            this._app.loadAndRenderPage(new HomePage(this._app));
+            this.app.loadAndRenderPage(new HomePage(this.app));
         }
     }
 
@@ -76,10 +76,10 @@ class Router {
         if(urlHash) {
             console.log("URL HASH (NOT IMPLEMENTED)", urlHash);
             // While we don't implement it, we go to home page
-            this._app.loadAndRenderPage(new HomePage(this._app));
+            this.app.loadAndRenderPage(new HomePage(this.app));
         } else {
             // When null or "" we go to the home page
-            this._app.loadAndRenderPage(new HomePage(this._app));
+            this.app.loadAndRenderPage(new HomePage(this.app));
         }
     }
 }

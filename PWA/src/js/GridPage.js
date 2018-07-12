@@ -8,6 +8,7 @@
  */
 class GridPage extends Page {
     /**
+     * @param {App} app
      * @param {int}           columns        - Number of columns in the display
      * @param {{string}}      icons          - Associative array with an id for each icon and the route to the icon
      * @param {GridPage~ClickCallback} clickCallback  - Callback for item clicking
@@ -17,8 +18,8 @@ class GridPage extends Page {
      * @param {GridPageState} [state] - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(columns, icons, clickCallback, parentPage, title, displayNav, state) {
-        super(parentPage, title, displayNav, state);
+    constructor(app, columns, icons, clickCallback, parentPage, title, displayNav, state) {
+        super(app, parentPage, title, displayNav, state);
         /**
          * Number of columns for the display
          * @type {Number}
@@ -43,6 +44,8 @@ class GridPage extends Page {
     }
 
     render(container) {
+        super.render(container);
+
         // Creating the mainRow
         this._mainRow = document.createElement("div");
         this._mainRow.setAttribute("class", "row grid-page-main");
@@ -50,6 +53,11 @@ class GridPage extends Page {
         container.appendChild(this._mainRow);
         this._drawGridOfIcons();
         this._generateEventListeners();
+    }
+
+    resize(width, height) {
+        super.resize(width, height);
+        this._changeIconsHeight(this.getPageHeight());
     }
 
     /**
@@ -75,9 +83,11 @@ class GridPage extends Page {
     _drawGridOfIcons() {
         if(!this._mainRow) return;
 
-        const rows = this._icons.length / this._columns;
         const colW = 12 / this._columns; // width is relative to 12 as it will be set with bootstrap grid
-        const heightPerc = 100.0 / rows; // height is in percantage
+
+        if(colW !== Math.round(colW)) {
+            throw new Error("Unable to draw grid, number of columns is not a divisor of 12");
+        }
 
         // Draw all divs at once (it is more efficient)
         let html = '';
@@ -85,6 +95,7 @@ class GridPage extends Page {
             html += `<div class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></div>`;
         }
         this._mainRow.innerHTML = html;
+        this._changeIconsHeight(this.getPageHeight());
     }
 
     /**
@@ -97,6 +108,27 @@ class GridPage extends Page {
         let self = this;
         for(let iconDiv of this._mainRow.childNodes) {
             iconDiv.addEventListener('click', (e)=>{this._onClick.call(self, e);});
+        }
+    }
+
+    /**
+     * Changes the icons height to make them occupy the total height
+     * @param {Number} totalHeight
+     * @private
+     */
+    _changeIconsHeight(totalHeight) {
+        if(!this._mainRow) return;
+
+        // Android shows and hides the navbar as we scroll, we want the grid
+        // to adapt to this. Luckily, it throws a resize event.
+        // The rest of browsers won't do this, so we let them do it
+        // from CSS as it is faster and has less battery consumption
+        if( /Android/i.test(navigator.userAgent) ) {
+            let heightPerDiv = this._columns * totalHeight / this._mainRow.childNodes.length;
+
+            for (let iconDiv of this._mainRow.childNodes) {
+                iconDiv.style.height = heightPerDiv + "px";
+            }
         }
     }
 

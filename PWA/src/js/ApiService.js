@@ -15,17 +15,40 @@ class ApiService {
     constructor() {
         this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
         this._callback = null;
+        // We use only one currentId saved cause our _api can handle only one at a time (cancels the previous)
+        this._currentId = -1;
+    }
+
+    /**
+     * Cancels the given request if it haven't finished yet
+     * @param {int} requestId - The request id received when started the request
+     */
+    cancelIfAlive(requestId) {
+        if(requestId === this._currentId) {
+            this._api.abort();
+        }
+    }
+
+    /**
+     * Generates the next request id
+     * @private
+     */
+    _nextRequestId() {
+        this._currentId += 1;
+        return this._currentId;
     }
 
     /**
      * Gets a list with all the category ids associated with the given item type
      * @param {string} itemType - Item type to search categories for
      * @param {GetCategoriesCallback} callback - Function to be called when we have the categories
+     * @return {int} The id for this request (used to cancel)
      */
     getCategories(itemType, callback) {
         this._callback = callback;
         let self = this;
         this._api.get(ApiService.buildCategoriesUrl(itemType), {}, (...x)=>self._categoriesSuccess(...x));
+        return this._nextRequestId();
     }
 
     /**
@@ -52,22 +75,33 @@ class ApiService {
      * Gets a list with all the items for the given category
      * @param {string} categoryCode - The category code to get the items for
      * @param {GetItemsCallback} callback - A callback to be called when we have the items
+     * @return {int} The id for this request (used to cancel)
      */
     getItems(categoryCode, callback) {
         this._callback = callback;
         let self = this;
         this._api.get(ApiService.buildItemsUrl(categoryCode), {}, (...x)=>self._itemsSuccess(...x));
+        return this._nextRequestId();
     }
 
     /**
      * Called when we obtain the items from the API successfully
-     * @param {[Item]} items
+     * @param {[Object]} items
      * @private
      */
     _itemsSuccess(items) {
         if(this._callback) {
             if(items === null) items = [];
-            this._callback(items);
+            let realItems = [];
+            for(let item of items) {
+                let periods = item.openingHours;
+                item.openingHours = [];
+                for(let period of periods) {
+                    item.openingHours.push(new Period(period));
+                }
+                realItems.push(item);
+            }
+            this._callback(realItems);
             this._callback = null;
         }
     }

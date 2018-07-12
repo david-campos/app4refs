@@ -24,9 +24,7 @@ class ListPage extends Page {
             parentPage = new CategoriesGridPage(app, category.itemType);
         }
 
-        super(parentPage, category.name, true, state);
-
-        this._app = app;
+        super(app, parentPage, category.name, true, state);
 
         this._category = state ? state.category : category;
 
@@ -44,6 +42,8 @@ class ListPage extends Page {
     }
 
     render(container) {
+        super.render(container);
+
         let htmlString = "";
         for(let item of this._items) {
             let iconUrl = ResourcesProvider.getItemIconUrl(item);
@@ -71,20 +71,68 @@ class ListPage extends Page {
      * @private
      */
     _itemsReceived(items) {
+        // If the page is hidden we ignore this
+        if(!this.isVisible()) {
+            return;
+        }
+
         this._items = items;
-        this._app.updateCurrentSavedState();
-        this._app.clearContainer();
-        this.render(this._app.getContainer());
+        this.app.updateCurrentSavedState();
+        this.app.clearContainer();
+        this.render(this.app.getContainer());
     }
 
     _periodsStrFor(item) {
-        return "Monday-Friday 9am-8pm";
+        // We will group periods with the same schedule
+        let startedSchedules = this._groupPeriodsWithSameSchedule(item.openingHours);
+        // Now we will print one line per schedule
+        let htmlStr = "";
+        for(let schedule of startedSchedules) {
+            let startDay = schedule.startPeriod.startDayStr();
+            let endDay = schedule.endDay;
+            let days = startDay !== endDay ? `${startDay}-${endDay}` : startDay;
+            let startHour = schedule.startPeriod.startHourStr();
+            let endHour = schedule.startPeriod.endHourStr();
+            htmlStr += `${days} ${startHour}-${endHour}<br>`;
+        }
+        return htmlStr;
+    }
+
+    /**
+     * Groups all the periods with the same schedule
+     * @param {[Period]} periods - A list of periods, it is expected to be chronologically ordered
+     * @return {{startPeriod: Period, endDay: string}[]}
+     * @private
+     */
+    _groupPeriodsWithSameSchedule(periods) {
+        /**
+         * @type {{startPeriod: Period, endDay: string}[]}
+         */
+        let startedSchedules = [];
+        for(let period of periods) {
+            let found = false;
+            for(let schedule of startedSchedules) {
+                if(period.hasSameHoursAs(schedule.startPeriod)) {
+                    schedule.endDay = period.endDayStr();
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                startedSchedules.push({startPeriod: period, endDay: period.endDayStr()});
+            }
+        }
+        return startedSchedules;
     }
 
     _costAndLangHtmlFor(item) {
-        let iconA = ResourcesProvider.getCostIconUrl('free');
-        let iconB = ResourcesProvider.getLanguageIconUrl('el');
-        return `<img src='${iconA}'><img src='${iconB}'>`;
+        let iconPayment = ResourcesProvider.getCostIconUrl(item.isFree?'free':'pay');
+        let strHtml = `<img src='${iconPayment}'>`;
+        for(let lang of item.languageCodes) {
+            let langIcon = ResourcesProvider.getLanguageIconUrl(lang);
+            strHtml += `<img src='${langIcon}'>`;
+        }
+        return strHtml;
     }
 
     getState() {
@@ -127,6 +175,6 @@ class ListPage extends Page {
  * @property {boolean} callForAppointment
  * @property {string} categoryCode
  * @property {[string]} languageCodes
- * @property openingHours
+ * @property {[Period]} openingHours
  *
  */

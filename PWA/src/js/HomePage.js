@@ -35,7 +35,7 @@ class HomePage extends GridPage {
             }
         };
 
-        super(2, icons, iconClicked, null, "App4Refs", false);
+        super(app, 2, icons, iconClicked, null, "App4Refs", false);
     }
 
     getState() {

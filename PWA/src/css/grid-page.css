@@ -10,4 +10,6 @@
     background-position: center;
     cursor: pointer;
     min-height: 16vh;
+    -webkit-transition: width 500ms, height 500ms; /* Safari */
+    transition: width 500ms, height 500ms;
 }

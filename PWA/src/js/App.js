@@ -33,6 +33,7 @@ class App {
         this._router = new Router(this);
 
         window.onpopstate = (...x)=>this._router.onStatePopping(...x);
+        window.addEventListener('resize', (e)=>this._currentPage.resize(innerWidth, innerHeight));
     }
 
     /**
@@ -72,6 +73,13 @@ class App {
             return;
         }
 
+        // Hide the previous page
+        if(this._currentPage) {
+            this._currentPage.onHide();
+        }
+
+        this._currentPage = page;
+
         page.load(...loadParams);
         if(page.displayNav) {
             this._nav.setTitle(page.title);
@@ -81,7 +89,6 @@ class App {
         }
         this.clearContainer();
         page.render(this._container);
-        this._currentPage = page;
     }
 
     /**
@@ -90,6 +97,14 @@ class App {
      */
     getContainer() {
         return this._container;
+    }
+
+    /**
+     * Gets the nav of the application
+     * @return {NavBar}
+     */
+    getNav() {
+        return this._nav;
     }
 
     /**

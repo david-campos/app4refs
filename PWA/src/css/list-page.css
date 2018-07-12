@@ -39,13 +39,13 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: calc(100% - 2em);
+    max-width: calc(100% - 2em);
 }
 
 .item-link svg {
     width: 1em;
     position: relative;
-    bottom: 0.18em;
+    bottom: 0.2em;
 }
 
 .item-periods {
