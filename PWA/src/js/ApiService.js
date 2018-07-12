@@ -92,16 +92,7 @@ class ApiService {
     _itemsSuccess(items) {
         if(this._callback) {
             if(items === null) items = [];
-            let realItems = [];
-            for(let item of items) {
-                let periods = item.openingHours;
-                item.openingHours = [];
-                for(let period of periods) {
-                    item.openingHours.push(new Period(period));
-                }
-                realItems.push(item);
-            }
-            this._callback(realItems);
+            this._callback(items.map((itemObj)=>new Item(itemObj)));
             this._callback = null;
         }
     }

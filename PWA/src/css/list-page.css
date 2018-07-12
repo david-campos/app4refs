@@ -52,21 +52,31 @@
     margin: 0;
 }
 
-.item-map {
+.item-map, #all-items-map {
     color: white;
     text-transform: uppercase;
     background-color: #7C0D82;
     border: none;
-    width: 100%;
+    font-weight: bold;
+    margin-top: 0.5em;
+    cursor: pointer;
+}
+
+.item-map {
     border-radius: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
-    font-weight: bold;
-    margin-top: 0.5em;
+    width: 17em;
 }
 
 .item-map svg {
     height: 1em;
     float: right;
     margin-right: 0.5em;
+}
+
+#all-items-map {
+    padding: 1em 0;
+    border-radius: 2em;
+    width: 100%;
 }

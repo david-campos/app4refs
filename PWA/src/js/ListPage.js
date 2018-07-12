@@ -5,7 +5,8 @@
 const LIST_PAGE_CLASS = "ListPage";
 
 const LINK_ICON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"external-link-alt\" class=\"svg-inline--fa fa-external-link-alt fa-w-18\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z\"></path></svg>";
-const MAP_BUTTON_HTML = "<button class=\"item-map\">Map <svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marker-alt\" class=\"svg-inline--fa fa-map-marker-alt fa-w-12\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><path fill=\"currentColor\" d=\"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z\"></path></svg></button>";
+const MAP_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marker-alt\" class=\"svg-inline--fa fa-map-marker-alt fa-w-12\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><path fill=\"currentColor\" d=\"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z\"></path></svg>";
+const MAP_BUTTON_HTML = `<button class="item-map">Map ${MAP_BUTTON_SVG}</button>`;
 
 /**
  * ListPage is a page with a list kind of layout. It displays an array of items
@@ -32,7 +33,9 @@ class ListPage extends Page {
          * @type {Item[]}
          * @private
          */
-        this._items = state ? state.items : []; // TODO: load from cache ( on load function )
+        this._items = state ?
+            state.items.map((itemObj)=>new Item(itemObj)):
+            []; // TODO: load from cache ( on load function )
     }
 
     load(...loadingParams) {
@@ -47,8 +50,8 @@ class ListPage extends Page {
         let htmlString = "";
         for(let item of this._items) {
             let iconUrl = ResourcesProvider.getItemIconUrl(item);
-            let periods = this._periodsStrFor(item);
-            let costAndLang = this._costAndLangHtmlFor(item);
+            let periods = ListPage._periodsStrFor(item);
+            let costAndLang = ListPage._costAndLangHtmlFor(item);
 
             let textString = `<h3>${item.name}</h3>`;
             textString += `<p class="item-addr">${item.address}</p>`;
@@ -61,6 +64,10 @@ class ListPage extends Page {
 
             htmlString += `<div class='row item-row'><div class="col-4 item-icon"><img src="${iconUrl}"></div>`+
                 `<div class="col-8">${textString}</div></div>`;
+        }
+        if(this._items.length > 0) {
+            // Open-map-with-all-of-them button
+            htmlString += `<div class="row"><button id="all-items-map">Map for all items</button></div>`;
         }
         container.innerHTML = htmlString;
     }
@@ -75,16 +82,15 @@ class ListPage extends Page {
         if(!this.isVisible()) {
             return;
         }
-
         this._items = items;
         this.app.updateCurrentSavedState();
         this.app.clearContainer();
         this.render(this.app.getContainer());
     }
 
-    _periodsStrFor(item) {
+    static _periodsStrFor(item) {
         // We will group periods with the same schedule
-        let startedSchedules = this._groupPeriodsWithSameSchedule(item.openingHours);
+        let startedSchedules = ListPage._groupPeriodsWithSameSchedule(item.openingHours);
         // Now we will print one line per schedule
         let htmlStr = "";
         for(let schedule of startedSchedules) {
@@ -104,7 +110,7 @@ class ListPage extends Page {
      * @return {{startPeriod: Period, endDay: string}[]}
      * @private
      */
-    _groupPeriodsWithSameSchedule(periods) {
+    static _groupPeriodsWithSameSchedule(periods) {
         /**
          * @type {{startPeriod: Period, endDay: string}[]}
          */
@@ -125,7 +131,7 @@ class ListPage extends Page {
         return startedSchedules;
     }
 
-    _costAndLangHtmlFor(item) {
+    static _costAndLangHtmlFor(item) {
         let iconPayment = ResourcesProvider.getCostIconUrl(item.isFree?'free':'pay');
         let strHtml = `<img src='${iconPayment}'>`;
         for(let lang of item.languageCodes) {
@@ -137,7 +143,10 @@ class ListPage extends Page {
 
     getState() {
         let state = super.getState();
-        state.items = this._items;
+        state.items = [];
+        for(let item of this._items) {
+            state.items.push(item.toObject());
+        }
         state.pageClass = LIST_PAGE_CLASS;
         state.category = this._category;
         return state;
@@ -156,25 +165,7 @@ class ListPage extends Page {
 }
 /**
  * @typedef {PageState} ListPageState
- * @property {Item[]} items
+ * @property {ItemObject[]} items
  * @property {Category} category
  * @property {string} pageClass
- */
-/**
- * @typedef {Object} Item
- * @property {int} itemId
- * @property {string} name
- * @property {string} address
- * @property {string} [webLink]
- * @property {string} [placeId]
- * @property {string} iconUri
- * @property {boolean} isFree
- * @property {number} coordLat
- * @property {number} coordLon
- * @property {string|null} phone
- * @property {boolean} callForAppointment
- * @property {string} categoryCode
- * @property {[string]} languageCodes
- * @property {[Period]} openingHours
- *
  */

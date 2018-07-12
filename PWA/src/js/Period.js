@@ -2,7 +2,6 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
-
 const PERIOD_DAYS = ["mon", "tue", "wed", "thu", "fri","sat","sun"];
 const PERIOD_DAYS_STRS = {
     "mon": "Monday",
@@ -33,13 +32,50 @@ class Period {
      * @param {PeriodObject} object - The period as it comes from the API
      */
     constructor(object) {
+        /**
+         * @type {int}
+         */
         this.periodId = object.periodId;
+        /**
+         * @type {string}
+         */
         this.startDay = object.startDay;
+        /**
+         * @type {int}
+         */
         this.startHour = object.startHour;
+        /**
+         * @type {int}
+         */
         this.startMinutes = object.startMinutes;
+        /**
+         * @type {string}
+         */
         this.endDay = object.endDay;
+        /**
+         * @type {int}
+         */
         this.endHour = object.endHour;
+        /**
+         * @type {int}
+         */
         this.endMinutes = object.endMinutes;
+    }
+
+    /**
+     * Returns a representation of the period to save in the state
+     * @returns {PeriodObject}
+     */
+    toObject() {
+        return {
+            periodId: this.periodId,
+            startDay: this.startDay,
+            startHour: this.startHour,
+            startMinutes: this.startMinutes,
+            endDay: this.endDay,
+            endHour: this.endHour,
+            endMinutes: this.endMinutes
+        };
     }
 
     /**
