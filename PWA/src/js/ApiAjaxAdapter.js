@@ -16,6 +16,13 @@ class ApiAjaxAdapter {
     }
 
     /**
+     * Aborts the ongoing XHTTP request
+     */
+    abort() {
+        this._xhttp.abort();
+    }
+
+    /**
      * Performs a GET query to the API into the specified relative URL
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
@@ -30,7 +37,7 @@ class ApiAjaxAdapter {
         if(this._onSuccess !== null) {
             // Ongoing callback not finished, discard
             // (maybe in the future add handle for several requests at the same time)
-            this._xhttp.abort();
+            this.abort();
         }
 
         this._onSuccess = onSuccess;
@@ -63,6 +70,9 @@ class ApiAjaxAdapter {
     _requestFinished(status, body) {
         if(status === 200) {
             this._onSuccess(body);
+        } else if(status === 204) {
+            // No content
+            this._onSuccess(null);
         } else {
             // TODO: API error management
             console.log("API error:", status, body);

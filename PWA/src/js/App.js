@@ -25,8 +25,15 @@ class App {
          * @private
          */
         this._container = document.getElementById("app-container");
+        /**
+         * The router to direct inside the page navigation
+         * @type {Router}
+         * @private
+         */
+        this._router = new Router(this);
 
-        this.navigateToPage(new HomePage(this));
+        window.onpopstate = (...x)=>this._router.onStatePopping(...x);
+        window.addEventListener('resize', (e)=>this._currentPage.resize(innerWidth, innerHeight));
     }
 
     /**
@@ -43,6 +50,36 @@ class App {
      * @param loadParams other params for the page loading
      */
     navigateToPage(page, ...loadParams) {
+        this.loadAndRenderPage(page, ...loadParams);
+        this._router.saveState(this._currentPage);
+    }
+
+    /**
+     * Updates the saved state for the current page in the browser history
+     */
+    updateCurrentSavedState() {
+        this._router.replaceState(this._currentPage);
+    }
+
+    /**
+     * Loads and renders the given page. The difference with navigateToPage
+     * is that this one does not save the state in the history.
+     * @param {Page} page
+     * @param loadParams other params for the page loading
+     */
+    loadAndRenderPage(page, ...loadParams) {
+        if(!page) {
+            console.log("Error in loadAndRenderPage, no page.");
+            return;
+        }
+
+        // Hide the previous page
+        if(this._currentPage) {
+            this._currentPage.onHide();
+        }
+
+        this._currentPage = page;
+
         page.load(...loadParams);
         if(page.displayNav) {
             this._nav.setTitle(page.title);
@@ -52,7 +89,6 @@ class App {
         }
         this.clearContainer();
         page.render(this._container);
-        this._currentPage = page;
     }
 
     /**
@@ -61,6 +97,14 @@ class App {
      */
     getContainer() {
         return this._container;
+    }
+
+    /**
+     * Gets the nav of the application
+     * @return {NavBar}
+     */
+    getNav() {
+        return this._nav;
     }
 
     /**

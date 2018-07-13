@@ -8,40 +8,56 @@
  */
 class GridPage extends Page {
     /**
+     * @param {App} app
      * @param {int}           columns        - Number of columns in the display
      * @param {{string}}      icons          - Associative array with an id for each icon and the route to the icon
      * @param {GridPage~ClickCallback} clickCallback  - Callback for item clicking
      * @param {Page}          parentPage     - Parent page to go back when pressing "back"
      * @param {string}        title          - Title to show in the nav bar
      * @param {boolean}       displayNav     - Decides whether we should display the nav bar or not
+     * @param {GridPageState} [state] - The state to restore, if present the parameters in the state will replace
+     * the ones passed (the passed ones will be ignored).
      */
-    constructor(columns, icons, clickCallback, parentPage, title, displayNav) {
-        super(parentPage, title, displayNav);
+    constructor(app, columns, icons, clickCallback, parentPage, title, displayNav, state) {
+        super(app, parentPage, title, displayNav, state);
         /**
          * Number of columns for the display
          * @type {Number}
          */
-        this._columns = columns;
+        this._columns = state ? state.columns : columns;
         /**
          * Associative array of the icon urls where the key is an id for the icon (used on click callback)
          * @type {{string}}
          */
-        this._icons = icons;
+        this._icons = state ? state.icons : icons;
         /**
          * Callback to call when icons are clicked
          * @type {GridPage~ClickCallback}
          */
         this._clickCallback = clickCallback;
+        /**
+         * Main row of the grid (if created)
+         * @type {Element|null}
+         * @private
+         */
+        this._mainRow = null;
     }
 
     render(container) {
+        super.render(container);
+
         // Creating the mainRow
-        let mainRow = document.createElement("div");
-        mainRow.setAttribute("class", "row");
+        this._mainRow = document.createElement("div");
+        this._mainRow.setAttribute("class", "row grid-page-main");
         // Create grid
-        container.appendChild(mainRow);
-        this._drawGridOfIcons(mainRow);
-        this._generateEventListeners(mainRow);
+        container.appendChild(this._mainRow);
+        this._drawGridOfIcons();
+        this._generateEventListeners();
+    }
+
+    resize(width, height) {
+        super.resize(width, height);
+        this._changeIconsHeight(this.getPageHeight());
     }
 
     /**
@@ -53,32 +69,66 @@ class GridPage extends Page {
     }
 
     /**
+     * Changes the callback to be called when an icon is clicked.
+     * @param {GridPage~ClickCallback} clickcallback - The new callback to be called
+     */
+    setClickCallback(clickcallback) {
+        this._clickCallback = clickcallback;
+    }
+
+    /**
      * Draws the grid of icons
-     * @param {Element} mainRow the main row to draw the grid in
      * @private
      */
-    _drawGridOfIcons(mainRow) {
-        const rows = this._icons.length / this._columns;
+    _drawGridOfIcons() {
+        if(!this._mainRow) return;
+
         const colW = 12 / this._columns; // width is relative to 12 as it will be set with bootstrap grid
-        const heightPerc = 100.0 / rows; // height is in percantage
+
+        if(colW !== Math.round(colW)) {
+            throw new Error("Unable to draw grid, number of columns is not a divisor of 12");
+        }
 
         // Draw all divs at once (it is more efficient)
         let html = '';
         for(let [id, icon] of Object.entries(this._icons)) {
-            html += `<div class="col-${colW} btn" data-id="${id}" style="height: ${heightPerc}%; background-image: url(${icon});"></div>`;
+            html += `<div class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></div>`;
         }
-        mainRow.innerHTML = html;
+        this._mainRow.innerHTML = html;
+        this._changeIconsHeight(this.getPageHeight());
     }
 
     /**
      * With the icon grid generated, it associates the clickCallback to them
-     * @param {Element} mainRow the main row of the grid
      * @private
      */
-    _generateEventListeners(mainRow) {
+    _generateEventListeners() {
+        if(!this._mainRow) return;
+
         let self = this;
-        for(let iconDiv of mainRow.childNodes) {
+        for(let iconDiv of this._mainRow.childNodes) {
             iconDiv.addEventListener('click', (e)=>{this._onClick.call(self, e);});
+        }
+    }
+
+    /**
+     * Changes the icons height to make them occupy the total height
+     * @param {Number} totalHeight
+     * @private
+     */
+    _changeIconsHeight(totalHeight) {
+        if(!this._mainRow) return;
+
+        // Android shows and hides the navbar as we scroll, we want the grid
+        // to adapt to this. Luckily, it throws a resize event.
+        // The rest of browsers won't do this, so we let them do it
+        // from CSS as it is faster and has less battery consumption
+        if( /Android/i.test(navigator.userAgent) ) {
+            let heightPerDiv = this._columns * totalHeight / this._mainRow.childNodes.length;
+
+            for (let iconDiv of this._mainRow.childNodes) {
+                iconDiv.style.height = heightPerDiv + "px";
+            }
         }
     }
 
@@ -91,9 +141,26 @@ class GridPage extends Page {
         let id = event.currentTarget.getAttribute("data-id");
         this._clickCallback(id);
     }
+
+    /**
+     * @inheritDoc
+     * @return {GridPageState}
+     */
+    getState() {
+        let state = super.getState();
+        state.columns = this._columns;
+        state.icons = this._icons;
+        return state;
+    }
 }
 
 /**
  * @callback GridPage~ClickCallback
  * @param {string} iconId - the id of the clicked icon
+ */
+/**
+ * GridPageState is mean to save the state of a GridPage
+ * @typedef {PageState} GridPageState
+ * @property {int} columns
+ * @property {{string}} icons
  */

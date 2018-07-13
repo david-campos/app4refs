@@ -23,6 +23,13 @@ const RP_MAIN_MENU_DIR = "mainmenu";
  * @type {string}
  */
 const RP_COST_AND_LANG_DIR = "costandlanguage";
+
+/**
+ * Directory to find, inside RP_ICONS_DIR, the icons for the items
+ * @type {string}
+ */
+const RP_ITEM_ICONS_DIR = "items";
+
 /**
  * Folder where the categories icons are saved (each one in its item-type folder)
  * @type {string}
@@ -84,6 +91,40 @@ class ResourcesProvider {
     }
 
     /**
+     * Gets the url of the icon for the given cost
+     * @param {string} cost - 'free' or 'pay'
+     */
+    static getCostIconUrl(cost) {
+        return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${cost}.${RP_ICON_IMG_EXTENSION}`;
+    }
+
+    /**
+     * Gets the url of the icon for the given language
+     * @param {string} language - The language
+     */
+    static getLanguageIconUrl(language) {
+        return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${language}.${RP_ICON_IMG_EXTENSION}`;
+    }
+
+
+    /**
+     * Gets the url for the icon of the item.
+     * @param {Item} item - The item
+     * @return {string}
+     */
+    static getItemIconUrl(item) {
+        let relUrl = item.iconUri;
+        if(!relUrl || relUrl === "") {
+            // If we have no iconUri, take the name in lowercase and replace spaces by nothing, adding .jpg
+            relUrl = item.name.toLowerCase();
+            while(/\(|\)|\s|\?|-|"/.test(relUrl))
+                relUrl = relUrl.replace(/\(|\)|\s|\?|-|"/, "");
+            relUrl +=  ".jpg";
+        }
+        return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_ITEM_ICONS_DIR}/${relUrl}`;
+    }
+
+    /**
      * Clears the BaseUrl so it is ok to use
      * @param {string} url
      * @return {string}
@@ -95,9 +136,6 @@ class ResourcesProvider {
         if(url === "")
             return "";
 
-        while(url.startsWith("/")) {
-            url = url.substring(1);
-        }
         while(url.endsWith("/")) {
             url = url.substring(0, url.length - 1);
         }

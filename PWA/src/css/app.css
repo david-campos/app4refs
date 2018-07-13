@@ -3,6 +3,7 @@ body {
     overflow: hidden;
     background: linear-gradient(white, #c0cbe0);
     font-family: sans-serif;
+    user-select: none;
 }
 
 /* nav and container-fluid should sum up to 100vh */

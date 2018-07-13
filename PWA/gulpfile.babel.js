@@ -26,6 +26,8 @@ var DEV_JS_DIR = path.join(DEV_DIR, JS_DIR);
 var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
 var DEV_JS_SRC = [
     'utils.js',
+    'Item.js',
+    'Period.js',
     'NavBar.js',
     'ResourcesProvider.js',
     'Page.js',
@@ -33,8 +35,10 @@ var DEV_JS_SRC = [
     'ApiAjaxAdapter.js',
     'GridPage.js',
     'CategoriesGridPage.js',
+    'ListPage.js',
     'HomePage.js',
     'App.js',
+    'Router.js',
     'main.js',
     'service-worker-registration.js'
     ];
