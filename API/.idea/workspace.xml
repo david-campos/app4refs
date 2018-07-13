@@ -11,49 +11,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MysqliItemsGateway.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
+      <file leaf-file-name="ItemParsingTransaction.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="259" column="49" lean-forward="true" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
-              <folding>
-                <marker date="1531501046732" expanded="true" signature="2724:2778" ph="SELECT lang_... item_languages" />
-                <marker date="1531501046732" expanded="true" signature="5716:5774" ph="SELECT categ... categories" />
-                <marker date="1531501046732" expanded="true" signature="7322:7501" ph="INSERT INTO items... " />
-                <marker date="1531501046732" expanded="true" signature="8839:8897" ph="INSERT INTO item_languages... " />
-                <marker date="1531501046732" expanded="true" signature="10319:10519" ph="UPDATE items... " />
-                <marker date="1531501046732" expanded="true" signature="11703:11745" ph="DELETE FROM " />
-                <marker date="1531501046732" expanded="true" signature="12533:12574" ph="DELETE FROM " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MysqliItemsGatewayTest.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="192" column="40" lean-forward="false" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
-              <folding>
-                <marker date="1531501218465" expanded="true" signature="817:871" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="904:962" ph="SELECT categ... categories" />
-                <marker date="1531501218465" expanded="true" signature="2466:2520" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="2557:2615" ph="SELECT categ... categories" />
-                <marker date="1531501218465" expanded="true" signature="3212:3266" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="4336:4390" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="5099:5153" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="5190:5369" ph="INSERT INTO items... " />
-                <marker date="1531501218465" expanded="true" signature="5395:5453" ph="INSERT INTO item_languages... " />
-                <marker date="1531501218465" expanded="true" signature="6811:6865" ph="SELECT lang_... item_languages" />
-                <marker date="1531501218465" expanded="true" signature="7195:7236" ph="DELETE FROM " />
-                <marker date="1531501218465" expanded="true" signature="7860:7901" ph="DELETE FROM " />
-                <marker date="1531501218465" expanded="true" signature="8381:8597" ph="UPDATE items... " />
-                <marker date="1531501218465" expanded="true" signature="8625:8667" ph="DELETE FROM " />
-                <marker date="1531501218465" expanded="true" signature="8693:8751" ph="INSERT INTO item_languages... " />
-                <marker date="1531501218465" expanded="true" signature="9326:9534" ph="UPDATE items... " />
-                <marker date="1531501218465" expanded="true" signature="9558:9600" ph="DELETE FROM " />
-                <marker date="1531501218465" expanded="true" signature="9622:9680" ph="INSERT INTO item_languages... " />
-              </folding>
+            <state relative-caret-position="-85">
+              <caret line="185" column="50" lean-forward="false" selection-start-line="185" selection-start-column="50" selection-end-line="185" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -118,12 +81,12 @@
         <option value="$PROJECT_DIR$/class/Item.php" />
         <option value="$PROJECT_DIR$/unitaryTests/ItemTest.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliCategoriesGatewayTest.php" />
-        <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
         <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/IItemsGateway.php" />
         <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
+        <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
       </list>
     </option>
   </component>
@@ -173,6 +136,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -204,8 +169,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -305,6 +268,7 @@
       <workItem from="1530730594228" duration="111000" />
       <workItem from="1530804214804" duration="1653000" />
       <workItem from="1531497773043" duration="3462000" />
+      <workItem from="1531503680960" duration="204000" />
     </task>
     <servers />
   </component>
@@ -341,7 +305,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137989000" />
+    <option name="totallyTimeSpent" value="138193000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -569,7 +533,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="734">
           <caret line="45" column="9" lean-forward="false" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -584,7 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,9 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="531">
           <caret line="82" column="45" lean-forward="false" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
-          <folding>
-            <element signature="e#93#136#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,7 +568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="14" lean-forward="true" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -617,7 +575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -625,7 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
           <caret line="28" column="24" lean-forward="true" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -732,14 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="74" column="31" lean-forward="false" selection-start-line="74" selection-start-column="31" selection-end-line="74" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -764,26 +712,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="259" column="49" lean-forward="true" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
-          <folding>
-            <marker date="1531501046732" expanded="true" signature="2724:2778" ph="SELECT lang_... item_languages" />
-            <marker date="1531501046732" expanded="true" signature="5716:5774" ph="SELECT categ... categories" />
-            <marker date="1531501046732" expanded="true" signature="7322:7501" ph="INSERT INTO items... " />
-            <marker date="1531501046732" expanded="true" signature="8839:8897" ph="INSERT INTO item_languages... " />
-            <marker date="1531501046732" expanded="true" signature="10319:10519" ph="UPDATE items... " />
-            <marker date="1531501046732" expanded="true" signature="11703:11745" ph="DELETE FROM " />
-            <marker date="1531501046732" expanded="true" signature="12533:12574" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="192" column="40" lean-forward="false" selection-start-line="192" selection-start-column="40" selection-end-line="192" selection-end-column="40" />
+        <state relative-caret-position="495">
+          <caret line="188" column="32" lean-forward="true" selection-start-line="188" selection-start-column="32" selection-end-line="188" selection-end-column="32" />
           <folding>
             <marker date="1531501218465" expanded="true" signature="817:871" ph="SELECT lang_... item_languages" />
             <marker date="1531501218465" expanded="true" signature="904:962" ph="SELECT categ... categories" />
@@ -804,6 +736,30 @@
             <marker date="1531501218465" expanded="true" signature="9558:9600" ph="DELETE FROM " />
             <marker date="1531501218465" expanded="true" signature="9622:9680" ph="INSERT INTO item_languages... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="259" column="49" lean-forward="false" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
+          <folding>
+            <marker date="1531501046732" expanded="true" signature="2724:2778" ph="SELECT lang_... item_languages" />
+            <marker date="1531501046732" expanded="true" signature="5716:5774" ph="SELECT categ... categories" />
+            <marker date="1531501046732" expanded="true" signature="7322:7501" ph="INSERT INTO items... " />
+            <marker date="1531501046732" expanded="true" signature="8839:8897" ph="INSERT INTO item_languages... " />
+            <marker date="1531501046732" expanded="true" signature="10319:10519" ph="UPDATE items... " />
+            <marker date="1531501046732" expanded="true" signature="11703:11745" ph="DELETE FROM " />
+            <marker date="1531501046732" expanded="true" signature="12533:12574" ph="DELETE FROM " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="185" column="50" lean-forward="false" selection-start-line="185" selection-start-column="50" selection-end-line="185" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -101,7 +101,7 @@ abstract class ItemParsingTransaction extends Transaction {
             $usedKeys[] = $key;
         }
         // Check all values have been set
-        if(count($usedKeys) < 13) {
+        if(count($usedKeys) < 14) {
             throw $this->paramNotFoundInItem($usedKeys);
         }
 
@@ -161,6 +161,7 @@ abstract class ItemParsingTransaction extends Transaction {
     private function checkNulls() {
         $notNullOnes = [
             \IApiInterface::ITEM_NAME => $this->name,
+            \IApiInterface::ITEM_ORDER_PREFERENCE => $this->order,
             \IApiInterface::ITEM_ADDR => $this->address,
             \IApiInterface::ITEM_ICON => $this->iconUri,
             \IApiInterface::ITEM_IS_FREE => $this->isFree,
@@ -182,6 +183,7 @@ abstract class ItemParsingTransaction extends Transaction {
     private function paramNotFoundInItem($foundOnes) {
         $itemKeys = [
             \IApiInterface::ITEM_NAME,
+            \IApiInterface::ITEM_ORDER_PREFERENCE,
             \IApiInterface::ITEM_ADDR,
             \IApiInterface::ITEM_LINK,
             \IApiInterface::ITEM_PLACE,
