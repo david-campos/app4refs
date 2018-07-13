@@ -6,7 +6,6 @@ const LIST_PAGE_CLASS = "ListPage";
 
 const LINK_ICON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"external-link-alt\" class=\"svg-inline--fa fa-external-link-alt fa-w-18\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z\"></path></svg>";
 const MAP_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marker-alt\" class=\"svg-inline--fa fa-map-marker-alt fa-w-12\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><path fill=\"currentColor\" d=\"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z\"></path></svg>";
-const MAP_BUTTON_HTML = `<button class="item-map">Map ${MAP_BUTTON_SVG}</button>`;
 
 /**
  * ListPage is a page with a list kind of layout. It displays an array of items
@@ -60,16 +59,66 @@ class ListPage extends Page {
                 textString += `<a class="item-link" href="${item.webLink}"><span>${item.webLink}</span> ${LINK_ICON_SVG}</a>`;
             }
             textString += `<p class="item-periods">${periods}</p>`;
-            textString += MAP_BUTTON_HTML;
+
+            if(this.shouldShowMapButton()) {
+                textString += `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`;
+            }
 
             htmlString += `<div class='row item-row'><div class="col-4 item-icon"><img src="${iconUrl}"></div>`+
                 `<div class="col-8">${textString}</div></div>`;
         }
-        if(this._items.length > 0) {
+        if(this.shouldShowMapButton() && this._items.length > 0) {
             // Open-map-with-all-of-them button
-            htmlString += `<div class="row"><button id="all-items-map">Map for all items</button></div>`;
+            htmlString += `<div class="row"><button id="all-items-map" class="map-button">Map for all items</button></div>`;
         }
         container.innerHTML = htmlString;
+
+        if(this.shouldShowMapButton()) {
+            this._createMapButtonsCallback(container);
+        }
+    }
+
+    /**
+     * Creates the map buttons callback for the passed div map buttons
+     * @param {Element} div - The div to search the map buttons in
+     * @private
+     */
+    _createMapButtonsCallback(div) {
+        let callback = (event)=>this._mapsButtonClicked(event);
+        let btns = div.getElementsByTagName("button");
+        for(let element of btns) {
+            if(element.classList.contains("map-button")) {
+                element.addEventListener('click', callback);
+            }
+        }
+    }
+
+    /**
+     * Should be called whenever a button map of the list is clicked
+     * @param {MouseEvent} event - The click event
+     * @private
+     */
+    _mapsButtonClicked(event) {
+        let item = null;
+        let title = this.title;
+        let itemId = event.currentTarget.getAttribute("data-item");
+        if(itemId) {
+            itemId = parseInt(itemId);
+            // Search the item
+            for(let itemToCheck of this._items) {
+                if(itemToCheck.itemId === itemId) {
+                    item = itemToCheck;
+                    title = itemToCheck.name;
+                    break;
+                }
+            }
+        } else {
+            // If no data-item attribute is set, we show all the items
+            item = this._items;
+        }
+        if(item) {
+            this.app.navigateToPage(new MapPage(this.app, title, item, this));
+        }
     }
 
     /**
@@ -139,6 +188,14 @@ class ListPage extends Page {
             strHtml += `<img src='${langIcon}'>`;
         }
         return strHtml;
+    }
+
+    /**
+     * Returns whether the map buttons should be displayed in this page
+     * @return {boolean} true if they should be displayed, false if not.
+     */
+    shouldShowMapButton() {
+        return this._category.itemType !== 'link';
     }
 
     getState() {

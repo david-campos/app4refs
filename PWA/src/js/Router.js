@@ -48,6 +48,9 @@ class Router {
                 case LIST_PAGE_CLASS:
                     page = ListPage.fromState(this.app, event.state);
                     break;
+                case MAP_PAGE_CLASS:
+                    page = MapPage.fromState(this.app, event.state);
+                    break;
                 default:
                     page = new HomePage(this.app);
                     break;

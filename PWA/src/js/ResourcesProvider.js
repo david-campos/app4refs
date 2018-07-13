@@ -49,6 +49,10 @@ const RP_MAIN_MENU_ICONS = {
     'emergency': 'emergency'
 };
 
+const MAPS_API_URL = "https://maps.googleapis.com/maps/api/js";
+const MAPS_API_KEY = "AIzaSyCxqSnpE46I8g-m4pQBkx4yC3R3X6s75BQ"; // Just a testing api key for the alpha
+const INIT_MAP_FUNCTION_NAME = 'initMap';
+
 let glob_rp_base_url = null;
 
 /**
@@ -122,6 +126,11 @@ class ResourcesProvider {
             relUrl +=  ".jpg";
         }
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_ITEM_ICONS_DIR}/${relUrl}`;
+    }
+
+    static getMapsApiUrl() {
+        // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
+        return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}`;
     }
 
     /**
