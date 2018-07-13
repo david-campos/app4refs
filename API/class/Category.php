@@ -12,6 +12,8 @@ class Category {
     private $itemType;
     /** @var string|null */
     private $link;
+    /** @var integer */
+    private $pos;
 
     /**
      * Category constructor.
@@ -19,12 +21,14 @@ class Category {
      * @param string $name
      * @param ItemType $itemType
      * @param null|string $link
+     * @param int $pos
      */
-    public function __construct($code, $name, ItemType $itemType, $link) {
+    public function __construct($code, $name, ItemType $itemType, $link, $pos) {
         $this->code = $code;
         $this->name = $name;
         $this->itemType = $itemType;
         $this->link = $link;
+        $this->pos = $pos;
     }
 
     /**
@@ -34,6 +38,7 @@ class Category {
     public function toMap() {
         return [
             IApiInterface::CATEGORY_CODE => $this->code,
+            IApiInterface::CATEGORY_POSITION => $this->pos,
             IApiInterface::CATEGORY_NAME => $this->name,
             IApiInterface::CATEGORY_ITEM_TYPE => $this->itemType->val(),
             IApiInterface::CATEGORY_LINK => $this->link
@@ -80,6 +85,20 @@ class Category {
      */
     public function setLink($link) {
         $this->link = $link;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPos(): int {
+        return $this->pos;
+    }
+
+    /**
+     * @param int $pos
+     */
+    public function setPos(int $pos) {
+        $this->pos = $pos;
     }
 
     /**

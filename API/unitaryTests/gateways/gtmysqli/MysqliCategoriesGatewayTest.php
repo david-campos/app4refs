@@ -7,101 +7,13 @@ require_once(dirname(__FILE__).'/../../testing_config.php');
 use gateways\gtmysqli\MysqliCategoriesGateway;
 
 class MysqliCategoriesGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase  {
-
-    /**
-     * Test we can obtain the category name successfully.
-     */
-    public function testGetCategoryNameSuccessful() {
-        $name = 'a_name';
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name` FROM categories WHERE category_code=? LIMIT 1'=>[[$name]]],
-            true, true
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $testName = $gateway->getCategoryName("category");
-        $this->assertEquals($name, $testName);
-    }
-
-    /**
-     * Test that we receive a DatabaseInternalException when we can't execute the query for get category name
-     * @expectedException exceptions\DatabaseInternalException
-     */
-    public function testGetCategoryNameThrowsExceptionOnExecuteFail() {
-        $name = 'a_name';
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name` FROM categories WHERE category_code=? LIMIT 1'=>[[$name]]],
-            false, // << NOTICE ME!
-            true
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $gateway->getCategoryName("category");
-    }
-
-    /**
-     * Test that we receive a DatabaseCategoryNotFoundException when we can't fetch (no rows)
-     * @expectedException exceptions\DatabaseCategoryNotFoundException
-     */
-    public function testGetCategoryNameThrowsExceptionOnFetchFail() {
-        $name = 'a_name';
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `name` FROM categories WHERE category_code=? LIMIT 1'=>[[$name]]],
-            true,
-            false // << NOTICE ME!
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $gateway->getCategoryName("category");
-    }
-
-    /**
-     * Test we can obtain the category item type successfully.
-     */
-    public function testGetCategoryItemTypeSuccessful() {
-        $type = 'leisure';
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `item_type` FROM categories WHERE category_code=? LIMIT 1'=>[[$type]]],
-            true, true
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $testItemType = $gateway->getCategoryItemType('category');
-        $this->assertEquals(ItemType::FOR_STR($type), $testItemType);
-    }
-
-    /**
-     * Test that we receive a DatabaseInternalException when we can't execute the query for get category item type
-     * @expectedException exceptions\DatabaseInternalException
-     */
-    public function testGetCategoryItemTypeThrowsExceptionOnExecuteFail() {
-        $type = 'leisure';
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `item_type` FROM categories WHERE category_code=? LIMIT 1'=>[[$type]]],
-            false, // << NOTICE ME!
-            true
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $gateway->getCategoryItemType("category");
-    }
-
-    /**
-     * Test that we receive a DatabaseCategoryNotFoundException when we can't fetch (no rows)
-     * @expectedException exceptions\DatabaseCategoryNotFoundException
-     */
-    public function testGetCategoryItemTypeThrowsExceptionOnFetchFail() {
-        $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT `item_type` FROM categories WHERE category_code=? LIMIT 1'=>[['leisure']]],
-            true,
-            false // << NOTICE ME!
-        );
-        $gateway = new MysqliCategoriesGateway($mysqliMock);
-        $gateway->getCategoryItemType("category");
-    }
-
     /**
      * Test that we receive a DatabaseInternalException when we can't execute the query for get category item type
      * @expectedException exceptions\DatabaseInternalException
      */
     public function testGetCategoriesForItemTypeThrowsExceptionOnExecuteFail() {
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT category_code FROM categories WHERE item_type=?'=>[['a_code']]],
+            ['SELECT category_code,`name`,item_type,link,`position` FROM categories WHERE item_type=? ORDER BY `position`'=>[['a_code']]],
             false, // << NOTICE ME!
             true
         );
@@ -113,14 +25,20 @@ class MysqliCategoriesGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBa
      * Test that we can get the categories for a given item type successfully
      */
     public function testGetCategoriesForItemTypeSuccesful() {
-        $codes = ['code1','code2','code3'];
-        $results = array_map(function($val){return [$val];}, $codes);
+        $results = [
+            ['code1','Code1Category','link',null,1],
+            ['code2','Code2Category','help','https://ihavealink.com/',2],
+            ['code3','Code3Category','leisure',null,3]];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT category_code FROM categories WHERE item_type=?'=>$results],
+            ['SELECT category_code,`name`,item_type,link,`position` FROM categories WHERE item_type=? ORDER BY `position`'=>$results],
             true, true
         );
         $gateway = new MysqliCategoriesGateway($mysqliMock);
         $testResult = $gateway->getCategoriesForItemType(ItemType::INFO());
-        $this->assertEquals($codes, $testResult);
+        $expectedResult = [];
+        foreach($results as $expected) {
+            $expectedResult[] = new Category($expected[0], $expected[1], \ItemType::FOR_STR($expected[2]), $expected[3], $expected[4]);
+        }
+        $this->assertEquals($expectedResult, $testResult);
     }
 }

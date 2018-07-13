@@ -15,6 +15,9 @@
 	`item_type`     ENUM(
 		'service', 'leisure', 'link', 'help', 'info')
 		NOT NULL,
+    `position`      INT(2) UNSIGNED NOT NULL,
+    
+    INDEX `cat_position_idx` (`position`), -- To speed up ordering
     
 	PRIMARY KEY (`category_code`)
  )
@@ -46,12 +49,17 @@ CREATE TABLE IF NOT EXISTS `items` (
 	`coord_lon` DECIMAL(9, 6), -- NULLABLE
     `phone`    VARCHAR(100), -- NULLABLE
     `call_for_appointment` TINYINT(1) NOT NULL,
+    `order_preference` ENUM('first', 'second', 'third', 'rest') NOT NULL DEFAULT 'rest',
 	
 	`category_code` CHAR(10) NOT NULL,
     
 	FOREIGN KEY (`category_code`) REFERENCES `categories`(`category_code`)
 		ON UPDATE CASCADE
 		ON DELETE RESTRICT,
+    
+    INDEX `item_order_idx` (`order_preference`), -- To speed up ordering
+        
+    CHECK (NOT (`call_for_appointment` AND `phone` IS NULL)),
 	
 	PRIMARY KEY(`item_id`)
 )
@@ -143,20 +151,4 @@ BEGIN
 	CALL check_minutes(new.start_minutes);
 	CALL check_minutes(new.start_minutes);
 END$$
-CREATE TRIGGER IF NOT EXISTS `call_for_appointment_require_phone_on_insert` BEFORE INSERT ON `items`
-FOR EACH ROW
-BEGIN
-    IF new.call_for_appointment AND new.phone IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '"Call for appointment" to true requires a phone number different from null';
-    END IF;
-END$$ 
-CREATE TRIGGER IF NOT EXISTS `call_for_appointment_require_phone_on_update` BEFORE UPDATE ON `items`
-FOR EACH ROW
-BEGIN
-    IF new.call_for_appointment AND new.phone IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = '"Call for appointment" to true requires a phone number different from null';
-    END IF;
-END$$ 
 DELIMITER ;

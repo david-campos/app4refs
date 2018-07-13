@@ -17,8 +17,10 @@ class MysqliItemsGateway implements IItemsGateway {
     /** @var \mysqli */
     private $mysqli;
 
-    const ITEM_SELECT = 'SELECT `item_id`,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,'.
+    const ITEM_SELECT = 'SELECT `item_id`,order_preference,`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,'.
         'call_for_appointment,category_code FROM items ';
+
+    const ITEM_ORDER_BY = 'ORDER BY order_preference ASC, is_free DESC ';
 
     /**
      * MysqliItemsGateway constructor.
@@ -36,9 +38,9 @@ class MysqliItemsGateway implements IItemsGateway {
      * @throws DatabaseItemNotFoundException if the item couldn't be found
      */
     function findItem($itemId): Item {
-        $name = $addr = $web = $pl = $ico = $fr = $lat = $lon = $phone = $callForApp = $cat = $lgCodes = $item = null;
+        $name = $order = $addr = $web = $pl = $ico = $fr = $lat = $lon = $phone = $callForApp = $cat = $lgCodes = $item = null;
         $stmt = $this->mysqli->prepare(
-            self::ITEM_SELECT . 'WHERE item_id=? LIMIT 1');
+            self::ITEM_SELECT . 'WHERE item_id=? ' . self::ITEM_ORDER_BY . 'LIMIT 1');
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
@@ -47,7 +49,7 @@ class MysqliItemsGateway implements IItemsGateway {
             if (!$stmt->execute()) {
                 throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
             }
-            $stmt->bind_result($resId,$name,$addr,$web,$pl,$ico,$fr,$lat,$lon,$phone,$callForApp,$cat);
+            $stmt->bind_result($resId,$order,$name,$addr,$web,$pl,$ico,$fr,$lat,$lon,$phone,$callForApp,$cat);
             if(!$stmt->fetch()) {
                 throw new DatabaseItemNotFoundException(IApiOutputter::HTTP_NOT_FOUND, "The item with id '$itemId' couldn't be found on the database.");
             }
@@ -55,7 +57,7 @@ class MysqliItemsGateway implements IItemsGateway {
             $stmt->close();
         }
         $lgCodes = $this->getLangCodes([$itemId])[0];
-        return new Item($itemId, $name, $addr, $web, $pl, $ico, $fr, $lat, $lon, $phone, $callForApp, $cat, $lgCodes, $this);
+        return new Item($itemId, $name, $addr, $web, $pl, $ico, $fr, $lat, $lon, $phone, $callForApp, $cat, $lgCodes, $order, $this);
     }
 
     /**
@@ -103,7 +105,7 @@ class MysqliItemsGateway implements IItemsGateway {
         $this->checkCategoryExists($categoryCode);
 
         $stmt = $this->mysqli->prepare(
-            self::ITEM_SELECT . 'WHERE category_code=?');
+            self::ITEM_SELECT . 'WHERE category_code=? ' . self::ITEM_ORDER_BY);
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
@@ -112,9 +114,9 @@ class MysqliItemsGateway implements IItemsGateway {
             if (!$stmt->execute()) {
                 throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
             }
-            $stmt->bind_result($id,$name,$addr,$web,$pl,$ico,$fr,$lat,$lon,$phone,$callForApp,$categoryRet);
+            $stmt->bind_result($id,$order,$name,$addr,$web,$pl,$ico,$fr,$lat,$lon,$phone,$callForApp,$categoryRet);
             while($stmt->fetch()) {
-                $itemsData[] = [$id, $name, $addr, $web, $pl, $ico, $fr, $lat, $lon, $phone, $callForApp, $categoryCode];
+                $itemsData[] = [$id, $name, $addr, $web, $pl, $ico, $fr, $lat, $lon, $phone, $callForApp, $categoryCode, $order];
                 $itemIds[] = $id;
             }
         } finally {
@@ -131,7 +133,7 @@ class MysqliItemsGateway implements IItemsGateway {
         $items = [];
         foreach($itemsData as $it) {
             $items[] = new Item($it[0], $it[1], $it[2], $it[3], $it[4], $it[5], $it[6], $it[7],
-                $it[8], $it[9], $it[10], $it[11], $it[12], $this);
+                $it[8], $it[9], $it[10], $it[11], $it[13], $it[12], $this);
         }
 
         return $items;
@@ -167,6 +169,7 @@ class MysqliItemsGateway implements IItemsGateway {
      * Creates a new item in the database and returns the
      * created item
      * @param string $name
+     * @param string $order
      * @param string $address
      * @param string $webLink
      * @param string $placeId
@@ -182,16 +185,16 @@ class MysqliItemsGateway implements IItemsGateway {
      * @throws DatabaseInternalException
      * @throws InvalidValueInBodyException
      */
-    function newItem($name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
+    function newItem($name, $order, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
                      $phone, $callForApp, $categoryCode, $languageCodes): Item {
         $itemId = -1;
         $stmt = $this->mysqli->prepare(
-            'INSERT INTO items(`name`,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+            'INSERT INTO items(`name`,order_preference,address,web_link,place_id,icon_uri,is_free,coord_lat,coord_lon,phone,call_for_appointment,category_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
         try {
-            $stmt->bind_param('sssssisssis', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
+            $stmt->bind_param('ssssssisssis', $name, $order, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
                 $coordLon, $phone, $callForApp, $categoryCode);
             if (!$stmt->execute()) {
                 // Check for trigger of call for appointment
@@ -243,6 +246,7 @@ class MysqliItemsGateway implements IItemsGateway {
         // We need the attributes in local variables
         $itemId = $item->getItemId();
         $name = $item->getName();
+        $order = $item->getOrder();
         $address = $item->getAddress();
         $webLink = $item->getWebLink();
         $placeId = $item->getPlaceId();
@@ -256,13 +260,13 @@ class MysqliItemsGateway implements IItemsGateway {
         $categoryCode = $item->getCategoryCode();
 
         $stmt = $this->mysqli->prepare(
-            'UPDATE items SET `name`=?,address=?,web_link=?,place_id=?,'.
+            'UPDATE items SET `name`=?,order_preference=?,address=?,web_link=?,place_id=?,'.
             'icon_uri=?,is_free=?,coord_lat=?,coord_lon=?,phone=?,call_for_appointment=?,category_code=? WHERE item_id=?');
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
         try {
-            $stmt->bind_param('sssssisssisi', $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
+            $stmt->bind_param('ssssssisssisi', $name, $order, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat,
                 $coordLon, $phone, $callForApp, $categoryCode, $itemId);
             if (!$stmt->execute()) {
                 // Check for trigger of call for appointment

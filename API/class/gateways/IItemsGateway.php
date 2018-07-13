@@ -30,6 +30,7 @@ interface IItemsGateway {
      * Creates a new item in the database and returns the
      * created item
      * @param string $name
+     * @param string $order
      * @param string $address
      * @param string $webLink
      * @param string $placeId
@@ -43,7 +44,7 @@ interface IItemsGateway {
      * @param string[] $languageCodes
      * @return Item
      */
-    function newItem($name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
+    function newItem($name, $order, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
                      $phone, $callForApp, $categoryCode, $languageCodes): Item;
 
     /**

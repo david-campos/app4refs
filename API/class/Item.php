@@ -4,6 +4,8 @@
  */
 
 class Item {
+    const ORDER_VALUES = ['first', 'second', 'third', 'rest'];
+
     /** @var int */
     private $itemId;
     /** @var string */
@@ -30,6 +32,8 @@ class Item {
     private $categoryCode;
     /** @var string[] */
     private $languageCodes;
+    /** @var string Order preference, values 'first', 'second', 'third', 'rest'. */
+    private $order;
     /** @var gateways\IItemsGateway */
     private $gateway;
 
@@ -48,10 +52,11 @@ class Item {
      * @param bool $callForAppoint
      * @param string $categoryCode
      * @param string[] $languageCodes
+     * @param string $order 'first', 'second', 'third', 'rest'
      * @param gateways\IItemsGateway $gateway
      */
     public function __construct($itemId, $name, $address, $webLink, $placeId, $iconUri, $isFree, $coordLat, $coordLon,
-                                $phone, $callForAppoint, $categoryCode, $languageCodes, $gateway) {
+                                $phone, $callForAppoint, $categoryCode, $languageCodes, $order, $gateway) {
         $this->itemId = intval($itemId);
         $this->name = $name;
         $this->address = $address;
@@ -65,6 +70,7 @@ class Item {
         $this->callForAppointment = $callForAppoint;
         $this->categoryCode = $categoryCode;
         $this->languageCodes = $languageCodes;
+        $this->order = in_array($order, self::ORDER_VALUES) ? $order : 'rest';
         $this->gateway = $gateway;
     }
 
@@ -78,6 +84,7 @@ class Item {
     public function toMap($withOpeningHours=true) {
         $array = [
             IApiInterface::ITEM_ID => $this->itemId,
+            IApiInterface::ITEM_ORDER_PREFERENCE => $this->order,
             IApiInterface::ITEM_NAME => $this->name,
             IApiInterface::ITEM_ADDR => $this->address,
             IApiInterface::ITEM_LINK => $this->webLink,
@@ -208,6 +215,13 @@ class Item {
     }
 
     /**
+     * @return string
+     */
+    public function getOrder(): string {
+        return $this->order;
+    }
+
+    /**
      * @param string $name
      */
     public function setName(string $name) {
@@ -282,6 +296,21 @@ class Item {
      */
     public function setCategoryCode(string $categoryCode) {
         $this->categoryCode = $categoryCode;
+    }
+
+    /**
+     * @param string $order Should be one of the values of self::ORDER_VALUES
+     * @throws \exceptions\InvalidValueInBodyException if the value is not one of self::ORDER_VALUES
+     */
+    public function setOrder(string $order) {
+        if(in_array($order, self::ORDER_VALUES)) {
+            $this->order = $order;
+        } else {
+            throw new \exceptions\InvalidValueInBodyException(
+                "Value '$order' found in body is not a valid value for '".
+                IApiInterface::ITEM_ORDER_PREFERENCE.
+                "'. Valid values are: ".implode(', ', self::ORDER_VALUES));
+        }
     }
 
     /**

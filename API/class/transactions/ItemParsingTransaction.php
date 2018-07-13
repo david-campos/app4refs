@@ -36,6 +36,8 @@ abstract class ItemParsingTransaction extends Transaction {
     protected $callForAppointment;
     /** @var string */
     protected $categoryCode;
+    /** @var string */
+    protected $order;
     /** @var string[] */
     protected $languageCodes;
 
@@ -69,8 +71,10 @@ abstract class ItemParsingTransaction extends Transaction {
                 $this->phone = $val;
             } else if($key === \IApiInterface::ITEM_CALL_FOR_APPOINTMENT) {
                 $this->callForAppointment = $val;
-            } else if($key == \IApiInterface::ITEM_CATEGORY_CODE) {
+            } else if($key === \IApiInterface::ITEM_CATEGORY_CODE) {
                 $this->categoryCode = $val;
+            } else if($key === \IApiInterface::ITEM_ORDER_PREFERENCE) {
+                $this->order = $val;
             } else if($key === \IApiInterface::ITEM_LANGUAGE_CODES) {
                 $valid = true;
                 if(gettype($val) !== 'array') {

@@ -40,6 +40,7 @@ interface IApiInterface {
     const ITEM_CATEGORY_CODE = 'categoryCode';
     const ITEM_LANGUAGE_CODES = 'languageCodes';
     const ITEM_OPENING_HOURS = 'openingHours';
+    const ITEM_ORDER_PREFERENCE = 'orderPreference';
 
     // PERIOD INTERFACE (text for the periods/opening hours to output and input values)
     const PERIOD_ID = 'periodId';
@@ -55,4 +56,5 @@ interface IApiInterface {
     const CATEGORY_NAME = 'name';
     const CATEGORY_ITEM_TYPE = 'itemType';
     const CATEGORY_LINK = 'link';
+    const CATEGORY_POSITION = 'position';
 }

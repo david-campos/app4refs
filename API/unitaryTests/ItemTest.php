@@ -30,12 +30,13 @@ class ItemTest extends TestCase {
             'phone'=>'+34988765432',
             'cfa'=>true,
             'cat'=>'cat_food',
+            'order'=>'rest',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
             $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
-            $data['cat'],$data['lg'], $this->fakeGateway);
+            $data['cat'],$data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -48,6 +49,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
+        $this->assertEquals($data['order'], $item->getOrder());
         $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
@@ -68,15 +70,18 @@ class ItemTest extends TestCase {
             'phone'=>'+34988765432',
             'cfa'=>true,
             'cat'=>'cat_food',
+            'order'=>'rest',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'], 1, // notice
-            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],
+            $data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals(true, $item->isFree());
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'], 0, // notice
-            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],$data['lg'], $this->fakeGateway);
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],$data['cat'],
+            $data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals(false, $item->isFree());
     }
 
@@ -97,12 +102,13 @@ class ItemTest extends TestCase {
             'phone'=>'+34988765432',
             'cfa'=>true,
             'cat' => 'cat_food',
+            'order'=>'rest',
             'lg' => 'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
             $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
-            $data['cat'],$data['lg'], $this->fakeGateway);
+            $data['cat'],$data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -115,6 +121,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
+        $this->assertEquals($data['order'], $item->getOrder());
         $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
@@ -135,12 +142,13 @@ class ItemTest extends TestCase {
             'phone'=>'+34988765432',
             'cfa'=>true,
             'cat'=>'cat_food',
+            'order'=>'rest',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
             $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
-            $data['cat'],$data['lg'], $this->fakeGateway);
+            $data['cat'],$data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -153,6 +161,7 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
+        $this->assertEquals($data['order'], $item->getOrder());
         $this->assertEquals($data['lg'], $item->getLanguageCodes());
     }
 
@@ -173,12 +182,13 @@ class ItemTest extends TestCase {
             'phone'=>'+34988765432',
             'cfa'=>true,
             'cat'=>'cat_food',
+            'order'=>'rest',
             'lg'=>'en'
         ];
         $item = new Item($data['id'], $data['name'], $data['addr'],
             $data['web'],$data['plId'],$data['ico'],$data['free'],
             $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
-            $data['cat'],$data['lg'], $this->fakeGateway);
+            $data['cat'],$data['lg'], $data['order'], $this->fakeGateway);
         $this->assertEquals($data['id'], $item->getItemId());
         $this->assertEquals($data['name'], $item->getName());
         $this->assertEquals($data['addr'], $item->getAddress());
@@ -191,6 +201,35 @@ class ItemTest extends TestCase {
         $this->assertEquals($data['phone'], $item->getPhone());
         $this->assertEquals($data['cfa'], $item->shouldCallForAppointment());
         $this->assertEquals($data['cat'], $item->getCategoryCode());
+        $this->assertEquals($data['order'], $item->getOrder());
         $this->assertEquals($data['lg'], $item->getLanguageCodes());
+    }
+
+    /**
+     * Tests that order throws exceptions when invalid values are set to the order
+     * @expectedException \exceptions\InvalidValueInBodyException
+     */
+    public function testOrderThrowsExceptionForInvalidValues() {
+        $data = [
+            'id'=>1,
+            'name'=>'Solidarity4All',
+            'addr'=>'Akadimias 74, Athens 106 78, Greece',
+            'web'=>'www.solidarity4all.gr',
+            'plId'=>'ChIJHY6tsDC9oRQR4Jz2kwclWrQ',
+            'ico'=>'solidarity4all.png',
+            'free'=>true,
+            'lat'=>null,
+            'lon'=>null,
+            'phone'=>'+34988765432',
+            'cfa'=>true,
+            'cat'=>'cat_food',
+            'order'=>'rest',
+            'lg'=>'en'
+        ];
+        $validItem = new Item($data['id'], $data['name'], $data['addr'],
+            $data['web'],$data['plId'],$data['ico'],$data['free'],
+            $data['lat'],$data['lon'],$data['phone'],$data['cfa'],
+            $data['cat'],$data['lg'], $data['order'], $this->fakeGateway);
+        $validItem->setOrder('Hey, teacher, leave those kids alone!'); // Should throw an exception
     }
 }

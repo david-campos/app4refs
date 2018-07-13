@@ -31,6 +31,7 @@ class UpdateItemTransaction extends ItemParsingTransaction {
         $item = $itemsGtw->findItem($this->itemId);
         // Update item values
         $item->setName($this->name);
+        $item->setOrder($this->order);
         $item->setAddress($this->address);
         $item->setWebLink($this->webLink);
         $item->setIconUri($this->iconUri);

@@ -27,6 +27,7 @@ class CreateItemTransaction extends ItemParsingTransaction {
         GatewayFactory::getInstance()->startTransaction(true);
         $item = $itemGtw->newItem(
             $this->name,
+            $this->order,
             $this->address,
             $this->webLink,
             $this->placeId,

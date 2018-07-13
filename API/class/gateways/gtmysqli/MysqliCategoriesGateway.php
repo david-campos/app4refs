@@ -28,7 +28,7 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
         $categories = [];
         $itemTypeStr = $itemType->val();
         $stmt = $this->mysqli->prepare(
-            "SELECT category_code,`name`,item_type,link FROM categories WHERE item_type=?");
+            "SELECT category_code,`name`,item_type,link,`position` FROM categories WHERE item_type=? ORDER BY `position`");
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
@@ -37,9 +37,9 @@ class MysqliCategoriesGateway implements ICategoriesGateway {
             if (!$stmt->execute()) {
                 throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
             }
-            $stmt->bind_result($code, $name, $it, $link);
+            $stmt->bind_result($code, $name, $it, $link, $pos);
             while ($stmt->fetch()) {
-                $categories[] = new Category($code, $name, \ItemType::FOR_STR($it), $link);
+                $categories[] = new Category($code, $name, \ItemType::FOR_STR($it), $link, $pos);
             }
         } finally {
             $stmt->close();

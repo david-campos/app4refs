@@ -60,13 +60,14 @@
     font-weight: bold;
     margin-top: 0.5em;
     cursor: pointer;
+    width: 100%;
 }
 
 .item-map {
     border-radius: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
-    width: 17em;
+    max-width: 17em;
 }
 
 .item-map svg {
@@ -78,5 +79,4 @@
 #all-items-map {
     padding: 1em 0;
     border-radius: 2em;
-    width: 100%;
 }
