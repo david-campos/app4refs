@@ -43,7 +43,7 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 	VALUES ('srvc_embas','Embassies', 'service', 8);
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
-	VALUES ('srvc_ctrfd','CountriesFood', 'service', 9);
+   VALUES ('srvc_commu','Communities', 'service', 9);
 -- INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 -- 	VALUES ('srvc_shops','Shops', 'service', 9);
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
@@ -68,6 +68,8 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`, `link
 	VALUES ('srvc_trans','Transport', 'service', 19, 'https://www.google.es/maps');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 	VALUES ('srvc_laund','Laundry', 'service', 20);
+INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
+	VALUES ('srvc_ctrfd','CountriesFood', 'service', 21);
 
 -- LEISURE
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
@@ -88,8 +90,6 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 	VALUES ('link_haird','Hairdresser', 'link', 3);
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 	VALUES ('link_healt','Health', 'link', 4);
--- INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
---   VALUES ('link_commu','Communities', 'link', 5);
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
 	VALUES ('link_parks','Parks', 'link', 5);
 -- INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`)
