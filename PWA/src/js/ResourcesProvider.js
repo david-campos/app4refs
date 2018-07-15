@@ -49,6 +49,12 @@ const RP_MAIN_MENU_ICONS = {
     'emergency': 'emergency'
 };
 
+/**
+ * Filename of the icon for the all items map button
+ * @type {string}
+ */
+const RP_ALL_ITEMS_MAP_ICON = "all_items_map";
+
 const MAPS_API_URL = "https://maps.googleapis.com/maps/api/js";
 const MAPS_API_KEY = "AIzaSyCxqSnpE46I8g-m4pQBkx4yC3R3X6s75BQ"; // Just a testing api key for the alpha
 const INIT_MAP_FUNCTION_NAME = 'initMap';
@@ -126,6 +132,10 @@ class ResourcesProvider {
             relUrl +=  ".jpg";
         }
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_ITEM_ICONS_DIR}/${relUrl}`;
+    }
+
+    static getAllMapsIconUrl() {
+        return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${RP_ALL_ITEMS_MAP_ICON}.${RP_ICON_IMG_EXTENSION}`;
     }
 
     static getMapsApiUrl() {

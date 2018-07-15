@@ -69,7 +69,7 @@ class ListPage extends Page {
         }
         if(this.shouldShowMapButton() && this._items.length > 0) {
             // Open-map-with-all-of-them button
-            htmlString += `<div class="row"><button id="all-items-map" class="map-button">Map for all items</button></div>`;
+            htmlString += `<div class="row"><button id="all-items-map" class="map-button" style="background-image: url(${ResourcesProvider.getAllMapsIconUrl()});"></button></div>`;
         }
         container.innerHTML = htmlString;
 
