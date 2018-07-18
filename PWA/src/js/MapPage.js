@@ -22,29 +22,24 @@ class MapPage extends Page {
 
         // Restore from state
         if(state) {
-            items = state.items;
+            items =  state.items.map((itemObj)=>new Item(itemObj));
         }
 
-        if(items.length === 1) items = items[0]; // Remove array
+        if(items instanceof Item) items = [items]; // Surround by array
 
         /**
-         * The list of items to display on the map
-         * @type {Item|Item[]}
-         * @private
-         */
-        this._items = items;
-        /**
-         * Indicates if the items to display are several or just one single item
-         * @type {boolean}
-         * @private
-         */
-        this._isSingleItem = (items instanceof Item);
-        /**
          * The map, once it is created
-         * @type {?google.maps.Map}
+         * @type {ItemsMap}
          * @private
          */
-        this._map = null;
+        this._map = new ItemsMap(items);
+
+        /**
+         * The geolocator to track the user
+         * @type {Geolocator}
+         * @private
+         */
+        this._geolocator = new Geolocator();
     }
 
     load(...loadingParams) {
@@ -54,50 +49,33 @@ class MapPage extends Page {
     render(container) {
         super.render(container);
 
-        // We require the Maps Api
-        let self = this;
-        this.app.requireMapsApi((...x)=>self._mapsApiAvailable(...x));
+        let mapInstructions = document.createElement('div');
+        mapInstructions.setAttribute("class", "map-instructions");
+        container.appendChild(mapInstructions);
+
+        let mapContainer = document.createElement('div');
+        mapContainer.setAttribute("class", "map-container");
+        container.appendChild(mapContainer);
+
+        container.style.padding = "0";
+
+        this._map.setDirectionsContainer(mapInstructions);
+        this._map.load(this.app, mapContainer);
+        this._geolocator.start((data)=>this._onUserPositionUpdate(data));
     }
 
-    _mapsApiAvailable() {
-        if(this._isSingleItem) {
-            console.log("Not supported yet");
-            let mapCenter = {lat: parseFloat(this._items.coordLat), lng: parseFloat(this._items.coordLon)};
-            new google.maps.Map(this.app.getContainer(), {
-                center: mapCenter,
-                zoom: 12
-            });
-        } else {
-            let mapCenter = {lat: parseFloat(this._items[0].coordLat), lng: parseFloat(this._items[0].coordLon)};
-            this._map = new google.maps.Map(this.app.getContainer(), {
-                center: mapCenter,
-                zoom: 12
-            });
-            let infowindow = new google.maps.InfoWindow({
-                content: ""
-            });
-            let latLons = [];
-            for(let item of this._items) {
-                let latLng = new google.maps.LatLng(parseFloat(item.coordLat), parseFloat(item.coordLon));
-                latLons.push(latLng);
+    /**
+     * It will be called each time the user position is updated
+     * @param {{coords: {latitude: Number, longitude: Number}}} data - New data of the geolocation
+     * @private
+     */
+    _onUserPositionUpdate(data) {
+        this._map.placeUserIn(data.coords);
+    }
 
-                let marker = new google.maps.Marker({
-                    map: this._map,
-                    position: latLng,
-                    title: item.name,
-                    animation: google.maps.Animation.DROP
-                });
-                marker.addListener('click', function() {
-                    infowindow.setContent('<b>'+marker.getTitle().htmlEscape()+'</b>');
-                    infowindow.open(this._map, marker);
-                });
-            }
-            let bounds = new google.maps.LatLngBounds();
-            for(let latLng of latLons) {
-                bounds.extend(latLng);
-            }
-            this._map.fitBounds(bounds);
-        }
+    onHide() {
+        super.onHide();
+        this._geolocator.stop();
     }
 
     /**
@@ -107,7 +85,11 @@ class MapPage extends Page {
     getState() {
         let state = super.getState();
         state.pageClass = MAP_PAGE_CLASS;
-        state.items = this._items;
+        state.items = [];
+        let items = this._map.getItems();
+        for(let item of items) {
+            state.items.push(item.toObject());
+        }
         return state;
     }
 
@@ -126,6 +108,6 @@ class MapPage extends Page {
 }
 /**
  * @typedef {PageState} MapPageState
- * @property {Item[]|Item} items
+ * @property {ItemObject[]} items
  * @property {string} pageClass
  */

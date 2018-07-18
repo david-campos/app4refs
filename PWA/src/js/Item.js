@@ -61,11 +61,11 @@ class Item {
         /**
          * @type {number}
          */
-        this.coordLat = object.coordLat;
+        this.coordLat = parseFloat(object.coordLat);
         /**
          * @type {number}
          */
-        this.coordLon = object.coordLon;
+        this.coordLon = parseFloat(object.coordLon);
         /**
          * @type {string}
          */

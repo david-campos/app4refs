@@ -108,7 +108,7 @@ class ListPage extends Page {
             for(let itemToCheck of this._items) {
                 if(itemToCheck.itemId === itemId) {
                     item = itemToCheck;
-                    title = itemToCheck.name;
+                    //title = itemToCheck.name;
                     break;
                 }
             }

@@ -40,7 +40,7 @@
 CREATE TABLE IF NOT EXISTS `items` (
     `item_id`  INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name`     VARCHAR(255) NOT NULL,
-	`address`  VARCHAR(255) NOT NULL,
+	`address`  VARCHAR(255), -- NULLABLE
 	`web_link` VARCHAR(255), -- NULLABLE
 	`place_id` VARCHAR(255), -- NULLABLE
 	`icon_uri` VARCHAR(255) NOT NULL,
@@ -59,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `items` (
     
     INDEX `item_order_idx` (`order_preference`), -- To speed up ordering
         
-    CHECK (NOT (`call_for_appointment` AND `phone` IS NULL)),
+    CONSTRAINT CHK_cfap CHECK (NOT (`call_for_appointment` AND `phone` IS NULL)),
+    CONSTRAINT CHK_addr CHECK (NOT (`address` IS NULL AND NOT `call_for_appointment`)),
 	
 	PRIMARY KEY(`item_id`)
 )
@@ -107,48 +108,14 @@ COMMENT "Relationship between items and the languages they are offered in";
 	`item_id`       INT UNSIGNED NOT NULL,
 	
 	PRIMARY KEY (`period_id`),
+    
+    CONSTRAINT CHK_shour CHECK (`start_hour` < 24),
+    CONSTRAINT CHK_ehour CHECK (`end_hour` < 24),
+    CONSTRAINT CHK_smins CHECK (`start_minutes` < 60),
+    CONSTRAINT CHK_emins CHECK (`end_minutes` < 60),
 	
 	FOREIGN KEY (`item_id`) REFERENCES `items`(`item_id`)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE
  )
  COMMENT "Opening hours periods for the items";
- 
-/**
- * Triggers to check the hours and minutes for the opening_hours
- */
- -- Procedures
-DELIMITER $$
-CREATE PROCEDURE IF NOT EXISTS `check_minutes`(IN minutes TINYINT UNSIGNED)
-BEGIN
-    IF minutes > 59 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Invalid minutes value (greater than 59)';
-    END IF;
-END$$
-CREATE PROCEDURE IF NOT EXISTS `check_hours`(IN hours TINYINT UNSIGNED)
-BEGIN
-    IF hours > 23 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Invalid hours value (greater than 23)';
-    END IF;
-END$$
-
--- Triggers
-CREATE TRIGGER IF NOT EXISTS `opening_hours_before_insert` BEFORE INSERT ON `opening_hours`
-FOR EACH ROW
-BEGIN
-    CALL check_hours(new.start_hour);
-	CALL check_hours(new.end_hour);
-	CALL check_minutes(new.start_minutes);
-	CALL check_minutes(new.start_minutes);
-END$$
-CREATE TRIGGER IF NOT EXISTS `opening_hours_before_update` BEFORE UPDATE ON `opening_hours`
-FOR EACH ROW
-BEGIN
-    CALL check_hours(new.start_hour);
-	CALL check_hours(new.end_hour);
-	CALL check_minutes(new.start_minutes);
-	CALL check_minutes(new.start_minutes);
-END$$
-DELIMITER ;

@@ -25,6 +25,12 @@ const RP_MAIN_MENU_DIR = "mainmenu";
 const RP_COST_AND_LANG_DIR = "costandlanguage";
 
 /**
+ * Folder where the map icons are saved
+ * @type {string}
+ */
+const RP_MAPS_DIR = "map";
+
+/**
  * Directory to find, inside RP_ICONS_DIR, the icons for the items
  * @type {string}
  */
@@ -35,6 +41,12 @@ const RP_ITEM_ICONS_DIR = "items";
  * @type {string}
  */
 const RP_CATEGORIES_DIR = "categories";
+
+/**
+ * Name of the spritesheet file for the map
+ * @type {string}
+ */
+const RP_MAP_SPRITESHEET = "sprite";
 
 /**
  * Main menu icons names
@@ -134,13 +146,29 @@ class ResourcesProvider {
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_ITEM_ICONS_DIR}/${relUrl}`;
     }
 
+    /**
+     * Gets the icon for the "All items map" button
+     * @return {string}
+     */
     static getAllMapsIconUrl() {
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${RP_ALL_ITEMS_MAP_ICON}.${RP_ICON_IMG_EXTENSION}`;
     }
 
+    /**
+     * Gets the Maps URL
+     * @return {string}
+     */
     static getMapsApiUrl() {
         // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
         return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}`;
+    }
+
+    /**
+     * Gets the url to find the map spritesheet
+     * @return {string}
+     */
+    static getMapsSpritesheetUrl() {
+        return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_MAPS_DIR}/${RP_MAP_SPRITESHEET}.${RP_ICON_IMG_EXTENSION}`;
     }
 
     /**
