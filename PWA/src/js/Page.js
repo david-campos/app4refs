@@ -128,7 +128,8 @@ class Page {
     getState() {
        return {
            title: this.title,
-           displayNav: this.displayNav
+           displayNav: this.displayNav,
+           pageClass: 'unknown'
        };
     }
 }
@@ -137,4 +138,5 @@ class Page {
  * @typedef {Object} PageState
  * @property {string} title
  * @property {boolean} displayNav
+ * @property {string} pageClass
  */

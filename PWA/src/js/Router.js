@@ -20,8 +20,18 @@ class Router {
      * Saves the given page in the history
      * @param {Page} page
      */
-    saveState(page) {
-        history.pushState(page.getState(), page.title, Router.urlFor(page));
+    savePage(page) {
+        this.saveState(page.getState(), page.title, Router.urlFor(page));
+    }
+
+    /**
+     * Saves the given state in the history
+     * @param {PageState} state
+     * @param {string} [title]
+     * @param {string} [url]
+     */
+    saveState(state, title, url) {
+        history.pushState(state, title, url);
     }
 
     /**
@@ -36,7 +46,7 @@ class Router {
     /**
      * Should be linked to window.onpopstate, as it is able to handle
      * these events.
-     * @param {{state: CategoriesGridPageState|null}} event
+     * @param {{state: PageState|null}} event
      */
     onStatePopping(event) {
         if(event.state) {
@@ -58,7 +68,9 @@ class Router {
                     page = new HomePage(this.app);
                     break;
             }
-            this.app.loadAndRenderPage(page);
+            if(page) {
+                this.app.loadAndRenderPage(page);
+            }
         } else {
             this.app.loadAndRenderPage(new HomePage(this.app));
         }

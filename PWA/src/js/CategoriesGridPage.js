@@ -150,5 +150,4 @@ class CategoriesGridPage extends GridPage {
  * @typedef {GridPageState} CategoriesGridPageState
  * @property {{string}} categories
  * @property {string} itemType
- * @property {string} pageClass - Should be equals to 'GridPageState'
  */

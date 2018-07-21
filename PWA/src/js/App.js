@@ -53,12 +53,23 @@ class App {
 
     /**
      * Navigates to the given page
-     * @param {Page} page page to navigate to
-     * @param loadParams other params for the page loading
+     * @param {Page} page - The page to navigate to
+     * @param loadParams - Some other params for the page loading
      */
     navigateToPage(page, ...loadParams) {
         this.loadAndRenderPage(page, ...loadParams);
-        this._router.saveState(this._currentPage);
+        this._router.savePage(this._currentPage);
+    }
+
+    /**
+     * Stores in the story a navigation to a page state,
+     * but it does not navigate anywhere.
+     * @param {PageState} state - The state to save
+     * @param {string} [title] - Optional title
+     * @param {string} [url] - Optional url
+     */
+    fakeNavigation(state, title, url) {
+        this._router.saveState(state, title, url);
     }
 
     /**

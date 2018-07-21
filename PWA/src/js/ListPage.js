@@ -224,5 +224,4 @@ class ListPage extends Page {
  * @typedef {PageState} ListPageState
  * @property {ItemObject[]} items
  * @property {Category} category
- * @property {string} pageClass
  */

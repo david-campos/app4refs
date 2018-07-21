@@ -7,6 +7,7 @@ const MAP_PAGE_CLASS = "MapPage";
 /**
  * The MapPage is used to render maps with Google Maps, to obtain a detailed description check
  * the documentation of the project
+ * @implements {ItemsMapListener}
  */
 class MapPage extends Page {
     /**
@@ -32,7 +33,7 @@ class MapPage extends Page {
          * @type {ItemsMap}
          * @private
          */
-        this._map = new ItemsMap(items);
+        this._map = new ItemsMap(items, this);
 
         /**
          * The geolocator to track the user
@@ -40,10 +41,6 @@ class MapPage extends Page {
          * @private
          */
         this._geolocator = new Geolocator();
-    }
-
-    load(...loadingParams) {
-        super.load(loadingParams);
     }
 
     render(container) {
@@ -67,6 +64,21 @@ class MapPage extends Page {
         this._geolocator.start((data)=>this._onUserPositionUpdate(data));
     }
 
+    onHide() {
+        super.onHide();
+        this._map.onDestroy();
+        this._geolocator.stop();
+    }
+
+    /**
+     * Resets the map to the initial state if existent.
+     */
+    resetMap() {
+        if(this._map) {
+            this._map.resetToInitialState();
+        }
+    }
+
     /**
      * It will be called each time the user position is updated
      * @param {{coords: {latitude: Number, longitude: Number}}} data - New data of the geolocation
@@ -76,10 +88,14 @@ class MapPage extends Page {
         this._map.placeUserIn(data.coords);
     }
 
-    onHide() {
-        super.onHide();
-        this._map.onDestroy();
-        this._geolocator.stop();
+    /**
+     * Called by the ItemsMap when an item is picked
+     * @param {Item} item - The picked item
+     */
+    mapItemPicked(item) {
+        let state = this.getState();
+        state.items = [item.toObject()];
+        this.app.fakeNavigation(state, this.title);
     }
 
     /**
@@ -101,11 +117,22 @@ class MapPage extends Page {
      * Restores the page from a given state
      * @param {App} app
      * @param {MapPageState} state
-     * @return {MapPage}
+     * @return {?MapPage} - The map page to navigate to or maybe null if it was
+     * already the current page and it could be solved with a navigation.
      */
     static fromState(app, state) {
         if(state.pageClass !== MAP_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${MAP_PAGE_CLASS}"`);
+        }
+        let currentPage = app.getCurrentPage();
+        if(currentPage instanceof MapPage) {
+            let currentItemsIds = currentPage.getState().items.map((item)=>item.itemId);
+            let stateItemIds = state.items.map((item)=>item.itemId);
+
+            if(currentItemsIds.hasSameNumbers(stateItemIds)) {
+                currentPage.resetMap();
+                return null;
+            }
         }
         return new MapPage(app, "", null, new HomePage(app), state);
     }
@@ -113,5 +140,4 @@ class MapPage extends Page {
 /**
  * @typedef {PageState} MapPageState
  * @property {ItemObject[]} items
- * @property {string} pageClass
  */
