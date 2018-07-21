@@ -113,9 +113,7 @@ class CategoriesGridPage extends GridPage {
 
         if(category) {
             if(category.link) {
-                // By now this is OK, when checking installation maybe
-                // we need to set up a link or whatever in fact.
-                window.location.href = category.link;
+                window.open(category.link, "_blank");
             } else {
                 this.app.navigateToPage(new ListPage(this.app, this, category));
             }

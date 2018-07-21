@@ -4,7 +4,7 @@
   <title>App4Refs</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.min.css">
+  <meta name="description" content="Application to support social participation, inclusion and integration of refugees in Athens, Greece. Find leisure areas, information places, online help and more.">
   <script>
       /**
        * Base url to access the resources, it will be useful as we might be accessing
@@ -15,8 +15,15 @@
        */
       const RESOURCE_BASE_URL = "";
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="js/javascript.min.js"></script>
+  <script>
+    var script = document.createElement("script");
+    script.setAttribute("src", RESOURCE_BASE_URL+"/js/javascript.min.js");
+    var link = document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", RESOURCE_BASE_URL+"/css/style.min.css");
+    document.head.appendChild(script);
+    document.head.appendChild(link);
+  </script>
 </head>
 <body>
 <nav id="app-nav">

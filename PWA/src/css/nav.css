@@ -18,8 +18,8 @@ nav #nav-title {
     text-transform: uppercase;
     margin: 0;
     font-size: 3vmax;
-    top: 0.3em;
     position: relative;
+    top: calc(50% - 1.5vmax);
 }
 
 nav button {
@@ -33,6 +33,7 @@ nav button {
     border-radius: 5vh;
     padding: 0;
     margin: 0;
+    cursor: pointer;
 }
 
 nav .nav-home-col {

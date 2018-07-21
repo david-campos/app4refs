@@ -403,15 +403,16 @@ class ItemsMap {
         if(this._userMarker) {
             this._userMarker.setPosition(latLng);
         } else {
-            this._createUserMarker();
+            this._createUserMarker(latLng);
         }
     }
 
     /**
      * Creates the user marker if it does not exist
+     * @param {google.maps.LatLng} latLng - The position to create the user marker
      * @private
      */
-    _createUserMarker() {
+    _createUserMarker(latLng) {
         if(this._userMarker) return;
 
         this._userMarker = new google.maps.Marker({

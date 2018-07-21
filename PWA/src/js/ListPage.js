@@ -56,7 +56,7 @@ class ListPage extends Page {
             textString += `<p class="item-addr">${item.address}</p>`;
             textString += `<div class="item-cost-lang">${costAndLang}</div>`;
             if(item.webLink) {
-                textString += `<a class="item-link" href="${item.webLink}"><span>${item.webLink}</span> ${LINK_ICON_SVG}</a>`;
+                textString += `<a class="item-link" href="${item.webLink}" target="_blank"><span>${item.webLink}</span> ${LINK_ICON_SVG}</a>`;
             }
             textString += `<p class="item-periods">${periods}</p>`;
 
