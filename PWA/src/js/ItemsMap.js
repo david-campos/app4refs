@@ -15,6 +15,8 @@ const MAP_STATE_LOADING = 1;
  */
 const MAP_STATE_AVAILABLE = 2;
 
+const ROUTE_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marked-alt\" class=\"svg-inline--fa fa-map-marked-alt fa-w-18\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M288 0c-69.59 0-126 56.41-126 126 0 56.26 82.35 158.8 113.9 196.02 6.39 7.54 17.82 7.54 24.2 0C331.65 284.8 414 182.26 414 126 414 56.41 357.59 0 288 0zm0 168c-23.2 0-42-18.8-42-42s18.8-42 42-42 42 18.8 42 42-18.8 42-42 42zM20.12 215.95A32.006 32.006 0 0 0 0 245.66v250.32c0 11.32 11.43 19.06 21.94 14.86L160 448V214.92c-8.84-15.98-16.07-31.54-21.25-46.42L20.12 215.95zM288 359.67c-14.07 0-27.38-6.18-36.51-16.96-19.66-23.2-40.57-49.62-59.49-76.72v182l192 64V266c-18.92 27.09-39.82 53.52-59.49 76.72-9.13 10.77-22.44 16.95-36.51 16.95zm266.06-198.51L416 224v288l139.88-55.95A31.996 31.996 0 0 0 576 426.34V176.02c0-11.32-11.43-19.06-21.94-14.86z\"></path></svg>";
+
 /**
  * An interface to hide away the details of the maps system in use
  */
@@ -70,6 +72,12 @@ class ItemsMap {
          * @private
          */
         this._userMarker = null;
+        /**
+         * Selected item to find the route to
+         * @type {?Item}
+         * @private
+         */
+        this._selectedItem = (items.length === 1 ? items[0] : null);
         /**
          * The directions service, once it is available
          * @type {?google.maps.DirectionsService}
@@ -142,12 +150,14 @@ class ItemsMap {
             this._createItemMarker(item);
         }
 
-        if(this._userPosition) {
-            this._updateUserMarker();
-        }
+        this._writeToDirectionsContainer("Nothing selected");
 
         if(this._items.length !== 1) {
             this._map.fitBounds(bounds);
+        }
+
+        if(this._userPosition) {
+            this._updateUserMarker();
         }
     }
 
@@ -165,10 +175,9 @@ class ItemsMap {
         this._map.addListener('click', (...x)=>this._onMapClicked(...x));
         this._info = new google.maps.InfoWindow();
         this._directionsSvc = new google.maps.DirectionsService();
-        console.log(this._directionsContainer);
         let rendererOps = {
             panel: this._directionsContainer,
-            suppressMarkers: false, // TODO: draw end marker and set to true
+            suppressMarkers: true,
             infoWindow: this._info
         };
         this._directionsRenderer = new google.maps.DirectionsRenderer(rendererOps);
@@ -179,12 +188,12 @@ class ItemsMap {
     /**
      * Gets the directions to get to the given item,
      * it requires the position to have been obtained.
-     * @param {Item} item
      * @private
      */
-    _getDirections(item) {
-        if(this._noMap() || !this._userMarker) return;
+    _getDirections() {
+        if(this._noMap() || !this._userMarker || !this._selectedItem) return;
 
+        let item = this._selectedItem;
         let start = this._userMarker.getPosition();
         let end = new google.maps.LatLng(item.coordLat, item.coordLon);
         let request = {
@@ -192,9 +201,13 @@ class ItemsMap {
             destination: end,
             travelMode: 'WALKING'
         };
+        this._writeToDirectionsContainer("Loading route...");
         let self = this;
         this._directionsSvc.route(request, function(result, status) {
             if (status == 'OK') {
+                // The renderer adds text, but it does not overwrite
+                self._writeToDirectionsContainer("");
+
                 self._directions = result;
                 self._directionsRenderer.setDirections(result);
 
@@ -204,6 +217,9 @@ class ItemsMap {
                     let step = myRoute.steps[i];
                     self._createStepMarker(i, step);
                 }
+            } else {
+                console.log(result, status);
+                this._writeToDirectionsContainer("Error loading route.");
             }
         });
     }
@@ -224,11 +240,57 @@ class ItemsMap {
             animation: google.maps.Animation.DROP
         });
         marker.addListener('click', function() {
-            self._info.setContent('<b>'+marker.getTitle().htmlEscape()+'</b>');
+            let content = '<b class="marker-title">'+marker.getTitle().htmlEscape()+'</b>';
+            // When there is no selected item, we can select it
+            if(self._selectedItem) {
+                self._info.setContent(content);
+            } else {
+                content += `<button class="route-btn">${ROUTE_BUTTON_SVG}</button>`;
+                let div = document.createElement('div');
+                div.innerHTML = content;
+                div.childNodes[1].addEventListener('click', ()=>{
+                    self._select(item);
+                    self._info.close();
+                });
+                self._info.setContent(div);
+            }
             self._info.open(self._map, marker);
         });
         this._deleteItemMarker(item.itemId);
         this._markers[item.itemId] = marker;
+    }
+
+    /**
+     * Hides all the other items and calculates the route to the given one
+     * @param {Item} item - The item to preserve and calculate the route towards
+     * @private
+     */
+    _select(item) {
+        if(this._selectedItem || this._directions) {
+            console.log("Error: _select, there is a selected item or the directions are shown.",
+                this._selectedItem, this._directions);
+            return;
+        }
+
+        for(let other of this._items) {
+            if(other !== item) {
+                // Setting map to null hides the marker
+                this._markers[other.itemId].setMap(null);
+            }
+        }
+
+        this._selectedItem = item;
+        this._getDirections();
+    }
+
+    /**
+     * Shows all the item markers
+     * @private
+     */
+    _showAllItemMarkers() {
+        for(let marker of this._markers) {
+            marker.setMap(this._map);
+        }
     }
 
     /**
@@ -273,7 +335,6 @@ class ItemsMap {
                 anchor: new google.maps.Point(7, 7),
                 scaledSize: new google.maps.Size(28, 28),
             },
-            label: idx
         });
         let self = this;
         google.maps.event.addListener(marker, 'click', function() {
@@ -310,9 +371,9 @@ class ItemsMap {
                 zIndex: 999
             });
 
-            // Get directions if there is only one item
-            if(this._items.length === 1 && !this._directions) {
-                this._getDirections(this._items[0]);
+            // Get directions if there is a selected item
+            if(this._selectedItem && !this._directions) {
+                this._getDirections();
             }
         }
     }
@@ -336,8 +397,24 @@ class ItemsMap {
      */
     setDirectionsContainer(container) {
         this._directionsContainer = container;
+
+        if(!this._selectedItem) {
+            this._writeToDirectionsContainer("Nothing selected");
+        }
+
         if(this._directionsRenderer) {
             this._directionsRenderer.setPanel(this._directionsContainer);
+        }
+    }
+
+    /**
+     * Writes the given message to the directions container (erasing the content it may have)
+     * @param {string} message - The HTML code of the message
+     * @private
+     */
+    _writeToDirectionsContainer(message) {
+        if(this._directionsContainer) {
+            this._directionsContainer.innerHTML = message;
         }
     }
 
@@ -355,6 +432,12 @@ class ItemsMap {
      */
     getItems() {
         return this._items;
+    }
+
+    onDestroy() {
+        if(this._directionsRenderer) {
+            this._directionsRenderer.setMap(null);
+        }
     }
 
     /**

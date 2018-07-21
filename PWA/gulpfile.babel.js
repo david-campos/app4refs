@@ -33,6 +33,7 @@ var DEV_JS_SRC = [
     'Page.js',
     'ApiService.js',
     'ApiAjaxAdapter.js',
+    'EmergencyPage.js',
     'ItemsMap.js',
     'Geolocator.js',
     'MapPage.js',

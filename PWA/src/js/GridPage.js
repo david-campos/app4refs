@@ -41,6 +41,12 @@ class GridPage extends Page {
          * @private
          */
         this._mainRow = null;
+        /**
+         * Internal check of "landscape", if width is greater than height
+         * @type {boolean}
+         * @private
+         */
+        this._portrait = (window.innerWidth <= window.innerHeight);
     }
 
     render(container) {
@@ -57,7 +63,15 @@ class GridPage extends Page {
 
     resize(width, height) {
         super.resize(width, height);
-        this._changeIconsHeight(this.getPageHeight());
+        let newLandscape = (width <= height);
+        let landscapeChanged = (newLandscape !== this._portrait);
+        this._portrait = newLandscape;
+        if(landscapeChanged) {
+            this.app.clearContainer();
+            this.render(this.app.getContainer());
+        } else {
+            this._changeIconsHeight(this.getPageHeight());
+        }
     }
 
     /**
@@ -83,7 +97,13 @@ class GridPage extends Page {
     _drawGridOfIcons() {
         if(!this._mainRow) return;
 
-        const colW = 12 / this._columns; // width is relative to 12 as it will be set with bootstrap grid
+        // width is relative to 12 as it will be set with bootstrap grid
+        let colW = 12 / this._columns;
+
+        // When not in landscape, change the grid
+        if(!this._portrait) {
+            colW = 12 / this._landscapeColumns();
+        }
 
         if(colW !== Math.round(colW)) {
             throw new Error("Unable to draw grid, number of columns is not a divisor of 12");
@@ -112,6 +132,20 @@ class GridPage extends Page {
     }
 
     /**
+     * Indicates how many columns we have in landscape display
+     * @return {int}
+     * @private
+     */
+    _landscapeColumns() {
+        let rows = Object.keys(this._icons).length / this._columns;
+        if(rows <= 3) {
+            return rows;
+        } else {
+            return 4; // Never more than 4
+        }
+    }
+
+    /**
      * Changes the icons height to make them occupy the total height
      * @param {Number} totalHeight
      * @private
@@ -124,7 +158,8 @@ class GridPage extends Page {
         // The rest of browsers won't do this, so we let them do it
         // from CSS as it is faster and has less battery consumption
         if( /Android/i.test(navigator.userAgent) ) {
-            let heightPerDiv = this._columns * totalHeight / this._mainRow.childNodes.length;
+            let realColumns = this._portrait ? this._columns : this._landscapeColumns();
+            let heightPerDiv = realColumns * Math.ceil(totalHeight / this._mainRow.childNodes.length);
 
             for (let iconDiv of this._mainRow.childNodes) {
                 iconDiv.style.height = heightPerDiv + "px";

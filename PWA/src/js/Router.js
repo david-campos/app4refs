@@ -51,6 +51,9 @@ class Router {
                 case MAP_PAGE_CLASS:
                     page = MapPage.fromState(this.app, event.state);
                     break;
+                case EMERGENCY_PAGE_CLASS:
+                    page = EmergencyPage.fromState(this.app, event.state);
+                    break;
                 default:
                     page = new HomePage(this.app);
                     break;

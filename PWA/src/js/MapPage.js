@@ -59,6 +59,9 @@ class MapPage extends Page {
 
         container.style.padding = "0";
 
+        if(!this._geolocator.isGeolocationAvailable()) {
+            mapInstructions.innerHTML = "Geolocation not available";
+        }
         this._map.setDirectionsContainer(mapInstructions);
         this._map.load(this.app, mapContainer);
         this._geolocator.start((data)=>this._onUserPositionUpdate(data));
@@ -75,6 +78,7 @@ class MapPage extends Page {
 
     onHide() {
         super.onHide();
+        this._map.onDestroy();
         this._geolocator.stop();
     }
 

@@ -9,9 +9,11 @@ body {
 /* nav and container-fluid should sum up to 100vh */
 nav {
     height: 10vh;
+    min-height: 50px;
 }
 .container-fluid {
     height: 90vh;
+    max-height: calc(100vh - 50px);
 }
 
 body.noNav nav {
@@ -20,4 +22,5 @@ body.noNav nav {
 
 body.noNav .container-fluid {
     height: 100vh;
+    max-height: unset;
 }

@@ -1,0 +1,28 @@
+a.emergency-btn {
+    display: block;
+    background-color: #671335;
+    border-radius: 5vw;
+    height: 30%;
+    width: 100%;
+    max-height: 30vw;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+
+a.emergency-btn svg {
+    height: 80%;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10%;
+}
+
+p.emergency-p {
+    text-align: center;
+    color: white;
+    font-size: 20vh;
+    padding: 0;
+    font-weight: bold;
+    margin: 10vh 0;
+}

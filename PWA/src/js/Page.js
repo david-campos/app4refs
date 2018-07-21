@@ -88,6 +88,9 @@ class Page {
             let styleNav = window.getComputedStyle(nav);
             let styleContainer = window.getComputedStyle(container);
             let heightNav = parseInt(styleNav.height);
+            if(this.app.getNav().isHidden()) {
+                heightNav = 0;
+            }
             let paddingTop = parseInt(styleContainer.paddingTop);
             let paddingBottom = parseInt(styleContainer.paddingBottom);
             return window.innerHeight - heightNav - paddingTop - paddingBottom;

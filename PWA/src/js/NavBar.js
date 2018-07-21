@@ -9,6 +9,15 @@
 const BODY_NO_NAV_CLASS = "noNav";
 
 /**
+ * Valid navbar styles for the set style function
+ * @type {{DEFAULT: NavbarStyle, ONLY_BACK: NavbarStyle}}
+ */
+const NAVBAR_STYLES = {
+    DEFAULT: "",
+    ONLY_BACK: "only-back"
+};
+
+/**
  * The navigation bar of the app
  */
 class NavBar {
@@ -26,8 +35,8 @@ class NavBar {
         this.homeBtn = document.getElementById("nav-home-btn");
 
         let self = this;
-        this.backBtn.addEventListener('click', ()=>self._back());
-        this.homeBtn.addEventListener('click', ()=>self._home());
+        this.backBtn.addEventListener('click', ()=>self.back());
+        this.homeBtn.addEventListener('click', ()=>self.home());
     }
 
     /**
@@ -36,6 +45,17 @@ class NavBar {
      */
     setTitle(text) {
         this.titleElement.innerHTML = text.htmlEscape();
+    }
+
+    /**
+     * Sets the navbar style to the spacified one. The valid ones are the ones
+     * in NAVBAR_STYLES.
+     * @param {NavbarStyle} style
+     */
+    setStyle(style) {
+        if(this.element.className !== style) {
+            this.element.className = style;
+        }
     }
 
     /**
@@ -53,11 +73,18 @@ class NavBar {
     }
 
     /**
+     * Returns whether the nav bar is hidden or not
+     * @return {boolean} - True if it is hidden
+     */
+    isHidden() {
+        return document.body.classList.contains(BODY_NO_NAV_CLASS);
+    }
+
+    /**
      * Navigates back to the parent page of the currently displayed one.
      * It is associated to the click on the "back" button.
-     * @private
      */
-    _back() {
+    back() {
         history.back();
         /*let parentPage = this.app.getCurrentPage().parentPage;
         if(parentPage !== null) {
@@ -67,9 +94,11 @@ class NavBar {
 
     /**
      * Navigates back to the home page. It is associated to the "home" button in the navbar.
-     * @private
      */
-    _home() {
+    home() {
         this.app.navigateToPage(new HomePage(this.app));
     }
 }
+/**
+ * @typedef {string} NavbarStyle
+ */

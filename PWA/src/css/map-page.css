@@ -9,8 +9,30 @@
     position: absolute;
     top: 100vh;
     background-color: white;
-    border-top: 2px solid dodgerblue;
+    border-top: 3px solid dodgerblue;
     z-index: 20;
     overflow-y: scroll;
     transition: top 1s ease 0s;
+}
+
+b.marker-title {
+    display: block;
+    text-align: center;
+}
+
+.route-btn {
+    background: #7C0D82;
+    border: none;
+    display: block;
+    width: 100%;
+    min-width: 6em;
+    border-radius: 1em;
+    height: 2em;
+    color: white;
+    margin-top: 0.5em;
+    padding: 0.25em;
+}
+
+.route-btn svg {
+    height: 1.5em;
 }

@@ -7,15 +7,19 @@ nav {
     box-shadow: 0 0 1em 0.2em rgba(0,0,0,0.2);
 }
 
-nav .nav-title-col {
-    padding-top: 1vh; /* keeps the title in its place */
+nav>.row {
+    width: 100%; /* weird size if not */
+    margin: 0; /* weird margin also */
 }
+
 nav #nav-title {
-    display: inline;
-    font-weight: normal;
+    display: block;
+    font-weight: 400;
     text-transform: uppercase;
     margin: 0;
-    font-size: 3vh;
+    font-size: 3vmax;
+    top: 0.3em;
+    position: relative;
 }
 
 nav button {
@@ -23,10 +27,16 @@ nav button {
     color: white;
     background: #7C0D82;
     height: 5vh;
+    min-height: 30px;
     width: 5vh;
+    min-width: 30px;
     border-radius: 5vh;
     padding: 0;
     margin: 0;
+}
+
+nav .nav-home-col {
+    direction: rtl;
 }
 
 nav button svg {
@@ -40,4 +50,22 @@ nav button svg {
 #nav-back-btn svg {
     position: relative;
     top: 1px;
+}
+
+/***** ONLY BACK STYLE *****/
+nav.only-back {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+nav.only-back .nav-title-col {
+    display: none;
+}
+
+nav.only-back #nav-home-btn {
+    display: none;
+}
+
+nav.only-back #nav-back-btn {
+    background: black;
 }

@@ -29,7 +29,7 @@ class HomePage extends GridPage {
          */
         let iconClicked = (id) => {
             if(id === 'emergency') {
-                // TODO
+                app.navigateToPage(new EmergencyPage(app));
             } else {
                 app.navigateToPage(new CategoriesGridPage(app, id));
             }

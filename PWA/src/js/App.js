@@ -89,6 +89,7 @@ class App {
 
         page.load(...loadParams);
         if(page.displayNav) {
+            this._nav.setStyle(NAVBAR_STYLES.DEFAULT);
             this._nav.setTitle(page.title);
             this._nav.show();
         } else {
