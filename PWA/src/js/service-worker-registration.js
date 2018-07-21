@@ -2,13 +2,13 @@
  * This file is based on Google's example at
  * https://github.com/GoogleChromeLabs/sw-precache/blob/master/demo/app/js/service-worker-registration.js
  */
-/*
+
 'use strict';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     // cache-service-worker.js should be created by sw-precache
-    navigator.serviceWorker.register('cache-service-worker.js').then(function(reg) {
+    navigator.serviceWorker.register(RESOURCE_BASE_URL + '/cache-service-worker.js').then(function(reg) {
       // updatefound is fired if cache-service-worker.js changes.
       reg.onupdatefound = function() {
         // The updatefound event implies that reg.installing is set; see
@@ -41,4 +41,4 @@ if ('serviceWorker' in navigator) {
       console.error('Error during service worker registration:', e);
     });
   });
-}*/
+}

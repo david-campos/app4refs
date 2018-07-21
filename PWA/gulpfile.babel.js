@@ -12,11 +12,14 @@ var concat      = require('gulp-concat');
 //var rename      = require('gulp-rename');
 var sourcemaps  = require('gulp-sourcemaps');
 //var babel       = require('gulp-babel');
+var gutil = require('gulp-util');
 var uglifyJs    = require('gulp-uglify');
 var minifyCss   = require('gulp-minify-css');
 var htmlmin     = require('gulp-htmlmin');
 var packageJson = require('./package.json');
 var swPrecache  = require('sw-precache');
+
+var DEPLOYMENT_ROOT = '/alpha/public_html/';
 
 var JS_DIR = 'js';
 var CSS_DIR = 'css';
@@ -61,7 +64,7 @@ for(var idx in DEV_JS_SRC) {
     DEV_JS_SRC[idx] = path.join(DEV_JS_DIR, DEV_JS_SRC[idx]);
 }
 
-function writeServiceWorkerFile(rootDir, handleFetch, callback) {
+function writeServiceWorkerFile(handleFetch, callback) {
   var config = {
     cacheId: packageJson.name,
     /*
@@ -81,8 +84,8 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     // This allows you to test precaching behavior without worry about the cache preventing your
     // local changes from being picked up during the development cycle.
     handleFetch: handleFetch,
-    //logger: $.util.log,
-    runtimeCaching: [{
+    logger: gutil.log,
+    /*runtimeCaching: [{
       // See https://github.com/GoogleChrome/sw-toolbox#methods
       urlPattern: /runtime-caching/,
       handler: 'cacheFirst',
@@ -93,19 +96,20 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
           name: 'runtime-cache'
         }
       }
-    }],
+    }],*/
     staticFileGlobs: [
-      rootDir + '/css/**.css',
-      rootDir + '/**.html',
-      //rootDir + '/images/**.*',
-      rootDir + '/js/**.js'
+      DIST_DIR + '/css/**.css',
+      DIST_DIR + '/**.html',
+      DIST_DIR + '/ico/**.*',
+      DIST_DIR + '/js/**.js'
     ],
-    stripPrefix: rootDir + '/',
+    stripPrefix: DIST_DIR + '/',
+    replacePrefix: DEPLOYMENT_ROOT,
     // log more
     verbose: true
   };
 
-  swPrecache.write(path.join(rootDir, SERVICE_WORKER_NAME), config, callback);
+  swPrecache.write(path.join(DIST_DIR, SERVICE_WORKER_NAME), config, callback);
 }
 
 gulp.task('default', ['build']);
@@ -117,7 +121,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build', function(callback) {
-  runSequence('generate-service-worker-dist', 'dist-javascript', 'dist-css', 'dist-html', callback);
+  runSequence('dist-javascript', 'dist-css', 'dist-html', 'generate-service-worker-dist', callback);
 });
 
 gulp.task('dist-javascript', function(){
@@ -145,9 +149,9 @@ gulp.task('dist-html', function(){
 });
 
 gulp.task('generate-service-worker-dist', function(callback) {
-  writeServiceWorkerFile(DIST_DIR, true, callback);
+  writeServiceWorkerFile(true, callback);
 });
 
 gulp.task('generate-service-worker-dev', function(callback) {
-  writeServiceWorkerFile(DEV_DIR, false, callback);
+  writeServiceWorkerFile(false, callback);
 });
