@@ -12,7 +12,7 @@ var concat      = require('gulp-concat');
 //var rename      = require('gulp-rename');
 var sourcemaps  = require('gulp-sourcemaps');
 //var babel       = require('gulp-babel');
-var gutil = require('gulp-util');
+var fancylog = require('fancy-log');
 var uglifyJs    = require('gulp-uglify');
 var minifyCss   = require('gulp-minify-css');
 var htmlmin     = require('gulp-htmlmin');
@@ -67,45 +67,30 @@ for(var idx in DEV_JS_SRC) {
 function writeServiceWorkerFile(handleFetch, callback) {
   var config = {
     cacheId: packageJson.name,
-    /*
-    dynamicUrlToDependencies: {
-      'dynamic/page1': [
-        path.join(rootDir, 'views', 'layout.jade'),
-        path.join(rootDir, 'views', 'page1.jade')
-      ],
-      'dynamic/page2': [
-        path.join(rootDir, 'views', 'layout.jade'),
-        path.join(rootDir, 'views', 'page2.jade')
-      ]
-    },
-    */
     // If handleFetch is false, then
     // the service worker will precache resources but won't actually serve them.
-    // This allows you to test precaching behavior without worry about the cache preventing your
-    // local changes from being picked up during the development cycle.
     handleFetch: handleFetch,
-    logger: gutil.log,
-    /*runtimeCaching: [{
-      // See https://github.com/GoogleChrome/sw-toolbox#methods
-      urlPattern: /runtime-caching/,
-      handler: 'cacheFirst',
-      // See https://github.com/GoogleChrome/sw-toolbox#options
+    logger: fancylog,
+    runtimeCaching: [{
+      //https://googlechromelabs.github.io/sw-toolbox/api.html
+      urlPattern: /api_v1/,
+      handler: 'fastest',
       options: {
+        debug: handleFetch,
         cache: {
-          maxEntries: 1,
-          name: 'runtime-cache'
+          name: 'api-cache'
         }
       }
-    }],*/
+    }],
     staticFileGlobs: [
       DIST_DIR + '/css/**.css',
       DIST_DIR + '/**.html',
-      DIST_DIR + '/ico/**.*',
+      DIST_DIR + '/ico/**/*.png',
       DIST_DIR + '/js/**.js'
     ],
+    navigateFallback: DEPLOYMENT_ROOT + 'index.html',
     stripPrefix: DIST_DIR + '/',
     replacePrefix: DEPLOYMENT_ROOT,
-    // log more
     verbose: true
   };
 

@@ -1,6 +1,8 @@
 /**
  * This file is based on Google's example at
  * https://github.com/GoogleChromeLabs/sw-precache/blob/master/demo/app/js/service-worker-registration.js
+ *
+ * David Campos Rodríguez
  */
 
 'use strict';
@@ -30,7 +32,6 @@ if ('serviceWorker' in navigator) {
                 console.log('Content is now available offline!');
               }
               break;
-
             case 'redundant':
               console.error('The installing service worker became redundant.');
               break;
