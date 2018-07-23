@@ -37,7 +37,7 @@ class CategoriesGridPage extends GridPage {
         let icons = CategoriesGridPage._categoriesToIcons(categories);
         let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
 
-        super(app, columns, icons, null, new HomePage(app), TITLES[itemType], true, state);
+        super(app, columns, icons, null, TITLES[itemType], true, state);
 
         /**
          * The categories we are displaying
@@ -54,10 +54,6 @@ class CategoriesGridPage extends GridPage {
     }
 
     load(...loadingParams) {
-        // We move the AJAX call to load since we don't want this to be
-        // performed in the constructor. For example when a subpage creates
-        // this page as a parent, it might be not necessary to ever
-        // get to perform this action
         let self = this;
 
         super.setClickCallback((...x)=>self._categoryClicked(...x));

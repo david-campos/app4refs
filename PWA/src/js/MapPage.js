@@ -15,11 +15,10 @@ class MapPage extends Page {
      * @param {string} title - The title to display in the nav
      * @param {Item|Item[]} items - The items to display, it might be only one. In this case, the
      * route to the item will be automatically calculated and displayed.
-     * @param {Page} parentPage - A parent page for this one
      * @param {MapPageState} [state] - Saved state of the page to restore from
      */
-    constructor(app, title, items, parentPage, state) {
-        super(app, parentPage, title, true, state);
+    constructor(app, title, items, state) {
+        super(app, title, true, state);
 
         // Restore from state
         if(state) {
@@ -134,7 +133,7 @@ class MapPage extends Page {
                 return null;
             }
         }
-        return new MapPage(app, "", null, new HomePage(app), state);
+        return new MapPage(app, "", null, state);
     }
 }
 /**

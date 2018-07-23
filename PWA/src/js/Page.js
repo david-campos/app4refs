@@ -9,24 +9,16 @@
 class Page {
     /**
      * @param {App} app             - The app in which the page is running
-     * @param {Page} parentPage     - The parent page to go when pressing back
      * @param {string} title        - The title to display when we are in the page
      * @param {boolean} displayNav  - Display the navigation bar?
-     * @param {PageState} [state]     - If present, the other parameters will be ignored and taken from the state (except
-     * the parent page ).
+     * @param {PageState} [state]     - If present, the other parameters will be ignored and taken from the state.
      * @abstract
      */
-    constructor(app, parentPage, title, displayNav, state) {
+    constructor(app, title, displayNav, state) {
         /**
          * The app in which the page is running
          */
         this.app = app;
-        /**
-         * Parent page of this page, it was used to get back to the previous one,
-         * it might be necessary in browser which don't support history
-         * @type {Page}
-         */
-        this.parentPage = parentPage;
         /**
          * The title of the page
          * @type {string}

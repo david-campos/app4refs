@@ -14,17 +14,12 @@ const MAP_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=
 class ListPage extends Page {
     /**
      * @param {App} app                 - The app we are running
-     * @param {Page} parentPage         - Parent page to go back when pressing "back"
      * @param {Category} category       - The category to list the items in it
      * @param {ListPageState} [state]   - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(app, parentPage, category, state) {
-        if(!parentPage) {
-            parentPage = new CategoriesGridPage(app, category.itemType);
-        }
-
-        super(app, parentPage, category.name, true, state);
+    constructor(app, category, state) {
+        super(app, category.name, true, state);
 
         this._category = state ? state.category : category;
 
@@ -222,7 +217,7 @@ class ListPage extends Page {
         if(state.pageClass !== LIST_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${LIST_PAGE_CLASS}"`);
         }
-        return new ListPage(app, null, state.category, state);
+        return new ListPage(app, state.category, state);
     }
 }
 /**

@@ -35,10 +35,10 @@ class HomePage extends GridPage {
             }
         };
 
-        super(app, 2, icons, iconClicked, null, "App4Refs", false);
+        super(app, 2, icons, iconClicked, "App4Refs", false);
     }
 
     getState() {
-        return null; // No state for home screen
+        return super.getState(); // It will instance the home screen when "unknown"
     }
 }

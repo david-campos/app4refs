@@ -12,14 +12,13 @@ class GridPage extends Page {
      * @param {int}           columns        - Number of columns in the display
      * @param {{string}}      icons          - Associative array with an id for each icon and the route to the icon
      * @param {GridPage~ClickCallback} clickCallback  - Callback for item clicking
-     * @param {Page}          parentPage     - Parent page to go back when pressing "back"
      * @param {string}        title          - Title to show in the nav bar
      * @param {boolean}       displayNav     - Decides whether we should display the nav bar or not
      * @param {GridPageState} [state] - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(app, columns, icons, clickCallback, parentPage, title, displayNav, state) {
-        super(app, parentPage, title, displayNav, state);
+    constructor(app, columns, icons, clickCallback, title, displayNav, state) {
+        super(app, title, displayNav, state);
         /**
          * Number of columns for the display
          * @type {Number}
