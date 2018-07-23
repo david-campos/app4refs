@@ -86,7 +86,7 @@ class ApiService {
 
     /**
      * Called when we obtain the items from the API successfully
-     * @param {[Object]} items
+     * @param {[ItemObject]} items
      * @private
      */
     _itemsSuccess(items) {

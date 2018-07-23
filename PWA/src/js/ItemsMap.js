@@ -67,7 +67,7 @@ class ItemsMap {
         this._markers = {};
         /**
          * The position of the user, if known
-         * @type {?{latitude: Number, longitude: Number}}
+         * @type {?Coordinates}
          * @private
          */
         this._userPosition = null;
@@ -124,7 +124,7 @@ class ItemsMap {
 
     /**
      * Sets the user representation in the given position
-     * @param {{latitude: Number, longitude: Number}} position - The position of the user
+     * @param {Coordinates} position - The position of the user
      */
     placeUserIn(position) {
         this._userPosition = position;
@@ -342,7 +342,7 @@ class ItemsMap {
 
     /**
      * Deletes the marker associated to the given itemId
-     * @param {string|int} itemId
+     * @param {int} itemId
      * @private
      */
     _deleteItemMarker(itemId) {
@@ -392,7 +392,7 @@ class ItemsMap {
     }
 
     /**
-     * Sets the user position to the given LatLng
+     * Sets the user position to the position in userPosition
      * @private
      */
     _updateUserMarker() {

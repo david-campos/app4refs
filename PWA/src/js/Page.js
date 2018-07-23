@@ -69,8 +69,7 @@ class Page {
     resize(width, height) {}
 
     /**
-     * Called when the page is changed by another. The default implementation
-     * does nothing.
+     * Called when the page is changed by another.
      */
     onHide() {
         this._visible = false;
@@ -101,6 +100,7 @@ class Page {
 
     /**
      * Returns the width available for the page
+     * @return {Number}
      */
     getPageWidth() {
         let container = this.app.getContainer();

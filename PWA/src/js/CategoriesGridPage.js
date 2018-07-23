@@ -135,6 +135,7 @@ class CategoriesGridPage extends GridPage {
      * Returns a new CategoriesGridPage with the data of the saved state.
      * @param {App} app - The app for the page to be created on
      * @param {CategoriesGridPageState} state - The state to restore
+     * @return {CategoriesGridPage}
      */
     static fromState(app, state) {
         if(state.pageClass !== CATEGORIES_GRID_PAGE_CLASS) {

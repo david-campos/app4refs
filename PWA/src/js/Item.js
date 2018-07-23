@@ -89,25 +89,6 @@ class Item {
     }
 
     /**
-     * @typedef {Object} ItemObject
-     * @property {int} itemId
-     * @property {string} name
-     * @property {string} address
-     * @property {string} [webLink]
-     * @property {string} [placeId]
-     * @property {string} iconUri
-     * @property {boolean} isFree
-     * @property {number} coordLat
-     * @property {number} coordLon
-     * @property {?string} phone
-     * @property {boolean} callForAppointment
-     * @property {string} categoryCode
-     * @property {[string]} languageCodes
-     * @property {[PeriodObject]} openingHours
-     *
-     */
-
-    /**
      * Returns a representation of the item to save in the state
      * @return {ItemObject}
      */

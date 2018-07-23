@@ -46,5 +46,4 @@ class EmergencyPage extends Page {
 }
 /**
  * @typedef {PageState} EmergencyPageState
- * @property {string} pageClass
  */

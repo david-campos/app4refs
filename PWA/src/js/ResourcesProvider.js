@@ -115,6 +115,7 @@ class ResourcesProvider {
     /**
      * Gets the url of the icon for the given cost
      * @param {string} cost - 'free' or 'pay'
+     * @return {string}
      */
     static getCostIconUrl(cost) {
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${cost}.${RP_ICON_IMG_EXTENSION}`;
@@ -123,6 +124,7 @@ class ResourcesProvider {
     /**
      * Gets the url of the icon for the given language
      * @param {string} language - The language
+     * @return {string}
      */
     static getLanguageIconUrl(language) {
         return `${ResourcesProvider.getBaseUrl()}${RP_ICONS_DIR}/${RP_COST_AND_LANG_DIR}/${language}.${RP_ICON_IMG_EXTENSION}`;

@@ -13,12 +13,7 @@ class Geolocator {
          * @private
          */
         this._geolocationAvailable = ("geolocation" in navigator);
-        /**
-         * The user position if available
-         * @type {?google.maps.LatLng}
-         * @private
-         */
-        this._userPos = null;
+
         /**
          * The id of the position tracking, if it started
          * @type {?Number}
@@ -92,12 +87,20 @@ class Geolocator {
         }
     }
 
+    /**
+     * @param {Position} data
+     * @private
+     */
     _successCallback(data) {
         for(let listener of this._registeredListeners) {
             listener(data);
         }
     }
 
+    /**
+     * @param {PositionError} error
+     * @private
+     */
     static _errorCallback(error) {
         console.log('ERROR(' + error.code + '): ' + error.message);
     }
@@ -109,16 +112,8 @@ class Geolocator {
     isGeolocationAvailable() {
         return this._geolocationAvailable;
     }
-
-    /**
-     * Returns the position of the user in this moment
-     * @return {google.maps.LatLng}
-     */
-    getUserPosition() {
-        return this._userPos;
-    }
 }
 /**
  * @callback GeolocatorListener
- * @param {{coords: {latitude: Number, longitude: Number}}} data - The received data
+ * @param {Position} data - The received data
  */

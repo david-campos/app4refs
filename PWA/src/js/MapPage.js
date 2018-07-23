@@ -81,7 +81,7 @@ class MapPage extends Page {
 
     /**
      * It will be called each time the user position is updated
-     * @param {{coords: {latitude: Number, longitude: Number}}} data - New data of the geolocation
+     * @param {Position} data - New data of the geolocation
      * @private
      */
     _onUserPositionUpdate(data) {

@@ -82,6 +82,7 @@ class Period {
      * Checks if this period has the same hours to
      * start and end as the other one
      * @param {Period} periodB
+     * @return {boolean}
      */
     hasSameHoursAs(periodB) {
         return this.startHour === periodB.startHour &&
@@ -126,6 +127,7 @@ class Period {
      * Returns the given hour and minutes as a string
      * @param {int} hour - Hour in the range [0, 23]
      * @param {int} minutes - Minutes in the range [0, 59]
+     * @return {string}
      */
     static formatHour(hour, minutes) {
         let isPm = false;
