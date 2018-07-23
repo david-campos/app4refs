@@ -3,6 +3,8 @@
 --   some inital information like categories and languages
 -- Author: David Campos R. <david.campos.r96@gmail.com>
 
+START TRANSACTION;
+
 /******************************************************************************
  * LANGUAGES
  ******************************************************************************/
@@ -116,3 +118,5 @@ INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`, `link
 	VALUES ('help_disab','Disability', 'help', 8, 'http://www.esamea.gr/');
 INSERT INTO `categories`(`category_code`, `name`, `item_type`, `position`, `link`)
 	VALUES ('help_lgbt_','LGBT+', 'help', 9, 'http://www.colouryouth.gr/en/');
+    
+COMMIT;

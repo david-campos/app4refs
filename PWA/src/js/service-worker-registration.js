@@ -10,7 +10,7 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     // cache-service-worker.js should be created by sw-precache
-    navigator.serviceWorker.register(RESOURCE_BASE_URL + '/cache-service-worker.js').then(function(reg) {
+    navigator.serviceWorker.register('worker').then(function(reg) {
       // updatefound is fired if cache-service-worker.js changes.
       reg.onupdatefound = function() {
         // The updatefound event implies that reg.installing is set; see

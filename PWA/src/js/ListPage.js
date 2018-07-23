@@ -99,6 +99,11 @@ class ListPage extends Page {
      * @private
      */
     _mapsButtonClicked(event) {
+        if(navigator.onLine === false) {
+            // TODO: better interface (maybe hidding and showing map buttons?)
+            alert("Maps cannot be shown on offline mode");
+            return;
+        }
         let item = null;
         let title = this.title;
         let itemId = event.currentTarget.getAttribute("data-item");
