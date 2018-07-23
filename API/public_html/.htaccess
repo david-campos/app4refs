@@ -10,6 +10,7 @@ Header set X-Frame-Options SAMEORIGIN
 
 # Redirec /whatever to index.php
 RewriteCond %{REQUEST_URI} !/index.php\/?$
+RewriteCond %{REQUEST_URI} !/check_item_icons.php\/?$
 RewriteRule ^\/?.+\/?$ "/index.php" [QSA,L,NC]
 
 #UTF-8
