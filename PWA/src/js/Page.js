@@ -8,17 +8,16 @@
  */
 class Page {
     /**
-     * @param {App} app             - The app in which the page is running
      * @param {string} title        - The title to display when we are in the page
      * @param {boolean} displayNav  - Display the navigation bar?
      * @param {PageState} [state]     - If present, the other parameters will be ignored and taken from the state.
      * @abstract
      */
-    constructor(app, title, displayNav, state) {
+    constructor(title, displayNav, state) {
         /**
          * The app in which the page is running
          */
-        this.app = app;
+        this.app = App.getInstance();
         /**
          * The title of the page
          * @type {string}

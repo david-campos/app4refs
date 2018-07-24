@@ -15,10 +15,7 @@ const HOME_ICONS = [
  * Home page of the app, displayed when entering the app and when clicking the home button on the navigation bar
  */
 class HomePage extends GridPage {
-    /**
-     * @param {App} app
-     */
-    constructor(app) {
+    constructor() {
         let icons = {};
         for(let key of HOME_ICONS) {
             icons[key] = ResourcesProvider.getMainMenuIconUrl(key);
@@ -29,13 +26,13 @@ class HomePage extends GridPage {
          */
         let iconClicked = (id) => {
             if(id === 'emergency') {
-                app.navigateToPage(new EmergencyPage(app));
+                App.getInstance().navigateToPage(new EmergencyPage());
             } else {
-                app.navigateToPage(new CategoriesGridPage(app, id));
+                App.getInstance().navigateToPage(new CategoriesGridPage(id));
             }
         };
 
-        super(app, 2, icons, iconClicked, "App4Refs", false);
+        super(2, icons, iconClicked, "App4Refs", false);
     }
 
     getState() {

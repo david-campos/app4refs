@@ -13,13 +13,12 @@ const MAP_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=
  */
 class ListPage extends Page {
     /**
-     * @param {App} app                 - The app we are running
      * @param {Category} category       - The category to list the items in it
      * @param {ListPageState} [state]   - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(app, category, state) {
-        super(app, category.name, true, state);
+    constructor(category, state) {
+        super(category.name, true, state);
 
         this._category = state ? state.category : category;
 
@@ -117,7 +116,7 @@ class ListPage extends Page {
             item = this._items;
         }
         if(item) {
-            this.app.navigateToPage(new MapPage(this.app, title, item, this));
+            this.app.navigateToPage(new MapPage(title, item));
         }
     }
 
@@ -210,14 +209,13 @@ class ListPage extends Page {
     }
 
     /**
-     * @param {App} app
      * @param {ListPageState} state
      */
-    static fromState(app, state) {
+    static fromState(state) {
         if(state.pageClass !== LIST_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${LIST_PAGE_CLASS}"`);
         }
-        return new ListPage(app, state.category, state);
+        return new ListPage(state.category, state);
     }
 }
 /**

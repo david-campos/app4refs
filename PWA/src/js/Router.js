@@ -7,8 +7,7 @@
  * @abstract
  */
 class Router {
-    constructor(app) {
-        this.app = app;
+    constructor() {
         if(history.state) {
             this.onStatePopping({state: history.state});
         } else {
@@ -53,26 +52,26 @@ class Router {
             let page;
             switch(event.state.pageClass) {
                 case CATEGORIES_GRID_PAGE_CLASS:
-                    page = CategoriesGridPage.fromState(this.app, event.state);
+                    page = CategoriesGridPage.fromState(event.state);
                     break;
                 case LIST_PAGE_CLASS:
-                    page = ListPage.fromState(this.app, event.state);
+                    page = ListPage.fromState(event.state);
                     break;
                 case MAP_PAGE_CLASS:
-                    page = MapPage.fromState(this.app, event.state);
+                    page = MapPage.fromState(event.state);
                     break;
                 case EMERGENCY_PAGE_CLASS:
-                    page = EmergencyPage.fromState(this.app, event.state);
+                    page = EmergencyPage.fromState(event.state);
                     break;
                 default:
-                    page = new HomePage(this.app);
+                    page = new HomePage();
                     break;
             }
             if(page) {
-                this.app.loadAndRenderPage(page);
+                App.getInstance().loadAndRenderPage(page);
             }
         } else {
-            this.app.loadAndRenderPage(new HomePage(this.app));
+            App.getInstance().loadAndRenderPage(new HomePage());
         }
     }
 
@@ -94,10 +93,10 @@ class Router {
         if(urlHash) {
             console.log("URL HASH (NOT IMPLEMENTED)", urlHash);
             // While we don't implement it, we go to home page
-            this.app.loadAndRenderPage(new HomePage(this.app));
+            App.getInstance().loadAndRenderPage(new HomePage());
         } else {
             // When null or "" we go to the home page
-            this.app.loadAndRenderPage(new HomePage(this.app));
+            App.getInstance().loadAndRenderPage(new HomePage());
         }
     }
 }

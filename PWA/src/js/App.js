@@ -3,44 +3,62 @@
  */
 
 /**
- * App class, this is the main class of our application
+ * App class, this is the main class of our application. Singleton class.
  */
 class App {
+    /**
+     * It will always return the same instance because of singleton pattern
+     * @return {App}
+     */
     constructor() {
-        /**
-         * Navigation bar
-         * @type {NavBar}
-         * @private
-         */
-        this._nav = new NavBar(this);
-        /**
-         * Currently displayed page
-         * @type {Page}
-         * @private
-         */
-        this._currentPage = null;
-        /**
-         * App container to render the pages on
-         * @type {Element}
-         * @private
-         */
-        this._container = document.getElementById("app-container");
-        /**
-         * The router to direct inside the page navigation
-         * @type {Router}
-         * @private
-         */
-        this._router = new Router(this);
-        /**
-         * Indicates if the Maps Api is available already to be used or not yet.
-         * @type {boolean}
-         * @private
-         */
-        this._mapsAvailable = false;
+        if(!App._instance) {
+            App._instance = this;
 
-        window.onpopstate = (...x)=>this._router.onStatePopping(...x);
-        window.addEventListener('resize', (e)=>this._currentPage.resize(innerWidth, innerHeight));
-        window[INIT_MAP_FUNCTION_NAME] = ()=>this.setMapsAvailable();
+            /**
+             * Navigation bar
+             * @type {NavBar}
+             * @private
+             */
+            this._nav = new NavBar();
+            /**
+             * Currently displayed page
+             * @type {Page}
+             * @private
+             */
+            this._currentPage = null;
+            /**
+             * App container to render the pages on
+             * @type {Element}
+             * @private
+             */
+            this._container = document.getElementById("app-container");
+            /**
+             * The router to direct inside the page navigation
+             * @type {Router}
+             * @private
+             */
+            this._router = new Router();
+            /**
+             * Indicates if the Maps Api is available already to be used or not yet.
+             * @type {boolean}
+             * @private
+             */
+            this._mapsAvailable = false;
+
+            window.onpopstate = (...x) => this._router.onStatePopping(...x);
+            window.addEventListener('resize', (e) => this._currentPage.resize(innerWidth, innerHeight));
+            window[INIT_MAP_FUNCTION_NAME] = () => this.setMapsAvailable();
+        }
+
+        return App._instance;
+    }
+
+    /**
+     * Gets the singleton instance of the App
+     * @return {App}
+     */
+    static getInstance() {
+        return new App();
     }
 
     /**

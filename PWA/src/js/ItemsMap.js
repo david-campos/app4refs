@@ -111,14 +111,13 @@ class ItemsMap {
 
     /**
      * Requires the maps api and loads the map in the specified container
-     * @param {App} app
      * @param {Element} container
      */
-    load(app, container) {
+    load(container) {
         if(this._state === MAP_STATE_NOT_LOADED) {
             this._state = MAP_STATE_LOADING;
             let self = this;
-            app.requireMapsApi((...x) => self._mapsApiAvailable(container));
+            App.getInstance().requireMapsApi((...x) => self._mapsApiAvailable(container));
         }
     }
 

@@ -27,17 +27,16 @@ const TITLES = {
  */
 class CategoriesGridPage extends GridPage {
     /**
-     * @param {App} app - The app the page is running on
      * @param {string} itemType - Item-type of the categories we should display
      * @param {CategoriesGridPageState} [state] - Saved state to restore from
      */
-    constructor(app, itemType, state) {
+    constructor(itemType, state) {
         let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache (in load)
 
         let icons = CategoriesGridPage._categoriesToIcons(categories);
         let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
 
-        super(app, columns, icons, null, TITLES[itemType], true, state);
+        super(columns, icons, null, TITLES[itemType], true, state);
 
         /**
          * The categories we are displaying
@@ -111,7 +110,7 @@ class CategoriesGridPage extends GridPage {
             if(category.link) {
                 window.open(category.link, "_blank");
             } else {
-                this.app.navigateToPage(new ListPage(this.app, this, category));
+                this.app.navigateToPage(new ListPage(category));
             }
         }
     }
@@ -129,15 +128,14 @@ class CategoriesGridPage extends GridPage {
 
     /**
      * Returns a new CategoriesGridPage with the data of the saved state.
-     * @param {App} app - The app for the page to be created on
      * @param {CategoriesGridPageState} state - The state to restore
      * @return {CategoriesGridPage}
      */
-    static fromState(app, state) {
+    static fromState(state) {
         if(state.pageClass !== CATEGORIES_GRID_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${CATEGORIES_GRID_PAGE_CLASS}"`);
         }
-        return new CategoriesGridPage(app, state.itemType, state);
+        return new CategoriesGridPage(state.itemType, state);
     }
 }
 /**

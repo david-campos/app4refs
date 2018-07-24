@@ -24,11 +24,8 @@ class NavBar {
     /**
      * The constructor of the navbar searches for the elements in the DOM
      * to save the references and create the event listeners.
-     * @param {App} app - The app in which the nav bar is working
      */
-    constructor(app) {
-        this.app = app;
-
+    constructor() {
         this.element = document.getElementById("app-nav");
         this.backBtn = document.getElementById("nav-back-btn");
         this.titleElement = document.getElementById("nav-title");
@@ -92,7 +89,7 @@ class NavBar {
      * Navigates back to the home page. It is associated to the "home" button in the navbar.
      */
     home() {
-        this.app.navigateToPage(new HomePage(this.app));
+        App.getInstance().navigateToPage(new HomePage());
     }
 }
 /**

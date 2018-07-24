@@ -8,7 +8,6 @@
  */
 class GridPage extends Page {
     /**
-     * @param {App} app
      * @param {int}           columns        - Number of columns in the display
      * @param {{string}}      icons          - Associative array with an id for each icon and the route to the icon
      * @param {GridPage~ClickCallback} clickCallback  - Callback for item clicking
@@ -17,8 +16,8 @@ class GridPage extends Page {
      * @param {GridPageState} [state] - The state to restore, if present the parameters in the state will replace
      * the ones passed (the passed ones will be ignored).
      */
-    constructor(app, columns, icons, clickCallback, title, displayNav, state) {
-        super(app, title, displayNav, state);
+    constructor(columns, icons, clickCallback, title, displayNav, state) {
+        super(title, displayNav, state);
         /**
          * Number of columns for the display
          * @type {Number}

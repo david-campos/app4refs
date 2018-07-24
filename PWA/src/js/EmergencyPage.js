@@ -9,8 +9,11 @@ const EMERGENCY_PAGE_CLASS = "EmergencyPage";
  * This page shows a button to call the emergency services
  */
 class EmergencyPage extends Page {
-    constructor(app, state) {
-        super(app, "Emergencies", true, state);
+    /**
+     * @param {EmergencyPageState} [state]
+     */
+    constructor(state) {
+        super("Emergencies", true, state);
         this.savedBackground = document.body.style.background;
     }
 
@@ -34,14 +37,13 @@ class EmergencyPage extends Page {
     }
 
     /**
-     * @param {App} app
      * @param {EmergencyPageState} state
      */
-    static fromState(app, state) {
+    static fromState(state) {
         if(state.pageClass !== EMERGENCY_PAGE_CLASS) {
             throw new Error( `The passed state has not pageClass="${EMERGENCY_PAGE_CLASS}"`);
         }
-        return new EmergencyPage(app, state);
+        return new EmergencyPage(state);
     }
 }
 /**
