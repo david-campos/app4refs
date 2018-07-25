@@ -124,6 +124,24 @@ class Period {
     }
 
     /**
+     * Returns the next day for the period to continue repetition.
+     * If the period starts at an hour (and minutes) that is lower
+     * than or exactly equals to the hour it ends, the day after endDay
+     * is returned. If the starting hour is greater than the ending one,
+     * then endDay is returned.
+     * @return {string}
+     */
+    nextDay() {
+        if(this.startHour > this.endHour ||
+            (this.startHour === this.endHour &&
+                this.startMinutes >= this.endMinutes)) {
+            return this.endDay;
+        } else {
+            return Period.nextDay(this.endDay);
+        }
+    }
+
+    /**
      * Returns the given hour and minutes as a string
      * @param {int} hour - Hour in the range [0, 23]
      * @param {int} minutes - Minutes in the range [0, 59]
@@ -137,5 +155,18 @@ class Period {
         }
         let minutesStr = ( minutes !== 0 ? ":" + minutes : "" );
         return `${hour}${minutesStr}${isPm?"pm":"am"}`;
+    }
+
+    /**
+     * Returs the day that comes after the passed day
+     * @param {string} day - The day as returned by the period ("mon","tue","wed"...)
+     */
+    static nextDay(day) {
+        let idx = PERIOD_DAYS.indexOf(day);
+        if(idx >= 0) {
+            return PERIOD_DAYS[(idx+1) % PERIOD_DAYS.length];
+        } else {
+            throw new Error(`Period::nextDay: Invalid day '${day}'.`)
+        }
     }
 }

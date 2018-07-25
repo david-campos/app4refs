@@ -38,7 +38,7 @@ interface IPeriodsGateway {
 
     /**
      * Gets all the periods for a given item id. The list will be empty if the id
-     * doesn't exist.
+     * doesn't exist. They are ordered by their end day, hour and minutes.
      * @param int $itemId
      * @return \Period[]
      */

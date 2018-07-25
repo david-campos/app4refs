@@ -167,29 +167,43 @@ class ListPage extends Page {
 
     /**
      * Groups all the periods with the same schedule
-     * @param {Period[]} periods - A list of periods, it is expected to be chronologically ordered
+     * @param {Period[]} periods - A list of periods, ordered by their end day.
      * @return {PeriodMarker[]}
      * @private
      */
     static _groupPeriodsWithSameSchedule(periods) {
+        let periodsLeft = periods.slice();
         /**
          * @type {PeriodMarker[]}
          */
-        let startedSchedules = [];
-        for(let period of periods) {
-            let found = false;
-            for(let schedule of startedSchedules) {
-                if(period.hasSameHoursAs(schedule.startPeriod)) {
-                    schedule.endDay = period.endDayStr();
-                    found = true;
-                    break;
+        let schedules = [];
+        // While there are periods to group
+        while(periodsLeft.length > 0) {
+            let next = periodsLeft.shift();
+            let schedule = {
+                startPeriod: next,
+                endDay: next.endDayStr(),
+                nextDay: next.nextDay()};
+            let foundNextPeriod;
+            do {
+                foundNextPeriod = false;
+                for (let idx=0; idx < periodsLeft.length; idx++) {
+                    let period = periodsLeft[idx];
+                    // It has the same schedule and it starts the next day
+                    if (period.hasSameHoursAs(schedule.startPeriod) &&
+                        period.startDay === schedule.nextDay) {
+                        schedule.endDay = period.endDayStr();
+                        schedule.nextDay = period.nextDay();
+                        // Remove period from periodsLeft
+                        periodsLeft.splice(idx, 1);
+                        foundNextPeriod = true;
+                        break;
+                    }
                 }
-            }
-            if(!found) {
-                startedSchedules.push({startPeriod: period, endDay: period.endDayStr()});
-            }
+            } while(foundNextPeriod); // Repeat while next is found
+            schedules.push(schedule);  // Add to the schedule
         }
-        return startedSchedules;
+        return schedules;
     }
 
     static _costAndLangHtmlFor(item) {
@@ -236,6 +250,7 @@ class ListPage extends Page {
  * @typedef {Object} PeriodMarker
  * @property {Period} startPeriod
  * @property {string} endDay
+ * @property {string} nextDay
  */
 /**
  * @typedef {PageState} ListPageState

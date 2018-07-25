@@ -10,7 +10,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="IPeriodsGateway.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/class/gateways/IPeriodsGateway.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="641">
+              <caret line="40" column="74" lean-forward="false" selection-start-line="40" selection-start-column="74" selection-end-line="40" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -28,9 +39,6 @@
       <command text="phpDocumentor.phar" />
     </commandsHistory>
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -44,7 +52,6 @@
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliCategoriesGatewayTestBase.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliPeriodsGatewayTestBase.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliGatewayTestBase.php" />
-        <option value="$PROJECT_DIR$/class/gateways/IPeriodsGateway.php" />
         <option value="$PROJECT_DIR$/unitaryTests/PeriodGatewayStub.php" />
         <option value="$PROJECT_DIR$/class/Period.php" />
         <option value="$PROJECT_DIR$/class/exceptions/ListExpectedException.php" />
@@ -85,6 +92,7 @@
         <option value="$PROJECT_DIR$/public_html/check_item_icons.php" />
         <option value="$PROJECT_DIR$/class/ItemType.php" />
         <option value="$PROJECT_DIR$/public_html/.htaccess" />
+        <option value="$PROJECT_DIR$/class/gateways/IPeriodsGateway.php" />
       </list>
     </option>
   </component>
@@ -142,6 +150,24 @@
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gtmysqli" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
@@ -258,6 +284,7 @@
       <workItem from="1532464453134" duration="596000" />
       <workItem from="1532525618394" duration="1777000" />
       <workItem from="1532530361313" duration="1830000" />
+      <workItem from="1532538102671" duration="80000" />
     </task>
     <servers />
   </component>
@@ -294,7 +321,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155125000" />
+    <option name="totallyTimeSpent" value="155205000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -307,12 +334,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6485623" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -324,6 +351,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6485623" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -342,13 +370,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/class/exceptions/DatabaseInternalException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/exceptions/DatabaseCategoryNotFoundException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -686,11 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-217">
           <caret line="33" column="1" lean-forward="true" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
-          <folding>
-            <marker date="1532362635322" expanded="true" signature="921:954" ph="SELECT itemI... items" />
-            <marker date="1532362635322" expanded="true" signature="2970:2977" ph="..." />
-            <marker date="1532362635322" expanded="true" signature="2970:2984" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -698,7 +714,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="11" column="42" lean-forward="true" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -706,7 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -740,6 +754,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
           <caret line="21" column="1" lean-forward="false" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/IPeriodsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="641">
+          <caret line="40" column="74" lean-forward="false" selection-start-line="40" selection-start-column="74" selection-end-line="40" selection-end-column="74" />
           <folding />
         </state>
       </provider>
