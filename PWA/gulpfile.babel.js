@@ -54,7 +54,8 @@ var DEV_JS_SRC = [
     ];
 var DEV_CSS_SRC = path.join(DEV_CSS_DIR, '*.css');
 var DEV_HTML_SRC = path.join(DEV_DIR, '*.html');
-var DEV_ICO_SRC = path.join(DEV_ICO_DIR, '**/*.{png|jpg}');
+var DEV_ICO_SRC = [path.join(DEV_ICO_DIR, '**/*.png'),
+                   path.join(DEV_ICO_DIR, '**/*.jpg')];
 
 var DIST_DIR = 'dist';
 var DIST_JS_DIR = path.join(DIST_DIR, JS_DIR);
