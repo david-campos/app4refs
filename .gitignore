@@ -2,8 +2,12 @@
 ######################
 PWA/node_modules
 PWA/node_modules/*
+# pwa distribution
 PWA/dist
 PWA/dist/*
+# jsDoc output
+PWA/out
+PWA/out/*
 
 # Compiled source #
 ###################
