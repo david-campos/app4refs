@@ -159,7 +159,7 @@ class MysqliPeriodsGateway implements IPeriodsGateway {
     function getPeriodsForItem(int $itemId) {
         $periods = [];
         $stmt = $this->mysqli->prepare(
-            'SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=?');
+            'SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=? ORDER BY end_day,end_hour,end_minutes');
         if($stmt === false) {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }

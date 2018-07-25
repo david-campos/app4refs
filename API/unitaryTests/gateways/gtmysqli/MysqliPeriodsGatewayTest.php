@@ -17,7 +17,7 @@ class MysqliPeriodsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase 
             [2, 'mon', 16, 5, 'tue', 20, 0]
             ];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=?'=>$periods],
+            ['SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=? ORDER BY end_day,end_hour,end_minutes'=>$periods],
             true, true
         );
         $gateway = new MysqliPeriodsGateway($mysqliMock);
@@ -41,7 +41,7 @@ class MysqliPeriodsGatewayTest extends \gateways\gtmysqli\MysqliGatewayTestBase 
             [2, 'mon', 16, 5, 'tue', 20, 0]
         ];
         $mysqliMock = $this->buildMockToExpectQueries(
-            ['SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=?'=>$periods],
+            ['SELECT period_id,start_day,start_hour,start_minutes,end_day,end_hour,end_minutes FROM opening_hours WHERE item_id=? ORDER BY end_day,end_hour,end_minutes'=>$periods],
             false, true
         );
         $gateway = new MysqliPeriodsGateway($mysqliMock);
