@@ -49,10 +49,16 @@ class ListPage extends Page {
             let textString = `<h3>${item.name}</h3>`;
             textString += `<p class="item-addr">${item.address}</p>`;
             textString += `<div class="item-cost-lang">${costAndLang}</div>`;
+
             if(item.webLink) {
                 textString += `<a class="item-link" href="${item.webLink}" target="_blank"><span>${item.webLink}</span> ${LINK_ICON_SVG}</a>`;
             }
-            textString += `<p class="item-periods">${periods}</p>`;
+
+            if(item.callForAppointment) {
+                textString += `<a class="item-call" href="tel:${item.phone}">${PHONE_SVG} ${item.phone}</a>`;
+            } else {
+                textString += `<p class="item-periods">${periods}</p>`;
+            }
 
             if(this.shouldShowMapButton()) {
                 textString += `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`;
@@ -136,6 +142,13 @@ class ListPage extends Page {
         this.render(this.app.getContainer());
     }
 
+    /**
+     * Generates the periods html for the item, grouping periods on sucessive
+     * days into single lines.
+     * @param {Item} item - The item to print the periods for
+     * @return {string}
+     * @private
+     */
     static _periodsStrFor(item) {
         // We will group periods with the same schedule
         let startedSchedules = ListPage._groupPeriodsWithSameSchedule(item.openingHours);

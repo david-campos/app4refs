@@ -52,6 +52,15 @@
     margin: 0;
 }
 
+a.item-call {
+    text-decoration: none;
+    color: black;
+}
+
+.item-call svg {
+    height: 0.8em;
+}
+
 .item-map, #all-items-map {
     color: white;
     text-transform: uppercase;
