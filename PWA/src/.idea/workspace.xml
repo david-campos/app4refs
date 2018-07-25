@@ -11,7 +11,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ListPage.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ListPage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ListPage.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="418">
@@ -19,6 +19,16 @@
               <folding>
                 <marker date="1532535573872" expanded="true" signature="4034:4098" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list-page.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/css/list-page.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="377">
+              <caret line="57" column="19" lean-forward="false" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -87,8 +97,8 @@
         <option value="$PROJECT_DIR$/js/ApiService.js" />
         <option value="$PROJECT_DIR$/js/GridPage.js" />
         <option value="$PROJECT_DIR$/js/EmergencyPage.js" />
-        <option value="$PROJECT_DIR$/css/list-page.css" />
         <option value="$PROJECT_DIR$/js/ListPage.js" />
+        <option value="$PROJECT_DIR$/css/list-page.css" />
       </list>
     </option>
   </component>
@@ -233,12 +243,12 @@
       <workItem from="1532443110345" duration="59000" />
       <workItem from="1532444123554" duration="1779000" />
       <workItem from="1532527483980" duration="1498000" />
-      <workItem from="1532533098965" duration="2472000" />
+      <workItem from="1532533098965" duration="2618000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167055000" />
+    <option name="totallyTimeSpent" value="167201000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -647,14 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/list-page.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="56" column="17" lean-forward="false" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/ListPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="418">
@@ -662,6 +664,14 @@
           <folding>
             <marker date="1532535573872" expanded="true" signature="4034:4098" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/list-page.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="57" column="19" lean-forward="false" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

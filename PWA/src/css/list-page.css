@@ -55,6 +55,7 @@
 a.item-call {
     text-decoration: none;
     color: black;
+    display: block;
 }
 
 .item-call svg {
