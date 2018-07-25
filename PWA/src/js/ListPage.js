@@ -154,13 +154,13 @@ class ListPage extends Page {
 
     /**
      * Groups all the periods with the same schedule
-     * @param {[Period]} periods - A list of periods, it is expected to be chronologically ordered
-     * @return {{startPeriod: Period, endDay: string}[]}
+     * @param {Period[]} periods - A list of periods, it is expected to be chronologically ordered
+     * @return {PeriodMarker[]}
      * @private
      */
     static _groupPeriodsWithSameSchedule(periods) {
         /**
-         * @type {{startPeriod: Period, endDay: string}[]}
+         * @type {PeriodMarker[]}
          */
         let startedSchedules = [];
         for(let period of periods) {
@@ -218,6 +218,12 @@ class ListPage extends Page {
         return new ListPage(state.category, state);
     }
 }
+
+/**
+ * @typedef {Object} PeriodMarker
+ * @property {Period} startPeriod
+ * @property {string} endDay
+ */
 /**
  * @typedef {PageState} ListPageState
  * @property {ItemObject[]} items

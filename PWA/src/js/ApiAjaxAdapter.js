@@ -10,8 +10,21 @@ class ApiAjaxAdapter {
      * @param {string} baseUrl - Base URL for the api
      */
     constructor(baseUrl) {
+        /**
+         * @type {string}
+         * @private
+         */
         this._baseUrl = ApiAjaxAdapter._cleanBaseUrl(baseUrl);
+        /**
+         * @type {XMLHttpRequest}
+         * @private
+         */
         this._xhttp = this._createXHttp();
+        /**
+         * Callback to be called on success
+         * @type {?Function}
+         * @private
+         */
         this._onSuccess = null;
     }
 
@@ -86,6 +99,11 @@ class ApiAjaxAdapter {
         this._onSuccess = null;
     }
 
+    /**
+     * Creates the XMLHttpRequest for this adapter
+     * @return {XMLHttpRequest}
+     * @private
+     */
     _createXHttp() {
         let self = this;
         let xhttp = new XMLHttpRequest();

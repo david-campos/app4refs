@@ -22,7 +22,8 @@ class Geolocator {
         this._watchId = null;
         /**
          * An array with all the registered listeners
-         * @type {[GeolocatorListener]}
+         * @type {GeolocatorListener[]}
+         * @private
          */
         this._registeredListeners = [];
 

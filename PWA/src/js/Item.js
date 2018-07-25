@@ -16,8 +16,8 @@
  * @property {?string} phone
  * @property {boolean} callForAppointment
  * @property {string} categoryCode
- * @property {[string]} languageCodes
- * @property {[PeriodObject]} openingHours
+ * @property {string[]} languageCodes
+ * @property {PeriodObject[]} openingHours
  *
  */
 

@@ -13,9 +13,21 @@ const API_BASE_URL = "api_v1";
  */
 class ApiService {
     constructor() {
+        /**
+         * @type {ApiAjaxAdapter}
+         * @private
+         */
         this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
+        /**
+         * @type {?Function}
+         * @private
+         */
         this._callback = null;
         // We use only one currentId saved cause our _api can handle only one at a time (cancels the previous)
+        /**
+         * @type {int}
+         * @private
+         */
         this._currentId = -1;
     }
 
@@ -53,7 +65,7 @@ class ApiService {
 
     /**
      * Called when we obtain the categories from the API successfully
-     * @param {[Category]} categories
+     * @param {Category[]} categories
      * @private
      */
     _categoriesSuccess(categories) {
@@ -86,7 +98,7 @@ class ApiService {
 
     /**
      * Called when we obtain the items from the API successfully
-     * @param {[ItemObject]} items
+     * @param {ItemObject[]} items
      * @private
      */
     _itemsSuccess(items) {

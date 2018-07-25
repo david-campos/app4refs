@@ -21,16 +21,19 @@ class GridPage extends Page {
         /**
          * Number of columns for the display
          * @type {Number}
+         * @private
          */
         this._columns = state ? state.columns : columns;
         /**
          * Associative array of the icon urls where the key is an id for the icon (used on click callback)
          * @type {{string}}
+         * @private
          */
         this._icons = state ? state.icons : icons;
         /**
          * Callback to call when icons are clicked
          * @type {GridPage~ClickCallback}
+         * @private
          */
         this._clickCallback = clickCallback;
         /**

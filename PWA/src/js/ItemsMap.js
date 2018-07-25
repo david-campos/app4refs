@@ -34,6 +34,7 @@ class ItemsMap {
         /**
          * The state of the map
          * @type {MapState}
+         * @private
          */
         this._state = MAP_STATE_NOT_LOADED;
         /**
@@ -45,6 +46,7 @@ class ItemsMap {
         /**
          * The container for the instructions of the directions to display
          * @type {Element}
+         * @private
          */
         this._directionsContainer = directionsContainer;
         /**
