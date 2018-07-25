@@ -31,7 +31,7 @@ class ItemType extends FakeEnum {
 
     /**
      * Creates the right item type for the given string, the strings in this class should
-     * coincide with the ones in the database, so we can pass them directly into here
+     * match the ones in the database, so we can pass them directly into here
      * @param $string string The string to check
      * @return ItemType the item type with the given string as value
      * @throws UnknownTypeStrException if the given type does not match any of the types known by the current
