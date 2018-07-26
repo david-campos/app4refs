@@ -1,0 +1,22 @@
+{
+  "name": "App4Refs",
+  "short_name": "App4Refs",
+  "theme_color": "#212121",
+  "background_color": "#c0cbe0",
+  "display": "standalone",
+  "lang": "en-US",
+  "orientation": "any",
+  "scope": "/",
+  "start_url": "/a",
+  "icons": [
+    {
+      "src": "{{ROOT}}/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "{{ROOT}}/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }]
+}

@@ -8,10 +8,9 @@ var babel       = require('gulp-babel');
 var gulp        = require('gulp');
 var path        = require('path');
 var runSequence = require('run-sequence');
+var replace = require('gulp-replace');
 var concat      = require('gulp-concat');
-//var rename      = require('gulp-rename');
 var sourcemaps  = require('gulp-sourcemaps');
-//var babel       = require('gulp-babel');
 var clean = require('gulp-clean');
 var fancylog = require('fancy-log');
 var uglifyJs    = require('gulp-uglify');
@@ -19,17 +18,20 @@ var minifyCss   = require('gulp-minify-css');
 var htmlmin     = require('gulp-htmlmin');
 var packageJson = require('./package.json');
 var swPrecache  = require('sw-precache');
+var jsdoc = require('gulp-jsdoc3');
 
 var DEPLOYMENT_ROOT = '/alpha/public_html/';
 
 var JS_DIR = 'js';
 var CSS_DIR = 'css';
 var ICO_DIR = 'ico';
+var MANIFEST_FILE = 'manifest.json';
 
 var DEV_DIR = 'src';
 var DEV_JS_DIR = path.join(DEV_DIR, JS_DIR);
 var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
 var DEV_ICO_DIR = path.join(DEV_DIR, ICO_DIR);
+var DEV_MANIFEST_SRC = path.join(DEV_DIR, MANIFEST_FILE);
 var DEV_JS_SRC = [
     'utils.js',
     'Item.js',
@@ -56,6 +58,10 @@ var DEV_CSS_SRC = path.join(DEV_CSS_DIR, '*.css');
 var DEV_HTML_SRC = path.join(DEV_DIR, '*.html');
 var DEV_ICO_SRC = [path.join(DEV_ICO_DIR, '**/*.png'),
                    path.join(DEV_ICO_DIR, '**/*.jpg')];
+var DEV_OTHER_SRC = [path.join(DEV_DIR, '*.png'),
+                     path.join(DEV_DIR, 'favicon.ico'),
+                     path.join(DEV_DIR, 'browserconfig.xml'),
+                     path.join(DEV_DIR, 'safari-pinned-tab.svg')];
 
 var DIST_DIR = 'dist';
 var DIST_JS_DIR = path.join(DIST_DIR, JS_DIR);
@@ -68,6 +74,11 @@ var SERVICE_WORKER_NAME = 'cache-service-worker.js';
 // Add DEV_DIR to the JS_SRC
 for(var idx in DEV_JS_SRC) {
     DEV_JS_SRC[idx] = path.join(DEV_JS_DIR, DEV_JS_SRC[idx]);
+}
+
+// Correct deployment root end
+if(DEPLOYMENT_ROOT.endsWith("/")) {
+    DEPLOYMENT_ROOT = DEPLOYMENT_ROOT.substring(0, DEPLOYMENT_ROOT.length-1);
 }
 
 function writeServiceWorkerFile(handleFetch, callback) {
@@ -91,12 +102,13 @@ function writeServiceWorkerFile(handleFetch, callback) {
     staticFileGlobs: [
       DIST_DIR + '/css/**.css',
       DIST_DIR + '/**.html',
+      DIST_DIR + '/favicon.ico',
       DIST_DIR + '/ico/**/*.png',
       DIST_DIR + '/js/**.js'
     ],
-    navigateFallback: DEPLOYMENT_ROOT + 'index.html',
+    navigateFallback: path.join(DEPLOYMENT_ROOT, 'index.html'),
     stripPrefix: DIST_DIR + '/',
-    replacePrefix: DEPLOYMENT_ROOT,
+    replacePrefix: DEPLOYMENT_ROOT + '/',
     verbose: true
   };
 
@@ -109,19 +121,21 @@ gulp.task('watch', function() {
    gulp.watch(DEV_JS_SRC, ['dist-javascript']);
    gulp.watch(DEV_CSS_SRC, ['dist-css']);
    gulp.watch(DEV_HTML_SRC, ['dist-html']);
+   gulp.watch(DEV_MANIFEST_SRC, ['dist-manifest']);
+   gulp.watch(DEV_OTHER_SRC, ['dist-other']);
 });
 
 gulp.task('build', function(callback) {
-  runSequence('dist-javascript', 'dist-css', 'dist-html', 'generate-service-worker-dist', callback);
+  runSequence(
+  'dist-javascript', 'dist-css', 'dist-html',
+  'dist-ico', 'dist-other', 'dist-manifest', callback);
 });
 
-gulp.task('build-dev', function(callback) {
-  runSequence('dist-javascript', 'dist-css', 'dist-html', 'generate-service-worker-dev', callback);
-});
-
-gulp.task('build-complete', function(callback) {
-  runSequence('dist-javascript', 'dist-css', 'dist-html', 'clean-ico', 'dist-ico',
-  'generate-service-worker-dist', callback);
+gulp.task('clean-build', function(callback) {
+  runSequence(
+  'clean-all',
+  'dist-javascript', 'dist-css', 'dist-html',
+  'dist-ico', 'dist-other', 'dist-manifest', callback);
 });
 
 gulp.task('dist-javascript', function(){
@@ -152,10 +166,27 @@ gulp.task('dist-ico', function() {
  .pipe(gulp.dest(DIST_ICO_DIR));
 });
 
+gulp.task('clean-all', function() {
+  gulp.src(DIST_DIR)
+  .pipe(clean());
+});
+
+gulp.task('dist-other', function() {
+  gulp.src(DEV_OTHER_SRC)
+  .pipe(gulp.dest(DIST_DIR));
+});
+
 gulp.task('dist-html', function(){
   return gulp.src(DEV_HTML_SRC)
     //.pipe(concat('exampleallhtml.html'))
+    .pipe(replace(/\{\{ROOT\}\}/g, DEPLOYMENT_ROOT))
     .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest(DIST_DIR));
+});
+
+gulp.task('dist-manifest', function(){
+  return gulp.src(DEV_MANIFEST_SRC)
+    .pipe(replace(/\{\{ROOT\}\}/g, DEPLOYMENT_ROOT))
     .pipe(gulp.dest(DIST_DIR));
 });
 
@@ -165,4 +196,11 @@ gulp.task('generate-service-worker-dist', function(callback) {
 
 gulp.task('generate-service-worker-dev', function(callback) {
   writeServiceWorkerFile(false, callback);
+});
+
+gulp.task('jsdoc', function(cb){
+   var config = require('./jsdoc.json');
+   gulp.src('./out/').pipe(clean());
+   gulp.src(DEV_JS_SRC, {read: false})
+       .pipe(jsdoc(config, cb));
 });

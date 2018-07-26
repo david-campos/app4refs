@@ -5,6 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Application to support social participation, inclusion and integration of refugees in Athens, Greece. Find leisure areas, information places, online help and more.">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#212121">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="{{ROOT}}/browserconfig.xml" />
+
+  <link rel="stylesheet" href="{{ROOT}}/css/style.min.css">
+
+  <link rel="manifest" href="{{ROOT}}/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ROOT}}/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ROOT}}/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ROOT}}/favicon-16x16.png">
+  <link rel="mask-icon" href="{{ROOT}}/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" href="{{ROOT}}/favicon.ico">
+
   <script>
       /**
        * Base url to access the resources, it will be useful as we might be accessing
@@ -13,16 +27,7 @@
        * base will be added at the start of the resources URL's.
        * @type {string}
        */
-      const RESOURCE_BASE_URL = "";
-  </script>
-  <script>
-    var script = document.createElement("script");
-    script.setAttribute("src", RESOURCE_BASE_URL+"/js/javascript.min.js");
-    var link = document.createElement("link");
-    link.setAttribute("rel", "stylesheet");
-    link.setAttribute("href", RESOURCE_BASE_URL+"/css/style.min.css");
-    document.head.appendChild(script);
-    document.head.appendChild(link);
+      const RESOURCE_BASE_URL = "{{ROOT}}";
   </script>
 </head>
 <body>
@@ -50,5 +55,10 @@
 
 <main id="app-container" class="container-fluid">
 </main>
+<script>
+    var script = document.createElement("script");
+    script.setAttribute("src", RESOURCE_BASE_URL+"/js/javascript.min.js");
+    document.head.appendChild(script);
+</script>
 </body>
 </html>

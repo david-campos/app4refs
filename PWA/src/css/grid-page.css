@@ -9,7 +9,7 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
-    min-height: 16vh;
+    min-height: 16vmax;
     -webkit-transition: width 500ms, height 500ms; /* Safari */
     transition: width 500ms, height 500ms;
 }
