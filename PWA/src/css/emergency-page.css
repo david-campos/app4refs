@@ -8,6 +8,12 @@ a.emergency-btn {
     color: #fff;
     text-decoration: none;
     text-align: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a.emergency-btn:active {
+    filter: brightness(0.8);
 }
 
 a.emergency-btn svg {

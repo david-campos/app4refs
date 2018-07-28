@@ -79,6 +79,12 @@ a.item-call {
     padding-bottom: 0.2em;
     max-width: 17em;
     border: 0.1em solid #6A3D57;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.item-map:active {
+    filter: brightness(0.8);
 }
 
 .item-map svg {

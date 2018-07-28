@@ -34,6 +34,12 @@ nav button {
     padding: 0;
     margin: 0;
     cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+nav button:active {
+    filter: brightness(0.8);
 }
 
 nav .nav-home-col {

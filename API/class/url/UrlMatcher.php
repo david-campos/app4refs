@@ -82,7 +82,6 @@ class UrlMatcher {
         $tmItem->put(HttpMethod::DELETE(), DeleteItemTransaction::class);
         $tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
 
-        //$tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
         $this->urls = [
             new UrlPattern('/item-types/:itemType<str>/categories/', $tmCategories),
             new UrlPattern('/categories/:categoryCode<str>/items/', $tmCategoryItems),

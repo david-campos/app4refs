@@ -40,6 +40,8 @@ class ListPage extends Page {
     render(container) {
         super.render(container);
 
+        console.log(this._items);
+
         let htmlString = "";
         for(let item of this._items) {
             let iconUrl = ResourcesProvider.getItemIconUrl(item);
@@ -180,7 +182,7 @@ class ListPage extends Page {
         // While there are periods to group
         while(periodsLeft.length > 0) {
             let next = periodsLeft.shift();
-            let schedule = {
+            let newSchedule = {
                 startPeriod: next,
                 endDay: next.endDayStr(),
                 nextDay: next.nextDay()};
@@ -190,10 +192,10 @@ class ListPage extends Page {
                 for (let idx=0; idx < periodsLeft.length; idx++) {
                     let period = periodsLeft[idx];
                     // It has the same schedule and it starts the next day
-                    if (period.hasSameHoursAs(schedule.startPeriod) &&
-                        period.startDay === schedule.nextDay) {
-                        schedule.endDay = period.endDayStr();
-                        schedule.nextDay = period.nextDay();
+                    if (period.hasSameHoursAs(newSchedule.startPeriod) &&
+                        period.startDay === newSchedule.nextDay) {
+                        newSchedule.endDay = period.endDayStr();
+                        newSchedule.nextDay = period.nextDay();
                         // Remove period from periodsLeft
                         periodsLeft.splice(idx, 1);
                         foundNextPeriod = true;
@@ -201,7 +203,20 @@ class ListPage extends Page {
                     }
                 }
             } while(foundNextPeriod); // Repeat while next is found
-            schedules.push(schedule);  // Add to the schedule
+
+            // Check to join with previous ones
+            foundNextPeriod = false;
+            for (let schedule of schedules) {
+                if (schedule.startPeriod.hasSameHoursAs(newSchedule.startPeriod) &&
+                        newSchedule.nextDay === schedule.startPeriod.startDay) {
+                    schedule.startPeriod  = newSchedule.startPeriod;
+                    foundNextPeriod = true;
+                    break;
+                }
+            }
+            if(!foundNextPeriod) {
+                schedules.push(newSchedule);  // Add to the schedule
+            }
         }
         return schedules;
     }

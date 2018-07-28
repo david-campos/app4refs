@@ -261,9 +261,9 @@ def load(items_type, file_fields, cursor, def_cat=''):
 
     print(items_type + " inserted")
 
-# if sys.version_info < (3, 0):
-#     print("Python 3.0 or later required.")
-#     sys.exit(1)
+if sys.version_info < (3, 0):
+    print("Python 3.0 or later required.")
+    sys.exit(1)
 
 # Obtain data
 dbhost = input("Database host: ")

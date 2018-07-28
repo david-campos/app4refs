@@ -12,4 +12,10 @@
     min-height: 16vmax;
     -webkit-transition: width 500ms, height 500ms; /* Safari */
     transition: width 500ms, height 500ms;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.grid-page-main .btn:active {
+    filter: brightness(0.8);
 }
