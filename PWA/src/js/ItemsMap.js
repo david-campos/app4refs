@@ -147,7 +147,7 @@ class ItemsMap {
             this._createItemMarker(item);
         }
 
-        this._directionsState("Nothing selected");
+        //this._directionsState("Nothing selected");
         this._fitAllMarkersInMap();
 
         if(this._userPosition) {
@@ -180,6 +180,7 @@ class ItemsMap {
             let mapCenter = {lat: parseFloat(this._items[0].coordLat), lng: parseFloat(this._items[0].coordLon)};
             this._map = new google.maps.Map(container, {
                 center: mapCenter,
+                gestureHandling: 'greedy', // so it is moved with one finger
                 zoom: 12 // Adequate to see a city more or less
             });
             this._map.addListener('click', (...x) => this._onMapClicked(...x));
@@ -213,7 +214,7 @@ class ItemsMap {
             destination: end,
             travelMode: 'WALKING'
         };
-        this._directionsState("Loading route...");
+        //this._directionsState("Loading route...");
         this._directionsSvc.route(request, (...x)=>this._directionsReceived(...x));
     }
 
@@ -227,7 +228,7 @@ class ItemsMap {
         if(this._noMap()) return;
         if (status === google.maps.DirectionsStatus.OK) {
             // The renderer adds text, but it does not overwrite
-            this._directionsState(null);
+            //this._directionsState(null);
             this._directionsRenderer.setMap(this._map);
             this._directionsRenderer.setDirections(result);
 
@@ -239,7 +240,7 @@ class ItemsMap {
         } else {
             // TODO: on over query limit throw external maps
             console.log(result, status);
-            this._directionsState("Error loading route.");
+            //this._directionsState("Error loading route.");
         }
     }
 
@@ -440,11 +441,8 @@ class ItemsMap {
      * @private
      */
     _onMapClicked() {
-        if(this._directionsContainer.style.top !== "50vh") {
-            this._directionsContainer.scrollTop = 0;
-            this._directionsContainer.style.top = "50vh";
-        } else {
-            this._directionsContainer.style.top = "100vh";
+        if(this._listener) {
+            this._listener.mapClicked();
         }
     }
 
@@ -454,10 +452,6 @@ class ItemsMap {
      */
     setDirectionsContainer(container) {
         this._directionsContainer = container;
-
-        if(!this._selectedItem) {
-            this._directionsState("Nothing selected");
-        }
 
         if(this._directionsRenderer) {
             this._directionsRenderer.setPanel(this._directionsContainer);
@@ -474,7 +468,7 @@ class ItemsMap {
         }
         this._clearRouteMarkers();
         this._showAllItemMarkers();
-        this._directionsState("Nothing selected");
+        this._directionsState(null);
         this._fitAllMarkersInMap();
     }
 
@@ -494,6 +488,18 @@ class ItemsMap {
      */
     getItems() {
         return this._items;
+    }
+
+    /**
+     * Returns whether there are directions
+     * displayed in the directions panel
+     * @return {boolean}
+     */
+    areThereDirections() {
+        return !!( this._directionsContainer &&
+            this._directionsRenderer &&
+            this._directionsRenderer.getMap() &&
+            this._directionsRenderer.getDirections() );
     }
 
     onDestroy() {

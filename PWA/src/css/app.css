@@ -1,18 +1,31 @@
+html {
+    margin: 0;
+    padding: 0;
+    /** 100vh so in chrome it allows to scroll **/
+    height: 100vh;
+    width: 100%;
+}
+
 body {
     margin: 0;
     overflow: hidden;
     background: linear-gradient(white, #c0cbe0);
     font-family: sans-serif;
     user-select: none;
+    /** position needs to be fixed and height 100% so in chrome mobile
+    the size of children is the correct. **/
+    height: 100%;
+    width: 100%;
+    position: fixed;
 }
 
 /* nav and container-fluid should sum up to 100vh */
 nav {
-    height: 10vh;
+    height: 10%;
     min-height: 50px;
 }
 .container-fluid {
-    height: 90vh;
+    height: 90%;
     max-height: calc(100vh - 50px);
 }
 
@@ -21,6 +34,6 @@ body.noNav nav {
 }
 
 body.noNav .container-fluid {
-    height: 100vh;
+    height: 100%;
     max-height: unset;
 }

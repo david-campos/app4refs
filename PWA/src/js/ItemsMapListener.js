@@ -15,3 +15,12 @@
  * @name ItemsMapListener#mapItemPicked
  * @param {Item} item - The picked item
  */
+
+/**
+ * Notify that the map has been clicked in a place
+ * where there is nothing to select.
+ *
+ * @function
+ * @name ItemsMapListener#mapClicked
+ */
+

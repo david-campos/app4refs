@@ -40,8 +40,6 @@ class ListPage extends Page {
     render(container) {
         super.render(container);
 
-        console.log(this._items);
-
         let htmlString = "";
         for(let item of this._items) {
             let iconUrl = ResourcesProvider.getItemIconUrl(item);

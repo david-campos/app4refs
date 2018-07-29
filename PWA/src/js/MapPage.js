@@ -39,14 +39,21 @@ class MapPage extends Page {
          * @private
          */
         this._geolocator = new Geolocator();
+
+        /**
+         * The element to contain the map instructions
+         * @type {?Element}
+         * @private
+         */
+        this._mapInstructions = null;
     }
 
     render(container) {
         super.render(container);
 
-        let mapInstructions = document.createElement('div');
-        mapInstructions.setAttribute("class", "map-instructions");
-        container.appendChild(mapInstructions);
+        this._mapInstructions = document.createElement('div');
+        this._mapInstructions.setAttribute("class", "map-instructions");
+        container.appendChild(this._mapInstructions);
 
         let mapContainer = document.createElement('div');
         mapContainer.setAttribute("class", "map-container");
@@ -54,10 +61,7 @@ class MapPage extends Page {
 
         container.style.padding = "0";
 
-        if(!this._geolocator.isGeolocationAvailable()) {
-            mapInstructions.innerHTML = "Geolocation not available";
-        }
-        this._map.setDirectionsContainer(mapInstructions);
+        this._map.setDirectionsContainer(this._mapInstructions);
         this._map.load(mapContainer);
         this._geolocator.start((data)=>this._onUserPositionUpdate(data));
     }
@@ -74,6 +78,9 @@ class MapPage extends Page {
     resetMap() {
         if(this._map) {
             this._map.resetToInitialState();
+            if(this._mapInstructions) {
+                this._mapInstructions.style.bottom = "-50vh";
+            }
         }
     }
 
@@ -94,6 +101,18 @@ class MapPage extends Page {
         let state = this.getState();
         state.items = [item.toObject()];
         this.app.fakeNavigation(state, this.title);
+    }
+
+    mapClicked() {
+        console.log(this._map.areThereDirections());
+        if(this._mapInstructions && this._map && this._map.areThereDirections()) {
+            if (parseInt(this._mapInstructions.style.bottom) !== 0) {
+                this._mapInstructions.scrollTop = 0;
+                this._mapInstructions.style.bottom = "0";
+            } else {
+                this._mapInstructions.style.bottom = "-50vh";
+            }
+        }
     }
 
     /**

@@ -70,8 +70,6 @@ class GridPage extends Page {
         if(landscapeChanged) {
             this.app.clearContainer();
             this.render(this.app.getContainer());
-        } else {
-            this._changeIconsHeight(this.getPageHeight());
         }
     }
 
@@ -116,7 +114,7 @@ class GridPage extends Page {
             html += `<div class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></div>`;
         }
         this._mainRow.innerHTML = html;
-        this._changeIconsHeight(this.getPageHeight());
+        //this._changeIconsHeight(this.getPageHeight());
     }
 
     /**
@@ -143,28 +141,6 @@ class GridPage extends Page {
             return rows;
         } else {
             return 4; // Never more than 4
-        }
-    }
-
-    /**
-     * Changes the icons height to make them occupy the total height
-     * @param {Number} totalHeight
-     * @private
-     */
-    _changeIconsHeight(totalHeight) {
-        if(!this._mainRow) return;
-
-        // Android shows and hides the navbar as we scroll, we want the grid
-        // to adapt to this. Luckily, it throws a resize event.
-        // The rest of browsers won't do this, so we let them do it
-        // from CSS as it is faster and has less battery consumption
-        if( /Android/i.test(navigator.userAgent) ) {
-            let realColumns = this._portrait ? this._columns : this._landscapeColumns();
-            let heightPerDiv = realColumns * Math.ceil(totalHeight / this._mainRow.childNodes.length);
-
-            for (let iconDiv of this._mainRow.childNodes) {
-                iconDiv.style.height = heightPerDiv + "px";
-            }
         }
     }
 
