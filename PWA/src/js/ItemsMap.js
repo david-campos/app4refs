@@ -125,7 +125,7 @@ class ItemsMap {
 
     /**
      * Sets the user representation in the given position
-     * @param {Coordinates} position - The position of the user
+     * @param {?Coordinates} position - The position of the user
      */
     placeUserIn(position) {
         this._userPosition = position;
@@ -297,6 +297,10 @@ class ItemsMap {
                 this._select(item);
                 this._info.close();
             });
+            // If we don't have the user position we better not show it
+            if(!this._userPosition) {
+                div.childNodes[1].style.display = 'none';
+            }
             this._info.setContent(div);
         }
         this._info.open(this._map, marker);
@@ -400,12 +404,43 @@ class ItemsMap {
     _updateUserMarker() {
         if(this._noMap()) return;
 
-        let latLng = new google.maps.LatLng(this._userPosition.latitude, this._userPosition.longitude);
-
-        if(this._userMarker) {
-            this._userMarker.setPosition(latLng);
+        if(!this._userPosition) {
+            if(this._userMarker) {
+                this._userMarker.setMap(null);
+            }
+            this._hideMapButtonOnInfo();
         } else {
-            this._createUserMarker(latLng);
+            let latLng = new google.maps.LatLng(this._userPosition.latitude, this._userPosition.longitude);
+
+            if (this._userMarker) {
+                this._userMarker.setPosition(latLng);
+                if(!this._userMarker.getMap()) {
+                    this._userMarker.setMap(this._map);
+                }
+            } else {
+                this._createUserMarker(latLng);
+            }
+            this._showMapButtonOnInfo();
+        }
+    }
+
+    _showMapButtonOnInfo() {
+        if(this._info && this._items.length > 0 &&
+            !this._selectedItem && this._info.getContent()) {
+            let children = this._info.getContent().childNodes;
+            if(children.length === 2) {
+                children[1].style.display = 'block';
+            }
+        }
+    }
+
+    _hideMapButtonOnInfo() {
+        if(this._info && this._items.length > 0 &&
+            !this._selectedItem && this._info.getContent()) {
+            let children = this._info.getContent().childNodes;
+            if(children.length === 2) {
+                children[1].style.display = 'none';
+            }
         }
     }
 

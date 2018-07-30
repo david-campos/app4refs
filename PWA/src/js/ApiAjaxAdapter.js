@@ -81,22 +81,25 @@ class ApiAjaxAdapter {
      * @private
      */
     _requestFinished(status, body) {
+        // Reset the callbacks
+        // If we do it later they could be erased in the own callback!
+        let success = this._onSuccess;
+        this._onSuccess = null;
+
         switch(status) {
             case 200:
-                this._onSuccess(body);
+                success(body);
                 break;
             case 204:
-                this._onSuccess(null);
+                success(null);
                 break;
             case 0:
-                console.log("The API is not reachable");
+                console.error("The API is not reachable");
                 break;
             default:
                 // TODO: API error management
                 console.error("API error:", status, body);
         }
-        // Reset the callbacks
-        this._onSuccess = null;
     }
 
     /**

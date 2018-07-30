@@ -84,10 +84,9 @@ class App {
      * but it does not navigate anywhere.
      * @param {PageState} state - The state to save
      * @param {string} [title] - Optional title
-     * @param {string} [url] - Optional url
      */
-    fakeNavigation(state, title, url) {
-        this._router.saveState(state, title, url);
+    fakeNavigation(state, title) {
+        this._router.saveState(state, title);
     }
 
     /**

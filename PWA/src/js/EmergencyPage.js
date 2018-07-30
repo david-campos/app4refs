@@ -33,7 +33,12 @@ class EmergencyPage extends Page {
     getState() {
         let state = super.getState();
         state.pageClass = EMERGENCY_PAGE_CLASS;
+        state.hash = null;
         return state;
+    }
+
+    static navigateFromHash() {
+        App.getInstance().navigateToPage(new EmergencyPage());
     }
 
     /**

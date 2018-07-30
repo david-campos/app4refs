@@ -10,7 +10,7 @@ class Page {
     /**
      * @param {string} title        - The title to display when we are in the page
      * @param {boolean} displayNav  - Display the navigation bar?
-     * @param {PageState} [state]     - If present, the other parameters will be ignored and taken from the state.
+     * @param {PageState} [state]     - Not used by now
      * @abstract
      */
     constructor(title, displayNav, state) {
@@ -22,12 +22,12 @@ class Page {
          * The title of the page
          * @type {string}
          */
-        this.title = state ? state.title : title;
+        this.title = title;
         /**
          * It indicates whether it should display the navigation bar or not
          * @type {boolean}
          */
-        this.displayNav = state ? state.displayNav : displayNav;
+        this.displayNav = displayNav;
         /**
          * Indicates if the page is visible or not
          * @type {boolean}
@@ -118,16 +118,14 @@ class Page {
      */
     getState() {
        return {
-           title: this.title,
-           displayNav: this.displayNav,
-           pageClass: 'unknown'
+           pageClass: null,
+           hash: null
        };
     }
 }
 /**
  * PageState
  * @typedef {Object} PageState
- * @property {string} title
- * @property {boolean} displayNav
- * @property {string} pageClass
+ * @property {?string} pageClass
+ * @property {?string} hash
  */

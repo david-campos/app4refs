@@ -20,17 +20,16 @@ class Router {
      * @param {Page} page
      */
     savePage(page) {
-        this.saveState(page.getState(), page.title, Router.urlFor(page));
+        this.saveState(page.getState(), page.title);
     }
 
     /**
      * Saves the given state in the history
      * @param {PageState} state
      * @param {string} [title]
-     * @param {string} [url]
      */
-    saveState(state, title, url) {
-        history.pushState(state, title, url);
+    saveState(state, title) {
+        history.pushState(state, title, this._urlFor(state));
     }
 
     /**
@@ -39,7 +38,8 @@ class Router {
      * @param {Page} page
      */
     replaceState(page) {
-        history.replaceState(page.getState(), page.title, Router.urlFor(page));
+        let state = page.getState();
+        history.replaceState(state, page.title, this._urlFor(state));
     }
 
     /**
@@ -76,27 +76,59 @@ class Router {
     }
 
     /**
-     * Gets the URL which leads to a given page
-     * @param {Page} page
+     * Gets the URL for the given state
+     * @param {PageState} state
+     * @return {string}
+     * @private
      */
-    static urlFor(page) {
-        return "#not_implemented_yet";
+    _urlFor(state) {
+        if(state.hash) {
+            return `#${encodeURI(state.pageClass)}:${encodeURI(state.hash)}`;
+        } else if(state.pageClass) {
+            return `#${encodeURI(state.pageClass)}`;
+        } else {
+            // Delete hash
+            let url = window.location.href;
+            let hash = window.location.hash;
+            let index_of_hash = url.indexOf(hash) || url.length;
+            return url.substr(0, index_of_hash);
+        }
     }
 
     /**
      * Called by the constructor when there is a hash in the URL.
-     * It loads the corresponding page in the app
+     * It suggests a page to navigate to but navigates to HomePage first.
      * @param {string|null} urlHash - the hash in the URL or an expresion evaluating to false to load the home page
      * @private
      */
     _onLocation(urlHash) {
+        App.getInstance().loadAndRenderPage(new HomePage());
         if(urlHash) {
-            console.log("URL HASH (NOT IMPLEMENTED)", urlHash);
-            // While we don't implement it, we go to home page
-            App.getInstance().loadAndRenderPage(new HomePage());
-        } else {
-            // When null or "" we go to the home page
-            App.getInstance().loadAndRenderPage(new HomePage());
+            let matchs = /^#([^:]+)(:(.*))?$/.exec(urlHash);
+            if(matchs) {
+                let page = null;
+                let className = decodeURI(matchs[1]);
+                let stateHash = null;
+                if(matchs.length === 4) {
+                    stateHash = decodeURI(matchs[3]);
+                }
+                switch(className) {
+                    case CATEGORIES_GRID_PAGE_CLASS:
+                        page = CategoriesGridPage.navigateFromHash(stateHash);
+                        break;
+                    case LIST_PAGE_CLASS:
+                        page = ListPage.navigateFromHash(stateHash);
+                        break;
+                    case MAP_PAGE_CLASS:
+                        page = MapPage.navigateFromHash(stateHash);
+                        break;
+                    case EMERGENCY_PAGE_CLASS:
+                        page = EmergencyPage.navigateFromHash(stateHash);
+                        break;
+                }
+            } else {
+                console.error("Incorrect hash format");
+            }
         }
     }
 }

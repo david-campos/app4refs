@@ -2,6 +2,9 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+const GEOLOCATION_ERROR_PERMISSION = 1;
+const GEOLOCATION_ERROR_UNAVAILABLE = 2;
+
 /**
  * The geolocator manages the tracking of the user position
  */
@@ -67,7 +70,7 @@ class Geolocator {
                 timeout           : this._timeout
             };
             let success = (...x)=>this._successCallback(...x);
-            let error = Geolocator._errorCallback;
+            let error = (...x)=>this._errorCallback(...x);
             if(listener) {
                 listenerId = this.registerListener(listener);
             }
@@ -99,11 +102,13 @@ class Geolocator {
     }
 
     /**
-     * @param {PositionError} error
+     * @param {PositionError} posError
      * @private
      */
-    static _errorCallback(error) {
-        console.log('ERROR(' + error.code + '): ' + error.message);
+    _errorCallback(posError) {
+        for(let listener of this._registeredListeners) {
+            listener(null, posError);
+        }
     }
 
     /**
@@ -116,5 +121,6 @@ class Geolocator {
 }
 /**
  * @callback GeolocatorListener
- * @param {Position} data - The received data
+ * @param {?Position} data - The received data
+ * @param {?PositionError} error - If there is an error
  */

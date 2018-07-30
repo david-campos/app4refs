@@ -70,6 +70,8 @@ class ApiService {
      */
     _categoriesSuccess(categories) {
         if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
             let sortedCategories = {};
             if(categories) {
                 for (let category of categories) {
@@ -78,8 +80,7 @@ class ApiService {
                     }
                 }
             }
-            this._callback(sortedCategories);
-            this._callback = null;
+            callback(sortedCategories);
         }
     }
 
@@ -103,9 +104,10 @@ class ApiService {
      */
     _itemsSuccess(items) {
         if(this._callback) {
-            if(items === null) items = [];
-            this._callback(items.map((itemObj)=>new Item(itemObj)));
+            let callback = this._callback;
             this._callback = null;
+            if(items === null) items = [];
+            callback(items.map((itemObj)=>new Item(itemObj)));
         }
     }
 

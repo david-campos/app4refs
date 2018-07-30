@@ -124,7 +124,6 @@ class ListPage extends Page {
             return;
         }
         let item = null;
-        let title = this.title;
         let itemId = event.currentTarget.getAttribute("data-item");
         if(itemId) {
             itemId = parseInt(itemId);
@@ -141,7 +140,7 @@ class ListPage extends Page {
             item = this._items;
         }
         if(item) {
-            this.app.navigateToPage(new MapPage(title, item));
+            this.app.navigateToPage(new MapPage(this._category, item));
         }
     }
 
@@ -264,7 +263,22 @@ class ListPage extends Page {
         }
         state.pageClass = LIST_PAGE_CLASS;
         state.category = this._category;
+        state.hash = state.category.itemType + "," + state.category.code;
         return state;
+    }
+
+    static navigateFromHash(hash) {
+        let svc = new ApiService();
+        let matchs = /^([0-9a-z_\-]+),([0-9a-z_\-]+)$/i.exec(hash);
+        if(matchs) {
+            let itemType = matchs[1];
+            let categoryCode = matchs[2];
+            svc.getCategories(itemType, (cats) => {
+                App.getInstance().navigateToPage(new ListPage(cats[categoryCode]));
+            });
+        } else {
+            console.error("Invalid hash for ListPage");
+        }
     }
 
     /**

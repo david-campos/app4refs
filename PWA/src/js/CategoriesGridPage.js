@@ -31,6 +31,10 @@ class CategoriesGridPage extends GridPage {
      * @param {CategoriesGridPageState} [state] - Saved state to restore from
      */
     constructor(itemType, state) {
+        if(!TITLES[itemType]) {
+            itemType = Object.keys(TITLES)[0];
+        }
+
         let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache (in load)
 
         let icons = CategoriesGridPage._categoriesToIcons(categories);
@@ -123,7 +127,18 @@ class CategoriesGridPage extends GridPage {
         state.pageClass = CATEGORIES_GRID_PAGE_CLASS;
         state.itemType = this._itemType;
         state.categories = this._categories;
+        state.hash = state.itemType;
         return state;
+    }
+
+    /**
+     * Returns a new CatgoriesGridPage for the given hash
+     * @param {string} hash
+     */
+    static navigateFromHash(hash) {
+        if(hash && /^[0-9a-z_\-]+$/i.test(hash)) {
+            App.getInstance().navigateToPage(new CategoriesGridPage(hash));
+        }
     }
 
     /**
