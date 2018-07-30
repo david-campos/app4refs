@@ -75,6 +75,9 @@ class ListPage extends Page {
 
         if(this.shouldShowMapButton()) {
             this._createMapButtonsCallback(container);
+            window.addEventListener('online', (...x)=>this._onOnlineStateChange(...x));
+            window.addEventListener('offline', (...x)=>this._onOnlineStateChange(...x));
+            this._onOnlineStateChange();
         }
     }
 
@@ -94,13 +97,29 @@ class ListPage extends Page {
     }
 
     /**
+     * Hides or shows the map buttons depending on the network state
+     * of online or offline
+     * @private
+     */
+    _onOnlineStateChange() {
+        let btns = this.app.getContainer().getElementsByTagName("button");
+        let onlineState = (navigator.onLine !== false);
+        let display = (onlineState ? "block" : "none");
+        for(let element of btns) {
+            if(element.classList.contains("map-button")) {
+                element.style.display = display;
+            }
+        }
+    }
+
+    /**
      * Should be called whenever a button map of the list is clicked
      * @param {MouseEvent} event - The click event
      * @private
      */
     _mapsButtonClicked(event) {
         if(navigator.onLine === false) {
-            // TODO: better interface (maybe hidding and showing map buttons?)
+            // This should never be seen, since we hide the buttons
             alert("Maps cannot be shown on offline mode");
             return;
         }
