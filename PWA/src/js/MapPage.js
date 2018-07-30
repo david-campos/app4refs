@@ -152,9 +152,7 @@ class MapPage extends Page {
      * @param {Item} item - The picked item
      */
     mapItemPicked(item) {
-        let state = this.getState();
-        state.items = [item.toObject()];
-        this.app.fakeNavigation(state, this.title);
+        this.app.fakeNavigation(this._generateState([item]), this.title);
     }
 
     mapClicked() {
@@ -173,11 +171,19 @@ class MapPage extends Page {
      * @return {MapPageState}
      */
     getState() {
+        return this._generateState(this._map.getItems());
+    }
+
+    /**
+     * Generates the state for the passed items
+     * @param {Item[]} items - The items to generate the state for
+     * @private
+     */
+    _generateState(items) {
         let state = super.getState();
         state.pageClass = MAP_PAGE_CLASS;
         state.items = [];
-        let items = this._map.getItems();
-        for(let item of items) {
+        for (let item of items) {
             state.items.push(item.toObject());
         }
         state.category = this._category;
