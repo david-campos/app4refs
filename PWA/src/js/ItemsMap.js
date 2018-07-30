@@ -382,12 +382,14 @@ class ItemsMap {
             map: this._map,
             position: step.start_point,
             icon: {
-                url: ResourcesProvider.getMapsSpritesheetUrl(),
-                origin: new google.maps.Point(14, 0),
-                size: new google.maps.Size(14, 14),
-                anchor: new google.maps.Point(7, 7),
-                scaledSize: new google.maps.Size(28, 28),
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: 'blue',
+                fillOpacity: 1,
+                strokeColor: 'white',
+                strokeWeight: 4
             },
+            zIndex: 10
         });
         let self = this;
         google.maps.event.addListener(marker, 'click', function() {
@@ -457,14 +459,14 @@ class ItemsMap {
             position: latLng,
             clickable: false,
             icon: {
-                url: ResourcesProvider.getMapsSpritesheetUrl(),
-                origin: new google.maps.Point(0, 0),
-                size: new google.maps.Size(20, 20),
-                anchor: new google.maps.Point(10, 10),
-                scaledSize: new google.maps.Size(40, 40),
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+                scale: 6,
+                fillColor: 'white',
+                fillOpacity: 1,
+                strokeColor: 'blue'
             },
             shadow: null,
-            zIndex: 999
+            zIndex: 99
         });
 
         // Get directions if possible

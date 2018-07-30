@@ -11,11 +11,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MapPage.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MapPage.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/MapPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
+            <state relative-caret-position="448">
+              <caret line="187" column="9" lean-forward="true" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ItemsMap.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/ItemsMap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="373">
+              <caret line="388" column="36" lean-forward="false" selection-start-line="388" selection-start-column="36" selection-end-line="388" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nav.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/nav.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="22">
+              <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -50,6 +70,8 @@
       <find>getDirections</find>
       <find>_category</find>
       <find>MapPage</find>
+      <find>userMarker</find>
+      <find>createStep</find>
     </findStrings>
     <replaceStrings>
       <replace>\&quot;</replace>
@@ -83,7 +105,6 @@
         <option value="$PROJECT_DIR$/js/ItemsMapListener.js" />
         <option value="$PROJECT_DIR$/css/map-page.css" />
         <option value="$PROJECT_DIR$/js/Geolocator.js" />
-        <option value="$PROJECT_DIR$/js/ItemsMap.js" />
         <option value="$PROJECT_DIR$/js/App.js" />
         <option value="$PROJECT_DIR$/js/GridPage.js" />
         <option value="$PROJECT_DIR$/js/Page.js" />
@@ -94,6 +115,7 @@
         <option value="$PROJECT_DIR$/js/ApiService.js" />
         <option value="$PROJECT_DIR$/js/ApiAjaxAdapter.js" />
         <option value="$PROJECT_DIR$/js/MapPage.js" />
+        <option value="$PROJECT_DIR$/js/ItemsMap.js" />
       </list>
     </option>
   </component>
@@ -247,12 +269,12 @@
       <workItem from="1532617851710" duration="1582000" />
       <workItem from="1532683281857" duration="598000" />
       <workItem from="1532806122928" duration="8616000" />
-      <workItem from="1532929980425" duration="14137000" />
+      <workItem from="1532929980425" duration="15245000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="203524000" />
+    <option name="totallyTimeSpent" value="204632000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -505,13 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/nav.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="51" column="15" lean-forward="true" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/grid-page.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
@@ -532,14 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="597">
           <caret line="104" column="34" lean-forward="true" selection-start-line="104" selection-start-column="34" selection-end-line="104" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ItemsMap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="439" column="22" lean-forward="false" selection-start-line="439" selection-start-column="22" selection-end-line="439" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -678,8 +685,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/MapPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="183" column="29" lean-forward="false" selection-start-line="183" selection-start-column="29" selection-end-line="183" selection-end-column="29" />
+        <state relative-caret-position="448">
+          <caret line="187" column="9" lean-forward="true" selection-start-line="187" selection-start-column="9" selection-end-line="187" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/nav.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ItemsMap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="388" column="36" lean-forward="false" selection-start-line="388" selection-start-column="36" selection-end-line="388" selection-end-column="36" />
           <folding />
         </state>
       </provider>
