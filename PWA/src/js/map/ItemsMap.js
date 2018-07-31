@@ -384,9 +384,9 @@ class ItemsMap {
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 10,
-                fillColor: 'blue',
+                fillColor: 'white',
                 fillOpacity: 1,
-                strokeColor: 'white',
+                strokeColor: 'blue',
                 strokeWeight: 4
             },
             zIndex: 10
@@ -414,14 +414,24 @@ class ItemsMap {
         } else {
             let latLng = new google.maps.LatLng(this._userPosition.latitude, this._userPosition.longitude);
 
-            if (this._userMarker) {
-                this._userMarker.setPosition(latLng);
-                if(!this._userMarker.getMap()) {
-                    this._userMarker.setMap(this._map);
-                }
-            } else {
+            if (!this._userMarker) {
                 this._createUserMarker(latLng);
             }
+
+            this._userMarker.setPosition(latLng);
+
+            if (this._userPosition.heading && !isNaN(this._userPosition.heading)) {
+                this._userMarker.setIcon(ItemsMap._userIconWithDir());
+                console.log(this._userPosition.heading);
+                this._userMarker.getIcon().rotation = this._userPosition.heading;
+            } else {
+                this._userMarker.setIcon(ItemsMap._userIconNoDir());
+            }
+
+            if(!this._userMarker.getMap()) {
+                this._userMarker.setMap(this._map);
+            }
+
             this._showMapButtonOnInfo();
         }
     }
@@ -448,29 +458,52 @@ class ItemsMap {
 
     /**
      * Creates the user marker if it does not exist
-     * @param {google.maps.LatLng} latLng - The position to create the user marker
      * @private
      */
-    _createUserMarker(latLng) {
+    _createUserMarker() {
         if(this._userMarker) return;
 
         this._userMarker = new google.maps.Marker({
             map: this._map,
-            position: latLng,
+            position: new google.maps.LatLng(0,0),
             clickable: false,
-            icon: {
-                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-                scale: 6,
-                fillColor: 'white',
-                fillOpacity: 1,
-                strokeColor: 'blue'
-            },
+            icon: ItemsMap._userIconNoDir(),
             shadow: null,
             zIndex: 99
         });
 
         // Get directions if possible
         this._getDirections();
+    }
+
+    /**
+     * Gets the user icon for no direction
+     * @private
+     */
+    static _userIconNoDir() {
+        return {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            fillColor: 'blue',
+            fillOpacity: 1,
+            strokeColor: 'white',
+            strokeWeight: 2
+        }
+    }
+
+    /**
+     * Gets the usr icon with direction
+     * @private
+     */
+    static _userIconWithDir() {
+        return {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            scale: 5,
+            fillColor: 'blue',
+            fillOpacity: 1,
+            strokeColor: 'white',
+            strokeWeight: 3
+        };
     }
 
     /**

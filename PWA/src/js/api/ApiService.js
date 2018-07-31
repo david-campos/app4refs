@@ -138,11 +138,3 @@ class ApiService {
  * @callback GetItemsCallback
  * @param {Item[]} items - The received items
  */
-/**
- * Categories interface
- * @typedef {Object} Category
- * @property {string} code
- * @property {string} itemType
- * @property {string} name
- * @property {string} [link]
- */
