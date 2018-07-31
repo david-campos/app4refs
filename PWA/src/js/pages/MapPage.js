@@ -44,14 +44,6 @@ class MapPage extends Page {
          * @private
          */
         this._map = new ItemsMap(items, this);
-
-        /**
-         * The geolocator to track the user
-         * @type {Geolocator}
-         * @private
-         */
-        this._geolocator = new Geolocator();
-
         /**
          * The element to contain the map instructions
          * @type {?Element}
@@ -64,12 +56,6 @@ class MapPage extends Page {
          * @private
          */
         this._geolocationErrorIcon = null;
-        /**
-         * Determines if the geolocation error is shown or not right now
-         * @type {boolean}
-         * @private
-         */
-        this._geolocationErrorShown = false;
     }
 
     render(container) {
@@ -90,15 +76,14 @@ class MapPage extends Page {
 
         container.style.padding = "0";
 
-        this._map.setDirectionsContainer(this._mapInstructions);
         this._map.load(mapContainer);
-        this._geolocator.start((...x)=>this._onUserPositionUpdate(...x));
+        this._map.setDirectionsContainer(this._mapInstructions);
+        this._map.setGeolocationErrorIcon(this._geolocationErrorIcon);
     }
 
     onHide() {
         super.onHide();
         this._map.onDestroy();
-        this._geolocator.stop();
     }
 
     /**
@@ -107,56 +92,24 @@ class MapPage extends Page {
     resetMap() {
         if(this._map) {
             this._map.resetToInitialState();
-            if(this._mapInstructions) {
-                this._mapInstructions.style.bottom = "-50vh";
-            }
         }
     }
 
     /**
-     * It will be called each time the user position is updated
-     * @param {?Position} data - New data of the geolocation
-     * @param {?PositionError} error - The error if there has been one
-     * @private
-     */
-    _onUserPositionUpdate(data, error) {
-        if(error) {
-            this._showGeopositionError(true);
-            this._map.placeUserIn(null);
-        } else {
-            this._showGeopositionError(false);
-            this._map.placeUserIn(data.coords);
-        }
-    }
-
-    /**
-     * Shows or hides the geolocation error depending on the passed
-     * value
-     * @param {boolean} show - If true the geolocation error icon is shown, if false it is not
-     * @private
-     */
-    _showGeopositionError(show) {
-        if(this._geolocationErrorIcon) {
-            if(!show && this._geolocationErrorShown){
-                this._geolocationErrorShown = false;
-                this._geolocationErrorIcon.classList.remove('show');
-            }else if(show && !this._geolocationErrorShown) {
-                this._geolocationErrorIcon.classList.add('show');
-                this._geolocationErrorShown = true;
-            }
-        }
-    }
-
-    /**
-     * Called by the ItemsMap when an item is picked
+     * Called by the ItemsMap when an item is picked,
+     * it causes a fake navigation to the map with only
+     * that item.
      * @param {Item} item - The picked item
      */
     mapItemPicked(item) {
         this.app.fakeNavigation(this._generateState([item]), this.title);
     }
 
+    /**
+     * Called by ItemMap when the map is clicked
+     */
     mapClicked() {
-        if(this._mapInstructions && this._map && this._map.areThereDirections()) {
+        if(this._mapInstructions && this._map && this._mapInstructions.innerHTML !== "") {
             if (parseInt(this._mapInstructions.style.bottom) !== 0) {
                 this._mapInstructions.scrollTop = 0;
                 this._mapInstructions.style.bottom = "0";

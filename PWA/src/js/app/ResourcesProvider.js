@@ -68,7 +68,7 @@ const RP_MAIN_MENU_ICONS = {
 const RP_ALL_ITEMS_MAP_ICON = "all_items_map";
 
 const MAPS_API_URL = "https://maps.googleapis.com/maps/api/js";
-const MAPS_API_KEY = "AIzaSyCxqSnpE46I8g-m4pQBkx4yC3R3X6s75BQ"; // Just a testing api key for the alpha
+const MAPS_API_KEY = "AIzaSyCyFHh1ZdCJhv9H2z4Kr1-wI6vERbNf7HE"; // Just a testing api key for the alpha
 const INIT_MAP_FUNCTION_NAME = 'initMap';
 
 let glob_rp_base_url = null;

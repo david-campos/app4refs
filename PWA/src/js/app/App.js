@@ -187,4 +187,12 @@ class App {
             document.body.appendChild(mapsApiElement);
         }
     }
+
+    /**
+     * Checks if the maps api has been required already but it does not require it
+     * @return {boolean} True if it is available
+     */
+    isMapsApiAvailable() {
+        return this._mapsAvailable;
+    }
 }

@@ -27,10 +27,9 @@ const ROUTE_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-ico
 class ItemsMap {
     /**
      * @param {Item[]} items - A list with the items to display
-     * @param {ItemsMapListener} [listener] - A listener to the items changes
-     * @param {Element} [directionsContainer] - An element to render the directions instructions on
+     * @param {ItemsMapListener} [listener] - A listener to the map changes
      */
-    constructor(items, listener, directionsContainer) {
+    constructor(items, listener) {
         /**
          * The state of the map
          * @type {MapState}
@@ -38,294 +37,57 @@ class ItemsMap {
          */
         this._state = MAP_STATE_NOT_LOADED;
         /**
-         * The items to display in this map
-         * @type {Item[]}
+         * Items manager which will manage the items for us
+         * @type {MapItemsManager}
          * @private
          */
-        this._items = items;
+        this._itemsManager = new MapItemsManager(items, (item)=>this._selectedItem(item));
         /**
-         * The container for the instructions of the directions to display
-         * @type {Element}
+         * User tracker to track the user position and draw it
+         * on the map
+         * @type {UserTracker}
          * @private
          */
-        this._directionsContainer = directionsContainer;
+        this._userTracker = new UserTracker();
         /**
-         * The real map, once it is created
-         * @type {?google.maps.Map}
+         * The directions service object
+         * @type {DirectionsManager}
          * @private
          */
-        this._map = null;
+        this._directionsManager = new DirectionsManager();
         /**
-         * The info window, once the map is available
-         * @type {?google.maps.InfoWindow}
+         * A listener for the map changes
+         * @type {ItemsMapListener}
          * @private
          */
-        this._info = null;
-        /**
-         * The markers the map is displaying, the keys are the item ids
-         * @type {{google.maps.Marker}}
-         * @private
-         */
-        this._markers = {};
-        /**
-         * The position of the user, if known
-         * @type {?Coordinates}
-         * @private
-         */
-        this._userPosition = null;
-        /**
-         * The user marker, once it is available
-         * @type {?google.maps.Marker}
-         * @private
-         */
-        this._userMarker = null;
-        /**
-         * Selected item to find the route to
-         * @type {?Item}
-         * @private
-         */
-        this._selectedItem = (items.length === 1 ? items[0] : null);
-        /**
-         * The directions service, once it is available
-         * @type {?google.maps.DirectionsService}
-         * @private
-         */
-        this._directionsSvc = null;
-        /**
-         * The directions renderer, once it is available
-         * @type {?google.maps.DirectionsRenderer}
-         * @private
-         */
-        this._directionsRenderer = null;
-        /**
-         * Route markers, if a route is displayed.
-         * @type {google.maps.Marker[]}
-         * @private
-         */
-        this._routeMarkers = [];
-        /**
-         * A listener for the item updates
-         * @type {?ItemsMapListener}
-         * @private
-         */
-        this._listener = (listener?listener:null);
+        this._listener = listener;
+
+        this._userTracker.registerChangeListener(
+            (available)=>this._locationAvailabilityChange(available));
     }
 
     /**
-     * Requires the maps api and loads the map in the specified container
-     * @param {Element} container
+     * Requires the maps api so when it is loaded
+     * the map will be created in the specified container.
+     * @param {Element} container - The container to draw the map on
      */
     load(container) {
+        this._userTracker.startTracking();
         if(this._state === MAP_STATE_NOT_LOADED) {
             this._state = MAP_STATE_LOADING;
             let self = this;
-            App.getInstance().requireMapsApi((...x) => self._mapsApiAvailable(container));
+            App.getInstance().requireMapsApi((...x) => self._createMap(container));
         }
     }
 
     /**
-     * Sets the user representation in the given position
-     * @param {?Coordinates} position - The position of the user
-     */
-    placeUserIn(position) {
-        this._userPosition = position;
-        if(this._state === MAP_STATE_AVAILABLE) {
-            this._updateUserMarker();
-        }
-    }
-
-    /**
-     * When the maps api is available, this function is called
-     * so we can create the map in the container
-     * @param {Element} container
+     * Called when an item is selected, it simply
+     * tries to get the route for the item.
+     * @param {Item} item - the item to get the route for
      * @private
      */
-    _mapsApiAvailable(container) {
-        this._createMap(container);
-
-        for (let item of this._items) {
-            this._createItemMarker(item);
-        }
-
-        //this._directionsState("Nothing selected");
-        this._fitAllMarkersInMap();
-
-        if(this._userPosition) {
-            this._updateUserMarker();
-        }
-    }
-
-    /**
-     * Sets the map to fit all the markers in the visible space
-     * @private
-     */
-    _fitAllMarkersInMap() {
-        if(this._items.length > 1) {
-            let bounds = new google.maps.LatLngBounds();
-            for (let item of this._items) {
-                // this._markers[itemId] returns the marker for the item
-                bounds.extend(this._markers[item.itemId].getPosition());
-            }
-            this._map.fitBounds(bounds);
-        }
-    }
-
-    /**
-     * Creates the real map
-     * @param {Element} container
-     * @private
-     */
-    _createMap(container) {
-        if(this._noMap()) {
-            let mapCenter = {lat: parseFloat(this._items[0].coordLat), lng: parseFloat(this._items[0].coordLon)};
-            this._map = new google.maps.Map(container, {
-                center: mapCenter,
-                gestureHandling: 'greedy', // so it is moved with one finger
-                zoom: 12 // Adequate to see a city more or less
-            });
-            this._map.addListener('click', (...x) => this._onMapClicked(...x));
-
-            this._info = new google.maps.InfoWindow();
-            this._directionsSvc = new google.maps.DirectionsService();
-            this._directionsRenderer = new google.maps.DirectionsRenderer({
-                panel: this._directionsContainer,
-                suppressMarkers: true,
-                infoWindow: this._info
-            });
-
-            // The map is now available
-            this._state = MAP_STATE_AVAILABLE;
-        }
-    }
-
-    /**
-     * Gets the directions to get to the given item,
-     * it requires the position to have been obtained.
-     * @private
-     */
-    _getDirections() {
-        if(this._noMap() || !this._userMarker || !this._selectedItem) return;
-
-        let item = this._selectedItem;
-        let start = this._userMarker.getPosition();
-        let end = new google.maps.LatLng(item.coordLat, item.coordLon);
-        let request = {
-            origin: start,
-            destination: end,
-            travelMode: 'WALKING'
-        };
-        //this._directionsState("Loading route...");
-        this._directionsSvc.route(request, (...x)=>this._directionsReceived(...x));
-    }
-
-    /**
-     * When we receive the directions from maps, this function is called
-     * @param {google.maps.DirectionsResult} result
-     * @param {google.maps.DirectionsStatus} status
-     * @private
-     */
-    _directionsReceived(result, status) {
-        if(this._noMap()) return;
-        if (status === google.maps.DirectionsStatus.OK) {
-            // The renderer adds text, but it does not overwrite
-            //this._directionsState(null);
-            this._directionsRenderer.setMap(this._map);
-            this._directionsRenderer.setDirections(result);
-
-            if(result.routes.length > 0) {
-                // We pick the first route
-                this._directionsRenderer.setRouteIndex(0);
-                this._drawRouteMarkers(result.routes[0]);
-            }
-        } else {
-            // TODO: on over query limit throw external maps
-            console.log(result, status);
-            //this._directionsState("Error loading route.");
-        }
-    }
-
-    /**
-     * Draws the markers for the first leg of the given route
-     * @param {google.maps.DirectionsRoute} route - The route we want to draw
-     * @private
-     */
-    _drawRouteMarkers(route) {
-        let leg = route.legs[0];
-        for (let i = 0; i < leg.steps.length; i++) {
-            let step = leg.steps[i];
-            this._createStepMarker(i, step);
-        }
-    }
-
-    /**
-     * Creates a new marker for the item and saves it
-     * @param {Item} item - the item to create the marker for
-     * @private
-     */
-    _createItemMarker(item) {
-        if(this._noMap()) return;
-
-        let latLng = new google.maps.LatLng(item.coordLat, item.coordLon);
-        let marker = new google.maps.Marker({
-            map: this._map,
-            position: latLng,
-            title: item.name,
-            animation: google.maps.Animation.DROP
-        });
-
-        marker.addListener('click', ()=>this._itemMarkerClicked(item));
-        this._deleteItemMarker(item.itemId);
-        this._markers[item.itemId] = marker;
-    }
-
-    /**
-     * Function called whenever an item marker is clicked
-     * @param {Item} item - The item which the marker was attached to
-     * @private
-     */
-    _itemMarkerClicked(item) {
-        let marker = this._markers[item.itemId];
-        let content = '<b class="marker-title">'+marker.getTitle().htmlEscape()+'</b>';
-        // When there is no selected item, we can select it
-        if(this._selectedItem) {
-            this._info.setContent(content);
-        } else {
-            content += `<button class="route-btn">${ROUTE_BUTTON_SVG}</button>`;
-            let div = document.createElement('div');
-            div.innerHTML = content;
-            div.childNodes[1].addEventListener('click', ()=>{
-                this._select(item);
-                this._info.close();
-            });
-            // If we don't have the user position we better not show it
-            if(!this._userPosition) {
-                div.childNodes[1].style.display = 'none';
-            }
-            this._info.setContent(div);
-        }
-        this._info.open(this._map, marker);
-    }
-
-    /**
-     * Hides all the other items and calculates the route to the given one
-     * @param {Item} item - The item to preserve and calculate the route towards
-     * @private
-     */
-    _select(item) {
-        if(this._selectedItem) {
-            console.log("Error: _select, there is a selected item", this._selectedItem);
-            return;
-        }
-
-        for(let other of this._items) {
-            if(other !== item) {
-                // Setting map to null hides the marker
-                this._markers[other.itemId].setMap(null);
-            }
-        }
-
-        this._selectedItem = item;
-        this._getDirections();
+    _selectedItem(item) {
+        this.tryToShowRoute();
 
         if(this._listener) {
             this._listener.mapItemPicked(item);
@@ -333,177 +95,34 @@ class ItemsMap {
     }
 
     /**
-     * Shows all the item markers
+     * When the maps api is available, this function is called
+     * so we can create the map in the container.
+     * It sets the map to all the managers too.
+     * This function shouldn't be called until the maps API is available.
+     * @param {Element} container - The container to draw the map into
      * @private
      */
-    _showAllItemMarkers() {
+    _createMap(container) {
         if(this._noMap()) {
-            throw new Error('Cannot show all item markers because the map is not available');
+            let mapCenter = {lat: 0, lng: 0};
+            let map = new google.maps.Map(container, {
+                center: mapCenter,
+                gestureHandling: 'greedy', // so it is moved with one finger
+                zoom: 12 // items manager will change it, anyways
+            });
+            let info = new google.maps.InfoWindow();
+
+            this._userTracker.setMap(map);
+            this._directionsManager.setMap(map, info);
+            this._itemsManager.setMap(map, info);
+
+            this.tryToShowRoute();
+
+            // Listen to map clicks
+            map.addListener('click', (...x) => this._onMapClicked(...x));
+            // The map is now available
+            this._state = MAP_STATE_AVAILABLE;
         }
-
-        for(let item of this._items) {
-            this._markers[item.itemId].setMap(this._map);
-        }
-    }
-
-    /**
-     * Deletes the marker associated to the given itemId
-     * @param {int} itemId
-     * @private
-     */
-    _deleteItemMarker(itemId) {
-        if(this._markers[itemId]) {
-            this._markers[itemId].setMap(null);
-            delete this._markers[itemId];
-        }
-    }
-
-    /**
-     * Clears all the markers for the displayed route
-     * @private
-     */
-    _clearRouteMarkers() {
-        for(let marker of this._routeMarkers) {
-            marker.setMap(null);
-        }
-        this._routeMarkers = [];
-    }
-
-    /**
-     * Creates a new step marker
-     * @param {int} idx - The index of the step (starting in 0)
-     * @param {google.maps.DirectionsStep} step - the step itself
-     * @private
-     */
-    _createStepMarker(idx, step) {
-        if(this._noMap()) return;
-
-        let marker = new google.maps.Marker({
-            map: this._map,
-            position: step.start_point,
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 10,
-                fillColor: 'white',
-                fillOpacity: 1,
-                strokeColor: 'blue',
-                strokeWeight: 4
-            },
-            zIndex: 10
-        });
-        let self = this;
-        google.maps.event.addListener(marker, 'click', function() {
-            self._info.setContent(step.instructions);
-            self._info.open(self._map, marker);
-        });
-        this._routeMarkers.push(marker);
-    }
-
-    /**
-     * Sets the user position to the position in userPosition
-     * @private
-     */
-    _updateUserMarker() {
-        if(this._noMap()) return;
-
-        if(!this._userPosition) {
-            if(this._userMarker) {
-                this._userMarker.setMap(null);
-            }
-            this._hideMapButtonOnInfo();
-        } else {
-            let latLng = new google.maps.LatLng(this._userPosition.latitude, this._userPosition.longitude);
-
-            if (!this._userMarker) {
-                this._createUserMarker(latLng);
-            }
-
-            this._userMarker.setPosition(latLng);
-
-            if (this._userPosition.heading && !isNaN(this._userPosition.heading)) {
-                this._userMarker.setIcon(ItemsMap._userIconWithDir());
-                console.log(this._userPosition.heading);
-                this._userMarker.getIcon().rotation = this._userPosition.heading;
-            } else {
-                this._userMarker.setIcon(ItemsMap._userIconNoDir());
-            }
-
-            if(!this._userMarker.getMap()) {
-                this._userMarker.setMap(this._map);
-            }
-
-            this._showMapButtonOnInfo();
-        }
-    }
-
-    _showMapButtonOnInfo() {
-        if(this._info && this._items.length > 0 &&
-            !this._selectedItem && this._info.getContent()) {
-            let children = this._info.getContent().childNodes;
-            if(children.length === 2) {
-                children[1].style.display = 'block';
-            }
-        }
-    }
-
-    _hideMapButtonOnInfo() {
-        if(this._info && this._items.length > 0 &&
-            !this._selectedItem && this._info.getContent()) {
-            let children = this._info.getContent().childNodes;
-            if(children.length === 2) {
-                children[1].style.display = 'none';
-            }
-        }
-    }
-
-    /**
-     * Creates the user marker if it does not exist
-     * @private
-     */
-    _createUserMarker() {
-        if(this._userMarker) return;
-
-        this._userMarker = new google.maps.Marker({
-            map: this._map,
-            position: new google.maps.LatLng(0,0),
-            clickable: false,
-            icon: ItemsMap._userIconNoDir(),
-            shadow: null,
-            zIndex: 99
-        });
-
-        // Get directions if possible
-        this._getDirections();
-    }
-
-    /**
-     * Gets the user icon for no direction
-     * @private
-     */
-    static _userIconNoDir() {
-        return {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 8,
-            fillColor: 'blue',
-            fillOpacity: 1,
-            strokeColor: 'white',
-            strokeWeight: 2
-        }
-    }
-
-    /**
-     * Gets the usr icon with direction
-     * @private
-     */
-    static _userIconWithDir() {
-        return {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            scale: 5,
-            fillColor: 'blue',
-            fillOpacity: 1,
-            strokeColor: 'white',
-            strokeWeight: 3
-        };
     }
 
     /**
@@ -517,65 +136,76 @@ class ItemsMap {
     }
 
     /**
-     * Sets the directions container
+     * Called when the availability of the user location changes.
+     * It causes the items manager to show or hide the route button
+     * on the items information windows.
+     * @param {boolean} available - The new availability of the user location
+     * @private
+     */
+    _locationAvailabilityChange(available) {
+        if(available) {
+            this._itemsManager.showRouteButtonOnInfo();
+            this.tryToShowRoute();
+        } else this._itemsManager.hideRouteButtonOnInfo();
+    }
+
+    /**
+     * Tries to show a route to the selected item,
+     * it will happen only if there is a selected item
+     * and a user position.
+     */
+    tryToShowRoute() {
+        if(this._userTracker.isUserPositionAvailable()
+            && this._itemsManager.isThereAnySelectedItem()) {
+            let userPos = this._userTracker.getUserPosition();
+            let item = this._itemsManager.getSelectedItem();
+            this._directionsManager.getDirections(
+                userPos.latitude, userPos.longitude,
+                item.coordLat, item.coordLon);
+        }
+    }
+
+    /**
+     * Sets the directions container.
+     * It simply delegates in the directions manager
+     * @see {DirectionsManager#setDirectionsContainer}
      * @param {Element} container
      */
     setDirectionsContainer(container) {
-        this._directionsContainer = container;
+        this._directionsManager.setDirectionsContainer(container);
+    }
 
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setPanel(this._directionsContainer);
-        }
+    /**
+     * Sets the geolocation error icon to display
+     * when an error with the geolocation occurs.
+     * It simply delegates into the UserTracker.
+     * @see {UserTracker#setGeolocationErrorIcon}
+     * @param {Element} icon - The element which works as icon
+     */
+    setGeolocationErrorIcon(icon) {
+        this._userTracker.setGeolocationErrorIcon(icon);
     }
 
     /**
      * Deselects the selected item, deletes the route and shows all the item markers again
      */
     resetToInitialState() {
-        this._selectedItem = null;
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setMap(null);
-        }
-        this._clearRouteMarkers();
-        this._showAllItemMarkers();
-        this._directionsState(null);
-        this._fitAllMarkersInMap();
+        this._itemsManager.reset();
+        this._directionsManager.reset();
     }
 
     /**
-     * Writes the given message to the directions container (erasing the content it may have)
-     * @param {?string} message - The HTML code of the message or null to set empty
-     * @private
-     */
-    _directionsState(message) {
-        if(this._directionsContainer) {
-            this._directionsContainer.innerHTML = ( message ? message : "" );
-        }
-    }
-    /**
-     * Returns all the added items
+     * Returns all the added items. It simply
+     * delegates into the items manager.
+     * @see {MapItemsManager#getItems}
      * @return {Item[]}
      */
     getItems() {
-        return this._items;
-    }
-
-    /**
-     * Returns whether there are directions
-     * displayed in the directions panel
-     * @return {boolean}
-     */
-    areThereDirections() {
-        return !!( this._directionsContainer &&
-            this._directionsRenderer &&
-            this._directionsRenderer.getMap() &&
-            this._directionsRenderer.getDirections() );
+        return this._itemsManager.getItems();
     }
 
     onDestroy() {
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setMap(null);
-        }
+        this._userTracker.stopTracking();
         this._state = MAP_STATE_DESTROYED;
     }
 
