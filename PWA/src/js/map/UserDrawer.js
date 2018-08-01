@@ -75,8 +75,9 @@ class UserDrawer {
     /**
      * Sets the user position to the position in userPosition
      * @param {?Coordinates} userPosition - The new user position, or null if unknown.
+     * @param {?number} userHeading - The angle (in degrees, anti-clockwise) from the North the user is looking at.
      */
-    updateUserMarker(userPosition) {
+    updateUserMarker(userPosition, userHeading) {
         if(!userPosition) {
             if(this._userMarker) {
                 this._userMarker.setMap(null);
@@ -88,8 +89,10 @@ class UserDrawer {
             this._userMarker.setPosition(latLng);
             // Depending if it has a valid heading or not, we display
             // the icon with direction or the non directed one
-            if (userPosition.heading && !isNaN(userPosition.heading)) {
+            if (userPosition.heading !== null && !isNaN(userPosition.heading)) {
                 this._userMarkerTowards(userPosition.heading);
+            } else if(userHeading !== null && !isNaN(userHeading)) {
+                this._userMarkerTowards(userHeading);
             } else {
                 this._userMarkerNoDir();
             }
@@ -176,6 +179,7 @@ class UserDrawer {
             scale: 5,
             fillColor: 'blue',
             fillOpacity: 1,
+            anchor: {x: 0, y: 2.5},
             strokeColor: 'white',
             strokeWeight: 3
         };

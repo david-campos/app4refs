@@ -15,6 +15,12 @@ class UserTracker {
          */
         this._geolocator = new Geolocator();
         /**
+         * The compass to get the heading for the user
+         * @type {?Compass}
+         * @private
+         */
+        this._compass = UserTracker._createCompass();
+        /**
          * Used to draw the user location on the map,
          * once the google maps api is available
          * @type {?UserDrawer}
@@ -28,6 +34,13 @@ class UserTracker {
          * @private
          */
         this._userPosition = null;
+        /**
+         * If known, the angle anti-clockwise in degrees from the North, in which
+         * the user si looking at.
+         * @type {null}
+         * @private
+         */
+        this._userHeading = null;
         /**
          * The geolocation error, if there has been one.
          * If the user position is set, this one should be null.
@@ -80,6 +93,9 @@ class UserTracker {
      */
     startTracking() {
         this._geolocator.start((...x)=>this._onUserPositionUpdate(...x));
+        if(this._compass) {
+            this._compass.start((...x) => this._onUserHeadingUpdate(...x));
+        }
     }
 
     /**
@@ -103,6 +119,9 @@ class UserTracker {
      */
     stopTracking() {
         this._geolocator.stop();
+        if(this._compass) {
+            this._compass.stop();
+        }
     }
 
     /**
@@ -119,7 +138,7 @@ class UserTracker {
 
         if(this._userDrawer) {
             this._userDrawer.showGeolocationError(!!this._geolocationError);
-            this._userDrawer.updateUserMarker(this._userPosition);
+            this._userDrawer.updateUserMarker(this._userPosition, this._userHeading);
         }
 
         if(this.isUserPositionAvailable() !== previousAvailability) {
@@ -130,12 +149,38 @@ class UserTracker {
     }
 
     /**
+     * Called when the compass has a new direction to offer
+     * @param {?number} heading - The direction in which the user is looking (in degrees from the North anti-clockwise)
+     * @param {boolean} error - True if there has been an error, false if not.
+     * @private
+     */
+    _onUserHeadingUpdate(heading, error) {
+        this._userHeading = error ? null : heading;
+
+        if(this._userDrawer) {
+            this._userDrawer.updateUserMarker(this._userPosition, this._userHeading);
+        }
+    }
+
+    /**
      * Registers a new listener to listen for changes in the user location
      * availability.
      * @param {UserLocationAvailabilityChangeListener} listener - The callback listener
      */
     registerChangeListener(listener) {
         this._changeListeners.push(listener);
+    }
+
+    /**
+     * Creates a new compass (strategy) for this
+     * class.
+     * @return {?Compass} A compass which is able to work in this environment
+     * @private
+     */
+    static _createCompass() {
+        if(AOSCompass.isAvailable()) return new AOSCompass();
+        // Other compasses will go here
+        return null;
     }
 }
 /**

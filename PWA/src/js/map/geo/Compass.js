@@ -19,9 +19,22 @@
  */
 
 /**
- * Gets the direction the user is looking at.
+ * Starts the compass
  *
  * @function
- * @name Compass#getHeading
- * @return {number} The angle (in degrees) clockwise from the North
+ * @name Compass#start
+ * @param {CompassListener} listener - The function to be called when a new value is received
+ */
+
+/**
+ * Stops the compass
+ *
+ * @function
+ * @name Compass#stop
+ */
+
+/**
+ * @callback CompassListener
+ * @param {?number} heading - The new heading value
+ * @param {boolean} error - If an error ocurred it will be true
  */
