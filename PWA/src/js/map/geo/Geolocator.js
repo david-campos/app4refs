@@ -2,9 +2,6 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
-const GEOLOCATION_ERROR_PERMISSION = 1;
-const GEOLOCATION_ERROR_UNAVAILABLE = 2;
-
 /**
  * The geolocator manages the tracking of the user position
  */
@@ -29,6 +26,8 @@ class Geolocator {
          * @private
          */
         this._registeredListeners = [];
+
+
 
         this._enableHighAccuracy = undefined;
         this._maximumAge = undefined;

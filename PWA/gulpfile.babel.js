@@ -50,6 +50,7 @@ var DEV_JS_SRC = [
     'map/DirectionsManager.js',
     'map/MapItemsManager.js',
     'map/ItemsMap.js',
+    'map/geo/AOSCompass.js',
     'map/geo/Geolocator.js',
     'pages/MapPage.js',
     'pages/GridPage.js',
