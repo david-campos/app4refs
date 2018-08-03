@@ -33,6 +33,7 @@ var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
 var DEV_ICO_DIR = path.join(DEV_DIR, ICO_DIR);
 var DEV_MANIFEST_SRC = path.join(DEV_DIR, MANIFEST_FILE);
 var DEV_JS_SRC = [
+    'gyronorm.complete.js',
     'utils.js',
     'data/Item.js',
     'data/Period.js',
@@ -51,6 +52,8 @@ var DEV_JS_SRC = [
     'map/MapItemsManager.js',
     'map/ItemsMap.js',
     'map/geo/AOSCompass.js',
+    'map/geo/DOACompass.js',
+    'map/geo/DOCompass.js',
     'map/geo/Geolocator.js',
     'pages/MapPage.js',
     'pages/GridPage.js',

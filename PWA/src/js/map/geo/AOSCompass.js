@@ -56,10 +56,10 @@ class AOSCompass {
 
     _onError(event) {
         console.error("AbsoluteOrientationSensor is not available.", event.error);
-        if (event.error.name == 'NotReadableError') {
-            if(this._listener) {
-                this._listener(null, true);
-            }
+        //if (event.error.name == 'NotReadableError') {
+        //}
+        if(this._listener) {
+            this._listener(null, true);
         }
     }
 

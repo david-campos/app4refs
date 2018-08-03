@@ -15,11 +15,19 @@ class UserTracker {
          */
         this._geolocator = new Geolocator();
         /**
+         * Compasses discarded after giving some failure or
+         * being not available.
+         * @type {int}
+         * @private
+         */
+        this._discardedCompasses = 0;
+        /**
          * The compass to get the heading for the user
          * @type {?Compass}
          * @private
          */
-        this._compass = UserTracker._createCompass();
+        this._compass = this._createCompass();
+        console.log("Using compass", this._discardedCompasses);
         /**
          * Used to draw the user location on the map,
          * once the google maps api is available
@@ -157,7 +165,8 @@ class UserTracker {
     _onUserHeadingUpdate(heading, error) {
         this._userHeading = error ? null : heading;
 
-        if(this._userDrawer) {
+        if(error) this._changeCompass();
+        else if(this._userDrawer) {
             this._userDrawer.updateUserMarker(this._userPosition, this._userHeading);
         }
     }
@@ -172,15 +181,45 @@ class UserTracker {
     }
 
     /**
+     * Changes the compass to the next available one
+     * @private
+     */
+    _changeCompass() {
+        console.log("Error in compass " + this._discardedCompasses + ", changing to next one.");
+        this._compass.stop();
+        this._discardedCompasses++;
+        this._compass = this._createCompass();
+        if(this._compass) {
+            this._compass.start((...x) => this._onUserHeadingUpdate(...x));
+            console.log("Using compass ", this._discardedCompasses);
+        } else {
+            console.log("No more compasses available");
+        }
+    }
+
+    /**
      * Creates a new compass (strategy) for this
      * class.
      * @return {?Compass} A compass which is able to work in this environment
      * @private
      */
-    static _createCompass() {
-        if(AOSCompass.isAvailable()) return new AOSCompass();
-        // Other compasses will go here
-        return null;
+    _createCompass() {
+        // Each time we enter all the previously discarded ones are directly
+        // skipped.
+        // noinspection FallThroughInSwitchStatementJS
+        while(true) {
+            switch (this._discardedCompasses) {
+                default:
+                    return null; // Nothing more to try
+                case 0: if (AOSCompass.isAvailable()) return new AOSCompass();
+                    break;
+                case 1: if (DOACompass.isAvailable()) return new DOACompass();
+                    break;
+                case 2: if (DOCompass.isAvailable())  return new DOCompass();
+                    break;
+            }
+            this._discardedCompasses++;
+        }
     }
 }
 /**
