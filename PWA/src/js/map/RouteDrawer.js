@@ -37,11 +37,11 @@ class RouteDrawer {
          */
         this._routeMarkers = [];
         /**
-         * The container for the instructions of the directions to display
-         * @type {?Element}
+         * The panel which displays the directions and travel types
+         * @type {?DirectionsPanel}
          * @private
          */
-        this._directionsContainer = null;
+        this._directionsPanel = null;
     }
 
     /**
@@ -49,6 +49,8 @@ class RouteDrawer {
      * @param {google.maps.DirectionsResult} result - The result obtained from the API
      */
     draw(result) {
+        this.clear();
+
         this._directionsRenderer.setMap(this._map);
         this._directionsRenderer.setDirections(result);
 
@@ -63,27 +65,44 @@ class RouteDrawer {
      * Clears the displayed route from the map
      */
     clear() {
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setMap(null);
-        }
-        if(this._directionsContainer) {
-            this._directionsContainer.style.bottom = "-50vh";
-            this._directionsContainer.innerHTML = "";
+        this._directionsRenderer.setMap(null);
+        if(this._directionsPanel) {
+            this._directionsPanel.clear();
+            this._directionsPanel.hide();
         }
         this._clearRouteMarkers();
     }
 
     /**
-     * Sets the direction container to render the directions over
-     * it.
-     * @param {Element} container - A div, to render the directions
+     * Sets the directions panel and associates the directions render to its
+     * instructions container.
+     * @param {DirectionsPanel} panel
      */
-    setDirectionsContainer(container) {
-        this._directionsContainer = container;
+    setDirectionsPanel(panel) {
+        this._directionsPanel = panel;
+        this._directionsRenderer.setPanel(
+            this._directionsPanel.getInstructionsContainer());
+    }
 
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setPanel(this._directionsContainer);
+    /**
+     * Displays the given travel mode as the selected one.
+     * It delegates into the homonim method of DirectionsPanel,
+     * so it has no effect if there is no panel associated.
+     * @see {DirectionsPanel#selectedTravelMode}
+     * @param {TravelMode} travelMode
+     */
+    selectedTravelMode(travelMode) {
+        if(this._directionsPanel) {
+            this._directionsPanel.selectedTravelMode(travelMode);
         }
+    }
+
+    /**
+     * Gets the directions renderer used by this drawer
+     * @return {google.maps.DirectionsRenderer}
+     */
+    getDirectionsRenderer() {
+        return this._directionsRenderer;
     }
 
     /**
@@ -148,7 +167,6 @@ class RouteDrawer {
      */
     _newDirectionsRenderer() {
         return new google.maps.DirectionsRenderer({
-            panel: this._directionsContainer,
             suppressMarkers: true,
             infoWindow: this._info
         });

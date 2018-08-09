@@ -44,6 +44,7 @@ var DEV_JS_SRC = [
     'api/ApiService.js',
     'api/ApiAjaxAdapter.js',
     'pages/EmergencyPage.js',
+    'map/DirectionsPanel.js',
     'map/ItemsDrawer.js',
     'map/RouteDrawer.js',
     'map/UserDrawer.js',

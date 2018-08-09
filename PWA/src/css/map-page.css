@@ -3,16 +3,37 @@
     height: 100%;
     z-index: 10;
 }
+
 .map-instructions {
     width: 100%;
     max-height: 50vh;
     position: absolute;
     bottom: -50vh;
     background-color: white;
-    border-top: 3px solid dodgerblue;
+    border-top: 3px solid #7C0D82;
     z-index: 20;
     overflow-y: scroll;
-    transition: bottom 1s ease 0s, height 1s ease 0s;
+    transition: bottom 1s ease 0s;
+}
+
+.map-instructions ul#dir-pan-travel-types {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    background-color: #212121;
+}
+
+.map-instructions ul#dir-pan-travel-types li {
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+.map-instructions ul#dir-pan-travel-types li.active {
+    font-weight: bold;
 }
 
 @keyframes error-twinkle {

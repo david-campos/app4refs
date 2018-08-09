@@ -2,6 +2,13 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+/** @type {TravelMode} */
+const TRAVEL_MODE_DRIVING = 'DRIVING';
+/** @type {TravelMode} */
+const TRAVEL_MODE_TRANSIT = 'TRANSIT';
+/** @type {TravelMode} */
+const TRAVEL_MODE_WALKING = 'WALKING';
+
 /**
  * This class provides access to the Directions API. Use this instead of a direct connection.
  */
@@ -21,12 +28,23 @@ class DirectionsManager {
          */
         this._routeDrawer = null;
         /**
-         * If the container is tried to set before the drawer
+         * If the panel is tried to set before the drawer
          * is created, we store it here to assign it later.
-         * @type {?Element}
+         * @type {DirectionsPanel}
          * @private
          */
-        this._savedContainer = null;
+        this._savedPanel = null;
+        /**
+         * @type {TravelMode}
+         * @private
+         */
+        this._travelMode = TRAVEL_MODE_WALKING;
+        /**
+         * The currently requested (or requested and displayed) directions, if one
+         * @type {?DirectionsState}
+         * @private
+         */
+        this._currentDirections = null;
     }
 
     /**
@@ -37,24 +55,28 @@ class DirectionsManager {
      */
     setMap(map, info) {
         this._routeDrawer = new RouteDrawer(map, info);
-        this._routeDrawer.setDirectionsContainer(this._savedContainer);
+        if(this._savedPanel) {
+            this._routeDrawer.setDirectionsPanel(this._savedPanel);
+            this._routeDrawer.selectedTravelMode(this._travelMode);
+        }
         this._directionsSvc = new google.maps.DirectionsService();
     }
 
     /**
-     * Sets the directions container.
-     * It simply delegates in the route drawer, so it
-     * requires it to be created. To achieve this we
+     * Sets the directions panel.
+     * It simply delegates in the route drawer, or saves
+     * it for later if it has not been created. To achieve this we
      * need to set the map for this manager first.
-     * @see {RouteDrawer#setDirectionsContainer}
+     * @see {RouteDrawer#setDirectionsPanel}
      * @see {DirectionsManager#setMap}
-     * @param {Element} container
+     * @param {DirectionsPanel} panel
      */
-    setDirectionsContainer(container) {
+    setDirectionsPanel(panel) {
+        this._savedPanel = panel;
+        panel.setModeChangeCallback((tM)=>this._travelModeChanged(tM));
         if(this._routeDrawer) {
-            this._routeDrawer.setDirectionsContainer(container);
-        } else {
-            this._savedContainer = container;
+            this._routeDrawer.setDirectionsPanel(panel);
+            this._routeDrawer.selectedTravelMode(this._travelMode);
         }
     }
 
@@ -65,6 +87,7 @@ class DirectionsManager {
      * @see {RouteDrawer#clear}
      */
     reset() {
+        this._currentDirections = null;
         this._routeDrawer.clear();
     }
 
@@ -87,7 +110,13 @@ class DirectionsManager {
         let request = {
             origin: start,
             destination: end,
-            travelMode: 'WALKING'
+            travelMode: this._travelMode
+        };
+        this._currentDirections = {
+            from: start,
+            to: end,
+            status: null,
+            result: null
         };
         this._directionsSvc.route(request,
             (...x)=> this._directionsReceived(...x));
@@ -100,15 +129,42 @@ class DirectionsManager {
      * @private
      */
     _directionsReceived(result, status) {
+        this._currentDirections.result = result;
+        this._currentDirections.status = status;
         if (status === google.maps.DirectionsStatus.OK) {
             this._routeDrawer.draw(result);
+        } else if(status === google.maps.DirectionsStatus.ZERO_RESULTS) {
+            alert("No results");
         } else {
             // Some error
             console.log(result, status);
+        }
+    }
+
+    /**
+     * Called whenever the user picks a new travel mode.
+     * @param {TravelMode} newTravelMode - The picked travel mode
+     * @private
+     */
+    _travelModeChanged(newTravelMode) {
+        this._travelMode = newTravelMode;
+        // Get the directions again if there are
+        // already current directions
+        let cD = this._currentDirections;
+        if(cD) {
+            this.getDirections(
+                cD.from.lat(),
+                cD.from.lng(),
+                cD.to.lat(),
+                cD.to.lng());
         }
     }
 }
 /**
  * @callback GetDirectionsCallback
  * @param {google.maps.DirectionsResult} result - The result received from google maps.
+ */
+
+/**
+ * @typedef {String} TravelMode
  */

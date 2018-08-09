@@ -166,13 +166,13 @@ class ItemsMap {
     }
 
     /**
-     * Sets the directions container.
+     * Sets the directions panel.
      * It simply delegates in the directions manager
-     * @see {DirectionsManager#setDirectionsContainer}
-     * @param {Element} container
+     * @see {DirectionsManager#setDirectionsPanel}
+     * @param {DirectionsPanel} panel
      */
-    setDirectionsContainer(container) {
-        this._directionsManager.setDirectionsContainer(container);
+    setDirectionsPanel(panel) {
+        this._directionsManager.setDirectionsPanel(panel);
     }
 
     /**
