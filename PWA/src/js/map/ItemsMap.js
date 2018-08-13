@@ -54,7 +54,13 @@ class ItemsMap {
          * @type {DirectionsManager}
          * @private
          */
-        this._directionsManager = new DirectionsManager();
+        this._directionsManager = new DirectionsManager(this);
+        /**
+         * The current navigation guide, if one is active.
+         * @type {?RouteGuide}
+         * @private
+         */
+        this._currentGuide = null;
         /**
          * A listener for the map changes
          * @type {ItemsMapListener}
@@ -157,11 +163,29 @@ class ItemsMap {
     tryToShowRoute() {
         if(this._userTracker.isUserPositionAvailable()
             && this._itemsManager.isThereAnySelectedItem()) {
+
+            if(this._currentGuide) {
+                this._currentGuide.finish();
+                this._currentGuide = null;
+            }
+
             let userPos = this._userTracker.getUserPosition();
             let item = this._itemsManager.getSelectedItem();
             this._directionsManager.getDirections(
                 userPos.latitude, userPos.longitude,
                 item.coordLat, item.coordLon);
+        }
+    }
+
+    /**
+     * Starts the navigation guide (if it is possible)
+     */
+    startNavigationGuide() {
+        if(!this._currentGuide && this._directionsManager.hasRoute()) {
+            this._currentGuide = new RouteGuide(
+                this._userTracker,
+                this._directionsManager.getRoute());
+            this._currentGuide.start();
         }
     }
 
@@ -173,6 +197,7 @@ class ItemsMap {
      */
     setDirectionsPanel(panel) {
         this._directionsManager.setDirectionsPanel(panel);
+        panel.setNavigationStartCallback(()=>this.startNavigationGuide());
     }
 
     /**
@@ -192,6 +217,10 @@ class ItemsMap {
     resetToInitialState() {
         this._itemsManager.reset();
         this._directionsManager.reset();
+        if(this._currentGuide) {
+            this._currentGuide.finish();
+            this._currentGuide = null;
+        }
     }
 
     /**
@@ -204,8 +233,15 @@ class ItemsMap {
         return this._itemsManager.getItems();
     }
 
+    /**
+     * Called when destroying the ItemsMap by the MapPage
+     */
     onDestroy() {
         this._userTracker.stopTracking();
+        if(this._currentGuide) {
+            this._currentGuide.finish();
+            this._currentGuide = null;
+        }
         this._state = MAP_STATE_DESTROYED;
     }
 

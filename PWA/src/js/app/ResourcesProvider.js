@@ -163,8 +163,9 @@ class ResourcesProvider {
      * @return {string}
      */
     static getMapsApiUrl() {
-        // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
-        return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}`;
+        // We need the geometry library to calculate distances
+        // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry
+        return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}&libraries=geometry`;
     }
 
     /**

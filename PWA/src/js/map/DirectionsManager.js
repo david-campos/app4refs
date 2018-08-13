@@ -13,7 +13,10 @@ const TRAVEL_MODE_WALKING = 'WALKING';
  * This class provides access to the Directions API. Use this instead of a direct connection.
  */
 class DirectionsManager {
-    constructor() {
+    /**
+     * @param {ItemsMap} itemsMap - The ItemsMap which manages this directions manager
+     */
+    constructor(itemsMap) {
         /**
          * The directions service, once it is available
          * @type {?google.maps.DirectionsService}
@@ -40,11 +43,17 @@ class DirectionsManager {
          */
         this._travelMode = TRAVEL_MODE_WALKING;
         /**
-         * The currently requested (or requested and displayed) directions, if one
-         * @type {?DirectionsState}
+         * The ItemsMap managing this directions manager
+         * @type {ItemsMap}
          * @private
          */
-        this._currentDirections = null;
+        this._itemsMap = itemsMap;
+        /**
+         * Determines if we already obtained a route
+         * @type {boolean} - True if it has a route
+         * @private
+         */
+        this._hasRoute = false;
     }
 
     /**
@@ -87,8 +96,8 @@ class DirectionsManager {
      * @see {RouteDrawer#clear}
      */
     reset() {
-        this._currentDirections = null;
         this._routeDrawer.clear();
+        this._hasRoute = false;
     }
 
     /**
@@ -112,14 +121,26 @@ class DirectionsManager {
             destination: end,
             travelMode: this._travelMode
         };
-        this._currentDirections = {
-            from: start,
-            to: end,
-            status: null,
-            result: null
-        };
         this._directionsSvc.route(request,
             (...x)=> this._directionsReceived(...x));
+    }
+
+    /**
+     * Checks if the manager has, currently, a route
+     * or it is not displaying any.
+     * @return {boolean} - True if it does have a route displayed
+     */
+    hasRoute() {
+        return this._hasRoute;
+    }
+
+    /**
+     * The currently displayed route, or null if no route is displayed
+     * @see {RouteDrawer#getRoute}
+     * @return {?google.maps.DirectionsRoute}
+     */
+    getRoute() {
+        return this._routeDrawer.getRoute();
     }
 
     /**
@@ -129,10 +150,9 @@ class DirectionsManager {
      * @private
      */
     _directionsReceived(result, status) {
-        this._currentDirections.result = result;
-        this._currentDirections.status = status;
         if (status === google.maps.DirectionsStatus.OK) {
             this._routeDrawer.draw(result);
+            this._hasRoute = true;
         } else if(status === google.maps.DirectionsStatus.ZERO_RESULTS) {
             alert("No results");
         } else {
@@ -141,6 +161,8 @@ class DirectionsManager {
         }
     }
 
+
+
     /**
      * Called whenever the user picks a new travel mode.
      * @param {TravelMode} newTravelMode - The picked travel mode
@@ -148,16 +170,7 @@ class DirectionsManager {
      */
     _travelModeChanged(newTravelMode) {
         this._travelMode = newTravelMode;
-        // Get the directions again if there are
-        // already current directions
-        let cD = this._currentDirections;
-        if(cD) {
-            this.getDirections(
-                cD.from.lat(),
-                cD.from.lng(),
-                cD.to.lat(),
-                cD.to.lng());
-        }
+        this._itemsMap.tryToShowRoute();
     }
 }
 /**

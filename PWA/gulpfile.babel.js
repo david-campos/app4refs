@@ -49,6 +49,8 @@ var DEV_JS_SRC = [
     'map/RouteDrawer.js',
     'map/UserDrawer.js',
     'map/UserTracker.js',
+    'map/VoiceSynthesizer.js',
+    'map/RouteGuide.js',
     'map/DirectionsManager.js',
     'map/MapItemsManager.js',
     'map/ItemsMap.js',

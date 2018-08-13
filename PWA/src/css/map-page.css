@@ -36,6 +36,16 @@
     font-weight: bold;
 }
 
+.map-instructions button#dir-pan-start-btn {
+    width: 100%;
+    background-color: #7C0D82;
+    color: white;
+    border: none;
+    border-radius: 1em;
+    padding: 0.3em;
+    margin-top: 0.3em;
+}
+
 @keyframes error-twinkle {
     from {opacity: 0;}
     to {opacity: 1;}

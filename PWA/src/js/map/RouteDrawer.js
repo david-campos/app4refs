@@ -59,6 +59,8 @@ class RouteDrawer {
             this._directionsRenderer.setRouteIndex(0);
             this._drawRouteMarkers(result.routes[0]);
         }
+
+        this._directionsPanel.showGuideButton();
     }
 
     /**
@@ -98,11 +100,19 @@ class RouteDrawer {
     }
 
     /**
-     * Gets the directions renderer used by this drawer
-     * @return {google.maps.DirectionsRenderer}
+     * The currently displayed route, or null if no route is displayed
+     * @return {?google.maps.DirectionsRoute}
      */
-    getDirectionsRenderer() {
-        return this._directionsRenderer;
+    getRoute() {
+        if(!this._directionsRenderer.getMap())
+            return null; // When no map assigned, no route is displayed :)
+
+        let dirs = this._directionsRenderer.getDirections();
+        if(dirs) {
+            return dirs.routes[this._directionsRenderer.getRouteIndex()];
+        } else {
+            return null;
+        }
     }
 
     /**

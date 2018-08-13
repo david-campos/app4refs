@@ -23,6 +23,7 @@ class DirectionsPanel {
             <li>WALKING</li>
             <li>CAR</li>
             <li>TRANSIT</li></ul>
+            <button id="dir-pan-start-btn" style="display: none;">START</button>
             <div id="dir-pan-travel-instr"></div>
         `;
 
@@ -42,6 +43,15 @@ class DirectionsPanel {
         tabsElements.forEach((v)=>v.addEventListener('click', (e)=>this._tabClicked(e)));
 
         /**
+         * The button to start navigation
+         * @type {Element}
+         * @private
+         */
+        this._guideButton = this._container.querySelector("#dir-pan-start-btn");
+
+        this._guideButton.addEventListener('click', (e)=>this._startButtonClicked(e));
+
+        /**
          * The container for the instructions of the directions to display
          * @type {Element}
          * @private
@@ -53,6 +63,13 @@ class DirectionsPanel {
          * @private
          */
         this._modeChangeCallback = null;
+        /**
+         * The callback to call when the start-navigation
+         * button is clicked.
+         * @type {?DirectionsPanel#StartNavigationCallback}
+         * @private
+         */
+        this._startNavigationCallback = null;
     }
 
     /**
@@ -60,6 +77,7 @@ class DirectionsPanel {
      */
     clear() {
         this._instructionsContainer.innerHTML = "";
+        this.hideGuideButton();
     }
 
     /**
@@ -85,8 +103,28 @@ class DirectionsPanel {
         else this.hide();
     }
 
+    /**
+     * Indicates whether this panel is currently hidden or not
+     * @return {boolean}
+     */
     isHidden() {
         return parseInt(this._container.style.bottom) !== 0;
+    }
+
+    /**
+     * Hides the button that allows to start
+     * the navigation guide
+     */
+    hideGuideButton() {
+        this._guideButton.style.display = "none";
+    }
+
+    /**
+     * Shows the button which allows to start
+     * the navigation guide
+     */
+    showGuideButton() {
+        this._guideButton.style.display = "block";
     }
 
     /**
@@ -121,6 +159,15 @@ class DirectionsPanel {
     }
 
     /**
+     * Changes the navigation start callback to listen
+     * to the user requests to start the navigation guide.
+     * @param {?DirectionsPanel#StartNavigationCallback} callback callback - The new callback (old will be lost)
+     */
+    setNavigationStartCallback(callback) {
+        this._startNavigationCallback = callback;
+    }
+
+    /**
      * @param {MouseEvent} event
      * @private
      */
@@ -131,8 +178,19 @@ class DirectionsPanel {
             this._modeChangeCallback(tM);
         }
     }
+
+    _startButtonClicked(event) {
+        if(this._startNavigationCallback) {
+            this._startNavigationCallback();
+            this.hideGuideButton();
+        }
+    }
 }
 /**
  * @callback DirectionsPanel#TravelModeChangedListener
  * @param {TravelMode} travelMode - The new travel mode
+ */
+
+/**
+ * @callback DirectionsPanel#StartNavigationCallback
  */

@@ -63,6 +63,12 @@ class UserTracker {
          */
         this._changeListeners = [];
         /**
+         * Listener for updates on user position
+         * @type {UserPositionUpdatedListener[]}
+         * @private
+         */
+        this._positionListeners = [];
+        /**
          * If the error icon tries to be set before the drawer is created,
          * we store it here for later.
          * @type {?Element}
@@ -154,6 +160,11 @@ class UserTracker {
                 listener(this.isUserPositionAvailable());
             }
         }
+
+        // Call the position update listeners
+        for (let listener of this._positionListeners) {
+            listener();
+        }
     }
 
     /**
@@ -178,6 +189,27 @@ class UserTracker {
      */
     registerChangeListener(listener) {
         this._changeListeners.push(listener);
+    }
+
+
+    /**
+     * Registers a new listener to listen for when the user location
+     * is updated.
+     * @param {UserPositionUpdatedListener} listener
+     * @return {Number} the index to be able to remove this listener later
+     */
+    registerPositionListener(listener) {
+        let idx = this._positionListeners.length;
+        this._positionListeners.push(listener);
+        return idx;
+    }
+
+    /**
+     * Removes a listener for the user location updates
+     * @param {Number} index - The index received when registering the listener
+     */
+    removePositionListener(index) {
+        this._positionListeners.splice(index, 1);
     }
 
     /**
@@ -225,4 +257,7 @@ class UserTracker {
 /**
  * @callback UserLocationAvailabilityChangeListener
  * @param {boolean} available - Whether the user is now available or not.
+ */
+/**
+ * @callback UserPositionUpdatedListener
  */
