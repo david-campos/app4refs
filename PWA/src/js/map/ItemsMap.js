@@ -184,6 +184,7 @@ class ItemsMap {
         if(!this._currentGuide && this._directionsManager.hasRoute()) {
             this._currentGuide = new RouteGuide(
                 this._userTracker,
+                this._directionsManager.getDrawer(),
                 this._directionsManager.getRoute());
             this._currentGuide.start();
         }

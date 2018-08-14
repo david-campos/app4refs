@@ -144,6 +144,15 @@ class DirectionsManager {
     }
 
     /**
+     * Returns the route drawer created and used by this manager,
+     * if created.
+     * @return {?RouteDrawer}
+     */
+    getDrawer() {
+        return this._routeDrawer;
+    }
+
+    /**
      * When we receive the directions from maps, this function is called
      * @param {google.maps.DirectionsResult} result
      * @param {google.maps.DirectionsStatus} status

@@ -68,7 +68,8 @@ const RP_MAIN_MENU_ICONS = {
 const RP_ALL_ITEMS_MAP_ICON = "all_items_map";
 
 const MAPS_API_URL = "https://maps.googleapis.com/maps/api/js";
-const MAPS_API_KEY = "AIzaSyCyFHh1ZdCJhv9H2z4Kr1-wI6vERbNf7HE"; // Just a testing api key for the alpha
+const MAPS_API_KEY = "AIzaSyCyFHh1ZdCJhv9H2z4Kr1-wI6vERbNf7HE";
+const DIRECTIONS_LANG = "en-US";
 const INIT_MAP_FUNCTION_NAME = 'initMap';
 
 let glob_rp_base_url = null;
@@ -164,8 +165,8 @@ class ResourcesProvider {
      */
     static getMapsApiUrl() {
         // We need the geometry library to calculate distances
-        // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry
-        return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}&libraries=geometry`;
+        // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry&language=en-US
+        return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}&libraries=geometry&language=${DIRECTIONS_LANG}`;
     }
 
     /**

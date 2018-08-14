@@ -168,6 +168,32 @@ class DirectionsPanel {
     }
 
     /**
+     * Highlights an step of the route in the panel (if possible)
+     * @param {Number} idx - Index of the step.
+     */
+    highlightStep(idx) {
+        // This method uses a "hack", searching manually in the table google
+        // creates. It may stop working with Google changes.
+        let step = this._instructionsContainer.querySelector(`tr[data-step-index="${idx}"]`);
+        if(step) {
+            step.style.backgroundColor = "#7C0D82";
+            step.style.color = "white";
+        }
+    }
+
+    /**
+     * If there is any highlighted step in the panel, it returns it to normal.
+     */
+    clearHighlightedSteps() {
+        // This method uses a "hack", searching manually in the table google
+        // creates. It may stop working with Google changes.
+        let steps = this._instructionsContainer.querySelectorAll("table.adp-directions tr");
+        for(let step of steps) {
+            step.removeAttribute("style");
+        }
+    }
+
+    /**
      * @param {MouseEvent} event
      * @private
      */

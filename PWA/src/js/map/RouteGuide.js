@@ -16,15 +16,22 @@ class RouteGuide {
     /**
      *
      * @param {UserTracker} userTracker - The tracker to get updates on user position
+     * @param {RouteDrawer} routeDrawer - The route drawer to highligh the steps
      * @param {google.maps.DirectionsRoute} route - The route to navigate through
      */
-    constructor(userTracker, route) {
+    constructor(userTracker, routeDrawer, route) {
         /**
          * The user tracker to receive user position updates
          * @type {UserTracker}
          * @private
          */
         this._userTracker = userTracker;
+        /**
+         * The route drawer to highlight the current step of the guide.
+         * @type {RouteDrawer}
+         * @private
+         */
+        this._routeDrawer = routeDrawer;
         /**
          * The route we have to follow.
          * @type {google.maps.DirectionsRoute}
@@ -37,7 +44,7 @@ class RouteGuide {
          * @type {number}
          * @private
          */
-        this._currentStep = 0;
+        this._currentStepIdx = 0;
         /**
          * Voice synthesizer to read the steps
          * @type {VoiceSynthesizer}
@@ -66,6 +73,7 @@ class RouteGuide {
                 .registerPositionListener(() => this._onUserPositionUpdate());
             this._readWarnings();
             this._readStep();
+            this._highlightStep();
             console.log("RG: started");
         }
     }
@@ -80,6 +88,7 @@ class RouteGuide {
                 .removePositionListener(this._listenerIdx);
             this._listenerIdx = -1;
             this._voice.shutUp();
+            this._clearHighlightedStep();
             console.log("RG: finished");
         }
     }
@@ -92,8 +101,10 @@ class RouteGuide {
             this._nextStep();
             if(!this._routeEnded()) {
                 this._readStep();
+                this._highlightStep();
             } else {
                 this.finish();
+                this._clearHighlightedStep();
             }
         }
     }
@@ -103,8 +114,8 @@ class RouteGuide {
      * @private
      */
     _nextStep() {
-        this._currentStep++;
-        console.log("RG: change to step ", this._currentStep);
+        this._currentStepIdx++;
+        console.log("RG: change to step ", this._currentStepIdx);
     }
 
     /**
@@ -115,6 +126,22 @@ class RouteGuide {
         let instructions = this._getCurrentStep().instructions;
         instructions = instructions.replace(/<[^>]*>/g, '');
         this._voice.say(instructions);
+    }
+
+    /**
+     * Highlights the current step of the route
+     * @private
+     */
+    _highlightStep() {
+        this._routeDrawer.highlightStep(this._currentStepIdx, this._getCurrentStep());
+    }
+
+    /**
+     * Clears the last highlighted step
+     * @private
+     */
+    _clearHighlightedStep() {
+        this._routeDrawer.clearHighlightedStep();
     }
 
     /**
@@ -164,7 +191,7 @@ class RouteGuide {
      */
     _getCurrentStep() {
         if(!this._routeEnded()) {
-            return this._getCurrentLeg().steps[this._currentStep];
+            return this._getCurrentLeg().steps[this._currentStepIdx];
         }
         return null;
     }
@@ -185,6 +212,6 @@ class RouteGuide {
      * @private
      */
     _routeEnded() {
-        return this._currentStep === this._getCurrentLeg().steps.length;
+        return this._currentStepIdx === this._getCurrentLeg().steps.length;
     }
 }

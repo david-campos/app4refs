@@ -23,8 +23,27 @@ class VoiceSynthesizer {
         this._voice = null;
 
         if(this._available) {
-            // We choose the default one by now
-            this._voice = window.speechSynthesis.getVoices().filter((voice) => voice.default)[0];
+            this._selectVoice();
+            if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                window.speechSynthesis.onvoiceschanged = (()=>this._selectVoice());
+            }
+        }
+    }
+
+    /**
+     * Selects the voice to use by the speech synthesizer
+     * @private
+     */
+    _selectVoice() {
+        let voices = window.speechSynthesis.getVoices();
+        if(voices.length > 0) {
+            let languageVoices = voices.filter((voice) => voice.lang === DIRECTIONS_LANG);
+            if (languageVoices.length > 0) {
+                this._voice = languageVoices.filter((voice) => voice.default)[0];
+                if (!this._voice) {
+                    this._voice = languageVoices[0];
+                }
+            }
         }
     }
 
@@ -38,6 +57,7 @@ class VoiceSynthesizer {
 
         let utterance = new SpeechSynthesisUtterance(text);
         utterance.voice = this._voice;
+        utterance.lang = DIRECTIONS_LANG;
         window.speechSynthesis.speak(utterance);
     }
 

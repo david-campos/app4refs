@@ -42,6 +42,12 @@ class RouteDrawer {
          * @private
          */
         this._directionsPanel = null;
+        /**
+         * The polyline which highlights the currently highlited step
+         * @type {?google.maps.Polyline}
+         * @private
+         */
+        this._highlightedStep = null;
     }
 
     /**
@@ -112,6 +118,37 @@ class RouteDrawer {
             return dirs.routes[this._directionsRenderer.getRouteIndex()];
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Highlights the given step, hiding away
+     * the previous one.
+     * @param {Number} idx - The index of the step, used to highlight the indications
+     * @param {google.maps.DirectionsStep} step - The step
+     */
+    highlightStep(idx, step) {
+        this.clearHighlightedStep();
+        this._highlightedStep = new google.maps.Polyline({
+            path: step.path,
+            geodesic: true,
+            strokeColor: '#7C0D82',
+            strokeOpacity: 0.7,
+            strokeWeight: 6,
+            zIndex: 2
+        });
+        this._highlightedStep.setMap(this._map);
+
+        if(this._directionsPanel) {
+            this._directionsPanel.highlightStep(idx);
+        }
+    }
+
+    clearHighlightedStep() {
+        if(this._highlightedStep) {
+            this._highlightedStep.setMap(null);
+            this._directionsPanel.clearHighlightedSteps();
+            this._highlightedStep = null;
         }
     }
 
