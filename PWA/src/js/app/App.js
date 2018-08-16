@@ -47,6 +47,7 @@ class App {
 
             window.onpopstate = (...x) => this._router.onStatePopping(...x);
             window.addEventListener('resize', (e) => this._currentPage.resize(innerWidth, innerHeight));
+            window.addEventListener('beforeunload', ()=> this._onLeaving());
             window[INIT_MAP_FUNCTION_NAME] = () => this.setMapsAvailable();
         }
 
@@ -195,5 +196,17 @@ class App {
      */
     isMapsApiAvailable() {
         return this._mapsAvailable;
+    }
+
+    /**
+     * Triggered when leaving the page to go to another one.
+     * @private
+     */
+    _onLeaving() {
+        // It saves the current state on the page
+        // and calls onHide to stop all its processes,
+        // just in case.
+        this.updateCurrentSavedState();
+        this._currentPage.onHide();
     }
 }

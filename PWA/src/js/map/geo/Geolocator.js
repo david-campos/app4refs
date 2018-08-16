@@ -27,8 +27,8 @@ class Geolocator {
          */
         this._registeredListeners = [];
 
-        this._enableHighAccuracy = true;
-        this._maximumAge = undefined;
+        this._enableHighAccuracy = true; // High accuracy!
+        this._maximumAge = 60000; // No more than a minute ago please
         this._timeout = undefined;
     }
 

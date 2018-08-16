@@ -37,12 +37,33 @@ class VoiceSynthesizer {
     _selectVoice() {
         let voices = window.speechSynthesis.getVoices();
         if(voices.length > 0) {
+            // Take voices of the directions language
             let languageVoices = voices.filter((voice) => voice.lang === DIRECTIONS_LANG);
             if (languageVoices.length > 0) {
-                this._voice = languageVoices.filter((voice) => voice.default)[0];
-                if (!this._voice) {
-                    this._voice = languageVoices[0];
-                }
+                // Sort voices to pick the first
+                languageVoices.sort((a, b)=>{
+                    // Default voices first
+                    if(a.default && !b.default)
+                        return -1;
+                    else if(!a.default && b.default)
+                        return 1;
+                    // If not sorted by that, try to take a google voice
+                    let aIsGoogle = a.name.includes("Google");
+                    let bIsGoogle = b.name.includes("Google");
+                    if(aIsGoogle && !bIsGoogle)
+                        return -1;
+                    else if(!aIsGoogle && bIsGoogle)
+                        return 1;
+                    // If not, try to take a local one
+                    if(a.localService && !b.localService)
+                        return -1;
+                    else if(!a.localService && b.localService)
+                        return 1;
+                    // They are equal
+                    return 0;
+                });
+                // Pick first one
+                this._voice = languageVoices[0];
             }
         }
     }
