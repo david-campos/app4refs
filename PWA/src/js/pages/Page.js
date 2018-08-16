@@ -31,6 +31,7 @@ class Page {
         /**
          * Indicates if the page is visible or not
          * @type {boolean}
+         * @private
          */
         this._visible = false;
     };
@@ -64,6 +65,7 @@ class Page {
      */
     onHide() {
         this._visible = false;
+        this.app.getContainer().removeEventListener('scroll', this._scrollHandler);
     }
 
     /**

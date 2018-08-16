@@ -64,9 +64,15 @@ class RouteDrawer {
             // We pick the first route
             this._directionsRenderer.setRouteIndex(0);
             this._drawRouteMarkers(result.routes[0]);
+            this._directionsPanel.showGuideButton();
         }
+    }
 
-        this._directionsPanel.showGuideButton();
+    /**
+     * Displays the content to display when no results have been received
+     */
+    displayZeroResults() {
+        this._directionsPanel.displayZeroResults();
     }
 
     /**
@@ -76,9 +82,17 @@ class RouteDrawer {
         this._directionsRenderer.setMap(null);
         if(this._directionsPanel) {
             this._directionsPanel.clear();
-            this._directionsPanel.hide();
         }
         this._clearRouteMarkers();
+    }
+
+    /**
+     * Hides the directions panel (if associated already)
+     */
+    hidePanel() {
+        if(this._directionsPanel) {
+            this._directionsPanel.hide();
+        }
     }
 
     /**

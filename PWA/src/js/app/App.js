@@ -75,6 +75,7 @@ class App {
      * @param loadParams - Some other params for the page loading
      */
     navigateToPage(page, ...loadParams) {
+        this.updateCurrentSavedState(); // Save last state
         this.loadAndRenderPage(page, ...loadParams);
         this._router.savePage(this._currentPage);
     }

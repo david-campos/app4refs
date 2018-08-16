@@ -97,6 +97,7 @@ class DirectionsManager {
      */
     reset() {
         this._routeDrawer.clear();
+        this._routeDrawer.hidePanel();
         this._hasRoute = false;
     }
 
@@ -121,6 +122,9 @@ class DirectionsManager {
             destination: end,
             travelMode: this._travelMode
         };
+
+        this._routeDrawer.clear(); // Clear route
+
         this._directionsSvc.route(request,
             (...x)=> this._directionsReceived(...x));
     }
@@ -163,10 +167,10 @@ class DirectionsManager {
             this._routeDrawer.draw(result);
             this._hasRoute = true;
         } else if(status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-            alert("No results");
+            this._routeDrawer.displayZeroResults();
         } else {
             // Some error
-            console.log(result, status);
+            console.error(result, status);
         }
     }
 

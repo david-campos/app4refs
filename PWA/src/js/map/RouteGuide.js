@@ -72,7 +72,7 @@ class RouteGuide {
             this._listenerIdx = this._userTracker
                 .registerPositionListener(() => this._onUserPositionUpdate());
             this._readWarnings();
-            this._readStep();
+            this.readStep();
             this._highlightStep();
             console.log("RG: started");
         }
@@ -100,7 +100,7 @@ class RouteGuide {
         if(this._isUserAtTheEndOfCurrentStep()) {
             this._nextStep();
             if(!this._routeEnded()) {
-                this._readStep();
+                this.readStep();
                 this._highlightStep();
             } else {
                 this.finish();
@@ -122,7 +122,7 @@ class RouteGuide {
      * Reads the current step to the user.
      * @private
      */
-    _readStep() {
+    readStep() {
         let instructions = this._getCurrentStep().instructions;
         instructions = instructions.replace(/<[^>]*>/g, '');
         this._voice.say(instructions);

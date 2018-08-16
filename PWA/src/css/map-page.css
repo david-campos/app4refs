@@ -6,9 +6,9 @@
 
 .map-instructions {
     width: 100%;
-    max-height: 50vh;
+    max-height: 60vh;
     position: absolute;
-    bottom: -50vh;
+    bottom: -60vh;
     background-color: white;
     border-top: 3px solid #7C0D82;
     z-index: 20;
@@ -32,8 +32,17 @@
     cursor: pointer;
 }
 
+.map-instructions ul#dir-pan-travel-types svg {
+    max-height: 1.25em;
+}
+
+.map-instructions ul#dir-pan-travel-types li {
+    border-radius: 0.5em;
+    margin: 1vw;
+}
+
 .map-instructions ul#dir-pan-travel-types li.active {
-    font-weight: bold;
+    background-color: #7C0D82;
 }
 
 .map-instructions button#dir-pan-start-btn {
@@ -44,6 +53,20 @@
     border-radius: 1em;
     padding: 0.3em;
     margin-top: 0.3em;
+}
+
+#dir-pan-travel-zero-results svg {
+    max-height: 1em;
+}
+
+#dir-pan-travel-zero-results {
+    margin: 1em;
+    background-color: #BC0D02;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    border-radius: 0.5em;
+    padding: 1em;
 }
 
 @keyframes error-twinkle {
@@ -108,4 +131,9 @@ b.marker-title {
 
 .route-btn svg {
     height: 1.5em;
+}
+
+/* Google Maps directions table */
+.adp table {
+    width: 100%;
 }
