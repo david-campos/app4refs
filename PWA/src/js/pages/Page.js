@@ -121,7 +121,8 @@ class Page {
     getState() {
        return {
            pageClass: null,
-           hash: null
+           hash: null,
+           scroll: 0
        };
     }
 }
@@ -130,4 +131,5 @@ class Page {
  * @typedef {Object} PageState
  * @property {?string} pageClass
  * @property {?string} hash
+ * @property {number} scroll - Used by the router to reset the scroll, the router will overwrite it
  */

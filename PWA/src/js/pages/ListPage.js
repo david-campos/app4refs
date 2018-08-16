@@ -156,8 +156,14 @@ class ListPage extends Page {
         }
         this._items = items;
         this.app.updateCurrentSavedState();
+
+        // Keep scroll please
+        let scroll = this.app.getContainer().scrollTop;
+
         this.app.clearContainer();
         this.render(this.app.getContainer());
+
+        this.app.getContainer().scrollTop = scroll;
     }
 
     /**

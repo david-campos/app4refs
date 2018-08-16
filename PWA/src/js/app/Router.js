@@ -29,6 +29,8 @@ class Router {
      * @param {string} [title]
      */
     saveState(state, title) {
+        // We save the scroll to restore it
+        state.scroll = App.getInstance().getContainer().scrollTop;
         history.pushState(state, title, this._urlFor(state));
     }
 
@@ -39,6 +41,8 @@ class Router {
      */
     replaceState(page) {
         let state = page.getState();
+        // We need to save the scroll to restore it
+        state.scroll = App.getInstance().getContainer().scrollTop;
         history.replaceState(state, page.title, this._urlFor(state));
     }
 
@@ -69,6 +73,8 @@ class Router {
             }
             if(page) {
                 App.getInstance().loadAndRenderPage(page);
+                // Restore saved scroll
+                App.getInstance().getContainer().scrollTop = event.state.scroll;
             }
         } else {
             App.getInstance().loadAndRenderPage(new HomePage());

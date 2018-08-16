@@ -81,8 +81,14 @@ class CategoriesGridPage extends GridPage {
         let icons = CategoriesGridPage._categoriesToIcons(this._categories);
         super.changeIcons(icons);
         this.app.updateCurrentSavedState();
+
+        // Keep scroll please
+        let scroll = this.app.getContainer().scrollTop;
+
         this.app.clearContainer();
         super.render(this.app.getContainer());
+
+        this.app.getContainer().scrollTop = scroll;
     }
 
     /**
