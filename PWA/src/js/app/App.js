@@ -95,7 +95,10 @@ class App {
      * Updates the saved state for the current page in the browser history
      */
     updateCurrentSavedState() {
-        this._router.replaceState(this._currentPage);
+        // It might be called during Router creation
+        if(this._router) {
+            this._router.replaceState(this._currentPage);
+        }
     }
 
     /**
