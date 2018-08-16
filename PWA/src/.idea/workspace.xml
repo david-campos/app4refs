@@ -24,18 +24,18 @@
       <file leaf-file-name="ItemsMap.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/map/ItemsMap.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="163" column="33" lean-forward="true" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
+            <state relative-caret-position="580">
+              <caret line="172" column="43" lean-forward="false" selection-start-line="172" selection-start-column="43" selection-end-line="172" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserTracker.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserTracker.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/map/UserTracker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2313">
-              <caret line="244" column="55" lean-forward="true" selection-start-line="244" selection-start-column="55" selection-end-line="244" selection-end-column="55" />
+            <state relative-caret-position="289">
+              <caret line="149" column="47" lean-forward="true" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -53,24 +53,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DirectionsPanel.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/map/DirectionsPanel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="3" lean-forward="true" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
-              <folding>
-                <marker date="1534437956568" expanded="true" signature="3715:3875" ph="..." />
-                <marker date="1534437956568" expanded="true" signature="3927:3941" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RouteGuide.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/map/RouteGuide.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-459">
               <caret line="125" column="45" lean-forward="false" selection-start-line="125" selection-start-column="45" selection-end-line="125" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Geolocator.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/map/geo/Geolocator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="427">
+              <caret line="114" column="10" lean-forward="false" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -220,8 +217,8 @@
         <option value="$PROJECT_DIR$/js/app/Router.js" />
         <option value="$PROJECT_DIR$/js/map/VoiceSynthesizer.js" />
         <option value="$PROJECT_DIR$/js/app/App.js" />
-        <option value="$PROJECT_DIR$/js/map/geo/Geolocator.js" />
         <option value="$PROJECT_DIR$/css/map-page.css" />
+        <option value="$PROJECT_DIR$/js/map/geo/Geolocator.js" />
       </list>
     </option>
   </component>
@@ -302,6 +299,13 @@
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="map" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="src" type="b2602c69:ProjectViewProjectNode" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="map" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="geo" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -399,12 +403,12 @@
       <workItem from="1533827656624" duration="9092000" />
       <workItem from="1534173194498" duration="11598000" />
       <workItem from="1534260454814" duration="7953000" />
-      <workItem from="1534433732042" duration="10530000" />
+      <workItem from="1534433732042" duration="12872000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="293095000" />
+    <option name="totallyTimeSpent" value="295437000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -782,14 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/map/geo/Geolocator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="31" column="34" lean-forward="true" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/map-page.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
@@ -808,19 +804,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map/ItemsMap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="163" column="33" lean-forward="true" selection-start-line="163" selection-start-column="33" selection-end-line="163" selection-end-column="33" />
+        <state relative-caret-position="580">
+          <caret line="172" column="43" lean-forward="false" selection-start-line="172" selection-start-column="43" selection-end-line="172" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/map/UserTracker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2313">
-          <caret line="244" column="55" lean-forward="true" selection-start-line="244" selection-start-column="55" selection-end-line="244" selection-end-column="55" />
+        <state relative-caret-position="289">
+          <caret line="149" column="47" lean-forward="true" selection-start-line="149" selection-start-column="47" selection-end-line="149" selection-end-column="47" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/map/geo/Geolocator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="114" column="10" lean-forward="false" selection-start-line="114" selection-start-column="10" selection-end-line="114" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>

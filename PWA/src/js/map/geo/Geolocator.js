@@ -26,6 +26,12 @@ class Geolocator {
          * @private
          */
         this._registeredListeners = [];
+        /**
+         * True if the geolocator has been started, false if not
+         * @type {boolean}
+         * @private
+         */
+        this._started = false;
 
         this._enableHighAccuracy = true; // High accuracy!
         this._maximumAge = 60000; // No more than a minute ago please
@@ -72,6 +78,7 @@ class Geolocator {
                 listenerId = this.registerListener(listener);
             }
             this._watchId = navigator.geolocation.watchPosition(success, error, options);
+            this._started = true;
             console.log("Geolocator: started");
         }
         return listenerId;
@@ -84,8 +91,9 @@ class Geolocator {
         if(this._watchId) {
             navigator.geolocation.clearWatch(this._watchId);
             this._watchId = null;
-            console.log("Geolocator: stopped");
         }
+        this._started = false;
+        console.log("Geolocator: stopped");
     }
 
     /**
@@ -93,6 +101,7 @@ class Geolocator {
      * @private
      */
     _successCallback(data) {
+        //console.log("GEOLOCATOR DATA: ", data);
         for(let listener of this._registeredListeners) {
             listener(data);
         }
@@ -103,6 +112,13 @@ class Geolocator {
      * @private
      */
     _errorCallback(posError) {
+        //console.log("GEOLOCATOR ERROR: ", posError);
+        // Try again in 1 second if it isn't by permission denial
+        setTimeout(function(){
+            if(this._started){
+                this.start();
+            }
+        }.bind(this), 1000);
         for(let listener of this._registeredListeners) {
             listener(null, posError);
         }
