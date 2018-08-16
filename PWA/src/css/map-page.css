@@ -11,7 +11,7 @@
     bottom: -60vh;
     background-color: white;
     border-top: 3px solid #7C0D82;
-    z-index: 20;
+    z-index: 30;
     overflow-y: scroll;
     transition: bottom 1s ease 0s;
 }
@@ -81,7 +81,7 @@
 .map-geolocation-error.show {
     display: block;
     position: fixed;
-    z-index: 99;
+    z-index: 20;
     width: 4em;
     height: 4em;
     background-color: rgba(0,0,0,0.7);
