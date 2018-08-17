@@ -46,6 +46,12 @@ abstract class GatewayFactory {
     public abstract function getPeriodsGateway(): IPeriodsGateway;
 
     /**
+     * Gets the sessions gateway to create, check and delete session tokens from the database
+     * @return ISessionsGateway
+     */
+    public abstract function getSessionsGateway(): ISessionsGateway;
+
+    /**
      * Starts a new database transaction (if possible)
      * @param bool $readWrite param to indicate whether it is a READ-WRITE transaction or not
      * @return

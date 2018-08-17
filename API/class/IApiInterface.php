@@ -24,6 +24,8 @@ interface IApiInterface {
     const OUTPUT_FORMAT_DEFAULT = IApiInterface::FORMATS_JSON;
     /** @var string value we must set the period id to if we want to create a new one */
     const PERIOD_ID_CREATE_NEW_VALUE = 'new';
+    /** @var integer Token duration in seconds. After this amount of time the token expires */
+    const TOKEN_DURATION = 24*60*60;
 
     // ITEM INTERFACE (texts for the items to output and input values)
     const ITEM_ID = 'itemId';
@@ -57,4 +59,9 @@ interface IApiInterface {
     const CATEGORY_ITEM_TYPE = 'itemType';
     const CATEGORY_LINK = 'link';
     const CATEGORY_POSITION = 'position';
+
+    // TOKEN INTERFACE
+    const TOKEN_TOKEN = 'token';
+    const TOKEN_EXPIRES = 'expires';
+    const TOKEN_USER_NAME = 'user';
 }
