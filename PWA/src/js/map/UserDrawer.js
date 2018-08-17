@@ -91,8 +91,10 @@ class UserDrawer {
             // the icon with direction or the non directed one
             if (userPosition.heading !== null && !isNaN(userPosition.heading)) {
                 this._userMarkerTowards(userPosition.heading);
+                //this._map.setHeading(userPosition.heading);
             } else if(userHeading !== null && !isNaN(userHeading)) {
                 this._userMarkerTowards(userHeading);
+                //this._map.setHeading(userHeading);
             } else {
                 this._userMarkerNoDir();
             }

@@ -123,8 +123,10 @@ class RouteGuide {
      * @private
      */
     readStep() {
-        let instructions = this._getCurrentStep().instructions;
-        instructions = instructions.replace(/<[^>]*>/g, '');
+        let instructions = this._getCurrentStep().instructions
+            .replace(/<div[^>]*>/g, '. ') // Div starts are points
+            .replace(/<[^>]*>/g, '') // Forget other tags
+            .htmlUnescape(); // Replace '&amp;' by '&' and so on.
         this._voice.say(instructions);
     }
 

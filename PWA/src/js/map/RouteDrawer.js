@@ -153,6 +153,9 @@ class RouteDrawer {
         });
         this._highlightedStep.setMap(this._map);
 
+        this._map.panTo(step.start_location);
+        this._map.setZoom(18);
+
         if(this._directionsPanel) {
             this._directionsPanel.highlightStep(idx);
         }
