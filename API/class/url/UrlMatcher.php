@@ -12,6 +12,8 @@ use transactions\DeleteItemTransaction;
 use transactions\GetCategoriesTransaction;
 use transactions\GetItemsTransaction;
 use transactions\ITransaction;
+use transactions\LoginTransaction;
+use transactions\LogoutTransaction;
 use transactions\UpdateItemTransaction;
 
 /**
@@ -82,11 +84,16 @@ class UrlMatcher {
         $tmItem->put(HttpMethod::DELETE(), DeleteItemTransaction::class);
         $tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
 
+        $tmLogin = new TransactionMap();
+        $tmLogin->put(HttpMethod::POST(), LoginTransaction::class);
+        $tmLogin->put(HttpMethod::DELETE(), LogoutTransaction::class);
+
         $this->urls = [
             new UrlPattern('/item-types/:itemType<str>/categories/', $tmCategories),
             new UrlPattern('/categories/:categoryCode<str>/items/', $tmCategoryItems),
             new UrlPattern('/items/:itemId<int>', $tmItem),
             new UrlPattern('/items/', $tmItems),
+            new UrlPattern('/session/', $tmLogin)
         ];
     }
 }

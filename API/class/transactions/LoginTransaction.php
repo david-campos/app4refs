@@ -36,10 +36,12 @@ class LoginTransaction extends Transaction {
      * Executes the transaction, has no return value
      */
     public function execute() {
+        GatewayFactory::getInstance()->startTransaction(true);
         $token = GatewayFactory::getInstance()->getSessionsGateway()->login(
             $this->user,
             $this->receivedPassword);
         $this->result = $token->toMap();
         $this->status = IApiOutputter::HTTP_OK;
+        GatewayFactory::getInstance()->commit();
     }
 }

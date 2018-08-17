@@ -9,9 +9,9 @@ use formats\IApiOutputter;
 
 class UnauthorizedException extends PrintableException {
     /** @var string Authorisation type basic */
-    public const AUTHORISATION_BASIC = 'Basic';
+    const AUTHORISATION_BASIC = 'Basic';
     /** @var string Authorisation type bearer */
-    public const AUTHORISATION_BEARER = 'Bearer';
+    const AUTHORISATION_BEARER = 'Bearer';
 
     /** @var string The authorisation type */
     private $type;

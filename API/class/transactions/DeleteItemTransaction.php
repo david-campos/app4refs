@@ -7,6 +7,7 @@ namespace transactions;
 
 use formats\IApiOutputter;
 use gateways\GatewayFactory;
+use SessionManager;
 
 class DeleteItemTransaction extends Transaction {
     /** @var int */
@@ -19,6 +20,7 @@ class DeleteItemTransaction extends Transaction {
     public function __construct($requestParams) {
         // Item id is passed in the URL
         $this->itemId = $requestParams['get']['itemId'];
+        SessionManager::getInstance()->requireToken($requestParams);
     }
 
     /**

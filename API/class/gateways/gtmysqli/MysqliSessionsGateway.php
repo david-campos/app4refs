@@ -11,6 +11,8 @@ use exceptions\ExpiredTokenException;
 use exceptions\IncorrectPasswordException;
 use exceptions\InvalidTokenException;
 use exceptions\OpenSslRandomPseudoBytesNotStrongException;
+use exceptions\PrintableException;
+use exceptions\UnauthorizedException;
 use exceptions\UserNotFoundException;
 use formats\IApiOutputter;
 use gateways\ISessionsGateway;

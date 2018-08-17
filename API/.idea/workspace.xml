@@ -14,11 +14,9 @@
       <file leaf-file-name="LoginTransaction.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/class/transactions/LoginTransaction.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-              <folding>
-                <element signature="e#103#140#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="778">
+              <caret line="44" column="47" lean-forward="true" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -26,8 +24,8 @@
       <file leaf-file-name="LogoutTransaction.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/class/transactions/LogoutTransaction.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="20" column="23" lean-forward="false" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+            <state relative-caret-position="726">
+              <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -58,14 +56,12 @@
         <option value="$PROJECT_DIR$/class/exceptions/RepeatedParamInBodyException.php" />
         <option value="$PROJECT_DIR$/class/exceptions/ParamsNotFoundInBodyException.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidValueInBodyException.php" />
-        <option value="$PROJECT_DIR$/class/transactions/DeleteItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/formats/IApiOutputter.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidParamInBodyException.php" />
         <option value="$PROJECT_DIR$/unitaryTests/formats/JsonOutputterTest.php" />
         <option value="$PROJECT_DIR$/class/formats/JsonOutputter.php" />
         <option value="$PROJECT_DIR$/class/FakeEnum.php" />
         <option value="$PROJECT_DIR$/class/transactions/ITransaction.php" />
-        <option value="$PROJECT_DIR$/class/url/UrlMatcher.php" />
         <option value="$PROJECT_DIR$/class/ControllerFacade.php" />
         <option value="$PROJECT_DIR$/config/config.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidTransactionException.php" />
@@ -78,9 +74,7 @@
         <option value="$PROJECT_DIR$/class/Item.php" />
         <option value="$PROJECT_DIR$/unitaryTests/ItemTest.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliCategoriesGatewayTest.php" />
-        <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/IItemsGateway.php" />
-        <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliItemsGateway.php" />
         <option value="$PROJECT_DIR$/unitaryTests/gateways/gtmysqli/MysqliItemsGatewayTest.php" />
         <option value="$PROJECT_DIR$/class/transactions/ItemParsingTransaction.php" />
@@ -94,15 +88,19 @@
         <option value="$PROJECT_DIR$/class/exceptions/OpenSslRandomPseudoBytesNotStrongException.php" />
         <option value="$PROJECT_DIR$/class/exceptions/InvalidTokenException.php" />
         <option value="$PROJECT_DIR$/class/gateways/ISessionsGateway.php" />
-        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php" />
-        <option value="$PROJECT_DIR$/class/SessionManager.php" />
         <option value="$PROJECT_DIR$/class/exceptions/IncorrectPasswordException.php" />
-        <option value="$PROJECT_DIR$/class/exceptions/UnauthorizedException.php" />
         <option value="$PROJECT_DIR$/class/exceptions/ExpiredTokenException.php" />
         <option value="$PROJECT_DIR$/class/gateways/GatewayFactory.php" />
         <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliGatewayFactory.php" />
         <option value="$PROJECT_DIR$/class/IApiInterface.php" />
         <option value="$PROJECT_DIR$/class/Token.php" />
+        <option value="$PROJECT_DIR$/class/SessionManager.php" />
+        <option value="$PROJECT_DIR$/class/transactions/CreateItemTransaction.php" />
+        <option value="$PROJECT_DIR$/class/transactions/DeleteItemTransaction.php" />
+        <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
+        <option value="$PROJECT_DIR$/class/url/UrlMatcher.php" />
+        <option value="$PROJECT_DIR$/class/exceptions/UnauthorizedException.php" />
+        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php" />
         <option value="$PROJECT_DIR$/class/transactions/LoginTransaction.php" />
         <option value="$PROJECT_DIR$/class/transactions/LogoutTransaction.php" />
       </list>
@@ -154,7 +152,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -171,19 +168,6 @@
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="API" type="b2602c69:ProjectViewProjectNode" />
-              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="gtmysqli" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="API" type="b2602c69:ProjectViewProjectNode" />
-              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="transactions" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -194,6 +178,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -307,6 +292,7 @@
       <workItem from="1533666613792" duration="18000" />
       <workItem from="1533827616054" duration="30000" />
       <workItem from="1534496195869" duration="8426000" />
+      <workItem from="1534518460882" duration="4166000" />
     </task>
     <servers />
   </component>
@@ -343,7 +329,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164741000" />
+    <option name="totallyTimeSpent" value="168907000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -362,13 +348,12 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -376,6 +361,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6485623" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -392,20 +378,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/class/url/UrlMatcher.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="82" column="45" lean-forward="false" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/ICategoriesGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/Category.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="729">
@@ -466,13 +438,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="259" column="49" lean-forward="false" selection-start-line="259" selection-start-column="49" selection-end-line="259" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -557,13 +522,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/CreateItemTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="40" column="30" lean-forward="true" selection-start-line="40" selection-start-column="30" selection-end-line="40" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/ControllerFacade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
@@ -645,16 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="39" column="32" lean-forward="false" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
-          <folding>
-            <marker date="1532538664177" expanded="true" signature="603:756" ph="SELECT perio... opening_hours" />
-            <marker date="1532538664177" expanded="true" signature="1962:2115" ph="SELECT perio... opening_hours" />
-            <marker date="1532538664177" expanded="true" signature="2662:2777" ph="SELECT start... opening_hours" />
-            <marker date="1532538664177" expanded="true" signature="2807:2928" ph="INSERT INTO opening_hours... " />
-            <marker date="1532538664177" expanded="true" signature="3778:3829" ph="DELETE FROM " />
-            <marker date="1532538664177" expanded="true" signature="4399:4450" ph="DELETE FROM " />
-            <marker date="1532538664177" expanded="true" signature="4879:5007" ph="UPDATE openi... " />
-            <marker date="1532538664177" expanded="true" signature="5535:5663" ph="UPDATE openi... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -696,43 +644,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidTokenException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/SessionManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="8" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="e#109#150#0#PHP" expanded="true" />
-            <marker date="1534502621949" expanded="true" signature="590:640" ph="SELECT passw... users" />
-            <marker date="1534502621949" expanded="true" signature="679:742" ph="INSERT INTO tokens... " />
-            <marker date="1534502621949" expanded="true" signature="784:866" ph="DELETE FROM " />
-            <marker date="1534502621949" expanded="true" signature="899:955" ph="SELECT user,... tokens" />
-            <marker date="1534502621949" expanded="true" signature="988:1029" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/gateways/ISessionsGateway.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
           <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
           <folding>
-            <element signature="e#99#136#0#PHP" expanded="true" />
+            <element signature="e#99#136#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -745,19 +662,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/UnauthorizedException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="32" column="23" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/class/exceptions/ExpiredTokenException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -765,7 +673,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -809,20 +716,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/LoginTransaction.php">
+    <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidTokenException.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="17" column="20" lean-forward="false" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/SessionManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="58" column="9" lean-forward="true" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
+          <folding>
+            <element signature="e#78#115#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
-          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+          <caret line="22" column="19" lean-forward="false" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/exceptions/UnauthorizedException.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/url/UrlMatcher.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1826">
+          <caret line="95" column="27" lean-forward="false" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/DeleteItemTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="23" column="5" lean-forward="true" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/CreateItemTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="163" column="8" lean-forward="false" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="8" />
           <folding>
-            <element signature="e#103#140#0#PHP" expanded="true" />
+            <marker date="1534523665559" expanded="true" signature="663:713" ph="SELECT passw... users" />
+            <marker date="1534523665559" expanded="true" signature="752:815" ph="INSERT INTO tokens... " />
+            <marker date="1534523665559" expanded="true" signature="857:939" ph="DELETE FROM " />
+            <marker date="1534523665559" expanded="true" signature="972:1028" ph="SELECT user,... tokens" />
+            <marker date="1534523665559" expanded="true" signature="1061:1102" ph="DELETE FROM " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/LoginTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="778">
+          <caret line="44" column="47" lean-forward="true" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/class/transactions/LogoutTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="20" column="23" lean-forward="false" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        <state relative-caret-position="726">
+          <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
           <folding />
         </state>
       </provider>
