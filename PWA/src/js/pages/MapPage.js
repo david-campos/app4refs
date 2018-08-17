@@ -45,17 +45,18 @@ class MapPage extends Page {
          */
         this._map = new ItemsMap(items, this);
         /**
-         * The element to contain the map instructions
-         * @type {?Element}
-         * @private
-         */
-        this._mapInstructions = null;
-        /**
          * Icon displayed when geolocation is not available
          * @type {?Element}
          * @private
          */
         this._geolocationErrorIcon = null;
+        /**
+         * The panel to display the directions,
+         * when created.
+         * @type {?DirectionsPanel}
+         * @private
+         */
+        this._directionsPanel = null;
     }
 
     render(container) {
@@ -66,9 +67,10 @@ class MapPage extends Page {
         this._geolocationErrorIcon.innerHTML = MAP_MARKER_SVG + MAP_BAN_SVG;
         container.appendChild(this._geolocationErrorIcon);
 
-        this._mapInstructions = document.createElement('div');
-        this._mapInstructions.setAttribute("class", "map-instructions");
-        container.appendChild(this._mapInstructions);
+        let mapInstructions = document.createElement('div');
+        mapInstructions.setAttribute("class", "map-instructions");
+        container.appendChild(mapInstructions);
+        this._directionsPanel = new DirectionsPanel(mapInstructions);
 
         let mapContainer = document.createElement('div');
         mapContainer.setAttribute("class", "map-container");
@@ -77,7 +79,7 @@ class MapPage extends Page {
         container.style.padding = "0";
 
         this._map.load(mapContainer);
-        this._map.setDirectionsContainer(this._mapInstructions);
+        this._map.setDirectionsPanel(this._directionsPanel);
         this._map.setGeolocationErrorIcon(this._geolocationErrorIcon);
     }
 
@@ -109,13 +111,8 @@ class MapPage extends Page {
      * Called by ItemMap when the map is clicked
      */
     mapClicked() {
-        if(this._mapInstructions && this._map && this._mapInstructions.innerHTML !== "") {
-            if (parseInt(this._mapInstructions.style.bottom) !== 0) {
-                this._mapInstructions.scrollTop = 0;
-                this._mapInstructions.style.bottom = "0";
-            } else {
-                this._mapInstructions.style.bottom = "-50vh";
-            }
+        if(this._directionsPanel) {
+            this._directionsPanel.toggle();
         }
     }
 

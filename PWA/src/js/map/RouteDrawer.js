@@ -37,11 +37,17 @@ class RouteDrawer {
          */
         this._routeMarkers = [];
         /**
-         * The container for the instructions of the directions to display
-         * @type {?Element}
+         * The panel which displays the directions and travel types
+         * @type {?DirectionsPanel}
          * @private
          */
-        this._directionsContainer = null;
+        this._directionsPanel = null;
+        /**
+         * The polyline which highlights the currently highlited step
+         * @type {?google.maps.Polyline}
+         * @private
+         */
+        this._highlightedStep = null;
     }
 
     /**
@@ -49,6 +55,8 @@ class RouteDrawer {
      * @param {google.maps.DirectionsResult} result - The result obtained from the API
      */
     draw(result) {
+        this.clear();
+
         this._directionsRenderer.setMap(this._map);
         this._directionsRenderer.setDirections(result);
 
@@ -56,33 +64,105 @@ class RouteDrawer {
             // We pick the first route
             this._directionsRenderer.setRouteIndex(0);
             this._drawRouteMarkers(result.routes[0]);
+            this._directionsPanel.showGuideButton();
         }
+    }
+
+    /**
+     * Displays the content to display when no results have been received
+     */
+    displayZeroResults() {
+        this._directionsPanel.displayZeroResults();
     }
 
     /**
      * Clears the displayed route from the map
      */
     clear() {
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setMap(null);
-        }
-        if(this._directionsContainer) {
-            this._directionsContainer.style.bottom = "-50vh";
-            this._directionsContainer.innerHTML = "";
+        this._directionsRenderer.setMap(null);
+        if(this._directionsPanel) {
+            this._directionsPanel.clear();
         }
         this._clearRouteMarkers();
     }
 
     /**
-     * Sets the direction container to render the directions over
-     * it.
-     * @param {Element} container - A div, to render the directions
+     * Hides the directions panel (if associated already)
      */
-    setDirectionsContainer(container) {
-        this._directionsContainer = container;
+    hidePanel() {
+        if(this._directionsPanel) {
+            this._directionsPanel.hide();
+        }
+    }
 
-        if(this._directionsRenderer) {
-            this._directionsRenderer.setPanel(this._directionsContainer);
+    /**
+     * Sets the directions panel and associates the directions render to its
+     * instructions container.
+     * @param {DirectionsPanel} panel
+     */
+    setDirectionsPanel(panel) {
+        this._directionsPanel = panel;
+        this._directionsRenderer.setPanel(
+            this._directionsPanel.getInstructionsContainer());
+    }
+
+    /**
+     * Displays the given travel mode as the selected one.
+     * It delegates into the homonim method of DirectionsPanel,
+     * so it has no effect if there is no panel associated.
+     * @see {DirectionsPanel#selectedTravelMode}
+     * @param {TravelMode} travelMode
+     */
+    selectedTravelMode(travelMode) {
+        if(this._directionsPanel) {
+            this._directionsPanel.selectedTravelMode(travelMode);
+        }
+    }
+
+    /**
+     * The currently displayed route, or null if no route is displayed
+     * @return {?google.maps.DirectionsRoute}
+     */
+    getRoute() {
+        if(!this._directionsRenderer.getMap())
+            return null; // When no map assigned, no route is displayed :)
+
+        let dirs = this._directionsRenderer.getDirections();
+        if(dirs) {
+            return dirs.routes[this._directionsRenderer.getRouteIndex()];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Highlights the given step, hiding away
+     * the previous one.
+     * @param {Number} idx - The index of the step, used to highlight the indications
+     * @param {google.maps.DirectionsStep} step - The step
+     */
+    highlightStep(idx, step) {
+        this.clearHighlightedStep();
+        this._highlightedStep = new google.maps.Polyline({
+            path: step.path,
+            geodesic: true,
+            strokeColor: '#7C0D82',
+            strokeOpacity: 0.7,
+            strokeWeight: 6,
+            zIndex: 2
+        });
+        this._highlightedStep.setMap(this._map);
+
+        if(this._directionsPanel) {
+            this._directionsPanel.highlightStep(idx);
+        }
+    }
+
+    clearHighlightedStep() {
+        if(this._highlightedStep) {
+            this._highlightedStep.setMap(null);
+            this._directionsPanel.clearHighlightedSteps();
+            this._highlightedStep = null;
         }
     }
 
@@ -148,7 +228,6 @@ class RouteDrawer {
      */
     _newDirectionsRenderer() {
         return new google.maps.DirectionsRenderer({
-            panel: this._directionsContainer,
             suppressMarkers: true,
             infoWindow: this._info
         });

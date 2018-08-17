@@ -19,7 +19,7 @@ class AOSCompass {
     }
 
     constructor() {
-        this._sensor = new AbsoluteOrientationSensor({frequency: 60});
+        this._sensor = new AbsoluteOrientationSensor({frequency: 5});
         this._sensor.onerror = event => this._onError(event);
         this._sensor.onreading = () => this._onReading();
         /**

@@ -31,6 +31,7 @@ class Page {
         /**
          * Indicates if the page is visible or not
          * @type {boolean}
+         * @private
          */
         this._visible = false;
     };
@@ -64,6 +65,7 @@ class Page {
      */
     onHide() {
         this._visible = false;
+        this.app.getContainer().removeEventListener('scroll', this._scrollHandler);
     }
 
     /**
@@ -119,7 +121,8 @@ class Page {
     getState() {
        return {
            pageClass: null,
-           hash: null
+           hash: null,
+           scroll: 0
        };
     }
 }
@@ -128,4 +131,5 @@ class Page {
  * @typedef {Object} PageState
  * @property {?string} pageClass
  * @property {?string} hash
+ * @property {number} scroll - Used by the router to reset the scroll, the router will overwrite it
  */
