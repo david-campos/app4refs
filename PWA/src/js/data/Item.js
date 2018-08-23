@@ -110,4 +110,34 @@ class Item {
             openingHours: this.openingHours.map((x)=>x.toObject())
         }
     }
+
+    /**
+     * Determines if the item is adequate to be shown in a map
+     * @return {boolean} - True if it is, false if not
+     */
+    canBeShownInMap() {
+        return !isNaN(this.coordLon) && !isNaN(this.coordLat);
+    }
+
+    /**
+     * Determines if the item is currently opened or not given
+     * the opening periods. If the item requires a call
+     * for appointment this function returns false.
+     * @return {boolean}
+     */
+    isOpenNow() {
+        if(this.callForAppointment) {
+            return false;
+        }
+
+        let time = new Date();
+
+        for(let period of this.openingHours) {
+            if(period.containsTime(time)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -32,7 +32,7 @@ class HomePage extends GridPage {
             }
         };
 
-        super(2, icons, iconClicked, "App4Refs", false);
+        super(2, icons, iconClicked, "", false);
     }
 
     getState() {

@@ -47,7 +47,7 @@ class App {
 
             window.onpopstate = (...x) => this._router.onStatePopping(...x);
             window.addEventListener('resize', (e) => this._currentPage.resize(innerWidth, innerHeight));
-            window.addEventListener('beforeunload', ()=> this._onLeaving());
+            window.addEventListener('unload', ()=> this._onLeaving());
             window[INIT_MAP_FUNCTION_NAME] = () => this.setMapsAvailable();
         }
 
@@ -128,6 +128,7 @@ class App {
         } else {
             this._nav.hide();
         }
+        App._changeWebTitle(page.title);
         this.clearContainer();
         page.render(this._container);
     }
@@ -211,5 +212,20 @@ class App {
         // just in case.
         this.updateCurrentSavedState();
         this._currentPage.onHide();
+    }
+
+    /**
+     * Changes the title of the web page to the given one,
+     * preceded by "App4Refs - ", if nothing is passed
+     * the " - " is ommited.
+     * @param {string} newTitle - The title to change it for
+     * @private
+     */
+    static _changeWebTitle(newTitle) {
+        if(newTitle) {
+            document.title = "App4Refs - " + newTitle;
+        } else {
+            document.title = "App4Refs";
+        }
     }
 }

@@ -46,13 +46,13 @@
 }
 
 .map-instructions button#dir-pan-start-btn {
-    width: 100%;
+    width: calc(100% - 0.6em);
     background-color: #7C0D82;
     color: white;
     border: none;
     border-radius: 1em;
     padding: 0.3em;
-    margin-top: 0.3em;
+    margin: .3em .3em 0 .3em;
 }
 
 #dir-pan-travel-zero-results svg {
@@ -111,22 +111,99 @@
     color: red;
 }
 
+/* INFORMATION WHEN CLICKING A MARKER */
 b.marker-title {
     display: block;
     text-align: center;
+    font-size: 1rem;
+}
+
+.marker-icon {
+    width: 6em;
+    height: 6em;
+    margin: 1em auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.marker-icon img {
+    display: block;
+    max-width: 6em !important; /* needs important cause google style replaces it */
+    max-height: 6em;
+}
+
+.marker-cost-and-lang {
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-open {
+    height: calc(2em - 4px);
+    width: calc(2em - 4px);
+    border-radius: 50%;
+    color: #fff;
+    margin: 2px;
+}
+
+.marker-open.open {
+    background-color: green;
+}
+
+.marker-open.closed {
+    background-color: #730000;
+}
+
+.marker-open.cfa {
+    background-color: #7C0D82;
+}
+
+.marker-open svg {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    display: block;
+    margin-left: -30%;
+    margin-top: -30%;
+    width: 60%;
+    height: 60%;
+}
+
+.marker-cost-and-lang img {
+    height: 2em;
+}
+
+.info-div {
+    width: 14em;
+    /* I add 26px on the left to center it,
+    by now I can't assure it works on any screen ^^' */
+    margin-left: 26px;
+}
+
+.marker-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .route-btn {
     background: #7C0D82;
-    border: none;
-    display: block;
-    width: 100%;
-    min-width: 6em;
+    border: 0.1em solid #6A3D57;
+    /* width: 100%; */
+    /*min-*/width: 6em;
     border-radius: 1em;
-    height: 2em;
+    height: 2.2em;
     color: white;
-    margin-top: 0.5em;
     padding: 0.25em;
+    margin: 0.5em 0.25em; /* only top if one */
+}
+
+.route-btn.google {
+    background-color: #fff;
+    color: #7C0D82;
 }
 
 .route-btn svg {

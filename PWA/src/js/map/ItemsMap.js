@@ -114,7 +114,7 @@ class ItemsMap {
             let map = new google.maps.Map(container, {
                 center: mapCenter,
                 gestureHandling: 'greedy', // so it is moved with one finger
-                zoom: 12, // items manager will change it, anyways
+                zoom: 14, // items manager will change it, anyways
                 styles: [{
                     "featureType": "poi.business",
                     "stylers": [{"visibility": "off"}]
