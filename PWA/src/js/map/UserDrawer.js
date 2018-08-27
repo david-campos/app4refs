@@ -31,6 +31,12 @@ class UserDrawer {
          */
         this._userMarker = this._newUserMarker(initialPosition);
         /**
+         * The circle to display the precission of the location
+         * @type {google.maps.Circle}
+         * @private
+         */
+        this._userPrecissionCircle = this._newUserPrecissionCircle(initialPosition);
+        /**
          * Determines if the geolocation error is shown or not right now
          * @type {boolean}
          * @private
@@ -79,14 +85,16 @@ class UserDrawer {
      */
     updateUserMarker(userPosition, userHeading) {
         if(!userPosition) {
-            if(this._userMarker) {
-                this._userMarker.setMap(null);
-            }
+            this._userMarker.setMap(null);
+            this._userPrecissionCircle.setMap(null);
         } else {
             let latLng = new google.maps.LatLng(
                 userPosition.latitude,userPosition.longitude);
 
             this._userMarker.setPosition(latLng);
+            this._userPrecissionCircle.setCenter(latLng);
+            this._userPrecissionCircle.setRadius(userPosition.accuracy);
+
             // Depending if it has a valid heading or not, we display
             // the icon with direction or the non directed one
             if (userPosition.heading !== null && !isNaN(userPosition.heading)) {
@@ -101,6 +109,9 @@ class UserDrawer {
 
             if(!this._userMarker.getMap()) {
                 this._userMarker.setMap(this._map);
+            }
+            if(!this._userPrecissionCircle.getMap()) {
+                this._userPrecissionCircle.setMap(this._map);
             }
         }
     }
@@ -129,6 +140,37 @@ class UserDrawer {
             icon: UserDrawer._userIconNoDir(),
             shadow: null,
             zIndex: 99
+        });
+    }
+
+    /**
+     * Creates the circle to show the precission of the position
+     * @param {?Coordinates} initialPosition - If given,
+     *          the starting position for the marker
+     * @return {google.maps.Circle}
+     * @private
+     */
+    _newUserPrecissionCircle(initialPosition) {
+        let lon, lat, rad;
+
+        if(initialPosition) {
+            lon = initialPosition.longitude;
+            lat = initialPosition.latitude;
+            rad = initialPosition.accuracy;
+        } else {
+            rad = lon = lat = 0;
+        }
+
+        return new google.maps.Circle({
+            strokeColor: '#7C0D82',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: '#7C0D82',
+            fillOpacity: 0.2,
+            map: this._map,
+            center: new google.maps.LatLng(lat, lon),
+            radius: rad,
+            zIndex: 98
         });
     }
 
