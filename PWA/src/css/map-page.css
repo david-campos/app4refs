@@ -215,3 +215,6 @@ b.marker-title {
 .adp table {
     width: 100%;
 }
+td.adp-substep:nth-child(3) {
+    word-break: break-word; /* If not, driving directions are too wide sometimes */
+}
