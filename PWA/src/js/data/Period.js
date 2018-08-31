@@ -92,6 +92,40 @@ class Period {
     }
 
     /**
+     * Determines if this period contains the specified
+     * time. Notice we will use UTC time to translate it
+     * to Greek time so the comparison is right with any
+     * time zone offset.
+     * @param {Date} time - The time to check
+     */
+    containsTime(time) {
+        let cloned = new Date(time.getTime());
+        cloned.addHours(3); // Since Greece has UTC+3, now UTC returns Greek time
+
+        // Returns 0 = Sunday, 6 = Saturday, we need to get it to 0 = Monday, 6 = Sunday
+        let weekDay = (cloned.getUTCDay()+6) % 7;
+        let hour = cloned.getUTCHours();
+        let minute = cloned.getUTCMinutes();
+
+        // Calculate the minutes since the start of the week for each start and end
+        let minsSinceWeekStart = (weekDay * 24 + hour) * 60 + minute;
+        let startMSWS =
+            (PERIOD_DAYS.indexOf(this.startDay) * 24
+                + this.startHour) * 60
+            + this.startMinutes;
+        let endMSWS =
+            (PERIOD_DAYS.indexOf(this.endDay) * 24
+                + this.endHour) * 60
+            + this.endMinutes;
+
+        if(startMSWS <= endMSWS) {
+            return startMSWS <= minsSinceWeekStart && minsSinceWeekStart <= endMSWS;
+        } else {
+            return minsSinceWeekStart <= endMSWS || minsSinceWeekStart >= startMSWS;
+        }
+    }
+
+    /**
      * Returns the end hour as a formated string
      * @return {string}
      */

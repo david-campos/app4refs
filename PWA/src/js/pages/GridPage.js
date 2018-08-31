@@ -111,7 +111,7 @@ class GridPage extends Page {
         // Draw all divs at once (it is more efficient)
         let html = '';
         for(let [id, icon] of Object.entries(this._icons)) {
-            html += `<div class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></div>`;
+            html += `<button class="col-${colW} btn" data-id="${id}" style="background-image: url(${icon});"></button>`;
         }
         this._mainRow.innerHTML = html;
         //this._changeIconsHeight(this.getPageHeight());

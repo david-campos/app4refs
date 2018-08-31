@@ -38,6 +38,9 @@ class MapPage extends Page {
 
         if(items instanceof Item) items = [items]; // Surround by array
 
+        // Filter invalid coordinates
+        items = items.filter((item)=>item.canBeShownInMap());
+
         /**
          * The map, once it is created
          * @type {ItemsMap}
@@ -140,7 +143,7 @@ class MapPage extends Page {
 
         let iT = this._category.itemType;
         let code = this._category.code;
-        let itemId = (state.items.length > 1 ? 'all' : state.items[0].itemId);
+        let itemId = (state.items.length > 1 ? 'all' : (state.items.length > 0 ? state.items[0].itemId :'all'));
         state.hash = `${iT},${code},${itemId}`;
         return state;
     }

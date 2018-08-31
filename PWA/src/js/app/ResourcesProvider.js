@@ -72,6 +72,8 @@ const MAPS_API_KEY = "AIzaSyCyFHh1ZdCJhv9H2z4Kr1-wI6vERbNf7HE";
 const DIRECTIONS_LANG = "en-US";
 const INIT_MAP_FUNCTION_NAME = 'initMap';
 
+const EXTERNAL_MAPS_DIR_URL = "https://www.google.com/maps/dir/?api=1";
+
 let glob_rp_base_url = null;
 
 /**
@@ -167,6 +169,16 @@ class ResourcesProvider {
         // We need the geometry library to calculate distances
         // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry&language=en-US
         return `${MAPS_API_URL}?key=${MAPS_API_KEY}&callback=${INIT_MAP_FUNCTION_NAME}&libraries=geometry&language=${DIRECTIONS_LANG}`;
+    }
+
+    /**
+     * Returns the URL for a link to open maps in an external
+     * tab for the given item
+     * @param {Item} item - The item to create the link url for
+     */
+    static getExternalDirectionsUrl(item) {
+        // https://www.google.com/maps/dir/?api=1&PARAMETERS
+        return `${EXTERNAL_MAPS_DIR_URL}&destination=${item.coordLat},${item.coordLon}`;
     }
 
     /**

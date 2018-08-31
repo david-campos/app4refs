@@ -6,6 +6,7 @@ const LIST_PAGE_CLASS = "ListPage";
 
 const LINK_ICON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"external-link-alt\" class=\"svg-inline--fa fa-external-link-alt fa-w-18\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M576 24v127.984c0 21.461-25.96 31.98-40.971 16.971l-35.707-35.709-243.523 243.523c-9.373 9.373-24.568 9.373-33.941 0l-22.627-22.627c-9.373-9.373-9.373-24.569 0-33.941L442.756 76.676l-35.703-35.705C391.982 25.9 402.656 0 424.024 0H552c13.255 0 24 10.745 24 24zM407.029 270.794l-16 16A23.999 23.999 0 0 0 384 303.765V448H64V128h264a24.003 24.003 0 0 0 16.97-7.029l16-16C376.089 89.851 365.381 64 344 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V287.764c0-21.382-25.852-32.09-40.971-16.97z\"></path></svg>";
 const MAP_BUTTON_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"map-marker-alt\" class=\"svg-inline--fa fa-map-marker-alt fa-w-12\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><path fill=\"currentColor\" d=\"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z\"></path></svg>";
+const GOOGLE_BUTTON_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 48 48\"><defs><path id=\"a\" d=\"M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z\"/></defs><clipPath id=\"b\"><use xlink:href=\"#a\" overflow=\"visible\"/></clipPath><path clip-path=\"url(#b)\" fill=\"#FBBC05\" d=\"M0 37V11l17 13z\"/><path clip-path=\"url(#b)\" fill=\"#EA4335\" d=\"M0 11l17 13 7-6.1L48 14V0H0z\"/><path clip-path=\"url(#b)\" fill=\"#34A853\" d=\"M0 37l30-23 7.9 1L48 0v48H0z\"/><path clip-path=\"url(#b)\" fill=\"#4285F4\" d=\"M48 48L17 24l-4-3 35-10z\"/></svg>";
 
 /**
  * ListPage is a page with a list kind of layout. It displays an array of items
@@ -44,7 +45,7 @@ class ListPage extends Page {
         for(let item of this._items) {
             let iconUrl = ResourcesProvider.getItemIconUrl(item);
             let periods = ListPage._periodsStrFor(item);
-            let costAndLang = ListPage._costAndLangHtmlFor(item);
+            let costAndLang = ListPage.costAndLangHtmlFor(item);
 
             let textString = `<h3>${item.name}</h3>`;
             textString += `<p class="item-addr">${item.address}</p>`;
@@ -60,8 +61,10 @@ class ListPage extends Page {
                 textString += `<p class="item-periods">${periods}</p>`;
             }
 
-            if(this.shouldShowMapButton()) {
-                textString += `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`;
+            if(this.shouldShowMapButton() && item.canBeShownInMap()) {
+                textString +=
+                    `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`
+                    + `<button class="item-map map-button-google" data-item="${item.itemId}">Map ${GOOGLE_BUTTON_SVG}</button>`;
             }
 
             htmlString += `<div class='row item-row'><div class="col-4 item-icon"><img src="${iconUrl}"></div>`+
@@ -69,7 +72,9 @@ class ListPage extends Page {
         }
         if(this.shouldShowMapButton() && this._items.length > 0) {
             // Open-map-with-all-of-them button
-            htmlString += `<div class="row"><button id="all-items-map" class="map-button" style="background-image: url(${ResourcesProvider.getAllMapsIconUrl()});"></button></div>`;
+            htmlString += `<div class="row">`
+                +`<button id="all-items-map" class="map-button" style="background-image: url(${ResourcesProvider.getAllMapsIconUrl()});"></button>`
+                +`</div>`;
         }
         container.innerHTML = htmlString;
 
@@ -88,10 +93,13 @@ class ListPage extends Page {
      */
     _createMapButtonsCallback(div) {
         let callback = (event)=>this._mapsButtonClicked(event);
+        let googleCbck = (event)=>this._googleMapsButtonClicked(event);
         let btns = div.getElementsByTagName("button");
         for(let element of btns) {
             if(element.classList.contains("map-button")) {
                 element.addEventListener('click', callback);
+            } else if(element.classList.contains("map-button-google")) {
+                element.addEventListener('click', googleCbck);
             }
         }
     }
@@ -106,7 +114,7 @@ class ListPage extends Page {
         let onlineState = (navigator.onLine !== false);
         let display = (onlineState ? "block" : "none");
         for(let element of btns) {
-            if(element.classList.contains("map-button")) {
+            if(element.classList.contains("item-map") || element.id === "all-items-map") {
                 element.style.display = display;
             }
         }
@@ -123,13 +131,38 @@ class ListPage extends Page {
             alert("Maps cannot be shown on offline mode");
             return;
         }
-        let item = null;
         let itemId = event.currentTarget.getAttribute("data-item");
+        let item = this._searchItem(itemId);
+        if(item) {
+            this.app.navigateToPage(new MapPage(this._category, item));
+        }
+    }
+
+    _googleMapsButtonClicked(event) {
+        let itemId = event.currentTarget.getAttribute("data-item");
+        let item = this._searchItem(itemId);
+        if(item) {
+            let link = ResourcesProvider.getExternalDirectionsUrl(item);
+            window.open(link, "_blank");
+        }
+    }
+
+    /**
+     * Returns the item for the given itemId if
+     * one is passed or all the items if null is given.
+     * @param {?string} itemId
+     * @return {Item|Item[]|null} the item if itemId is not null, or
+     * all the items of the page if it is null. If an itemId is given
+     * but no item matchs the id it returns null.
+     * @private
+     */
+    _searchItem(itemId) {
+        let item = null;
         if(itemId) {
-            itemId = parseInt(itemId);
+            let itemIdInt = parseInt(itemId);
             // Search the item
             for(let itemToCheck of this._items) {
-                if(itemToCheck.itemId === itemId) {
+                if(itemToCheck.itemId === itemIdInt) {
                     item = itemToCheck;
                     //title = itemToCheck.name;
                     break;
@@ -139,9 +172,7 @@ class ListPage extends Page {
             // If no data-item attribute is set, we show all the items
             item = this._items;
         }
-        if(item) {
-            this.app.navigateToPage(new MapPage(this._category, item));
-        }
+        return item;
     }
 
     /**
@@ -243,7 +274,7 @@ class ListPage extends Page {
         return schedules;
     }
 
-    static _costAndLangHtmlFor(item) {
+    static costAndLangHtmlFor(item) {
         let iconPayment = ResourcesProvider.getCostIconUrl(item.isFree?'free':'pay');
         let strHtml = `<img src='${iconPayment}'>`;
         for(let lang of item.languageCodes) {

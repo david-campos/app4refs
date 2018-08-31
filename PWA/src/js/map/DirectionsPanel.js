@@ -225,6 +225,7 @@ class DirectionsPanel {
         if(this._startNavigationCallback) {
             this._startNavigationCallback();
             this.hideGuideButton();
+            this.hide();
         }
     }
 }

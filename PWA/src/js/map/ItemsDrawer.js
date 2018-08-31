@@ -2,6 +2,9 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
+const OPEN_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"door-open\" class=\"svg-inline--fa fa-door-open fa-w-20\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\"><path fill=\"currentColor\" d=\"M624 448h-80V113.45C544 86.19 522.47 64 496 64H384v64h96v384h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM312.24 1.01l-192 49.74C105.99 54.44 96 67.7 96 82.92V448H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h336V33.18c0-21.58-19.56-37.41-39.76-32.17zM264 288c-13.25 0-24-14.33-24-32s10.75-32 24-32 24 14.33 24 32-10.75 32-24 32z\"></path></svg>";
+const CLOSED_SVG = "<svg aria-hidden=\"true\" data-prefix=\"fas\" data-icon=\"door-closed\" class=\"svg-inline--fa fa-door-closed fa-w-20\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\"><path fill=\"currentColor\" d=\"M624 448H512V50.8C512 22.78 490.47 0 464 0H175.99c-26.47 0-48 22.78-48 50.8V448H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h608c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16zM415.99 288c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32c.01 17.67-14.32 32-32 32z\"></path></svg>";
+
 /**
  * This class provides methods to draw the items over the Map from Google Maps.
  */
@@ -68,6 +71,11 @@ class ItemsDrawer {
             map: this._map,
             position: latLng,
             title: item.name,
+            label: {
+                color: item.isOpenNow()?'white':'black',
+                fontWeight: "bold",
+                text: item.name[0]
+            },
             animation: google.maps.Animation.DROP
         });
 
@@ -119,7 +127,7 @@ class ItemsDrawer {
             this._map.fitBounds(bounds);
         } else if(this._markers.size === 1) {
             this._map.setCenter(this._markers.values().next().value.getPosition());
-            this._map.setZoom(12); // Nice to see the city
+            this._map.setZoom(14); // Nice to see the city
         }
     }
 
@@ -164,20 +172,43 @@ class ItemsDrawer {
         if(this._infoItem) {
             let content = '<b class="marker-title">' + this._infoItem.name.htmlEscape() + '</b>';
 
-            if (!this._showRouteButton) {
-                this._info.setContent(content);
-            } else {
+            let open = this._infoItem.isOpenNow();
+            let theClass = (this._infoItem.callForAppointment ? "cfa" : (open ? "open" : "closed"));
+            let theText = (this._infoItem.callForAppointment ? PHONE_SVG : (open ? OPEN_SVG : CLOSED_SVG));
+
+            content += `<div class="marker-icon"><img src="${ResourcesProvider.getItemIconUrl(this._infoItem)}"></div>`;
+
+            content += `<div class="marker-cost-and-lang">`
+                + ListPage.costAndLangHtmlFor(this._infoItem)
+                + `<div class="marker-open ${theClass}">${theText}</div>`
+                + `</div>`;
+
+
+            if (this._showRouteButton) {
+                content += `<div class="marker-btns">`;
                 content += `<button class="route-btn">${ROUTE_BUTTON_SVG}</button>`;
-                let div = document.createElement('div');
-                div.setAttribute("data-item-info", "true");
-                div.innerHTML = content;
+                content += `<button class="route-btn google">${GOOGLE_BUTTON_SVG}</button>`;
+                content += `</div>`;
+            }
+
+            let div = document.createElement('div');
+            div.setAttribute("data-item-info", "true");
+            div.classList.add("info-div");
+            div.innerHTML = content;
+
+            if(this._showRouteButton) {
                 let self = this;
-                div.childNodes[1].addEventListener('click', () => {
+                div.childNodes[3].childNodes[0].addEventListener('click', () => {
                     self._itemSelected(this._infoItem);
                     self._info.close();
                 });
-                this._info.setContent(div);
+                div.childNodes[3].childNodes[1].addEventListener('click', () => {
+                    let link = ResourcesProvider.getExternalDirectionsUrl(this._infoItem);
+                    window.open(link, "_blank");
+                });
             }
+
+            this._info.setContent(div);
         }
     }
 }

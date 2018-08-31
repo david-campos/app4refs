@@ -77,7 +77,7 @@ class Router {
                 App.getInstance().getContainer().scrollTop = event.state.scroll;
             }
         } else {
-            App.getInstance().loadAndRenderPage(new HomePage());
+            this._onLocation(location.hash);
         }
     }
 
