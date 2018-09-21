@@ -9,6 +9,17 @@ PWA/dist/*
 PWA/out
 PWA/out/*
 
+# PANEL #
+######################
+PANEL/node_modules
+PANEL/node_modules/*
+# pwa distribution
+PANEL/dist
+PANEL/dist/*
+# jsDoc output
+PANEL/out
+PANEL/out/*
+
 # Compiled source #
 ###################
 *.com

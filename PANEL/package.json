@@ -1,0 +1,26 @@
+{
+  "name": "app4refs.panel",
+  "version": "1.0.0",
+  "description": "Control panel for App4Refs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Campos Rodríguez",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-jsdoc3": "^2.0.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-replace": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "path": "^0.12.7",
+    "run-sequence": "^2.2.1"
+  }
+}
