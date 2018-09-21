@@ -117,10 +117,11 @@ function writeServiceWorkerFile(handleFetch, callback) {
       DIST_DIR + '/css/**.css',
       DIST_DIR + '/**.html',
       DIST_DIR + '/favicon.ico',
+      DIST_DIR + '/**.png',
       DIST_DIR + '/ico/**/*.png',
       DIST_DIR + '/js/**.js'
     ],
-    navigateFallback: path.join(DEPLOYMENT_ROOT, 'index.html'),
+    navigateFallback: DEPLOYMENT_ROOT + '/index.html',
     stripPrefix: DIST_DIR + '/',
     replacePrefix: DEPLOYMENT_ROOT + '/',
     verbose: true
