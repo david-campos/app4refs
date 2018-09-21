@@ -29,7 +29,14 @@ var DEV_JS_DIR = path.join(DEV_DIR, JS_DIR);
 var DEV_CSS_DIR = path.join(DEV_DIR, CSS_DIR);
 var DEV_IMG_DIR = path.join(DEV_DIR, IMG_DIR);
 
-var DEV_JS_SRC = [];
+var DEV_JS_SRC = [
+    'login.js',
+    'data/Category.js',
+    'data/Item.js',
+    'data/Period.js',
+    'api/ApiAjaxAdapter.js',
+    'api/ApiService.js'
+];
 var DEV_CSS_SRC = path.join(DEV_CSS_DIR, '*.css');
 var DEV_HTML_SRC = path.join(DEV_DIR, '*.html');
 var DEV_IMG_SRC = path.join(DEV_IMG_DIR, '*.png');
