@@ -112,6 +112,33 @@ class ApiService {
     }
 
     /**
+     * Logins into the api obtaining a token
+     * @param {string} user
+     * @param {string} pass
+     * @param {LoginCallback} [callback]
+     */
+    login(user, pass, callback) {
+        this._callback = callback;
+        this._api.setAuthorisation(AUTH_BASIC, user, pass, true);
+        this._api.post(ApiService.buildLoginUrl(), {}, {}, (...x)=>this._loginSuccess(...x));
+    }
+
+    /**
+     * Called when we complete login successfully
+     * @param {Token} token
+     * @private
+     */
+    _loginSuccess(token) {
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback(token);
+        }
+        // Authorisation from now on
+        this._api.setAuthorisation(AUTH_BEARER, token.token);
+    }
+
+    /**
      * Builds the url to get the categories for the given item type
      * @param {string} itemType - The item type to get the categories for
      */
@@ -128,6 +155,13 @@ class ApiService {
         categoryCode = encodeURIComponent(categoryCode);
         return `categories/${categoryCode}/items/`;
     }
+
+    /**
+     * Builds the url to sign in into the API
+     */
+    static buildLoginUrl() {
+        return `session`;
+    }
 }
 
 /**
@@ -137,4 +171,8 @@ class ApiService {
 /**
  * @callback GetItemsCallback
  * @param {Item[]} items - The received items
+ */
+/**
+ * @callback LoginCallback
+ * @param {Token} token - The received token information
  */

@@ -3,6 +3,17 @@
  */
 
 /**
+ * Basic authorisation method
+ * @type {AuthorisationMethod}
+ */
+const AUTH_BASIC = 'Basic';
+/**
+ * Bearer authorisation method
+ * @type {AuthorisationMethod}
+ */
+const AUTH_BEARER = 'Bearer';
+
+/**
  * Used by the ApiService to perform the connections to the API using AJAX
  */
 class ApiAjaxAdapter {
@@ -26,6 +37,20 @@ class ApiAjaxAdapter {
          * @private
          */
         this._onSuccess = null;
+        /**
+         * The authorisation header (if one) for the
+         * subsequent calls
+         * @type {?string}
+         * @private
+         */
+        this._authorisationHeader = null;
+        /**
+         * Determines if the authorisation should be deleted
+         * after using it
+         * @type {boolean}
+         * @private
+         */
+        this._deleteAuthorisation = false;
     }
 
     /**
@@ -36,17 +61,66 @@ class ApiAjaxAdapter {
     }
 
     /**
+     * Changes the authorisation for the subsequent requests to the API
+     * @param {AuthorisationMethod} method - Method of Authorisation employed
+     * @param {string} val1 - The user of the basic method and the token of the bearer method
+     * @param {string} [val2] - Password for the basic method
+     * @param {boolean} [justOnce] - If true, the authorisation will be used only in the next request
+     */
+    setAuthorisation(method, val1, val2, justOnce) {
+        let authStr = null;
+        switch(method) {
+            case AUTH_BASIC:
+                // Will fail with Unicode chars, but just allow only basic ASCII characters
+                authStr = btoa(`${val1}:${val2}`);
+                break;
+            case AUTH_BEARER:
+                authStr = val1;
+                break;
+            default:
+                // EXIT
+                return;
+        }
+        this._authorisationHeader = `${method} ${authStr}`;
+        this._deleteAuthorisation = !!justOnce;
+    }
+
+    /**
      * Performs a GET query to the API into the specified relative URL
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
      * @param {function} onSuccess - Callback on success of the query
      */
     get(relativeUrl, params, onSuccess) {
+        this._request('GET', relativeUrl, params, null, onSuccess);
+    }
+
+    /**
+     * Performs a POST query to the API into the specified relative URL
+     * @param {string} relativeUrl - URL in the api we want to make a GET query to
+     * @param {{string}} params - GET params to add
+     * @param {{}} body - Body of the post request
+     * @param {function} onSuccess - Callback on success of the query
+     */
+    post(relativeUrl, params, body, onSuccess) {
+        this._request('POST', relativeUrl, params, body, onSuccess);
+    }
+
+    /**
+     * Performs any request to the API
+     *
+     * @param {string} method - HTTP method
+     * @param {string} relativeUrl - URL in the api we want to make a GET query to
+     * @param {{string}} urlParams - GET params to add
+     * @param {?{}} bodyObj - object to send in the body of the request
+     * @param {function} onSuccess - Callback on success of the query
+     */
+    _request(method, relativeUrl, urlParams, bodyObj, onSuccess) {
         // we don't want onSuccess null
         if(!onSuccess) return;
 
         relativeUrl = ApiAjaxAdapter._cleanRelativeUrl(relativeUrl);
-        let url = this._baseUrl + relativeUrl + "?" + ApiAjaxAdapter._urlParams(params);
+        let url = this._baseUrl + relativeUrl + "?" + ApiAjaxAdapter._urlParams(urlParams);
         if(this._onSuccess !== null) {
             // Ongoing callback not finished, discard
             // (maybe in the future add handle for several requests at the same time)
@@ -54,8 +128,21 @@ class ApiAjaxAdapter {
         }
 
         this._onSuccess = onSuccess;
-        this._xhttp.open('GET', url, true);
-        this._xhttp.send();
+        this._xhttp.open(method, url, true);
+
+        if(this._authorisationHeader) {
+            this._xhttp.setRequestHeader("Authorization", this._authorisationHeader);
+            if(this._deleteAuthorisation) {
+                this._authorisationHeader = null;
+            }
+        }
+
+        if(bodyObj) {
+            this._xhttp.setRequestHeader("Content-Type", "application/json");
+            this._xhttp.send(JSON.stringify(bodyObj));
+        } else {
+            this._xhttp.send();
+        }
     }
 
     /**
@@ -160,3 +247,7 @@ class ApiAjaxAdapter {
         return relativeUrl;
     }
 }
+
+/**
+ * @typedef {string} AuthorisationMethod
+ */
