@@ -5,5 +5,5 @@ $('#form-signin').submit(function(event){
     let pass = $(this).find('#inputPassword').val();
 
     let svc = new ApiService();
-    svc.getItems('info_legal', (items)=>console.log(items));
+
 });

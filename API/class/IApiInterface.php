@@ -10,7 +10,7 @@
 interface IApiInterface {
     /** @var string API base URI, this URI will be removed at the start of $_SERVER['REQUEST_URI'] to correct the URIs
      * before matching. */
-    const API_BASE_URI = '';
+    const API_BASE_URI = 'api_v1';
 
     /** @var string key of the get param to set the input format */
     const INPUT_FORMAT_PARAM = 'in';
