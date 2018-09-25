@@ -25,7 +25,7 @@ use Token;
 class MysqliSessionsGateway implements ISessionsGateway {
     const SQL_LOGIN_GET_SALT = 'SELECT password,salt FROM users WHERE username = ?';
     const SQL_LOGIN_INSERT_TOKEN = 'INSERT INTO tokens(access_token, expires, `user`) VALUES(?,?,?)';
-    const SQL_DELETE_EXPIRED_TOKENS = 'DELETE FROM tokens WHERE expires < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 7 DAY))';
+    const SQL_DELETE_EXPIRED_TOKENS = 'DELETE FROM tokens WHERE UNIX_TIMESTAMP(expires) < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 7 DAY))';
 
     const SQL_CHECK_TOKEN = 'SELECT `user`,expires FROM tokens WHERE access_token = ?';
     const SQL_DELETE_TOKEN = 'DELETE FROM tokens WHERE access_token = ?';

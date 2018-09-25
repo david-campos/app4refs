@@ -11,22 +11,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoginTransaction.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/class/transactions/LoginTransaction.php">
+      <file leaf-file-name="MysqliSessionsGateway.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="44" column="47" lean-forward="true" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogoutTransaction.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/class/transactions/LogoutTransaction.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="726">
-              <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
-              <folding />
+            <state relative-caret-position="316">
+              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding>
+                <marker date="1537892389387" expanded="true" signature="663:713" ph="SELECT passw... users" />
+                <marker date="1537892389387" expanded="true" signature="752:815" ph="INSERT INTO tokens... " />
+                <marker date="1537892389387" expanded="true" signature="857:955" ph="DELETE FROM " />
+                <marker date="1537892389387" expanded="true" signature="988:1044" ph="SELECT `user... tokens" />
+                <marker date="1537892389387" expanded="true" signature="1077:1118" ph="DELETE FROM " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,9 +96,9 @@
         <option value="$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php" />
         <option value="$PROJECT_DIR$/class/url/UrlMatcher.php" />
         <option value="$PROJECT_DIR$/class/exceptions/UnauthorizedException.php" />
-        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php" />
         <option value="$PROJECT_DIR$/class/transactions/LoginTransaction.php" />
         <option value="$PROJECT_DIR$/class/transactions/LogoutTransaction.php" />
+        <option value="$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php" />
       </list>
     </option>
   </component>
@@ -113,7 +109,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php_installation_7" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="1934" />
     <option name="height" value="527" />
@@ -152,6 +148,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +166,14 @@
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
               <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="transactions" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="API" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="class" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gateways" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="gtmysqli" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="API" type="b2602c69:ProjectViewProjectNode" />
@@ -178,8 +183,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,6 +296,7 @@
       <workItem from="1533827616054" duration="30000" />
       <workItem from="1534496195869" duration="8426000" />
       <workItem from="1534518460882" duration="4166000" />
+      <workItem from="1537892174817" duration="244000" />
     </task>
     <servers />
   </component>
@@ -329,7 +333,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="168907000" />
+    <option name="totallyTimeSpent" value="169151000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -341,19 +345,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17760417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3312034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.399361" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -606,14 +610,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/UserNotFoundException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="8" column="77" lean-forward="false" selection-start-line="8" selection-start-column="77" selection-end-line="8" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/exceptions/UserNotFoundException.php" />
     <entry file="file://$PROJECT_DIR$/class/exceptions/PrintableException.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -622,14 +619,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/OpenSslRandomPseudoBytesNotStrongException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/exceptions/OpenSslRandomPseudoBytesNotStrongException.php" />
     <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliPeriodsGateway.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
@@ -644,16 +634,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/ISessionsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
-          <folding>
-            <element signature="e#99#136#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/gateways/ISessionsGateway.php" />
     <entry file="file://$PROJECT_DIR$/class/transactions/GetCategoriesTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -662,20 +643,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/ExpiredTokenException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/IncorrectPasswordException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/exceptions/ExpiredTokenException.php" />
+    <entry file="file://$PROJECT_DIR$/class/exceptions/IncorrectPasswordException.php" />
     <entry file="file://$PROJECT_DIR$/class/gateways/GatewayFactory.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -708,32 +677,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/Token.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="38" column="10" lean-forward="true" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidTokenException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="17" column="20" lean-forward="false" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/class/SessionManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="58" column="9" lean-forward="true" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
-          <folding>
-            <element signature="e#78#115#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/Token.php" />
+    <entry file="file://$PROJECT_DIR$/class/exceptions/InvalidTokenException.php" />
+    <entry file="file://$PROJECT_DIR$/class/SessionManager.php" />
     <entry file="file://$PROJECT_DIR$/class/transactions/UpdateItemTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -742,19 +688,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/exceptions/UnauthorizedException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/exceptions/UnauthorizedException.php" />
     <entry file="file://$PROJECT_DIR$/class/url/UrlMatcher.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1826">
           <caret line="95" column="27" lean-forward="false" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,33 +712,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="163" column="8" lean-forward="false" selection-start-line="163" selection-start-column="8" selection-end-line="163" selection-end-column="8" />
-          <folding>
-            <marker date="1534523665559" expanded="true" signature="663:713" ph="SELECT passw... users" />
-            <marker date="1534523665559" expanded="true" signature="752:815" ph="INSERT INTO tokens... " />
-            <marker date="1534523665559" expanded="true" signature="857:939" ph="DELETE FROM " />
-            <marker date="1534523665559" expanded="true" signature="972:1028" ph="SELECT user,... tokens" />
-            <marker date="1534523665559" expanded="true" signature="1061:1102" ph="DELETE FROM " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/class/transactions/LogoutTransaction.php" />
     <entry file="file://$PROJECT_DIR$/class/transactions/LoginTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="778">
-          <caret line="44" column="47" lean-forward="true" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
+        <state relative-caret-position="800">
+          <caret line="43" column="31" lean-forward="false" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class/transactions/LogoutTransaction.php">
+    <entry file="file://$PROJECT_DIR$/class/gateways/gtmysqli/MysqliSessionsGateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
-          <folding />
+        <state relative-caret-position="316">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <marker date="1537892389387" expanded="true" signature="663:713" ph="SELECT passw... users" />
+            <marker date="1537892389387" expanded="true" signature="752:815" ph="INSERT INTO tokens... " />
+            <marker date="1537892389387" expanded="true" signature="857:955" ph="DELETE FROM " />
+            <marker date="1537892389387" expanded="true" signature="988:1044" ph="SELECT `user... tokens" />
+            <marker date="1537892389387" expanded="true" signature="1077:1118" ph="DELETE FROM " />
+          </folding>
         </state>
       </provider>
     </entry>
