@@ -2,6 +2,8 @@ const SS_TOKEN_KEY = 'token';
 const SS_EXPIRES_KEY = 'expires';
 const SS_USER_KEY = 'user';
 
+let panel = null;
+
 // If session storage is available,
 // use session storage to check if we had
 // a token already
@@ -29,8 +31,6 @@ $('#form-signin').submit(function(event){
     svc.login(user, pass, (token)=>initPanel(svc, token));
 });
 
-let panel = null;
-
 function initPanel(svc, token) {
     // Save token if possible
     if('sessionStorage' in window) {
@@ -41,6 +41,18 @@ function initPanel(svc, token) {
     $('main.login').remove();
     $('main.panel').css('display', 'block');
     panel = new Panel(svc, token);
+}
+
+function loggedOut() {
+    if(panel) {
+        if('sessionStorage' in window) {
+            sessionStorage.removeItem(SS_TOKEN_KEY);
+            sessionStorage.removeItem(SS_EXPIRES_KEY);
+            sessionStorage.removeItem(SS_USER_KEY);
+        }
+        console.log("RELOADING");
+        location.reload();
+    }
 }
 
 /**

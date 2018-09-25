@@ -4,12 +4,26 @@ main.panel {
     padding: 0;
 }
 
-main.panel>.row:nth-child(1) {
+main.panel>.nav {
     height: 3rem;
     margin: 1rem auto 0 auto;
 }
-main.panel>.row:nth-child(2) {
+main.panel>.row {
     height: calc(100% - 5rem);
+}
+
+main.panel .nav li {
+    margin-left: 1em;
+}
+
+main.panel .nav li {
+    display: flex;
+    align-items: center;
+}
+
+main.panel .nav h4 {
+    margin: 0;
+    padding: 0;
 }
 
 main.panel #itemTypes img,

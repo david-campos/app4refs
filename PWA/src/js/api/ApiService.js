@@ -146,6 +146,29 @@ class ApiService {
     }
 
     /**
+     * Logs out of the api making the token invalid from now on
+     * @param {LoginCallback} [callback]
+     */
+    logout(callback) {
+        this._callback = callback;
+        this._api.delete(ApiService.buildLoginUrl(), {}, (...x)=>this._logoutSuccess(...x));
+    }
+
+    /**
+     * Called when we complete logout succesfully
+     * @private
+     */
+    _logoutSuccess() {
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback();
+        }
+        // Authorisation from now on is invalid, so just forget it
+        this._api.cancelAuthorisation();
+    }
+
+    /**
      * Builds the url to get the categories for the given item type
      * @param {string} itemType - The item type to get the categories for
      */

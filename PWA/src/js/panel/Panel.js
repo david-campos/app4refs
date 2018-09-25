@@ -29,7 +29,8 @@ class Panel {
                 $(event.currentTarget).attr(ATTR_CATEGORY_CODE));
         };
 
-        $('main.panel h4').text(`Welcome, ${token.user}!`);
+        $('main.panel .nav h4').text(`Welcome, ${token.user}!`);
+        $('main.panel .nav #logoutBtn').click(()=>svc.logout(loggedOut));
         this._populateItemTypesPanel();
     }
 

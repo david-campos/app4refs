@@ -192,7 +192,7 @@ class ItemsPanel {
                 <div class="col-9">
                   <input type="url" class="form-control" id="itemLink" value="${webLink}">
                 </div>
-                <button class="btn btn-secondary col-1" id="tryItemLink"><i class="fas fa-external-link-alt"></i></button>
+                <button class="btn btn-secondary col-1" id="tryItemLink" type="button"><i class="fas fa-external-link-alt"></i></button>
             </div>
             <div class="form-group row row-cfa">
                 <div class="custom-control custom-checkbox col-3 offset-1 control-cfa">
@@ -208,10 +208,10 @@ class ItemsPanel {
                 <h5 class="col-12">Periods</h5>
             </div>
             <div class="form-group row" id="addPeriodRow" ${item.callForAppointment?'hidden':''}>
-                <div class="col-12"><button id="addPeriodBtn" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Add period</button></div>
+                <div class="col-12"><button id="addPeriodBtn" class="btn btn-primary btn-block" type="button"><i class="fas fa-plus"></i> Add period</button></div>
             </div>
             <div class="form-group row">
-                <div class="col-6"><button id="cancelBtn" class="btn btn-danger btn-block"><i class="fas fa-times"></i> Cancel</button></div>
+                <div class="col-6"><button id="cancelBtn" class="btn btn-danger btn-block" type="button"><i class="fas fa-times"></i> Cancel</button></div>
                 <div class="col-6"><button class="btn btn-success btn-block" type="submit"><i class="fas fa-save"></i> Submit</button></div>
             </div>
             </form>`;
@@ -230,7 +230,7 @@ class ItemsPanel {
         let endM = (period.endMinutes < 10 ? '0'+period.endMinutes : period.endMinutes);
 
         return  `<div class="period">
-                <button class="btn btn-danger delete-period"><i class="far fa-calendar-times"></i></button>
+                <button class="btn btn-danger delete-period" type="button"><i class="far fa-calendar-times"></i></button>
                 <div class="row no-gutters">
                     <small class="col-6">Start</small><small class="col-6">End</small>
                 </div>

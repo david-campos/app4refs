@@ -86,6 +86,14 @@ class ApiAjaxAdapter {
     }
 
     /**
+     * Cancels the previously stated authorisation header
+     */
+    cancelAuthorisation() {
+        this._authorisationHeader = null;
+        this._deleteAuthorisation = false;
+    }
+
+    /**
      * Performs a GET query to the API into the specified relative URL
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
@@ -93,6 +101,16 @@ class ApiAjaxAdapter {
      */
     get(relativeUrl, params, onSuccess) {
         this._request('GET', relativeUrl, params, null, onSuccess);
+    }
+
+    /**
+     * Performs a DELETE query to the API into the specified relative URL
+     * @param {string} relativeUrl - URL in the api we want to make a GET query to
+     * @param {{string}} params - GET params to add
+     * @param {function} onSuccess - Callback on success of the query
+     */
+    delete(relativeUrl, params, onSuccess) {
+        this._request('DELETE', relativeUrl, params, null, onSuccess);
     }
 
     /**
@@ -128,7 +146,7 @@ class ApiAjaxAdapter {
         }
 
         this._onSuccess = onSuccess;
-        this._xhttp.open(method, url, true);
+        this._xhttp.open(method, url, true, 'a', 'a');
 
         if(this._authorisationHeader) {
             this._xhttp.setRequestHeader("Authorization", this._authorisationHeader);
