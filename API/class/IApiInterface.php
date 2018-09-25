@@ -10,7 +10,7 @@
 interface IApiInterface {
     /** @var string API base URI, this URI will be removed at the start of $_SERVER['REQUEST_URI'] to correct the URIs
      * before matching. */
-    const API_BASE_URI = '';
+    const API_BASE_URI = 'api_v1';
 
     /** @var string key of the get param to set the input format */
     const INPUT_FORMAT_PARAM = 'in';
@@ -24,6 +24,8 @@ interface IApiInterface {
     const OUTPUT_FORMAT_DEFAULT = IApiInterface::FORMATS_JSON;
     /** @var string value we must set the period id to if we want to create a new one */
     const PERIOD_ID_CREATE_NEW_VALUE = 'new';
+    /** @var integer Token duration in seconds. After this amount of time the token expires */
+    const TOKEN_DURATION = 24*60*60;
 
     // ITEM INTERFACE (texts for the items to output and input values)
     const ITEM_ID = 'itemId';
@@ -57,4 +59,9 @@ interface IApiInterface {
     const CATEGORY_ITEM_TYPE = 'itemType';
     const CATEGORY_LINK = 'link';
     const CATEGORY_POSITION = 'position';
+
+    // TOKEN INTERFACE
+    const TOKEN_TOKEN = 'token';
+    const TOKEN_EXPIRES = 'expires';
+    const TOKEN_USER_NAME = 'user';
 }

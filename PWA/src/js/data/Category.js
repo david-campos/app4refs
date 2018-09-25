@@ -6,3 +6,12 @@
  * @property {string} name
  * @property {string} [link]
  */
+
+const ITEM_TYPES = [
+    'info',
+    'help',
+    'service',
+    'leisure',
+    'link',
+    'emergency'
+];

@@ -10,6 +10,7 @@ use gateways\GatewayFactory;
 use gateways\ICategoriesGateway;
 use gateways\IItemsGateway;
 use gateways\IPeriodsGateway;
+use gateways\ISessionsGateway;
 use mysqli;
 
 class MysqliGatewayFactory extends GatewayFactory {
@@ -53,6 +54,14 @@ class MysqliGatewayFactory extends GatewayFactory {
      */
     public function getPeriodsGateway(): IPeriodsGateway {
         return new MysqliPeriodsGateway($this->mysqli);
+    }
+
+    /**
+     * Gets the sessions gateway to create, check and delete session tokens from the database
+     * @return ISessionsGateway
+     */
+    public function getSessionsGateway(): ISessionsGateway {
+        return new MysqliSessionsGateway($this->mysqli);
     }
 
     /**

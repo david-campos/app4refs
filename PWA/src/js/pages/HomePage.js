@@ -2,22 +2,13 @@
  * @author David Campos Rodríguez <david.campos.r96@gmail.com>
  */
 
-const HOME_ICONS = [
-    'info',
-    'help',
-    'service',
-    'leisure',
-    'link',
-    'emergency'
-];
-
 /**
  * Home page of the app, displayed when entering the app and when clicking the home button on the navigation bar
  */
 class HomePage extends GridPage {
     constructor() {
         let icons = {};
-        for(let key of HOME_ICONS) {
+        for(let key of ITEM_TYPES) {
             icons[key] = ResourcesProvider.getMainMenuIconUrl(key);
         }
 

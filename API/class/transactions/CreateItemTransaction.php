@@ -8,6 +8,7 @@ namespace transactions;
 use exceptions\InvalidParamInBodyException;
 use formats\IApiOutputter;
 use gateways\GatewayFactory;
+use SessionManager;
 
 class CreateItemTransaction extends ItemParsingTransaction {
 
@@ -17,6 +18,7 @@ class CreateItemTransaction extends ItemParsingTransaction {
      */
     public function __construct(array $requestParams) {
         parent::__construct($requestParams);
+        SessionManager::getInstance()->requireToken($requestParams);
     }
 
     /**
