@@ -1,25 +1,28 @@
 nav {
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+
     background-color: #212121;
     color: white;
     width: 100%;
     padding: 2.5vh;
     z-index: 9999;
-    box-shadow: 0 0 1em 0.2em rgba(0,0,0,0.2);
-}
-
-nav>.row {
-    width: 100%; /* weird size if not */
-    margin: 0; /* weird margin also */
+    box-shadow: 0 0 1em 0.2em rgba(0,0,0,0.3);
 }
 
 nav #nav-title {
     display: block;
     font-weight: 400;
     text-transform: uppercase;
+    height: min-content;
     margin: 0;
     font-size: 3vmax;
-    position: relative;
-    top: calc(50% - 1.5vmax);
+    flex-grow: 1;
+    padding: 0 1em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 nav button {
@@ -30,16 +33,10 @@ nav button {
     min-height: 30px;
     width: 5vh;
     min-width: 30px;
-    border-radius: 5vh;
+    border-radius: 50%;
+    box-shadow: none;
     padding: 0;
     margin: 0;
-    cursor: pointer;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-nav button:active {
-    filter: brightness(0.8);
 }
 
 nav .nav-home-col {
@@ -50,13 +47,6 @@ nav button svg {
     fill: currentColor;
     height: 60%;
     width: 60%;
-    padding: 0;
-    margin: 0;
-}
-
-#nav-back-btn svg {
-    position: relative;
-    top: 1px;
 }
 
 /***** ONLY BACK STYLE *****/
@@ -65,7 +55,7 @@ nav.only-back {
     box-shadow: none;
 }
 
-nav.only-back .nav-title-col {
+nav.only-back #nav-title {
     display: none;
 }
 

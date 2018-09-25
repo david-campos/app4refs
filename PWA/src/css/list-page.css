@@ -31,7 +31,10 @@
 
 .item-link {
     color: #7C0D82;
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: .25em;
 }
 
 .item-link span {
@@ -39,13 +42,14 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: calc(100% - 2em);
 }
 
 .item-link svg {
     width: 1em;
-    position: relative;
-    bottom: 0.2em;
+    height: 1em;
+    min-width: 1em;
+    min-height: 1em;
+    margin-left: 0.2em;
 }
 
 .item-periods {
@@ -53,7 +57,6 @@
 }
 
 a.item-call {
-    text-decoration: none;
     color: black;
     display: block;
 }
@@ -66,31 +69,34 @@ a.item-call {
     color: white;
     text-transform: uppercase;
     background-color: #7C0D82;
-    border: none;
     font-weight: bold;
-    margin-top: 0.5em;
-    cursor: pointer;
-    width: 100%;
+    margin: 0.5em 1% 0 1%; /*margin-top: 0.5em when one*/
+    float: left; /* remove when one */
 }
 
 .item-map {
     border-radius: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
+    width: 48%;
     max-width: 17em;
     border: 0.1em solid #6A3D57;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.item-map:active {
-    filter: brightness(0.8);
 }
 
 .item-map svg {
     height: 1em;
     float: right;
     margin-right: 0.5em;
+}
+
+.map-button-google {
+    background-color: #fff !important;
+    color: #7C0D82 !important;
+}
+
+#all-items-map svg {
+    max-height: 100%;
+    max-width: 100%;
 }
 
 #all-items-map {

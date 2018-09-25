@@ -17,6 +17,29 @@ String.prototype.htmlEscape = function() {
     return this.replace(/[&<>"'\/]/g, (match)=>escapes[match]);
 };
 
+String.prototype.htmlUnescape = function() {
+    let entities = [
+        ['amp', '&'],
+        ['apos', '\''],
+        ['#x27', '\''],
+        ['#x2F', '/'],
+        ['#39', '\''],
+        ['#47', '/'],
+        ['lt', '<'],
+        ['gt', '>'],
+        ['nbsp', ' '],
+        ['quot', '"']
+    ];
+
+    let text = this;
+
+    for (let entity of entities) {
+       text = text.replace(new RegExp('&' + entity[0] + ';', 'g'), entity[1]);
+    }
+
+    return text;
+};
+
 /**
  * Checks if both arrays have the same numbers
  * @param {Array} array - The other array
@@ -31,4 +54,14 @@ Array.prototype.hasSameNumbers = function(array) {
         equal = (cloneA[i] === cloneB[i]);
     }
     return equal;
+};
+
+/**
+ * Adds the number of specified hours to the current date
+ * @param {number} h - Hours to add
+ * @return {Date}
+ */
+Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
 };
