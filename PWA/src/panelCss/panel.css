@@ -1,0 +1,129 @@
+main.panel {
+    display: none;
+    height: 100%;
+    padding: 0;
+}
+
+main.panel>.row:nth-child(1) {
+    height: 3rem;
+    margin: 1rem auto 0 auto;
+}
+main.panel>.row:nth-child(2) {
+    height: calc(100% - 5rem);
+}
+
+main.panel #itemTypes img,
+main.panel #categories img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+main.panel #itemTypes button,
+main.panel #itemTypes button,
+main.panel #categories button,
+main.panel #categories button {
+    outline: none !important;
+}
+
+main.panel #itemTypesCol {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+main.panel #itemTypes {
+    height: 100%;
+}
+
+main.panel #itemTypes button {
+    height: 20%;
+}
+
+main.panel #categoriesCol,
+main.panel #itemsCol {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+main.panel #items {
+    background-color: white;
+    padding: 1em;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+main.panel #items>li {
+    border-top: 2px solid #eee;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+main.panel li.edited {
+    border: 2px solid #7C0D82 !important;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+}
+
+main.panel li.edited .linkRow {
+    padding-right: 1em;
+}
+
+main.panel li.edited .row-cfa {
+    align-items: center;
+}
+
+main.panel li.edited .control-cfa {
+    height: fit-content;
+}
+
+main.panel li.edited .period {
+    border: 0.1rem solid rgba(0,0,0,0.125);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+main.panel li.edited .delete-period {
+    position: absolute;
+    margin-left: -3.25rem;
+    margin-top: -0.35rem;
+}
+
+main.panel li.edited .period .row {
+    align-items: center;
+}
+
+main.panel li.edited .period .row>div {
+    padding: 0.25rem;
+}
+
+main.panel #items img {
+    width: 30%;
+}
+
+main.panel #items .media-body {
+    width: 70%;
+}
+
+main.panel #items .item-link {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+}
+
+main.panel #items .item-coords {
+    font-family: Consolas, monospace;
+    font-weight: bold;
+    text-align: center;
+}
+
+main.panel #items .item-sched {
+    font-weight: bold;
+}
+
+main.panel #items .edit {
+    width: 100%;
+}

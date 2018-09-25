@@ -37,7 +37,7 @@ var DEV_MANIFEST_SRC = path.join(DEV_DIR, MANIFEST_FILE);
 var DEV_JS_SRC = [
     'gyronorm.complete.js',             'utils.js',
     'data/Item.js',                     'data/Period.js',
-    /*'data/Category.js',*/             'app/NavBar.js',
+    'data/Category.js',                 'app/NavBar.js',
     'app/ResourcesProvider.js',         'pages/Page.js',
     'api/ApiService.js',                'api/ApiAjaxAdapter.js',
     'pages/EmergencyPage.js',           'map/DirectionsPanel.js',
@@ -55,9 +55,10 @@ var DEV_JS_SRC = [
 ];
 var DEV_JS_SRC_PANEL = [
     'data/Item.js',                     'data/Period.js',
-    /*'data/Category.js',*/
-    //'app/ResourcesProvider.js',
+    'data/Category.js',
+    'app/ResourcesProvider.js',
     'api/ApiService.js',                'api/ApiAjaxAdapter.js',
+    'panel/Panel.js',                   'panel/ItemsPanel.js',
     'panel/login.js'
 ];
 var DEV_CSS_SRC = path.join(DEV_CSS_DIR, '*.css');

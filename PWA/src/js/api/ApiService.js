@@ -12,7 +12,10 @@ const API_BASE_URL = "api_v1";
  * This class provides access to the API. Use this instead of a direct connection.
  */
 class ApiService {
-    constructor() {
+    /**
+     * @param {Token} [token] - Token to use already (if one)
+     */
+    constructor(token) {
         /**
          * @type {ApiAjaxAdapter}
          * @private
@@ -29,6 +32,10 @@ class ApiService {
          * @private
          */
         this._currentId = -1;
+
+        if(token) {
+            this._api.setAuthorisation(AUTH_BEARER, token.token);
+        }
     }
 
     /**

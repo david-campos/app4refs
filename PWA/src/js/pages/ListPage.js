@@ -206,7 +206,7 @@ class ListPage extends Page {
      */
     static _periodsStrFor(item) {
         // We will group periods with the same schedule
-        let startedSchedules = ListPage._groupPeriodsWithSameSchedule(item.openingHours);
+        let startedSchedules = Period.groupPeriodsWithSameSchedule(item.openingHours);
         // Now we will print one line per schedule
         let htmlStr = "";
         for(let schedule of startedSchedules) {
@@ -218,60 +218,6 @@ class ListPage extends Page {
             htmlStr += `${days} ${startHour}-${endHour}<br>`;
         }
         return htmlStr;
-    }
-
-    /**
-     * Groups all the periods with the same schedule
-     * @param {Period[]} periods - A list of periods, ordered by their end day.
-     * @return {PeriodMarker[]}
-     * @private
-     */
-    static _groupPeriodsWithSameSchedule(periods) {
-        let periodsLeft = periods.slice();
-        /**
-         * @type {PeriodMarker[]}
-         */
-        let schedules = [];
-        // While there are periods to group
-        while(periodsLeft.length > 0) {
-            let next = periodsLeft.shift();
-            let newSchedule = {
-                startPeriod: next,
-                endDay: next.endDayStr(),
-                nextDay: next.nextDay()};
-            let foundNextPeriod;
-            do {
-                foundNextPeriod = false;
-                for (let idx=0; idx < periodsLeft.length; idx++) {
-                    let period = periodsLeft[idx];
-                    // It has the same schedule and it starts the next day
-                    if (period.hasSameHoursAs(newSchedule.startPeriod) &&
-                        period.startDay === newSchedule.nextDay) {
-                        newSchedule.endDay = period.endDayStr();
-                        newSchedule.nextDay = period.nextDay();
-                        // Remove period from periodsLeft
-                        periodsLeft.splice(idx, 1);
-                        foundNextPeriod = true;
-                        break;
-                    }
-                }
-            } while(foundNextPeriod); // Repeat while next is found
-
-            // Check to join with previous ones
-            foundNextPeriod = false;
-            for (let schedule of schedules) {
-                if (schedule.startPeriod.hasSameHoursAs(newSchedule.startPeriod) &&
-                        newSchedule.nextDay === schedule.startPeriod.startDay) {
-                    schedule.startPeriod  = newSchedule.startPeriod;
-                    foundNextPeriod = true;
-                    break;
-                }
-            }
-            if(!foundNextPeriod) {
-                schedules.push(newSchedule);  // Add to the schedule
-            }
-        }
-        return schedules;
     }
 
     static costAndLangHtmlFor(item) {
@@ -328,13 +274,6 @@ class ListPage extends Page {
         return new ListPage(state.category, state);
     }
 }
-
-/**
- * @typedef {Object} PeriodMarker
- * @property {Period} startPeriod
- * @property {string} endDay
- * @property {string} nextDay
- */
 /**
  * @typedef {PageState} ListPageState
  * @property {ItemObject[]} items
