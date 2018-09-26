@@ -2,10 +2,14 @@
 const ATTR_ITEM_IDX = 'data-item-idx';
 
 class ItemsPanel {
-    constructor(svc) {
+    constructor(panel, svc) {
         this._svc = svc;
+        this._panel = panel;
         this._items = [];
         this._itemsPanel = $('main.panel #items');
+        this._deletionModal = $('#deletionModal');
+        this._deletionModal.find("#delConfBtn").click((e)=>this._confirmDeletion(e));
+        this._itemToDeleteIdx = null;
         this._editedLi = null;
     }
 
@@ -31,12 +35,53 @@ class ItemsPanel {
             let item = this._items[i];
             let li = $(ItemsPanel._htmlForItem(i, item));
             li.find("button.edit").click((e)=>this._editClicked(e));
+            li.find("button.delete-item").click((e)=>this._deleteItemClicked(e));
+            let moveButton = li.find("button.move-item");
+            moveButton.on('dragstart', (e)=>this._itemDragStart(e));
+            moveButton.on('dragend', (e)=>this._itemDragEnd(e));
             this._itemsPanel.append(li);
         }
     }
 
+    itemDragged(itemIdx, categoryCode) {
+        console.log("Lets move", this._items[itemIdx], "to", categoryCode);
+    }
+
+    _itemDragStart(event) {
+        $(event.currentTarget).closest("li").addClass("chosen");
+        this._panel.itemDragStart(event);
+    }
+
+    _itemDragEnd(event) {
+        $(event.currentTarget).closest("li").removeClass("chosen");
+        this._panel.itemDragEnd(event);
+    }
+
+    _deleteItemClicked(event) {
+        let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
+
+        /** @type Item */
+        let item = this._items[idx];
+
+        this._itemToDeleteIdx = idx;
+        this._deletionModal.find(".modal-body b").text(item.name);
+        this._deletionModal.modal('show');
+    }
+
+    _confirmDeletion() {
+        this._deletionModal.modal('hide');
+        let idx = this._itemToDeleteIdx;
+        this._itemToDeleteIdx = null;
+        if(idx !== null) {
+            this._svc.deleteItem(this._items[idx], function() {
+                this._items.splice(idx, 1);
+                this.redraw();
+            }.bind(this));
+        }
+    }
+
     _editClicked(event) {
-        let idx = parseInt($(event.currentTarget).attr(ATTR_ITEM_IDX));
+        let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
 
         // Cancel previous edition
         this.redraw();
@@ -125,9 +170,11 @@ class ItemsPanel {
         if(!item.callForAppointment) {
             schedule = periodsStrFor(item);
         }
-        return `<li class="media">
+        return `<li class="media" ${ATTR_ITEM_IDX}="${i}">
                     <img class="mr-3 item-icon" src="${ResourcesProvider.getItemIconUrl(item)}" alt="${item.name}">
                     <div class="media-body">
+                        <button type="button" class="btn btn-secondary move-item" draggable="true"><i class="fas fa-arrows-alt"></i></button>
+                        <button type="button" class="btn btn-secondary delete-item"><i class="fas fa-trash-alt"></i></button>
                         <h3 class="mt-0 mb-1 item-name">${item.name}</h3>
                         <p class="item-addr">${item.address}</p>
                         <p class="item-coords">${item.coordLat}; ${item.coordLon}</p>
@@ -139,7 +186,7 @@ class ItemsPanel {
                         <a class="item-link" href="${item.webLink}">${item.webLink}</a>
                         <p class="item-cfap">${item.callForAppointment?'✓':'✕'} Call for appointment</p>
                         <p class="item-sched">${schedule}</p>
-                        <button ${ATTR_ITEM_IDX}="${i}" class="btn btn-primary edit"><i class="fas fa-pen"></i> Edit</button>
+                        <button class="btn btn-primary edit"><i class="fas fa-pen"></i> Edit</button>
                     </div>
                 </li>`;
     }

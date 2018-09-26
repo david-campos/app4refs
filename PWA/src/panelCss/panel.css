@@ -41,6 +41,14 @@ main.panel #categories button {
     outline: none !important;
 }
 
+main.panel.dragging #itemTypes {
+    opacity: 0.5;
+}
+
+main.panel.dragging #items li.media:not(.chosen) {
+    opacity: 0.1;
+}
+
 main.panel #itemTypesCol {
     height: 100%;
     overflow-y: hidden;
@@ -57,7 +65,12 @@ main.panel #itemTypes button {
 main.panel #categoriesCol,
 main.panel #itemsCol {
     max-height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-y: overlay;
+}
+
+main.panel #categories .drop-allowed {
+    border: .5rem dashed #7C0D82;
 }
 
 main.panel #items {
@@ -73,42 +86,57 @@ main.panel #items>li {
     padding-bottom: 0.5em;
 }
 
-main.panel li.edited {
+main.panel #items .delete-item {
+    position: absolute;
+    right: 2.1rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+main.panel #items .move-item {
+    position: absolute;
+    right: 4.6em;
+    cursor: move;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+main.panel #items li.edited {
     border: 2px solid #7C0D82 !important;
     border-radius: 0.25rem;
     padding: 0.5rem;
 }
 
-main.panel li.edited .linkRow {
+main.panel #items li.edited .linkRow {
     padding-right: 1em;
 }
 
-main.panel li.edited .row-cfa {
+main.panel #items li.edited .row-cfa {
     align-items: center;
 }
 
-main.panel li.edited .control-cfa {
+main.panel #items li.edited .control-cfa {
     height: fit-content;
 }
 
-main.panel li.edited .period {
+main.panel #items li.edited .period {
     border: 0.1rem solid rgba(0,0,0,0.125);
     border-radius: 0.25rem;
     padding: 0.25rem;
     margin-bottom: 0.5rem;
 }
 
-main.panel li.edited .delete-period {
+main.panel #items li.edited .delete-period {
     position: absolute;
     margin-left: -3.25rem;
     margin-top: -0.35rem;
 }
 
-main.panel li.edited .period .row {
+main.panel #items li.edited .period .row {
     align-items: center;
 }
 
-main.panel li.edited .period .row>div {
+main.panel #items li.edited .period .row>div {
     padding: 0.25rem;
 }
 

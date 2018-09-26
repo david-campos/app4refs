@@ -119,6 +119,25 @@ class ApiService {
     }
 
     /**
+     * Deletes the given item from the API, notice
+     * you need authorisation to perform this action.
+     * @param {Item} item
+     * @param {DeleteItemCallback} callback
+     */
+    deleteItem(item, callback) {
+        this._callback = callback;
+        this._api.delete(ApiService.buildSingleItemUrl(item.itemId), {}, (...x)=>this._deleteItemSuccess(...x));
+    }
+
+    _deleteItemSuccess() {
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback();
+        }
+    }
+
+    /**
      * Logins into the api obtaining a token
      * @param {string} user
      * @param {string} pass
@@ -147,7 +166,7 @@ class ApiService {
 
     /**
      * Logs out of the api making the token invalid from now on
-     * @param {LoginCallback} [callback]
+     * @param {LogoutCallback} [callback]
      */
     logout(callback) {
         this._callback = callback;
@@ -187,6 +206,14 @@ class ApiService {
     }
 
     /**
+     * Builds the url to get a single item
+     * @param {int} itemId - The id of the item to get
+     */
+    static buildSingleItemUrl(itemId) {
+        return `items/${encodeURIComponent(itemId)}`;
+    }
+
+    /**
      * Builds the url to sign in into the API
      */
     static buildLoginUrl() {
@@ -205,4 +232,10 @@ class ApiService {
 /**
  * @callback LoginCallback
  * @param {Token} token - The received token information
+ */
+/**
+ * @callback LogoutCallback
+ */
+/**
+ * @callback DeleteItemCallback
  */

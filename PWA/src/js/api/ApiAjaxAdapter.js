@@ -142,6 +142,7 @@ class ApiAjaxAdapter {
         if(this._onSuccess !== null) {
             // Ongoing callback not finished, discard
             // (maybe in the future add handle for several requests at the same time)
+            console.log("Aborting API request");
             this.abort();
         }
 

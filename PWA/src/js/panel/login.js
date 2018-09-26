@@ -50,7 +50,6 @@ function loggedOut() {
             sessionStorage.removeItem(SS_EXPIRES_KEY);
             sessionStorage.removeItem(SS_USER_KEY);
         }
-        console.log("RELOADING");
         location.reload();
     }
 }
