@@ -248,7 +248,7 @@ class ApiAjaxAdapter {
     /**
      * Returns a string with the get params for the url of the query
      * @param {{string}} urlParams - Some extra params you want to add (if you do)
-     * @returns {{string}}
+     * @returns {string}
      * @private
      */
     static _urlParams(urlParams) {

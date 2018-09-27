@@ -68,9 +68,13 @@ function periodsStrFor(item) {
     for(let schedule of startedSchedules) {
         let startDay = schedule.startPeriod.startDayStr();
         let endDay = schedule.endDay;
-        let days = startDay !== endDay ? `${startDay}-${endDay}` : startDay;
         let startHour = schedule.startPeriod.startHourStr();
         let endHour = schedule.startPeriod.endHourStr();
+        let days =
+            startDay !== endDay ?
+            `${startDay}-${endDay}` :
+            (schedule.startPeriod.startHour > schedule.startPeriod.endHour ?
+                'Monday-Friday' : startDay);
         htmlStr += `${days} ${startHour}-${endHour}<br>`;
     }
     return htmlStr;

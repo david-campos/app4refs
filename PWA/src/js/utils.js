@@ -65,3 +65,13 @@ Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
     return this;
 };
+
+/**
+ * Gets the module n of the number x
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+Math.mod = function(x, n) {
+    return ((x%n)+n)%n;
+};

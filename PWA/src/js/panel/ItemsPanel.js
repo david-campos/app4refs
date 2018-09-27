@@ -9,9 +9,14 @@ class ItemsPanel {
         this._panel = panel;
         /** @type {Item[]} */
         this._items = [];
-        /** @type {?string} */
-        this._currentCategoryCode = null;
-        this._itemsPanel = $('main.panel #items');
+        /** @type {?Category} */
+        this._currentCategory = null;
+        this._itemsCol = this._panel.element.find('#itemsCol');
+        this._itemsPanel = this._itemsCol.find('#items');
+        this._categoryCodeHolder = this._itemsCol.find("#categoryCode");
+        this._categoryNameHolder = this._itemsCol.find("#categoryName");
+        this._categoryLinkHolder = this._itemsCol.find("#categoryLink");
+
         this._deletionModal = $('#deletionModal');
         this._deletionModal.find("#delConfBtn").click((e)=>this._confirmDeletion(e));
         /** @type {?int} */
@@ -19,10 +24,12 @@ class ItemsPanel {
         this._editedLi = null;
     }
 
-    populate(categoryCode) {
+    populate(category) {
         this.clear();
-        this._currentCategoryCode = categoryCode;
-        this._svc.getItems(categoryCode, this._receivedItems.bind(this), this._panel.displayError.bind(this._panel));
+        this._currentCategory = category;
+        this._svc.getItems(category.code,
+            this._receivedItems.bind(this),
+            this._panel.displayError.bind(this._panel));
     }
 
     _receivedItems(items) {
@@ -32,34 +39,48 @@ class ItemsPanel {
 
     clear() {
         this._items = [];
-        this._currentCategoryCode = null;
+        this._currentCategory = null;
         this.redraw();
     }
 
     redraw() {
         this._editedLi = null;
         this._itemsPanel.empty();
-        for(let i=0; i < this._items.length; i++) {
-            let item = this._items[i];
-            let li = $(ItemsPanel._htmlForItem(i, item));
-            li.find("button.edit").click((e)=>this._editClicked(e));
-            li.find("button.del-item").click((e)=>this._deleteItemClicked(e));
-            let moveButton = li.find("button.move-item");
-            moveButton.on('dragstart', (e)=>this._itemDragStart(e));
-            moveButton.on('dragend', (e)=>this._itemDragEnd(e));
-            this._itemsPanel.append(li);
+
+        if(this._currentCategory) {
+            this._itemsCol.removeAttr("hidden");
+            this._categoryCodeHolder.text(this._currentCategory.code);
+            this._categoryNameHolder.text(this._currentCategory.name);
+            this._categoryLinkHolder.text(this._currentCategory.link ? this._currentCategory.link : 'None');
+            this._categoryLinkHolder.attr("href", this._currentCategory.link ? this._currentCategory.link : '#');
+
+            for (let i = 0; i < this._items.length; i++) {
+                let item = this._items[i];
+                let li = $(ItemsPanel._htmlForItem(i, item));
+                li.find("button.edit").click((e) => this._editClicked(e));
+                li.find("button.del-item").click((e) => this._deleteItemClicked(e));
+                let moveButton = li.find("button.move-item");
+                moveButton.on('dragstart', (e) => this._itemDragStart(e));
+                moveButton.on('dragend', (e) => this._itemDragEnd(e));
+                this._itemsPanel.append(li);
+            }
+        } else {
+            this._itemsCol.attr("hidden", true);
         }
     }
 
     itemDragged(itemIdx, categoryCode) {
         let item = this._items[itemIdx];
         item.categoryCode = categoryCode;
-        this._svc.saveItem(item, (item)=>this._itemUpdated(itemIdx, item), this._panel.displayError.bind(this._panel));
+        this._svc.saveItem(
+            item,
+            (item)=>this._itemUpdated(itemIdx, item),
+            this._panel.displayError.bind(this._panel));
     }
 
     _itemUpdated(itemIdx, item) {
         if(this._items[itemIdx].itemId === item.itemId) {
-            if(item.categoryCode === this._currentCategoryCode) {
+            if(item.categoryCode === this._currentCategory.code) {
                 this._items.splice(itemIdx, 1, item);
             } else {
                 this._items.splice(itemIdx, 1);
@@ -116,13 +137,119 @@ class ItemsPanel {
         let periodsRow = this._editedLi.find("#periodsRow");
         for(let period of item.openingHours) {
             let newPeriod = $(ItemsPanel._htmlForPeriodEdition(period));
-            newPeriod.find(".del-period").click((e)=>this._deletePeriodClicked(e));
+            newPeriod.find(".delete-period").click((e)=>this._deletePeriodClicked(e));
             periodsRow.append(newPeriod);
         }
         this._editedLi.find("button#tryItemLink").click((e)=>this._tryItemLinkClicked(e));
         this._editedLi.find("button#addPeriodBtn").click((e)=>this._addPeriodClicked(e));
         this._editedLi.find("input#itemCfa").change((e)=>this._cfaChanged(e));
         this._editedLi.find("button#cancelBtn").click((e)=>this._cancelEdition(e));
+        this._editedLi.find("form").submit((e)=>this._submitEdition(e));
+    }
+
+    _submitEdition(event) {
+        event.preventDefault();
+
+        let itemIdx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
+        let item = this._items[itemIdx];
+
+        let callForAppointment = this._editedLi.find("#itemCfa").is(":checked");
+        let periods;
+        if(!callForAppointment) {
+            periods = this._getEditedPeriodsOn(item);
+            let overlapped = ItemsPanel._thereArePeriodsOverlappingIn(periods);
+            if(overlapped) {
+                let a = overlapped[0]+1;
+                let b = overlapped[1]+1;
+                this._panel.displayError(
+                    0,
+                    `The periods ${a} and ${b} are overlapped, please, specify periods which do not overlap.`);
+                return;
+            }
+        }
+
+        item.name = this._editedLi.find("#itemName").val();
+        item.address = this._editedLi.find("#itemAddr").val();
+        item.coordLat = this._editedLi.find("#itemLat").val();
+        item.coordLon = this._editedLi.find("#itemLon").val();
+        item.isFree = this._editedLi.find("#itemFree").is(":checked");
+        item.webLink = this._editedLi.find("#itemLink").val();
+        item.callForAppointment = callForAppointment;
+
+        if(item.callForAppointment) {
+            item.phone = this._editedLi.find("#itemPhone").val();
+        } else {
+            item.openingHours = periods;
+        }
+
+        let langs = [];
+        if(this._editedLi.find("#itemEnglish").is(":checked")) {
+            langs.push('en');
+        }
+        if(this._editedLi.find("#itemGreek").is(":checked")) {
+            langs.push('el');
+        }
+        item.languageCodes = langs;
+
+        if(item.itemId === -1) {
+            // -1 indicates it is created, not updated
+            console.error("Creation not implemented yet");
+        } else {
+            console.log(item.openingHours);
+            /*this._svc.saveItem(
+                item,
+                (item) => this._itemUpdated(itemIdx, item),
+                this._panel.displayError.bind(this._panel));*/
+        }
+    }
+
+    /**
+     * @param {Period[]} periods
+     * @return {boolean|[number]} - False if they do not overlap, or the pair of overlapping periods
+     * @private
+     */
+    static _thereArePeriodsOverlappingIn(periods) {
+        for(let i=0; i < periods.length-1; i++) {
+            for(let j=i+1; j < periods.length; j++) {
+                if(periods[i].overlaps(periods[j]))
+                    return [i,j];
+            }
+        }
+        return false;
+    }
+
+    _getEditedPeriodsOn(item) {
+        let newPeriods = this._getEditedPeriods();
+        // Preserve all the item periods we can
+        for(let i=0; i<item.openingHours.length && i<newPeriods.length; i++) {
+            newPeriods[i].periodId = item.openingHours[i].periodId;
+        }
+        return newPeriods;
+    }
+
+    /**
+     * @return {Period[]}
+     * @private
+     */
+    _getEditedPeriods() {
+        let periods = [];
+        let periodDivs = this._editedLi.find("#periodsRow .period");
+        periodDivs.each(function(){
+            let startDay = $(this).find(".period-start-day").val();
+            let startHour = $(this).find(".period-start-hour").val();
+            let endDay = $(this).find(".period-end-day").val();
+            let endHour = $(this).find(".period-end-hour").val();
+            periods.push(new Period({
+                periodId: 0, // Is irrelevant!
+                startDay: startDay,
+                startHour: parseInt(startHour.substring(0, 2)),
+                startMinutes: parseInt(startHour.substring(3)),
+                endDay: endDay,
+                endHour: parseInt(endHour.substring(0, 2)),
+                endMinutes: parseInt(endHour.substring(3))
+            }));
+        });
+        return periods;
     }
 
     _deletePeriodClicked(event) {
@@ -146,17 +273,18 @@ class ItemsPanel {
 
         if(!this._editedLi) return;
 
-        this._editedLi.find("#periodsRow")
-            .append($(ItemsPanel._htmlForPeriodEdition(
-                new Period({
-                    periodId: 0,
-                    startDay: PERIOD_DAYS[0],
-                    startHour: 0,
-                    startMinutes: 0,
-                    endDay: PERIOD_DAYS[0],
-                    endHour: 23,
-                    endMinutes: 59
-                }))));
+        let newPeriod = $(ItemsPanel._htmlForPeriodEdition(
+            new Period({
+                periodId: 0,
+                startDay: PERIOD_DAYS[0],
+                startHour: 0,
+                startMinutes: 0,
+                endDay: PERIOD_DAYS[0],
+                endHour: 23,
+                endMinutes: 59
+            })));
+        newPeriod.find(".delete-period").click((e)=>this._deletePeriodClicked(e));
+        this._editedLi.find("#periodsRow").append(newPeriod);
     }
 
     _cfaChanged(event) {
@@ -186,6 +314,7 @@ class ItemsPanel {
     static _htmlForItem(i, item) {
         let greekBtn = (item.languageCodes.indexOf('el') > -1?'info':'secondary');
         let engliBtn = (item.languageCodes.indexOf('en') > -1?'info':'secondary');
+        let coords = (isNaN(item.coordLat)||isNaN(item.coordLon)?'No coordinates':item.coordLat+';'+item.coordLon);
         let schedule = item.phone;
         if(!item.callForAppointment) {
             schedule = periodsStrFor(item);
@@ -195,15 +324,15 @@ class ItemsPanel {
                     <div class="media-body">
                         <button type="button" class="btn btn-secondary move-item" draggable="true"><i class="fas fa-arrows-alt"></i></button>
                         <button type="button" class="btn btn-secondary delete-item"><i class="fas fa-trash-alt"></i></button>
-                        <h3 class="mt-0 mb-1 item-name">${item.name}</h3>
-                        <p class="item-addr">${item.address}</p>
-                        <p class="item-coords">${item.coordLat}; ${item.coordLon}</p>
+                        <h3 class="mt-0 mb-1 item-name">${item.name.htmlEscape()}</h3>
+                        <p class="item-addr">${item.address?item.address:'No address'}</p>
+                        <p class="item-coords">${coords}</p>
                         <p>
-                        <button type="button" class="btn btn-success item-price"> ${item.isFree?'€':'&nbsp;'}</button>
+                        <button type="button" class="btn btn-success item-price"> ${item.isFree?'Free':'€'}</button>
                         <button type="button" class="btn btn-${engliBtn} item-english">English</button>
                         <button type="button" class="btn btn-${greekBtn} item-greek">Greek</button>
                         </p>
-                        <a class="item-link" href="${item.webLink}">${item.webLink}</a>
+                        <a class="item-link" href="${item.webLink?item.webLink:'#'}">${item.webLink?item.webLink:'No link'}</a>
                         <p class="item-cfap">${item.callForAppointment?'✓':'✕'} Call for appointment</p>
                         <p class="item-sched">${schedule}</p>
                         <button class="btn btn-primary edit"><i class="fas fa-pen"></i> Edit</button>
@@ -217,7 +346,7 @@ class ItemsPanel {
         let webLink = (item.webLink?item.webLink.replace('"', '\\"'):'Null');
         let addressRequired = (item.callForAppointment?'':'required');
         let phoneReadOnly = (item.callForAppointment?'':'readonly');
-        let phone = (item.phone?item.phone.replace('"', '\\"'):'Null');
+        let phone = (item.phone?item.phone.replace('"', '\\"'):'');
 
         return `<form><div class="form-group row">
                 <label for="itemName" class="col-2 col-form-label">Name</label>
@@ -228,16 +357,16 @@ class ItemsPanel {
             <div class="form-group row">
                 <label for="itemAddr" class="col-2 col-form-label">Address</label>
                 <div class="col-10">
-                  <input type="text" class="form-control" id="itemAddr" value="${item.address.replace('"', '\\"')}" ${addressRequired}>
+                  <input type="text" class="form-control" id="itemAddr" value="${item.address?item.address.replace('"', '\\"'):''}" ${addressRequired}>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="itemCoords" class="col-2 col-form-label">Coords</label>
+                <label class="col-2 col-form-label">Coords</label>
                 <div class="col-5">
-                  <input type="text" class="form-control" id="itemLat" value="${item.coordLat}">
+                  <input type="text" class="form-control" id="itemLat" value="${isNaN(item.coordLat)?'':item.coordLat}">
                 </div>
                 <div class="col-5">
-                  <input type="text" class="form-control" id="itemLon" value="${item.coordLon}">
+                  <input type="text" class="form-control" id="itemLon" value="${isNaN(item.coordLon)?'':item.coordLon}">
                 </div>
             </div>
             <div class="form-group row">
@@ -302,10 +431,10 @@ class ItemsPanel {
                     <small class="col-6">Start</small><small class="col-6">End</small>
                 </div>
                 <div class="row no-gutters">
-                <div class="col-3"><select class="custom-select form-control-sm">${selectStartOpts}</select></div>
-                <div class="col-3"><input class="form-control" type="time" value="${startH}:${startM}" required></div>
-                <div class="col-3"><select class="custom-select  form-control-sm">${selectEndOpts}</select></div>
-                <div class="col-3"><input class="form-control" type="time" value="${endH}:${endM}" required></div></div></div>`;
+                <div class="col-3"><select class="custom-select form-control-sm period-start-day">${selectStartOpts}</select></div>
+                <div class="col-3"><input class="form-control period-start-hour" type="time" value="${startH}:${startM}" required></div>
+                <div class="col-3"><select class="custom-select  form-control-sm period-end-day">${selectEndOpts}</select></div>
+                <div class="col-3"><input class="form-control period-end-hour" type="time" value="${endH}:${endM}" required></div></div></div>`;
     }
 
     static _htmlForDayOptions(selectedDay) {

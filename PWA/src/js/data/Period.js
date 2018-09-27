@@ -15,7 +15,7 @@ const PERIOD_DAYS_STRS = {
 
 /**
  * @typedef {Object} PeriodObject
- * @property {int} periodId
+ * @property {int|string} periodId
  * @property {string} startDay
  * @property {int} startHour
  * @property {int} startMinutes
@@ -40,7 +40,7 @@ class Period {
      */
     constructor(object) {
         /**
-         * @type {int}
+         * @type {int|string}
          */
         this.periodId = object.periodId;
         /**
@@ -116,20 +116,36 @@ class Period {
 
         // Calculate the minutes since the start of the week for each start and end
         let minsSinceWeekStart = (weekDay * 24 + hour) * 60 + minute;
-        let startMSWS =
-            (PERIOD_DAYS.indexOf(this.startDay) * 24
-                + this.startHour) * 60
-            + this.startMinutes;
-        let endMSWS =
-            (PERIOD_DAYS.indexOf(this.endDay) * 24
-                + this.endHour) * 60
-            + this.endMinutes;
+        let startMSWS = this.startInMinutesSinceStartOfTheWeek();
+        let endMSWS = this.endInMinutesSinceStartOfTheWeek();
 
         if(startMSWS <= endMSWS) {
             return startMSWS <= minsSinceWeekStart && minsSinceWeekStart <= endMSWS;
         } else {
             return minsSinceWeekStart <= endMSWS || minsSinceWeekStart >= startMSWS;
         }
+    }
+
+    /**
+     * Returns the number of minutes passed from the start of the week
+     * until the start of the period
+     * @return {number}
+     */
+    startInMinutesSinceStartOfTheWeek() {
+        return (PERIOD_DAYS.indexOf(this.startDay) * 24
+            + this.startHour) * 60
+            + this.startMinutes;
+    }
+
+    /**
+     * Returns the number of minutes passed from the start of the week
+     * until the end of the period.
+     * @return {number}
+     */
+    endInMinutesSinceStartOfTheWeek() {
+        return (PERIOD_DAYS.indexOf(this.endDay) * 24
+                + this.endHour) * 60
+            + this.endMinutes;
     }
 
     /**
@@ -180,6 +196,21 @@ class Period {
         } else {
             return Period.nextDay(this.endDay);
         }
+    }
+
+    /**
+     * Checks if this period and the indicated one are overlapping
+     * @param {Period} period - The other period
+     * @return {boolean} true if they overlap, false if they don't
+     */
+    overlaps(period) {
+        let a = this.startInMinutesSinceStartOfTheWeek();
+        let b = this.startInMinutesSinceStartOfTheWeek();
+        let c = period.startInMinutesSinceStartOfTheWeek();
+        let d = period.endInMinutesSinceStartOfTheWeek();
+
+        let mod = (7 * 24 + 23) * 60 + 59;
+        return Math.mod((c-a), mod) <= Math.mod((b-a), mod) || Math.mod((a-c), mod) <= Math.mod((d-c), mod);
     }
 
     /**

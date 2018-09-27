@@ -29,8 +29,11 @@ class Panel {
         };
 
         this._clickCategoryCallback = (event) => {
-            self._itemsPanel.populate(
-                $(event.currentTarget).attr(ATTR_CATEGORY_CODE));
+            let catCode = $(event.currentTarget).attr(ATTR_CATEGORY_CODE);
+            if(this._categories[catCode])
+                self._itemsPanel.populate(this._categories[catCode]);
+            else
+                console.error("The clicked category is not in the list");
         };
 
         this.element.find('.nav h4').text(`Welcome, ${token.user}!`);
@@ -85,8 +88,10 @@ class Panel {
     }
 
     _itemDragover(event) {
-        // prevent default to allow drop
-        event.preventDefault();
+        if(this._dragging) {
+            // prevent default to allow drop
+            event.preventDefault();
+        }
     }
 
     _itemDragout(event) {
@@ -100,23 +105,26 @@ class Panel {
     }
 
     itemDragEnd(event) {
-        this._dragging = false;
-        if(this._categories !== this._categoriesCopy) {
-            this._categories = this._categoriesCopy;
-            this._redrawCategoriesPanel();
+        if(this._dragging) {
+            this._dragging = false;
+            if (this._categories !== this._categoriesCopy) {
+                this._categories = this._categoriesCopy;
+                this._redrawCategoriesPanel();
+            }
+            this.element.removeClass("dragging");
         }
-        this.element.removeClass("dragging");
     }
 
     _itemDrop(event) {
-        event.preventDefault();
+        if(this._dragging) {
+            event.preventDefault();
 
-        console.log("Item dropped");
-        $(event.currentTarget).removeClass("drop-allowed");
+            $(event.currentTarget).removeClass("drop-allowed");
 
-        let categoryCode = $(event.currentTarget).attr(ATTR_CATEGORY_CODE);
-        let itemIdx = event.originalEvent.dataTransfer.getData("item");
-        this._itemsPanel.itemDragged(itemIdx, categoryCode);
+            let categoryCode = $(event.currentTarget).attr(ATTR_CATEGORY_CODE);
+            let itemIdx = event.originalEvent.dataTransfer.getData("item");
+            this._itemsPanel.itemDragged(itemIdx, categoryCode);
+        }
     }
 
     _populateItemTypesPanel() {

@@ -212,7 +212,11 @@ class ListPage extends Page {
         for(let schedule of startedSchedules) {
             let startDay = schedule.startPeriod.startDayStr();
             let endDay = schedule.endDay;
-            let days = startDay !== endDay ? `${startDay}-${endDay}` : startDay;
+            let days =
+                startDay !== endDay ?
+                `${startDay}-${endDay}` :
+                    (schedule.startPeriod.startHour > schedule.startPeriod.endHour ?
+                        'Monday-Friday' : startDay);
             let startHour = schedule.startPeriod.startHourStr();
             let endHour = schedule.startPeriod.endHourStr();
             htmlStr += `${days} ${startHour}-${endHour}<br>`;

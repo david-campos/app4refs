@@ -115,6 +115,10 @@ main.panel #items .move-item {
     border-bottom-right-radius: 0;
 }
 
+main.panel #items .item-name {
+    max-width: calc(100% - 7rem);
+}
+
 main.panel #items li.edited {
     border: 2px solid #7C0D82 !important;
     border-radius: 0.25rem;
