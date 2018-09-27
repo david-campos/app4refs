@@ -4,12 +4,26 @@ main.panel {
     padding: 0;
 }
 
+main.panel #errorDisplay {
+    height: 4.1rem;
+    margin-top: 0.5rem;
+    overflow-y: auto;
+}
+
+main.panel #errorDisplay .alert.dark {
+    background-color: #ee98a0;
+}
+
 main.panel>.nav {
     height: 3rem;
     margin: 1rem auto 0 auto;
 }
 main.panel>.row {
-    height: calc(100% - 5rem);
+    /*4.1rem (error display height) +
+      0.5rem (error display margin) +
+      3.0rem (nav height) +
+      1.0rem (nav margin) */
+    height: calc(100% - 8.75rem);
 }
 
 main.panel .nav li {

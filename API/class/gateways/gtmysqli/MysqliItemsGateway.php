@@ -198,7 +198,7 @@ class MysqliItemsGateway implements IItemsGateway {
                 $coordLon, $phone, $callForApp, $categoryCode);
             if (!$stmt->execute()) {
                 // Check for trigger of call for appointment
-                if($this->mysqli->sqlstate == 45000) {
+                if(intval($this->mysqli->sqlstate) >= 45000 && intval($this->mysqli->sqlstate) <= 45005) {
                     throw new InvalidValueInBodyException($this->mysqli->error);
                 } else {
                     throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
@@ -270,7 +270,7 @@ class MysqliItemsGateway implements IItemsGateway {
                 $coordLon, $phone, $callForApp, $categoryCode, $itemId);
             if (!$stmt->execute()) {
                 // Check for trigger of call for appointment
-                if($this->mysqli->sqlstate == 45000) {
+                if(intval($this->mysqli->sqlstate) >= 45000 && intval($this->mysqli->sqlstate) <= 45005) {
                     throw new InvalidValueInBodyException($this->mysqli->error);
                 } else {
                     throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);

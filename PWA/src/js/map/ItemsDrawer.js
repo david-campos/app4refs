@@ -86,7 +86,7 @@ class ItemsDrawer {
 
     /**
      * Hides the marker associated to the given item Id,
-     * but it does not delete it from memory.
+     * but it does not del it from memory.
      * @param {int} itemId - The id which identifies the item used
      *             to create the marker.
      */
@@ -97,7 +97,7 @@ class ItemsDrawer {
     /**
      * Deletes the marker associated to the given itemId
      * @param {int} itemId - The id of the item whose associated marker
-     *             we wan to delete.
+     *             we wan to del.
      */
     deleteItemMarker(itemId) {
         if(this._markers.has(itemId)) {

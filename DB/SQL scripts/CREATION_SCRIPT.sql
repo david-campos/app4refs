@@ -187,7 +187,6 @@ CREATE PROCEDURE check_not_link(IN cat_code CHAR(10))
 BEGIN
     DECLARE my_link VARCHAR(255);
     SELECT `link` INTO my_link FROM categories WHERE category_code = cat_code;
-    INSERT INTO log_table(message) VALUES(cat_code);
     IF my_link IS NOT NULL THEN
         SIGNAL SQLSTATE '45001'
         SET MESSAGE_TEXT = 'A category with a non-null link value cannot have items';

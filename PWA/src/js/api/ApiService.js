@@ -26,6 +26,11 @@ class ApiService {
          * @private
          */
         this._callback = null;
+        /**
+         * @type {?ApiErrorCallback}
+         * @private
+         */
+        this._errorCallback = null;
         // We use only one currentId saved cause our _api can handle only one at a time (cancels the previous)
         /**
          * @type {int}
@@ -58,15 +63,36 @@ class ApiService {
     }
 
     /**
+     * When any error occurs, this functions is called
+     * @param {int} status
+     * @param {{}} body
+     * @private
+     */
+    _errorHandling(status, body) {
+        this._callback = null;
+        if(this._errorCallback) {
+            let cb = this._errorCallback;
+            this._errorCallback = null;
+            cb(status, body['error']?body['error']:'Unknown error occurred');
+        }
+    }
+
+    /**
      * Gets a list with all the category ids associated with the given item type
      * @param {string} itemType - Item type to search categories for
      * @param {GetCategoriesCallback} callback - Function to be called when we have the categories
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
      * @return {int} The id for this request (used to cancel)
      */
-    getCategories(itemType, callback) {
+    getCategories(itemType, callback, errorCallback) {
         this._callback = callback;
+        this._errorCallback = errorCallback;
         let self = this;
-        this._api.get(ApiService.buildCategoriesUrl(itemType), {}, (...x)=>self._categoriesSuccess(...x));
+        this._api.get(
+            ApiService.buildCategoriesUrl(itemType),
+            {},
+            (...x)=>self._categoriesSuccess(...x),
+            (...x)=>self._errorHandling(...x));
         return this._nextRequestId();
     }
 
@@ -76,6 +102,7 @@ class ApiService {
      * @private
      */
     _categoriesSuccess(categories) {
+        this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
             this._callback = null;
@@ -95,12 +122,18 @@ class ApiService {
      * Gets a list with all the items for the given category
      * @param {string} categoryCode - The category code to get the items for
      * @param {GetItemsCallback} callback - A callback to be called when we have the items
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
      * @return {int} The id for this request (used to cancel)
      */
-    getItems(categoryCode, callback) {
+    getItems(categoryCode, callback, errorCallback) {
         this._callback = callback;
+        this._errorCallback = errorCallback;
         let self = this;
-        this._api.get(ApiService.buildItemsUrl(categoryCode), {}, (...x)=>self._itemsSuccess(...x));
+        this._api.get(
+            ApiService.buildItemsUrl(categoryCode),
+            {},
+            (...x)=>self._itemsSuccess(...x),
+            (...x)=>self._errorHandling(...x));
         return this._nextRequestId();
     }
 
@@ -110,6 +143,7 @@ class ApiService {
      * @private
      */
     _itemsSuccess(items) {
+        this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
             this._callback = null;
@@ -123,13 +157,26 @@ class ApiService {
      * you need authorisation to perform this action.
      * @param {Item} item
      * @param {DeleteItemCallback} callback
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     * @return {int} The id for this request (used to cancel)
      */
-    deleteItem(item, callback) {
+    deleteItem(item, callback, errorCallback) {
         this._callback = callback;
-        this._api.delete(ApiService.buildSingleItemUrl(item.itemId), {}, (...x)=>this._deleteItemSuccess(...x));
+        this._errorCallback = errorCallback;
+        this._api.del(
+            ApiService.buildSingleItemUrl(item.itemId),
+            {},
+            (...x)=>this._deleteItemSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
     }
 
+    /**
+     * Called when an item has been deleted successfully
+     * @private
+     */
     _deleteItemSuccess() {
+        this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
             this._callback = null;
@@ -138,15 +185,59 @@ class ApiService {
     }
 
     /**
+     * Saves an item to permanent storage through the API
+     * @param {Item} item
+     * @param {SaveItemCallback} callback
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     * @return {int} The id for this request (used to cancel)
+     */
+    saveItem(item, callback, errorCallback) {
+        this._callback = callback;
+        this._errorCallback = errorCallback;
+        let itemObj = item.toObject();
+        delete itemObj.itemId;
+        this._api.put(
+            ApiService.buildSingleItemUrl(item.itemId),
+            {},
+            itemObj,
+            (...x)=>this._saveItemSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
+    }
+
+    /**
+     * Called when the item has been succesfully saved
+     * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
+     * @private
+     */
+    _saveItemSuccess(itemObject) {
+        this._errorCallback = null;
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback(new Item(itemObject));
+        }
+    }
+
+    /**
      * Logins into the api obtaining a token
      * @param {string} user
      * @param {string} pass
      * @param {LoginCallback} [callback]
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     * @return {int} The id for this request (used to cancel)
      */
-    login(user, pass, callback) {
+    login(user, pass, callback, errorCallback) {
         this._callback = callback;
+        this._errorCallback = errorCallback;
         this._api.setAuthorisation(AUTH_BASIC, user, pass, true);
-        this._api.post(ApiService.buildLoginUrl(), {}, {}, (...x)=>this._loginSuccess(...x));
+        this._api.post(
+            ApiService.buildLoginUrl(),
+            {},
+            {},
+            (...x)=>this._loginSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
     }
 
     /**
@@ -155,6 +246,7 @@ class ApiService {
      * @private
      */
     _loginSuccess(token) {
+        this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
             this._callback = null;
@@ -167,10 +259,18 @@ class ApiService {
     /**
      * Logs out of the api making the token invalid from now on
      * @param {LogoutCallback} [callback]
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     * @return {int} The id for this request (used to cancel)
      */
-    logout(callback) {
+    logout(callback, errorCallback) {
         this._callback = callback;
-        this._api.delete(ApiService.buildLoginUrl(), {}, (...x)=>this._logoutSuccess(...x));
+        this._errorCallback = errorCallback;
+        this._api.del(
+            ApiService.buildLoginUrl(),
+            {},
+            (...x)=>this._logoutSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
     }
 
     /**
@@ -178,6 +278,7 @@ class ApiService {
      * @private
      */
     _logoutSuccess() {
+        this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
             this._callback = null;
@@ -238,4 +339,13 @@ class ApiService {
  */
 /**
  * @callback DeleteItemCallback
+ */
+/**
+ * @callback SaveItemCallback
+ * @param {Item} item - The item sent by the API with the result of saving it
+ */
+/**
+ * @callback ApiErrorCallback
+ * @param {int} status - The status returned
+ * @param {string} error - The error description
  */

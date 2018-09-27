@@ -5,6 +5,7 @@
 /**
  * @typedef {Object} ItemObject
  * @property {int} itemId
+ * @property {string} orderPreference
  * @property {string} name
  * @property {string} address
  * @property {string} [webLink]
@@ -20,6 +21,21 @@
  * @property {PeriodObject[]} openingHours
  *
  */
+
+/**
+ * @typedef {string} ItemOrder
+ */
+
+/**
+ *
+ * @type {{FIRST: ItemOrder, SECOND: ItemOrder, THIRD: ItemOrder, REST: ItemOrder}}
+ */
+const ITEM_ORDER = {
+    FIRST: 'first',
+    SECOND: 'second',
+    THIRD: 'third',
+    REST: 'rest'
+};
 
 /**
  * A direct representation of the items which come from the API
@@ -86,6 +102,14 @@ class Item {
          * @type {Period[]}
          */
         this.openingHours = object.openingHours.map((x)=>new Period(x));
+        /**
+         * @type {ItemOrder}
+         */
+        this.orderPreference = (
+            Object.values(ITEM_ORDER).indexOf(this.orderPreference) > -1 ?
+                object.orderPreference :
+                ITEM_ORDER.REST);
+
     }
 
     /**
@@ -95,6 +119,7 @@ class Item {
     toObject() {
         return {
             itemId: this.itemId,
+            orderPreference: this.orderPreference,
             name: this.name,
             address: this.address,
             webLink: this.webLink,

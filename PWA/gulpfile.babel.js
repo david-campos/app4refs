@@ -54,6 +54,7 @@ var DEV_JS_SRC = [
     'main.js',                          'service-worker-registration.js'
 ];
 var DEV_JS_SRC_PANEL = [
+    'utils.js',
     'data/Item.js',                     'data/Period.js',
     'data/Category.js',
     'app/ResourcesProvider.js',

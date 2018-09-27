@@ -10,6 +10,8 @@ class Panel {
     constructor(svc, token) {
         this._svc = svc;
         this.element = $('main.panel');
+        this._errorsPanel = this.element.find("#errorDisplay");
+        this._errorNumber = 1;
         this._itemTypesPanel = this.element.find('#itemTypes');
         this._categoriesPanel = this.element.find('#categories');
         this._itemsPanel = new ItemsPanel(this, svc);
@@ -34,6 +36,23 @@ class Panel {
         this.element.find('.nav h4').text(`Welcome, ${token.user}!`);
         this.element.find('.nav #logoutBtn').click(()=>svc.logout(loggedOut));
         this._populateItemTypesPanel();
+    }
+
+    /**
+     * Displays an error to the user
+     * @param {int} status - Http status returned
+     * @param {string} errorMessage - Message
+     */
+    displayError(status, errorMessage) {
+        let alert = $(
+            `<div class="alert alert-danger alert-dismissible fade show ${(this._errorNumber%2)?'':'dark'}" role="alert">
+                <strong>${this._errorNumber++}. Error:</strong> ${errorMessage.htmlEscape()}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`);
+        this._errorsPanel.prepend(alert);
+        console.log(status, errorMessage);
     }
 
     itemDragStart(event) {
@@ -61,7 +80,7 @@ class Panel {
             this._redrawCategoriesPanel();
             this._svc.getCategories(
                 $(event.currentTarget).attr(ATTR_ITEM_TYPE),
-                this._receivedCategories.bind(this));
+                this._receivedCategories.bind(this), this.displayError.bind(this));
         }
     }
 

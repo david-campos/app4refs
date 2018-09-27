@@ -3,19 +3,26 @@ const ATTR_ITEM_IDX = 'data-item-idx';
 
 class ItemsPanel {
     constructor(panel, svc) {
+        /** @type {ApiService} */
         this._svc = svc;
+        /** @type {Panel} */
         this._panel = panel;
+        /** @type {Item[]} */
         this._items = [];
+        /** @type {?string} */
+        this._currentCategoryCode = null;
         this._itemsPanel = $('main.panel #items');
         this._deletionModal = $('#deletionModal');
         this._deletionModal.find("#delConfBtn").click((e)=>this._confirmDeletion(e));
+        /** @type {?int} */
         this._itemToDeleteIdx = null;
         this._editedLi = null;
     }
 
     populate(categoryCode) {
         this.clear();
-        this._svc.getItems(categoryCode, this._receivedItems.bind(this));
+        this._currentCategoryCode = categoryCode;
+        this._svc.getItems(categoryCode, this._receivedItems.bind(this), this._panel.displayError.bind(this._panel));
     }
 
     _receivedItems(items) {
@@ -25,6 +32,7 @@ class ItemsPanel {
 
     clear() {
         this._items = [];
+        this._currentCategoryCode = null;
         this.redraw();
     }
 
@@ -35,7 +43,7 @@ class ItemsPanel {
             let item = this._items[i];
             let li = $(ItemsPanel._htmlForItem(i, item));
             li.find("button.edit").click((e)=>this._editClicked(e));
-            li.find("button.delete-item").click((e)=>this._deleteItemClicked(e));
+            li.find("button.del-item").click((e)=>this._deleteItemClicked(e));
             let moveButton = li.find("button.move-item");
             moveButton.on('dragstart', (e)=>this._itemDragStart(e));
             moveButton.on('dragend', (e)=>this._itemDragEnd(e));
@@ -44,7 +52,20 @@ class ItemsPanel {
     }
 
     itemDragged(itemIdx, categoryCode) {
-        console.log("Lets move", this._items[itemIdx], "to", categoryCode);
+        let item = this._items[itemIdx];
+        item.categoryCode = categoryCode;
+        this._svc.saveItem(item, (item)=>this._itemUpdated(itemIdx, item), this._panel.displayError.bind(this._panel));
+    }
+
+    _itemUpdated(itemIdx, item) {
+        if(this._items[itemIdx].itemId === item.itemId) {
+            if(item.categoryCode === this._currentCategoryCode) {
+                this._items.splice(itemIdx, 1, item);
+            } else {
+                this._items.splice(itemIdx, 1);
+            }
+            this.redraw();
+        }
     }
 
     _itemDragStart(event) {
@@ -76,7 +97,7 @@ class ItemsPanel {
             this._svc.deleteItem(this._items[idx], function() {
                 this._items.splice(idx, 1);
                 this.redraw();
-            }.bind(this));
+            }.bind(this), this._panel.displayError.bind(this._panel));
         }
     }
 
@@ -86,7 +107,6 @@ class ItemsPanel {
         // Cancel previous edition
         this.redraw();
 
-        /** @type Item */
         let item = this._items[idx];
         this._editedLi = this._itemsPanel.find("li.media:nth-child("+(idx+1)+")");
 
@@ -96,7 +116,7 @@ class ItemsPanel {
         let periodsRow = this._editedLi.find("#periodsRow");
         for(let period of item.openingHours) {
             let newPeriod = $(ItemsPanel._htmlForPeriodEdition(period));
-            newPeriod.find(".delete-period").click((e)=>this._deletePeriodClicked(e));
+            newPeriod.find(".del-period").click((e)=>this._deletePeriodClicked(e));
             periodsRow.append(newPeriod);
         }
         this._editedLi.find("button#tryItemLink").click((e)=>this._tryItemLinkClicked(e));

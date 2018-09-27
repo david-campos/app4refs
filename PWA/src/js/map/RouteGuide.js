@@ -54,7 +54,7 @@ class RouteGuide {
 
         /**
          * The index of the listener to position updates
-         * of the user, to be able to delete it later.
+         * of the user, to be able to del it later.
          * It is -1 if the guide has not been started previously.
          * @type {Number}
          * @private

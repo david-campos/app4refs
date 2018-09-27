@@ -38,6 +38,12 @@ class ApiAjaxAdapter {
          */
         this._onSuccess = null;
         /**
+         * Callback to be called on error
+         * @type {?Function}
+         * @private
+         */
+        this._onError = null;
+        /**
          * The authorisation header (if one) for the
          * subsequent calls
          * @type {?string}
@@ -98,30 +104,45 @@ class ApiAjaxAdapter {
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
      * @param {function} onSuccess - Callback on success of the query
+     * @param {function} [onError] - Callback on error of the query
      */
-    get(relativeUrl, params, onSuccess) {
-        this._request('GET', relativeUrl, params, null, onSuccess);
+    get(relativeUrl, params, onSuccess, onError) {
+        this._request('GET', relativeUrl, params, null, onSuccess, onError?onError:null);
     }
 
     /**
-     * Performs a DELETE query to the API into the specified relative URL
+     * Performs a DELETE request to the API into the specified relative URL
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
      * @param {function} onSuccess - Callback on success of the query
+     * @param {function} [onError] - Callback on error of the query
      */
-    delete(relativeUrl, params, onSuccess) {
-        this._request('DELETE', relativeUrl, params, null, onSuccess);
+    del(relativeUrl, params, onSuccess, onError) {
+        this._request('DELETE', relativeUrl, params, null, onSuccess, onError?onError:null);
     }
 
     /**
-     * Performs a POST query to the API into the specified relative URL
+     * Performs a POST request to the API into the specified relative URL
      * @param {string} relativeUrl - URL in the api we want to make a GET query to
      * @param {{string}} params - GET params to add
      * @param {{}} body - Body of the post request
      * @param {function} onSuccess - Callback on success of the query
+     * @param {function} [onError] - Callback on error of the query
      */
-    post(relativeUrl, params, body, onSuccess) {
-        this._request('POST', relativeUrl, params, body, onSuccess);
+    post(relativeUrl, params, body, onSuccess, onError) {
+        this._request('POST', relativeUrl, params, body, onSuccess, onError?onError:null);
+    }
+
+    /**
+     * Performs an UPDATE request to the API into the specified relative URL
+     * @param {string} relativeUrl - URL in the api we want to make a GET query to
+     * @param {{string}} params - GET params to add
+     * @param {{}} body - Body of the post request
+     * @param {function} onSuccess - Callback on success of the query
+     * @param {function} [onError] - Callback on error of the query
+     */
+    put(relativeUrl, params, body, onSuccess, onError) {
+        this._request('PUT', relativeUrl, params, body, onSuccess, onError?onError:null);
     }
 
     /**
@@ -132,8 +153,9 @@ class ApiAjaxAdapter {
      * @param {{string}} urlParams - GET params to add
      * @param {?{}} bodyObj - object to send in the body of the request
      * @param {function} onSuccess - Callback on success of the query
+     * @param {function} onError - Callback on error of the query
      */
-    _request(method, relativeUrl, urlParams, bodyObj, onSuccess) {
+    _request(method, relativeUrl, urlParams, bodyObj, onSuccess, onError) {
         // we don't want onSuccess null
         if(!onSuccess) return;
 
@@ -147,6 +169,7 @@ class ApiAjaxAdapter {
         }
 
         this._onSuccess = onSuccess;
+        this._onError = onError;
         this._xhttp.open(method, url, true, 'a', 'a');
 
         if(this._authorisationHeader) {
@@ -190,7 +213,9 @@ class ApiAjaxAdapter {
         // Reset the callbacks
         // If we do it later they could be erased in the own callback!
         let success = this._onSuccess;
+        let error = this._onError;
         this._onSuccess = null;
+        this._onError = null;
 
         switch(status) {
             case 200:
@@ -203,8 +228,8 @@ class ApiAjaxAdapter {
                 console.error("The API is not reachable");
                 break;
             default:
-                // TODO: API error management
-                console.error("API error:", status, body);
+                error(status, body);
+                break;
         }
     }
 
