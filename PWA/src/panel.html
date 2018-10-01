@@ -30,17 +30,18 @@
         <ul class="nav justify-content-end">
             <li class="nav-item"><h4></h4></li>
             <li class="nav-item">
+                <button class="btn btn-secondary" type="button" id="addItemBtn"><i class="fas fa-plus"></i> New item</button>
+            </li>
+            <li class="nav-item">
                 <button class="btn btn-primary" type="button" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </li>
         </ul>
         <div class="row">
             <div class="col-2" id="itemTypesCol">
-                <div class="list-group" id="itemTypes">
-                </div>
+                <div class="list-group" id="itemTypes"></div>
             </div>
             <div class="col-2" id="categoriesCol">
-                <div class="list-group" id="categories">
-                </div>
+                <div class="list-group" id="categories"></div>
             </div>
             <div class="col-8" id="itemsCol" hidden>
                 <div class="alert alert-info">
@@ -73,7 +74,7 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="{{ROOT}}/js/javascript.panel.min.js"></script>

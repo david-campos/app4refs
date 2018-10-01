@@ -130,7 +130,7 @@ class ApiService {
         this._errorCallback = errorCallback;
         let self = this;
         this._api.get(
-            ApiService.buildItemsUrl(categoryCode),
+            ApiService.buildItemsInCategoryUrl(categoryCode),
             {},
             (...x)=>self._itemsSuccess(...x),
             (...x)=>self._errorHandling(...x));
@@ -185,7 +185,7 @@ class ApiService {
     }
 
     /**
-     * Saves an item to permanent storage through the API
+     * Saves an item to permanent storage through the API, updating it
      * @param {Item} item
      * @param {SaveItemCallback} callback
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
@@ -211,6 +211,41 @@ class ApiService {
      * @private
      */
     _saveItemSuccess(itemObject) {
+        this._errorCallback = null;
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback(new Item(itemObject));
+        }
+    }
+
+    /**
+     * Saves an item to permanent storage through the API, creating it
+     * @param {Item} item
+     * @param {SaveItemCallback} callback
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     * @return {int} The id for this request (used to cancel)
+     */
+    createItem(item, callback, errorCallback) {
+        this._callback = callback;
+        this._errorCallback = errorCallback;
+        let itemObj = item.toObject();
+        delete itemObj.itemId;
+        this._api.post(
+            ApiService.buildAllItemsUri(),
+            {},
+            itemObj,
+            (...x)=>this._createItemSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
+    }
+
+    /**
+     * Called when the item has been succesfully saved
+     * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
+     * @private
+     */
+    _createItemSuccess(itemObject) {
         this._errorCallback = null;
         if(this._callback) {
             let callback = this._callback;
@@ -301,9 +336,16 @@ class ApiService {
      * Builds the url to get the items for the given category
      * @param categoryCode - The code of the category to get the items for
      */
-    static buildItemsUrl(categoryCode) {
+    static buildItemsInCategoryUrl(categoryCode) {
         categoryCode = encodeURIComponent(categoryCode);
         return `categories/${categoryCode}/items/`;
+    }
+
+    /**
+    * Builds the url to all the items, used to create new ones
+    */
+    static buildAllItemsUri() {
+        return `items/`;
     }
 
     /**

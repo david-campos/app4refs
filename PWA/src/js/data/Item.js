@@ -8,12 +8,12 @@
  * @property {string} orderPreference
  * @property {string} name
  * @property {string} address
- * @property {string} [webLink]
- * @property {string} [placeId]
+ * @property {?string} [webLink]
+ * @property {?string} [placeId]
  * @property {string} iconUri
  * @property {boolean} isFree
- * @property {number} coordLat
- * @property {number} coordLon
+ * @property {?number} coordLat
+ * @property {?number} coordLon
  * @property {?string} phone
  * @property {boolean} callForAppointment
  * @property {string} categoryCode
@@ -59,11 +59,11 @@ class Item {
          */
         this.address = object.address;
         /**
-         * @type {string}
+         * @type {?string}
          */
         this.webLink = object.webLink;
         /**
-         * @type {string}
+         * @type {?string}
          */
         this.placeId = object.placeId;
         /**

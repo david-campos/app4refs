@@ -219,6 +219,7 @@ class ApiAjaxAdapter {
 
         switch(status) {
             case 200:
+            case 201:
                 success(body);
                 break;
             case 204:

@@ -16,6 +16,8 @@ class ItemsPanel {
         this._categoryCodeHolder = this._itemsCol.find("#categoryCode");
         this._categoryNameHolder = this._itemsCol.find("#categoryName");
         this._categoryLinkHolder = this._itemsCol.find("#categoryLink");
+        this._addItemBtn = this._panel.element.find('#addItemBtn');
+        this._addItemBtn.click((e)=>this._addItemClicked(e));
 
         this._deletionModal = $('#deletionModal');
         this._deletionModal.find("#delConfBtn").click((e)=>this._confirmDeletion(e));
@@ -58,7 +60,7 @@ class ItemsPanel {
                 let item = this._items[i];
                 let li = $(ItemsPanel._htmlForItem(i, item));
                 li.find("button.edit").click((e) => this._editClicked(e));
-                li.find("button.del-item").click((e) => this._deleteItemClicked(e));
+                li.find("button.delete-item").click((e) => this._deleteItemClicked(e));
                 let moveButton = li.find("button.move-item");
                 moveButton.on('dragstart', (e) => this._itemDragStart(e));
                 moveButton.on('dragend', (e) => this._itemDragEnd(e));
@@ -79,7 +81,8 @@ class ItemsPanel {
     }
 
     _itemUpdated(itemIdx, item) {
-        if(this._items[itemIdx].itemId === item.itemId) {
+        if(this._items[itemIdx].itemId === -1 ||
+                this._items[itemIdx].itemId === item.itemId) {
             if(item.categoryCode === this._currentCategory.code) {
                 this._items.splice(itemIdx, 1, item);
             } else {
@@ -105,6 +108,8 @@ class ItemsPanel {
         /** @type Item */
         let item = this._items[idx];
 
+        this._cancelEdition();
+
         this._itemToDeleteIdx = idx;
         this._deletionModal.find(".modal-body b").text(item.name);
         this._deletionModal.modal('show');
@@ -124,9 +129,12 @@ class ItemsPanel {
 
     _editClicked(event) {
         let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
+        this._editItem(idx);
+    }
 
+    _editItem(idx) {
         // Cancel previous edition
-        this.redraw();
+        this._cancelEdition();
 
         let item = this._items[idx];
         this._editedLi = this._itemsPanel.find("li.media:nth-child("+(idx+1)+")");
@@ -143,8 +151,10 @@ class ItemsPanel {
         this._editedLi.find("button#tryItemLink").click((e)=>this._tryItemLinkClicked(e));
         this._editedLi.find("button#addPeriodBtn").click((e)=>this._addPeriodClicked(e));
         this._editedLi.find("input#itemCfa").change((e)=>this._cfaChanged(e));
-        this._editedLi.find("button#cancelBtn").click((e)=>this._cancelEdition(e));
+        this._editedLi.find("button#cancelBtn").click((e)=>this._cancelEditionClick(e));
         this._editedLi.find("form").submit((e)=>this._submitEdition(e));
+
+        this._editedLi.find("input#itemName").focus();
     }
 
     _submitEdition(event) {
@@ -193,13 +203,16 @@ class ItemsPanel {
 
         if(item.itemId === -1) {
             // -1 indicates it is created, not updated
-            console.error("Creation not implemented yet");
+            console.log(item);
+            this._svc.createItem(
+                item,
+                (item)=>this._itemUpdated(itemIdx, item),
+                this._panel.displayError.bind(this._panel));
         } else {
-            console.log(item.openingHours);
-            /*this._svc.saveItem(
+            this._svc.saveItem(
                 item,
                 (item) => this._itemUpdated(itemIdx, item),
-                this._panel.displayError.bind(this._panel));*/
+                this._panel.displayError.bind(this._panel));
         }
     }
 
@@ -240,7 +253,7 @@ class ItemsPanel {
             let endDay = $(this).find(".period-end-day").val();
             let endHour = $(this).find(".period-end-hour").val();
             periods.push(new Period({
-                periodId: 0, // Is irrelevant!
+                periodId: 'new',
                 startDay: startDay,
                 startHour: parseInt(startHour.substring(0, 2)),
                 startMinutes: parseInt(startHour.substring(3)),
@@ -301,11 +314,48 @@ class ItemsPanel {
         }
     }
 
-    _cancelEdition(event) {
+    _cancelEditionClick(event) {
         event.preventDefault();
+        this._cancelEdition();
+    }
 
+    _cancelEdition() {
+        if(this._editedLi) {
+            let itemIdx = this._editedLi.attr(ATTR_ITEM_IDX);
+            // If the item has id -1 it means we are creating it, so we have to delete it.
+            if (this._items[itemIdx].itemId === -1) {
+                this._items.splice(itemIdx, 1);
+            }
+        }
         this._editedLi = null;
         this.redraw();
+    }
+
+    _addItemClicked(event) {
+        if(!this._currentCategory) {
+            this._panel.displayError(0, 'To create a new item, select a category first.');
+            return;
+        }
+
+        this._items.push(new Item({
+            itemId: -1,
+            orderPreference: 'rest',
+            name: '',
+            address: '',
+            webLink: null,
+            placeId: null,
+            iconUri: '',
+            isFree: false,
+            coordLat: null,
+            coordLon: null,
+            phone: null,
+            callForAppointment: false,
+            categoryCode: this._currentCategory.code,
+            languageCodes: [],
+            openingHours: []
+        }));
+        this._cancelEdition();
+        this._editItem(this._items.length-1);
     }
 
     /*###########################################################################
@@ -343,7 +393,7 @@ class ItemsPanel {
     static _htmlForEditionForm(item) {
         let inEnglish = (item.languageCodes.indexOf('en') > -1);
         let inGreek = (item.languageCodes.indexOf('el') > -1);
-        let webLink = (item.webLink?item.webLink.replace('"', '\\"'):'Null');
+        let webLink = (item.webLink?item.webLink.replace('"', '\\"'):'');
         let addressRequired = (item.callForAppointment?'':'required');
         let phoneReadOnly = (item.callForAppointment?'':'readonly');
         let phone = (item.phone?item.phone.replace('"', '\\"'):'');
