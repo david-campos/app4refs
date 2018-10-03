@@ -87,6 +87,12 @@ main.panel #categories .drop-allowed {
     border: .5rem dashed #7C0D82;
 }
 
+main.panel #categoryInfo {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 main.panel #items {
     background-color: white;
     padding: 1em;
@@ -158,9 +164,47 @@ main.panel #items li.edited .period .row>div {
     padding: 0.25rem;
 }
 
-main.panel #items img {
+main.panel #items .item-left-col {
     width: 30%;
 }
+
+main.panel #items .item-left-col img {
+    width: 100%;
+    display: block;
+    margin: 0 0 1rem 0;
+}
+
+.item-order {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+.item-order .order-mark {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.5rem;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 0.25rem;
+    padding-top: 0.5rem;
+}
+
+.item-order .order-mark[data-order=first] {
+    background-color: #7C0D82;
+}
+.item-order .order-mark[data-order=second] {
+    background-color: midnightblue;
+}
+.item-order .order-mark[data-order=third] {
+    background-color: #2a442a;
+}
+.item-order .order-mark[data-order=rest] {
+    background-color: #212121;
+}
+
 
 main.panel #items .media-body {
     width: 70%;

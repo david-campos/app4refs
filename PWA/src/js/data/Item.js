@@ -106,7 +106,7 @@ class Item {
          * @type {ItemOrder}
          */
         this.orderPreference = (
-            Object.values(ITEM_ORDER).indexOf(this.orderPreference) > -1 ?
+            Object.values(ITEM_ORDER).indexOf(object.orderPreference) > -1 ?
                 object.orderPreference :
                 ITEM_ORDER.REST);
 

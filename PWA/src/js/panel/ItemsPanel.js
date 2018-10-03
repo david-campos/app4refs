@@ -24,6 +24,8 @@ class ItemsPanel {
         /** @type {?int} */
         this._itemToDeleteIdx = null;
         this._editedLi = null;
+
+        this._orderChangeCallback = (e)=>this._orderChangeClicked(e);
     }
 
     populate(category) {
@@ -59,6 +61,7 @@ class ItemsPanel {
             for (let i = 0; i < this._items.length; i++) {
                 let item = this._items[i];
                 let li = $(ItemsPanel._htmlForItem(i, item));
+                li.find("button.order-change").click(this._orderChangeCallback);
                 li.find("button.edit").click((e) => this._editClicked(e));
                 li.find("button.delete-item").click((e) => this._deleteItemClicked(e));
                 let moveButton = li.find("button.move-item");
@@ -84,12 +87,38 @@ class ItemsPanel {
         if(this._items[itemIdx].itemId === -1 ||
                 this._items[itemIdx].itemId === item.itemId) {
             if(item.categoryCode === this._currentCategory.code) {
-                this._items.splice(itemIdx, 1, item);
+                this._items.splice(itemIdx, 1);
+                this._addToItems(item);
             } else {
                 this._items.splice(itemIdx, 1);
             }
             this.redraw();
         }
+    }
+
+    /**
+     * Places the item in the correspondent place,
+     * supposing they have to be ordered by order preference,
+     * whether they are free or not and item id.
+     * @param {Item} item
+     * @private
+     */
+    _addToItems(item) {
+        let orders = ['first','second','third','rest'];
+        let i=0;
+        let itemPref = orders.indexOf(item.orderPreference);
+        for( ; i < this._items.length; i++) {
+            let other = this._items[i];
+            let otherPref = orders.indexOf(other.orderPreference);
+            if(otherPref > itemPref) break;
+            else if(otherPref === itemPref) {
+                if(item.isFree && !other.isFree) break;
+                else if(other.isFree === item.isFree) {
+                    if(other.itemId > item.itemId) break;
+                }
+            }
+        }
+        this._items.splice(i, 0, item);
     }
 
     _itemDragStart(event) {
@@ -140,6 +169,7 @@ class ItemsPanel {
         this._editedLi = this._itemsPanel.find("li.media:nth-child("+(idx+1)+")");
 
         this._editedLi.addClass("edited");
+        this._editedLi.attr("original-order", item.orderPreference); // Order could be changed during edition
         this._editedLi.find(".media-body").html(ItemsPanel._htmlForEditionForm(item));
 
         let periodsRow = this._editedLi.find("#periodsRow");
@@ -325,6 +355,10 @@ class ItemsPanel {
             // If the item has id -1 it means we are creating it, so we have to delete it.
             if (this._items[itemIdx].itemId === -1) {
                 this._items.splice(itemIdx, 1);
+            } else {
+                // Restore the order
+                this._items[itemIdx].orderPreference =
+                    this._editedLi.attr("original-order");
             }
         }
         this._editedLi = null;
@@ -358,6 +392,36 @@ class ItemsPanel {
         this._editItem(this._items.length-1);
     }
 
+    _orderChangeClicked(event) {
+        let li = $(event.currentTarget).closest("li.media");
+        let idx = parseInt(li.attr(ATTR_ITEM_IDX));
+        let edited = li.hasClass('edited');
+        let item = this._items[idx];
+        item.orderPreference = $(event.currentTarget).attr("data-order");
+
+        // Find the representation and change it
+        let mark = $(event.currentTarget).closest(".item-order").find(".order-mark");
+        mark.attr("data-order", item.orderPreference);
+        mark.html(ItemsPanel._orderMarkerText(item.orderPreference));
+
+        // If we are not editing it, send the item to be saved
+        if(!edited) {
+            this._svc.saveItem(
+                item,
+                (item) => this.populate(this._currentCategory),
+                this._panel.displayError.bind(this._panel));
+        }
+    }
+
+    static _orderMarkerText(preference) {
+        switch(preference) {
+            case 'first': return '1<sup>st</sup>';
+            case 'second': return '2<sup>nd</sup>';
+            case 'third': return '3<sup>rd</sup>';
+            default: return 'Any';
+        }
+    }
+
     /*###########################################################################
      * HTML GENERATION
      ###########################################################################*/
@@ -365,12 +429,30 @@ class ItemsPanel {
         let greekBtn = (item.languageCodes.indexOf('el') > -1?'info':'secondary');
         let engliBtn = (item.languageCodes.indexOf('en') > -1?'info':'secondary');
         let coords = (isNaN(item.coordLat)||isNaN(item.coordLon)?'No coordinates':item.coordLat+';'+item.coordLon);
+        let order = ItemsPanel._orderMarkerText(item.orderPreference);
         let schedule = item.phone;
         if(!item.callForAppointment) {
             schedule = periodsStrFor(item);
         }
         return `<li class="media" ${ATTR_ITEM_IDX}="${i}">
-                    <img class="mr-3 item-icon" src="${ResourcesProvider.getItemIconUrl(item)}" alt="${item.name}">
+                    <div class="mr-3 item-left-col">
+                        <img class="item-icon" src="${ResourcesProvider.getItemIconUrl(item)}" title="${item.name}">
+                        <h6>Order preference:</h6>
+                        <div class="item-order">
+                            <div class="order-mark" data-order="${item.orderPreference}">${order}</div>
+                            <div class="dropdown">
+                              <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="orderMenuButton${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Change
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${i}">
+                                <button class="dropdown-item order-change" data-order="first">First</button>
+                                <button class="dropdown-item order-change" data-order="second">Second</button>
+                                <button class="dropdown-item order-change" data-order="third">Third</button>
+                                <button class="dropdown-item order-change" data-order="rest">None</button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>                    
                     <div class="media-body">
                         <button type="button" class="btn btn-secondary move-item" draggable="true"><i class="fas fa-arrows-alt"></i></button>
                         <button type="button" class="btn btn-secondary delete-item"><i class="fas fa-trash-alt"></i></button>
