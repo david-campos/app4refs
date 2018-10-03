@@ -168,10 +168,38 @@ main.panel #items .item-left-col {
     width: 30%;
 }
 
-main.panel #items .item-left-col img {
-    width: 100%;
-    display: block;
+main.panel #items .item-icon {
     margin: 0 0 1rem 0;
+    cursor: pointer;
+    position: relative;
+}
+
+main.panel #items .item-icon .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #7c0d82b3;
+    border-radius: 0.25rem;
+    display: none;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+main.panel #items .item-icon:hover .overlay {
+    display: flex;
+}
+
+main.panel #items .item-icon .overlay span {
+    color: white;
+    font-weight: bold;
+}
+
+main.panel #items .item-icon img {
+    width: 100%;
 }
 
 .item-order {
@@ -230,4 +258,10 @@ main.panel #items .item-sched {
 
 main.panel #items .edit {
     width: 100%;
+}
+
+#imageModal .modal-body {
+    height: 60vh;
+    min-height: 350px;
+    background-color: #cfcfcf;
 }

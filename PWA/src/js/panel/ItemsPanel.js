@@ -21,6 +21,10 @@ class ItemsPanel {
 
         this._deletionModal = $('#deletionModal');
         this._deletionModal.find("#delConfBtn").click((e)=>this._confirmDeletion(e));
+
+        this._imageModal = new ImageModal();
+        this._imageModal.onImageChangeConfirmed = (...x)=>this._imageChanged(...x);
+
         /** @type {?int} */
         this._itemToDeleteIdx = null;
         this._editedLi = null;
@@ -67,6 +71,7 @@ class ItemsPanel {
                 let moveButton = li.find("button.move-item");
                 moveButton.on('dragstart', (e) => this._itemDragStart(e));
                 moveButton.on('dragend', (e) => this._itemDragEnd(e));
+                li.find(".item-icon").click((e)=>this._itemIconClicked(e));
                 this._itemsPanel.append(li);
             }
         } else {
@@ -413,6 +418,22 @@ class ItemsPanel {
         }
     }
 
+    _itemIconClicked(event) {
+        let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
+        /** @type Item */
+        let item = this._items[idx];
+        this._imageModal.show(item);
+    }
+
+    /**
+     * @param {Item} item - Item to change
+     * @param {string} newImage - Picked image in base64
+     * @private
+     */
+    _imageChanged(item, newImage) {
+        console.log("Now the image for ", item.itemId, " would be ", newImage);
+    }
+
     static _orderMarkerText(preference) {
         switch(preference) {
             case 'first': return '1<sup>st</sup>';
@@ -436,7 +457,10 @@ class ItemsPanel {
         }
         return `<li class="media" ${ATTR_ITEM_IDX}="${i}">
                     <div class="mr-3 item-left-col">
-                        <img class="item-icon" src="${ResourcesProvider.getItemIconUrl(item)}" title="${item.name}">
+                        <div class="item-icon">
+                            <div class="overlay"><span>Click to change</span></div>
+                            <img src="${ResourcesProvider.getItemIconUrl(item)}" title="${item.name}">
+                        </div>
                         <h6>Order preference:</h6>
                         <div class="item-order">
                             <div class="order-mark" data-order="${item.orderPreference}">${order}</div>
