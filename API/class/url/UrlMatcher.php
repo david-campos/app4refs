@@ -7,6 +7,7 @@ namespace url;
 use exceptions\UnknownResourceUriException;
 use formats\IApiOutputter;
 use HttpMethod;
+use transactions\ChangeItemIconTransaction;
 use transactions\CreateItemTransaction;
 use transactions\DeleteItemTransaction;
 use transactions\GetCategoriesTransaction;
@@ -88,12 +89,16 @@ class UrlMatcher {
         $tmLogin->put(HttpMethod::POST(), LoginTransaction::class);
         $tmLogin->put(HttpMethod::DELETE(), LogoutTransaction::class);
 
+        $tmItemIcon = new TransactionMap();
+        $tmItemIcon->put(HttpMethod::POST(), ChangeItemIconTransaction::class);
+
         $this->urls = [
             new UrlPattern('/item-types/:itemType<str>/categories/', $tmCategories),
             new UrlPattern('/categories/:categoryCode<str>/items/', $tmCategoryItems),
             new UrlPattern('/items/:itemId<int>', $tmItem),
             new UrlPattern('/items/', $tmItems),
-            new UrlPattern('/session/', $tmLogin)
+            new UrlPattern('/session/', $tmLogin),
+            new UrlPattern('/items/:itemId<int>/icon/', $tmItemIcon)
         ];
     }
 }
