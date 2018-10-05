@@ -220,6 +220,40 @@ class ApiService {
     }
 
     /**
+     * Changes the icon of an item for another image
+     * @param {Item} item
+     * @param {string} image
+     * @param {ChangeIconCallback} callback
+     * @param {ApiErrorCallback} errorCallback
+     * @return {int} The id for this request (used to cancel)
+     */
+    changeIcon(item, image, callback, errorCallback) {
+        this._callback = callback;
+        this._errorCallback = errorCallback;
+        this._api.post(
+            ApiService.buildSingleItemIconUrl(item.itemId),
+            {},
+            {'image': image},
+            (...x)=>this._changeIconSuccess(...x),
+            (...x)=>this._errorHandling(...x));
+        return this._nextRequestId();
+    }
+
+    /**
+     * Called when the item icon has been succesfully changed and saved
+     * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
+     * @private
+     */
+    _changeIconSuccess(itemObject) {
+        this._errorCallback = null;
+        if(this._callback) {
+            let callback = this._callback;
+            this._callback = null;
+            callback(new Item(itemObject));
+        }
+    }
+
+    /**
      * Saves an item to permanent storage through the API, creating it
      * @param {Item} item
      * @param {SaveItemCallback} callback
@@ -357,6 +391,15 @@ class ApiService {
     }
 
     /**
+     * Builds the url to get the icon of an item
+     * @param {int} itemId
+     * @return {string}
+     */
+    static buildSingleItemIconUrl(itemId) {
+        return `items/${encodeURIComponent(itemId)}/icon`;
+    }
+
+    /**
      * Builds the url to sign in into the API
      */
     static buildLoginUrl() {
@@ -385,6 +428,10 @@ class ApiService {
 /**
  * @callback SaveItemCallback
  * @param {Item} item - The item sent by the API with the result of saving it
+ */
+/**
+ * @callback ChangeIconCallback
+ * @param {Item} item - The item sent by the API with the result of changing the icon
  */
 /**
  * @callback ApiErrorCallback

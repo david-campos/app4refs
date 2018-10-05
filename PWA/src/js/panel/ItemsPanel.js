@@ -383,7 +383,7 @@ class ItemsPanel {
             address: '',
             webLink: null,
             placeId: null,
-            iconUri: '',
+            iconUri: 'no_icon.png',
             isFree: false,
             coordLat: null,
             coordLon: null,
@@ -422,7 +422,9 @@ class ItemsPanel {
         let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
         /** @type Item */
         let item = this._items[idx];
-        this._imageModal.show(item);
+        if(item.itemId !== -1) {
+            this._imageModal.show(item);
+        }
     }
 
     /**
@@ -431,7 +433,10 @@ class ItemsPanel {
      * @private
      */
     _imageChanged(item, newImage) {
-        console.log("Now the image for ", item.itemId, " would be ", newImage);
+        this._svc.changeIcon(
+            item, newImage,
+            (item) => this.populate(this._currentCategory),
+            this._panel.displayError.bind(this._panel));
     }
 
     static _orderMarkerText(preference) {
@@ -459,7 +464,7 @@ class ItemsPanel {
                     <div class="mr-3 item-left-col">
                         <div class="item-icon">
                             <div class="overlay"><span>Click to change</span></div>
-                            <img src="${ResourcesProvider.getItemIconUrl(item)}" title="${item.name}">
+                            <img src="${ResourcesProvider.getItemIconUrl(item)}?random=${Math.random()}" title="${item.name}">
                         </div>
                         <h6>Order preference:</h6>
                         <div class="item-order">

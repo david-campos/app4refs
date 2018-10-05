@@ -41,9 +41,9 @@ class ChangeItemIconTransaction extends Transaction {
         $newIcon = $this->saveImage($this->image, $this->itemId);
         $item->setIconUri($newIcon);
         $item->saveItem();
-        $this->status = IApiOutputter::HTTP_OK;
-        $this->result = [];
         GatewayFactory::getInstance()->commit();
+        $this->status = IApiOutputter::HTTP_OK;
+        $this->result = $item->toMap();
     }
 
     private function deleteIfExists($icon) {

@@ -170,8 +170,11 @@ main.panel #items .item-left-col {
 
 main.panel #items .item-icon {
     margin: 0 0 1rem 0;
-    cursor: pointer;
     position: relative;
+}
+
+main.panel #items li.media:not(.edited) .item-icon {
+    cursor: pointer;
 }
 
 main.panel #items .item-icon .overlay {
@@ -189,8 +192,12 @@ main.panel #items .item-icon .overlay {
     align-content: center;
 }
 
-main.panel #items .item-icon:hover .overlay {
+main.panel #items li.media:not(.edited) .item-icon:hover .overlay {
     display: flex;
+}
+
+.item-order, main.panel #items .item-icon:hover img {
+    border-radius: .25rem;
 }
 
 main.panel #items .item-icon .overlay span {
