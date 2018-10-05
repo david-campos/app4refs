@@ -51,7 +51,7 @@ class ApiAjaxAdapter {
     /**
      * Aborts all the ongoing requests
      */
-    abort() {
+    abortAll() {
         while(this._ongoingRequests.length > 0) {
             let request = this._ongoingRequests.pop();
             request.abort();
@@ -97,9 +97,10 @@ class ApiAjaxAdapter {
      * @param {{string}} params - GET params to add
      * @param {function} onSuccess - Callback on success of the query
      * @param {function} [onError] - Callback on error of the query
+     * @return {ApiAjaxRequest} - The request
      */
     get(relativeUrl, params, onSuccess, onError) {
-        this._request('GET', relativeUrl, params, null, onSuccess, onError?onError:null);
+        return this._request('GET', relativeUrl, params, null, onSuccess, onError?onError:null);
     }
 
     /**
@@ -108,9 +109,10 @@ class ApiAjaxAdapter {
      * @param {{string}} params - GET params to add
      * @param {function} onSuccess - Callback on success of the query
      * @param {function} [onError] - Callback on error of the query
+     * @return {ApiAjaxRequest} - The request
      */
     del(relativeUrl, params, onSuccess, onError) {
-        this._request('DELETE', relativeUrl, params, null, onSuccess, onError?onError:null);
+        return this._request('DELETE', relativeUrl, params, null, onSuccess, onError?onError:null);
     }
 
     /**
@@ -120,9 +122,10 @@ class ApiAjaxAdapter {
      * @param {{}} body - Body of the post request
      * @param {function} onSuccess - Callback on success of the query
      * @param {function} [onError] - Callback on error of the query
+     * @return {ApiAjaxRequest} - The request
      */
     post(relativeUrl, params, body, onSuccess, onError) {
-        this._request('POST', relativeUrl, params, body, onSuccess, onError?onError:null);
+        return this._request('POST', relativeUrl, params, body, onSuccess, onError?onError:null);
     }
 
     /**
@@ -132,9 +135,10 @@ class ApiAjaxAdapter {
      * @param {{}} body - Body of the post request
      * @param {function} onSuccess - Callback on success of the query
      * @param {function} [onError] - Callback on error of the query
+     * @return {ApiAjaxRequest} - The request
      */
     put(relativeUrl, params, body, onSuccess, onError) {
-        this._request('PUT', relativeUrl, params, body, onSuccess, onError?onError:null);
+        return this._request('PUT', relativeUrl, params, body, onSuccess, onError?onError:null);
     }
 
     /**
@@ -146,6 +150,7 @@ class ApiAjaxAdapter {
      * @param {?{}} bodyObj - object to send in the body of the request
      * @param {function} onSuccess - Callback on success of the query
      * @param {function} onError - Callback on error of the query
+     * @return {ApiAjaxRequest} - The request
      */
     _request(method, relativeUrl, urlParams, bodyObj, onSuccess, onError) {
         relativeUrl = ApiAjaxAdapter._cleanRelativeUrl(relativeUrl);
@@ -166,6 +171,8 @@ class ApiAjaxAdapter {
         this._ongoingRequests.push(request);
 
         request.perform();
+
+        return request;
     }
 
     /**

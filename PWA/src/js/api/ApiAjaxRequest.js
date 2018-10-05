@@ -65,6 +65,11 @@ class ApiAjaxRequest {
      * Performs the request
      */
     perform() {
+        // Check it haven't been performed already
+        if(this._xhttp.readyState !== 0) {
+            return;
+        }
+
         this._xhttp.open(this._method, this._url, true, 'a', 'a');
 
         if(this._authorisationHeader) {
@@ -80,43 +85,49 @@ class ApiAjaxRequest {
     }
 
     /**
+     * Gets the status of the request
+     * @return {number}
+     */
+    getStatus() {
+        return this._xhttp.status;
+    }
+
+    /**
      * Called when the xhttp state changes
      * @private
      */
     _xhttpStateChange() {
         if (this._xhttp.readyState === 4) {
-            let status = this._xhttp.status;
-            // we know the body will be json (id there is some)
-            let body = {};
-            if(this._xhttp.responseText) {
-                body = JSON.parse(this._xhttp.responseText);
-            }
-            this._finished(status, body);
+            this._finished();
         }
     }
 
     /**
      * Called when a request is finished, it manages the errors or calls the right callback
-     * @param {int} status - The status code of the response
-     * @param {{}} body - The parsed body of the response
      * @private
      */
-    _finished(status, body) {
+    _finished() {
         let success = this._onSuccess;
         let error = this._onError;
         this._onSuccess = null;
         this._onError = null;
 
-        switch(status) {
+        // we know the body will be json (id there is some)
+        let body = {};
+        if(this._xhttp.responseText) {
+            body = JSON.parse(this._xhttp.responseText);
+        }
+
+        switch(this._xhttp.status) {
             case 200:
             case 201:
-                success(body);
+                success(this, body);
                 break;
             case 204:
-                success(null);
+                success(this, null);
                 break;
             default:
-                error(status, body);
+                error(this, body);
                 break;
         }
     }

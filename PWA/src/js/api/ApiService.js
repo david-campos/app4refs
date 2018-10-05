@@ -21,59 +21,9 @@ class ApiService {
          * @private
          */
         this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
-        /**
-         * @type {?Function}
-         * @private
-         */
-        this._callback = null;
-        /**
-         * @type {?ApiErrorCallback}
-         * @private
-         */
-        this._errorCallback = null;
-        // We use only one currentId saved cause our _api can handle only one at a time (cancels the previous)
-        /**
-         * @type {int}
-         * @private
-         */
-        this._currentId = -1;
 
         if(token) {
             this._api.setAuthorisation(AUTH_BEARER, token.token);
-        }
-    }
-
-    /**
-     * Cancels the given request if it haven't finished yet
-     * @param {int} requestId - The request id received when started the request
-     */
-    cancelIfAlive(requestId) {
-        if(requestId === this._currentId) {
-            this._api.abort();
-        }
-    }
-
-    /**
-     * Generates the next request id
-     * @private
-     */
-    _nextRequestId() {
-        this._currentId += 1;
-        return this._currentId;
-    }
-
-    /**
-     * When any error occurs, this functions is called
-     * @param {int} status
-     * @param {{}} body
-     * @private
-     */
-    _errorHandling(status, body) {
-        this._callback = null;
-        if(this._errorCallback) {
-            let cb = this._errorCallback;
-            this._errorCallback = null;
-            cb(status, body['error']?body['error']:'Unknown error occurred');
         }
     }
 
@@ -82,40 +32,33 @@ class ApiService {
      * @param {string} itemType - Item type to search categories for
      * @param {GetCategoriesCallback} callback - Function to be called when we have the categories
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     getCategories(itemType, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
-        let self = this;
-        this._api.get(
+        return this._api.get(
             ApiService.buildCategoriesUrl(itemType),
             {},
-            (...x)=>self._categoriesSuccess(...x),
-            (...x)=>self._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=>ApiService._categoriesSuccess(callback, ...x),
+            (...x)=>ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when we obtain the categories from the API successfully
+     * @param {GetCategoriesCallback} callback
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {Category[]} categories
      * @private
      */
-    _categoriesSuccess(categories) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            let sortedCategories = {};
-            if(categories) {
-                for (let category of categories) {
-                    if (category.code) {
-                        sortedCategories[category.code] = category;
-                    }
+    static _categoriesSuccess(callback, request, categories) {
+        let sortedCategories = {};
+        if(categories) {
+            for (let category of categories) {
+                if (category.code) {
+                    sortedCategories[category.code] = category;
                 }
             }
-            callback(sortedCategories);
         }
+        callback(sortedCategories);
     }
 
     /**
@@ -123,33 +66,26 @@ class ApiService {
      * @param {string} categoryCode - The category code to get the items for
      * @param {GetItemsCallback} callback - A callback to be called when we have the items
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     getItems(categoryCode, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
-        let self = this;
-        this._api.get(
+        return this._api.get(
             ApiService.buildItemsInCategoryUrl(categoryCode),
             {},
-            (...x)=>self._itemsSuccess(...x),
-            (...x)=>self._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=>ApiService._itemsSuccess(callback, ...x),
+            (...x)=>ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when we obtain the items from the API successfully
+     * @param {GetItemsCallback} callback
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {ItemObject[]} items
      * @private
      */
-    _itemsSuccess(items) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            if(items === null) items = [];
-            callback(items.map((itemObj)=>new Item(itemObj)));
-        }
+    static _itemsSuccess(callback, request, items) {
+        if(items === null) items = [];
+        callback(items.map((itemObj)=>new Item(itemObj)));
     }
 
     /**
@@ -158,99 +94,71 @@ class ApiService {
      * @param {Item} item
      * @param {DeleteItemCallback} callback
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     deleteItem(item, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
-        this._api.del(
+        return this._api.del(
             ApiService.buildSingleItemUrl(item.itemId),
             {},
-            (...x)=>this._deleteItemSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
-    }
-
-    /**
-     * Called when an item has been deleted successfully
-     * @private
-     */
-    _deleteItemSuccess() {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback();
-        }
+            (...x)=> callback, // It does not return anything so nothing needs to be done
+            (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Saves an item to permanent storage through the API, updating it
-     * @param {Item} item
-     * @param {SaveItemCallback} callback
+     * @param {Item} item - The item to save
+     * @param {SaveItemCallback} callback - Function to be called when everything goes right
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     saveItem(item, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
         let itemObj = item.toObject();
         delete itemObj.itemId;
-        this._api.put(
+        return this._api.put(
             ApiService.buildSingleItemUrl(item.itemId),
             {},
             itemObj,
-            (...x)=>this._saveItemSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=>ApiService._saveItemSuccess(callback, ...x),
+            (...x)=>ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when the item has been succesfully saved
+     * @param {SaveItemCallback} callback - Function to be called when everything goes right
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
      * @private
      */
-    _saveItemSuccess(itemObject) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback(new Item(itemObject));
-        }
+    static _saveItemSuccess(callback, request, itemObject) {
+        callback(new Item(itemObject));
     }
 
     /**
      * Changes the icon of an item for another image
-     * @param {Item} item
-     * @param {string} image
-     * @param {ChangeIconCallback} callback
-     * @param {ApiErrorCallback} errorCallback
-     * @return {int} The id for this request (used to cancel)
+     * @param {Item} item - The item to change the image to
+     * @param {string} image - The new image, codified in a string in base64
+     * @param {ChangeIconCallback} callback - Function to call on success
+     * @param {ApiErrorCallback} errorCallback - Function to call on error
+     * @return {ApiAjaxRequest} - The request
      */
     changeIcon(item, image, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
-        this._api.post(
+        return this._api.post(
             ApiService.buildSingleItemIconUrl(item.itemId),
             {},
             {'image': image},
-            (...x)=>this._changeIconSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=> ApiService._changeIconSuccess(callback, ...x),
+            (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when the item icon has been succesfully changed and saved
+     * @param {ChangeIconCallback} callback
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
      * @private
      */
-    _changeIconSuccess(itemObject) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback(new Item(itemObject));
-        }
+    static _changeIconSuccess(callback, request, itemObject) {
+        callback(new Item(itemObject));
     }
 
     /**
@@ -258,103 +166,102 @@ class ApiService {
      * @param {Item} item
      * @param {SaveItemCallback} callback
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     createItem(item, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
         let itemObj = item.toObject();
         delete itemObj.itemId;
-        this._api.post(
+        return this._api.post(
             ApiService.buildAllItemsUri(),
             {},
             itemObj,
-            (...x)=>this._createItemSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=> ApiService._createItemSuccess(callback, ...x),
+            (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when the item has been succesfully saved
+     * @param {SaveItemCallback} callback
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {ItemObject} itemObject - Received from the API (exactly as in the database)
      * @private
      */
-    _createItemSuccess(itemObject) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback(new Item(itemObject));
-        }
+    static _createItemSuccess(callback, request, itemObject) {
+        callback(new Item(itemObject));
     }
 
     /**
      * Logins into the api obtaining a token
      * @param {string} user
      * @param {string} pass
-     * @param {LoginCallback} [callback]
+     * @param {LoginCallback} callback
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     login(user, pass, callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
         this._api.setAuthorisation(AUTH_BASIC, user, pass, true);
-        this._api.post(
+        return this._api.post(
             ApiService.buildLoginUrl(),
             {},
             {},
-            (...x)=>this._loginSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
+            (...x)=>this._loginSuccess(callback, ...x),
+            (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when we complete login successfully
+     * @param {LoginCallback} callback
+     * @param {ApiAjaxRequest} request - The request which ended
      * @param {Token} token
      * @private
      */
-    _loginSuccess(token) {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback(token);
-        }
+    _loginSuccess(callback, request, token) {
         // Authorisation from now on
         this._api.setAuthorisation(AUTH_BEARER, token.token);
+
+        callback(token);
     }
 
     /**
      * Logs out of the api making the token invalid from now on
      * @param {LogoutCallback} [callback]
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
-     * @return {int} The id for this request (used to cancel)
+     * @return {ApiAjaxRequest} - The request
      */
     logout(callback, errorCallback) {
-        this._callback = callback;
-        this._errorCallback = errorCallback;
-        this._api.del(
+        return this._api.del(
             ApiService.buildLoginUrl(),
             {},
-            (...x)=>this._logoutSuccess(...x),
-            (...x)=>this._errorHandling(...x));
-        return this._nextRequestId();
+            ()=>this._logoutSuccess(callback),
+            (...x)=>ApiService._errorHandling(errorCallback, ...x));
     }
 
     /**
      * Called when we complete logout succesfully
+     * @param {ApiAjaxRequest} request - The request which ended
+     * @param {LogoutCallback} callback
      * @private
      */
-    _logoutSuccess() {
-        this._errorCallback = null;
-        if(this._callback) {
-            let callback = this._callback;
-            this._callback = null;
-            callback();
-        }
+    _logoutSuccess(callback, request) {
         // Authorisation from now on is invalid, so just forget it
         this._api.cancelAuthorisation();
+
+        callback();
+    }
+
+    /**
+     * When any error occurs, this functions is called
+     * @param {?ApiErrorCallback} callback - The error callback to call
+     * @param {ApiAjaxRequest} request - The request which failed
+     * @param {{}} body - The body returned
+     * @private
+     */
+    static _errorHandling(callback, request, body) {
+        if(callback) {
+            callback(
+                request.getStatus(),
+                body['error'] ? body['error'] : 'Unknown error occurred');
+        }
     }
 
     /**
