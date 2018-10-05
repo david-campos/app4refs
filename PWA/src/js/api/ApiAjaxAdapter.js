@@ -27,22 +27,11 @@ class ApiAjaxAdapter {
          */
         this._baseUrl = ApiAjaxAdapter._cleanBaseUrl(baseUrl);
         /**
-         * @type {XMLHttpRequest}
+         * Requests currently running
+         * @type {ApiAjaxRequest[]}
          * @private
          */
-        this._xhttp = this._createXHttp();
-        /**
-         * Callback to be called on success
-         * @type {?Function}
-         * @private
-         */
-        this._onSuccess = null;
-        /**
-         * Callback to be called on error
-         * @type {?Function}
-         * @private
-         */
-        this._onError = null;
+        this._ongoingRequests = [];
         /**
          * The authorisation header (if one) for the
          * subsequent calls
@@ -60,10 +49,13 @@ class ApiAjaxAdapter {
     }
 
     /**
-     * Aborts the ongoing XHTTP request
+     * Aborts all the ongoing requests
      */
     abort() {
-        this._xhttp.abort();
+        while(this._ongoingRequests.length > 0) {
+            let request = this._ongoingRequests.pop();
+            request.abort();
+        }
     }
 
     /**
@@ -156,94 +148,36 @@ class ApiAjaxAdapter {
      * @param {function} onError - Callback on error of the query
      */
     _request(method, relativeUrl, urlParams, bodyObj, onSuccess, onError) {
-        // we don't want onSuccess null
-        if(!onSuccess) return;
-
         relativeUrl = ApiAjaxAdapter._cleanRelativeUrl(relativeUrl);
         let url = this._baseUrl + relativeUrl + "?" + ApiAjaxAdapter._urlParams(urlParams);
-        if(this._onSuccess !== null) {
-            // Ongoing callback not finished, discard
-            // (maybe in the future add handle for several requests at the same time)
-            console.log("Aborting API request");
-            this.abort();
-        }
 
-        this._onSuccess = onSuccess;
-        this._onError = onError;
-        this._xhttp.open(method, url, true, 'a', 'a');
-
-        if(this._authorisationHeader) {
-            this._xhttp.setRequestHeader("Authorization", this._authorisationHeader);
-            if(this._deleteAuthorisation) {
-                this._authorisationHeader = null;
-            }
-        }
-
-        if(bodyObj) {
-            this._xhttp.setRequestHeader("Content-Type", "application/json");
-            this._xhttp.send(JSON.stringify(bodyObj));
-        } else {
-            this._xhttp.send();
-        }
-    }
-
-    /**
-     * Called when the xhttp state changes
-     * @private
-     */
-    _xhttpStateChange() {
-        if (this._xhttp.readyState === 4) {
-            let status = this._xhttp.status;
-            // we know the body will be json (id there is some)
-            let body = {};
-            if(this._xhttp.responseText) {
-                body = JSON.parse(this._xhttp.responseText);
-            }
-            this._requestFinished(status, body);
-        }
-    }
-
-    /**
-     * Called when a request is finished, it manages the errors or calls the right callback
-     * @param {int} status - The status code of the response
-     * @param {{}} body - The parsed body of the response
-     * @private
-     */
-    _requestFinished(status, body) {
-        // Reset the callbacks
-        // If we do it later they could be erased in the own callback!
-        let success = this._onSuccess;
-        let error = this._onError;
-        this._onSuccess = null;
-        this._onError = null;
-
-        switch(status) {
-            case 200:
-            case 201:
-                success(body);
-                break;
-            case 204:
-                success(null);
-                break;
-            case 0:
-                console.error("The API is not reachable");
-                break;
-            default:
-                error(status, body);
-                break;
-        }
-    }
-
-    /**
-     * Creates the XMLHttpRequest for this adapter
-     * @return {XMLHttpRequest}
-     * @private
-     */
-    _createXHttp() {
         let self = this;
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = ()=>self._xhttpStateChange();
-        return xhttp;
+        let request = new ApiAjaxRequest(
+            method, url,
+            this._authorisationHeader,
+            bodyObj,
+            (...x)=>{self._requestFinished(request); onSuccess(...x)},
+            (...x)=>{self._requestFinished(request); onError(...x)});
+
+        if(this._deleteAuthorisation) {
+            this._authorisationHeader = null;
+        }
+
+        this._ongoingRequests.push(request);
+
+        request.perform();
+    }
+
+    /**
+     * Called when a request has finished. Deletes the request from the list of ongoing requests
+     * @param {ApiAjaxRequest} request - The request which has finished
+     * @private
+     */
+    _requestFinished(request) {
+        let idx = this._ongoingRequests.indexOf(request);
+        if(idx !== -1) {
+            this._ongoingRequests.splice(idx, 1);
+        }
     }
 
     /**

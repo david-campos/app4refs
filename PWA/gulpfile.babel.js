@@ -42,6 +42,7 @@ var DEV_JS_SRC = [
     'data/Category.js',                 'app/NavBar.js',
     'app/ResourcesProvider.js',         'pages/Page.js',
     'api/ApiService.js',                'api/ApiAjaxAdapter.js',
+    'api/ApiAjaxRequest.js',
     'pages/EmergencyPage.js',           'map/DirectionsPanel.js',
     'map/ItemsDrawer.js',               'map/RouteDrawer.js',
     'map/UserDrawer.js',                'map/UserTracker.js',
@@ -61,6 +62,7 @@ var DEV_JS_SRC_PANEL = [
     'data/Category.js',                 
     'app/ResourcesProvider.js',
     'api/ApiService.js',                'api/ApiAjaxAdapter.js',
+    'api/ApiAjaxRequest.js',
     'panel/Panel.js',                   'panel/ItemsPanel.js',
     'panel/ImageModal.js',
     'panel/login.js'
