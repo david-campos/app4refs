@@ -84,19 +84,24 @@ class ItemsPanel {
         item.categoryCode = categoryCode;
         this._svc.saveItem(
             item,
-            (item)=>this._itemUpdated(itemIdx, item),
+            (newItem)=>this._itemUpdated(item, newItem),
             this._panel.displayError.bind(this._panel));
     }
 
-    _itemUpdated(itemIdx, item) {
-        if(this._items[itemIdx].itemId === -1 ||
-                this._items[itemIdx].itemId === item.itemId) {
-            if(item.categoryCode === this._currentCategory.code) {
-                this._items.splice(itemIdx, 1);
-                this._addToItems(item);
-            } else {
-                this._items.splice(itemIdx, 1);
+    _itemUpdated(oldItem, newItem) {
+        let changed = false;
+        for(let i=0; i < this._items.length; i++) {
+            if(this._items[i] === oldItem) {
+                this._items.splice(i, 1);
+                changed = true;
+                break;
             }
+        }
+        if(newItem.categoryCode === this._currentCategory.code) {
+            this._addToItems(newItem);
+            changed = true;
+        }
+        if(changed) {
             this.redraw();
         }
     }
@@ -238,15 +243,14 @@ class ItemsPanel {
 
         if(item.itemId === -1) {
             // -1 indicates it is created, not updated
-            console.log(item);
             this._svc.createItem(
                 item,
-                (item)=>this._itemUpdated(itemIdx, item),
+                (newItem)=>this._itemUpdated(item, newItem),
                 this._panel.displayError.bind(this._panel));
         } else {
             this._svc.saveItem(
                 item,
-                (item) => this._itemUpdated(itemIdx, item),
+                (newItem) => this._itemUpdated(item, newItem),
                 this._panel.displayError.bind(this._panel));
         }
     }
@@ -455,36 +459,26 @@ class ItemsPanel {
         let greekBtn = (item.languageCodes.indexOf('el') > -1?'info':'secondary');
         let engliBtn = (item.languageCodes.indexOf('en') > -1?'info':'secondary');
         let coords = (isNaN(item.coordLat)||isNaN(item.coordLon)?'No coordinates':item.coordLat+';'+item.coordLon);
-        let order = ItemsPanel._orderMarkerText(item.orderPreference);
         let schedule = item.phone;
         if(!item.callForAppointment) {
             schedule = periodsStrFor(item);
         }
+
+        let rightBtns =
+            `<button type="button" class="btn btn-secondary move-item" draggable="true"><i class="fas fa-arrows-alt"></i></button>
+             <button type="button" class="btn btn-secondary delete-item"><i class="fas fa-trash-alt"></i></button>`;
+        let editBtn = `<button class="btn btn-primary edit"><i class="fas fa-pen"></i> Edit</button>`;
+
         return `<li class="media" ${ATTR_ITEM_IDX}="${i}">
                     <div class="mr-3 item-left-col">
                         <div class="item-icon">
                             <div class="overlay"><span>Click to change</span></div>
                             <img src="${ResourcesProvider.getItemIconUrl(item)}?random=${Math.random()}" title="${item.name}">
                         </div>
-                        <h6>Order preference:</h6>
-                        <div class="item-order">
-                            <div class="order-mark" data-order="${item.orderPreference}">${order}</div>
-                            <div class="dropdown">
-                              <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="orderMenuButton${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Change
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${i}">
-                                <button class="dropdown-item order-change" data-order="first">First</button>
-                                <button class="dropdown-item order-change" data-order="second">Second</button>
-                                <button class="dropdown-item order-change" data-order="third">Third</button>
-                                <button class="dropdown-item order-change" data-order="rest">None</button>
-                              </div>
-                            </div>
-                        </div>
-                    </div>                    
+                        ${ItemsPanel._htmlOrderForItem(i, item)}
+                    </div>
                     <div class="media-body">
-                        <button type="button" class="btn btn-secondary move-item" draggable="true"><i class="fas fa-arrows-alt"></i></button>
-                        <button type="button" class="btn btn-secondary delete-item"><i class="fas fa-trash-alt"></i></button>
+                        ${item.itemId===-1?'':rightBtns}
                         <h3 class="mt-0 mb-1 item-name">${item.name.htmlEscape()}</h3>
                         <p class="item-addr">${item.address?item.address:'No address'}</p>
                         <p class="item-coords">${coords}</p>
@@ -496,9 +490,32 @@ class ItemsPanel {
                         <a class="item-link" href="${item.webLink?item.webLink:'#'}">${item.webLink?item.webLink:'No link'}</a>
                         <p class="item-cfap">${item.callForAppointment?'✓':'✕'} Call for appointment</p>
                         <p class="item-sched">${schedule}</p>
-                        <button class="btn btn-primary edit"><i class="fas fa-pen"></i> Edit</button>
+                        ${item.itemId===-1?'':editBtn}
                     </div>
                 </li>`;
+    }
+
+    static _htmlOrderForItem(i, item) {
+        if(item.itemId === -1) {
+            return '';
+        }
+
+        let order = ItemsPanel._orderMarkerText(item.orderPreference);
+        return `<h6>Order preference:</h6>
+                <div class="item-order">
+                    <div class="order-mark" data-order="${item.orderPreference}">${order}</div>
+                    <div class="dropdown">
+                      <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="orderMenuButton${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Change
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${i}">
+                        <button class="dropdown-item order-change" data-order="first">First</button>
+                        <button class="dropdown-item order-change" data-order="second">Second</button>
+                        <button class="dropdown-item order-change" data-order="third">Third</button>
+                        <button class="dropdown-item order-change" data-order="rest">None</button>
+                      </div>
+                    </div>
+                </div>`;
     }
 
     static _htmlForEditionForm(item) {
