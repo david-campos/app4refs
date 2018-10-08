@@ -32,15 +32,31 @@ $('#form-signin').submit(function(event){
 });
 
 function initPanel(svc, token) {
-    // Save token if possible
-    if('sessionStorage' in window) {
-        sessionStorage.setItem(SS_TOKEN_KEY, token.token);
-        sessionStorage.setItem(SS_EXPIRES_KEY, token.expires);
-        sessionStorage.setItem(SS_USER_KEY, token.user);
+    let expirationDate = new Date(token.expires);
+    // We want to renew if it is gonna expire in 5 minutes, discard it
+    let now = new Date((new Date()).getTime() + 5*60000);
+
+    if(expirationDate>now) {
+        // Save token if possible
+        if('sessionStorage' in window) {
+            sessionStorage.setItem(SS_TOKEN_KEY, token.token);
+            sessionStorage.setItem(SS_EXPIRES_KEY, token.expires);
+            sessionStorage.setItem(SS_USER_KEY, token.user);
+        }
+        $('main.login').remove();
+        $('main.panel').css('display', 'block');
+        panel = new Panel(svc, token);
+
+        let millis = Math.abs(expirationDate - now) + 180000; // Two minutes before we reload the page
+        setTimeout(()=>location.reload(), millis);
+    } else {
+        if('sessionStorage' in window) {
+            sessionStorage.removeItem(SS_TOKEN_KEY);
+            sessionStorage.removeItem(SS_EXPIRES_KEY);
+            sessionStorage.removeItem(SS_USER_KEY);
+        }
+        $("#sessionExpired").css("display", "block");
     }
-    $('main.login').remove();
-    $('main.panel').css('display', 'block');
-    panel = new Panel(svc, token);
 }
 
 function loggedOut() {
@@ -74,7 +90,7 @@ function periodsStrFor(item) {
             startDay !== endDay ?
             `${startDay}-${endDay}` :
             (schedule.startPeriod.startHour > schedule.startPeriod.endHour ?
-                'Monday-Friday' : startDay);
+                'Monday-Sunday' : startDay);
         htmlStr += `${days} ${startHour}-${endHour}<br>`;
     }
     return htmlStr;

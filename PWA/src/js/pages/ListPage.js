@@ -63,8 +63,8 @@ class ListPage extends Page {
 
             if(this.shouldShowMapButton() && item.canBeShownInMap()) {
                 textString +=
-                    `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`
-                    + `<button class="item-map map-button-google" data-item="${item.itemId}">Map ${GOOGLE_BUTTON_SVG}</button>`;
+                    `<button class="item-map map-button" data-item="${item.itemId}">Map ${MAP_BUTTON_SVG}</button>`;
+                    //+ `<button class="item-map map-button-google" data-item="${item.itemId}">Map ${GOOGLE_BUTTON_SVG}</button>`;
             }
 
             htmlString += `<div class='row item-row'><div class="col-4 item-icon"><img src="${iconUrl}"></div>`+
@@ -96,9 +96,9 @@ class ListPage extends Page {
         let googleCbck = (event)=>this._googleMapsButtonClicked(event);
         let btns = div.getElementsByTagName("button");
         for(let element of btns) {
-            if(element.classList.contains("map-button")) {
+            if(element.id === 'all-items-map') {
                 element.addEventListener('click', callback);
-            } else if(element.classList.contains("map-button-google")) {
+            } else if(element.classList.contains("map-button")) {
                 element.addEventListener('click', googleCbck);
             }
         }
@@ -216,10 +216,18 @@ class ListPage extends Page {
                 startDay !== endDay ?
                 `${startDay}-${endDay}` :
                     (schedule.startPeriod.startHour > schedule.startPeriod.endHour ?
-                        'Monday-Friday' : startDay);
-            let startHour = schedule.startPeriod.startHourStr();
-            let endHour = schedule.startPeriod.endHourStr();
-            htmlStr += `${days} ${startHour}-${endHour}<br>`;
+                        'Monday-Sunday' : startDay);
+            if(schedule.startPeriod.startHour === 0 &&
+                schedule.startPeriod.startMinutes === 0 &&
+                schedule.startPeriod.endHour === 23 &&
+                schedule.startPeriod.endMinutes === 59) {
+
+                htmlStr += `${days}<br>`; // whole day, no hours
+            } else {
+                let startHour = schedule.startPeriod.startHourStr();
+                let endHour = schedule.startPeriod.endHourStr();
+                htmlStr += `${days} ${startHour}-${endHour}<br>`;
+            }
         }
         return htmlStr;
     }

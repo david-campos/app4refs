@@ -193,8 +193,8 @@ b.marker-title {
 .route-btn {
     background: #7C0D82;
     border: 0.1em solid #6A3D57;
-    /* width: 100%; */
-    /*min-*/width: 6em;
+    width: 100%;
+    min-width: 6em;
     border-radius: 1em;
     height: 2.2em;
     color: white;
