@@ -8,6 +8,7 @@ namespace transactions;
 use exceptions\UnauthorizedException;
 use formats\IApiOutputter;
 use gateways\GatewayFactory;
+use SessionManager;
 
 class LoginTransaction extends Transaction {
     /** @var string */
@@ -22,13 +23,14 @@ class LoginTransaction extends Transaction {
      * @throws UnauthorizedException
      */
     public function __construct($requestParams) {
-        if (!isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+        list($user, $pass) = SessionManager::getInstance()->getUserAndPassword($requestParams);
+        if (empty($user) || empty($pass)) {
             throw new UnauthorizedException(
-                'Please, send user and password with the basic authentication method.',
+                'Please, send user and password with the basic authentication method or within the body with the fields \'user\' and \'password\'.',
                 UnauthorizedException::AUTHORISATION_BASIC);
         } else {
-            $this->user = $_SERVER['PHP_AUTH_USER'];
-            $this->receivedPassword = $_SERVER['PHP_AUTH_PW'];
+            $this->user = $user;
+            $this->receivedPassword = $pass;
         }
     }
 

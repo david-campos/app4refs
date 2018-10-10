@@ -20,7 +20,7 @@ var packageJson = require('./package.json');
 var swPrecache  = require('sw-precache');
 var jsdoc = require('gulp-jsdoc3');
 
-var DEPLOYMENT_ROOT = '';//'/alpha/public_html/';
+var DEPLOYMENT_ROOT = '/alpha/public_html/'; //''
 
 var JS_DIR = 'js';
 var CSS_DIR = 'css';
@@ -121,14 +121,17 @@ function writeServiceWorkerFile(handleFetch, callback) {
       }
     }],
     staticFileGlobs: [
-      DIST_DIR + '/css/**.css',
-      DIST_DIR + '/**.html',
+      DIST_DIR + '/css/style.min.css',
+      DIST_DIR + '/index.html',
       DIST_DIR + '/favicon.ico',
       DIST_DIR + '/**.png',
-      DIST_DIR + '/ico/**/*.png',
-      DIST_DIR + '/js/**.js'
+      DIST_DIR + '/ico/categories/*.png',
+      DIST_DIR + '/ico/costandlanguage/*.png',
+      DIST_DIR + '/ico/mainmenu/*.png',
+      DIST_DIR + '/js/javascript.min.js'
     ],
     navigateFallback: DEPLOYMENT_ROOT + '/index.html',
+    navigateFallbackWhitelist: [/^\/a(\/.*)?$/],
     stripPrefix: DIST_DIR + '/',
     replacePrefix: DEPLOYMENT_ROOT + '/',
     verbose: true

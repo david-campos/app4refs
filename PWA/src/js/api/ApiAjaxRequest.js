@@ -70,7 +70,7 @@ class ApiAjaxRequest {
             return;
         }
 
-        this._xhttp.open(this._method, this._url, true, 'a', 'a');
+        this._xhttp.open(this._method, this._url/*, true, 'a', 'a'*/);
 
         if(this._authorisationHeader) {
             this._xhttp.setRequestHeader("Authorization", this._authorisationHeader);

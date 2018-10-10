@@ -10,18 +10,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="login.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/panel/login.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="50" column="50" lean-forward="true" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -75,7 +64,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/js/map/MapItemsManager.js" />
         <option value="$PROJECT_DIR$/js/map/ItemsMapListener.js" />
         <option value="$PROJECT_DIR$/js/map/geo/Compass.js" />
         <option value="$PROJECT_DIR$/js/gyronorm.complete.js" />
@@ -118,7 +106,6 @@
         <option value="$PROJECT_DIR$/js/panel/ImageModal.js" />
         <option value="$PROJECT_DIR$/panelCss/panel.css" />
         <option value="$PROJECT_DIR$/js/api/ApiAjaxAdapter.js" />
-        <option value="$PROJECT_DIR$/js/api/ApiAjaxRequest.js" />
         <option value="$PROJECT_DIR$/js/api/ApiService.js" />
         <option value="$PROJECT_DIR$/js/panel/ItemsPanel.js" />
         <option value="$PROJECT_DIR$/js/map/ItemsDrawer.js" />
@@ -126,6 +113,8 @@
         <option value="$PROJECT_DIR$/js/pages/ListPage.js" />
         <option value="$PROJECT_DIR$/panel.html" />
         <option value="$PROJECT_DIR$/js/panel/login.js" />
+        <option value="$PROJECT_DIR$/css/container.css" />
+        <option value="$PROJECT_DIR$/js/api/ApiAjaxRequest.js" />
       </list>
     </option>
   </component>
@@ -182,8 +171,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -205,12 +192,14 @@
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="panel" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="api" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -329,18 +318,19 @@
       <workItem from="1538736826043" duration="3099000" />
       <workItem from="1538753176903" duration="10975000" />
       <workItem from="1538826358055" duration="1637000" />
-      <workItem from="1539009533864" duration="4741000" />
+      <workItem from="1539009533864" duration="5124000" />
+      <workItem from="1539183713648" duration="1743000" />
+      <workItem from="1539189417615" duration="700000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="465496000" />
+    <option name="totallyTimeSpent" value="468322000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16458334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16458334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -451,13 +441,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/container.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="17" lean-forward="false" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
@@ -511,13 +494,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="866">
           <caret line="152" column="30" lean-forward="false" selection-start-line="152" selection-start-column="30" selection-end-line="152" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-459">
-          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -625,7 +601,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="179" column="39" lean-forward="false" selection-start-line="179" selection-start-column="39" selection-end-line="179" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -654,45 +629,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="283">
           <caret line="202" column="19" lean-forward="false" selection-start-line="202" selection-start-column="16" selection-end-line="202" selection-end-column="19" />
-          <folding>
-            <marker date="1538827724272" expanded="true" signature="16885:18462" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="16909:18462" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="16962:17344" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="17010:17252" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="17389:18440" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="17713:18063" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="18733:19697" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="18872:19674" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="19060:19123" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="19214:19647" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20179:24150" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20207:20488" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20324:20469" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20529:20843" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20649:20824" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20884:21330" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="20987:21131" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="21167:21311" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="21371:22260" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="21447:21665" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="21732:21957" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="22024:22241" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="22309:22695" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="22425:22539" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="22744:23333" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="22832:23066" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="23184:23314" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="23425:23492" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="23590:23773" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="23814:24130" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="24809:25672" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="24976:25086" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="25131:25400" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="25131:25401" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="25131:25666" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="25131:25672" ph="..." />
-            <marker date="1538827724272" expanded="true" signature="25401:25661" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -700,7 +636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
           <caret line="183" column="1" lean-forward="true" selection-start-line="183" selection-start-column="1" selection-end-line="183" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -708,7 +643,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="473">
           <caret line="201" column="18" lean-forward="false" selection-start-line="201" selection-start-column="18" selection-end-line="201" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -716,25 +650,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="712">
           <caret line="229" column="13" lean-forward="true" selection-start-line="229" selection-start-column="13" selection-end-line="229" selection-end-column="13" />
-          <folding>
-            <marker date="1539011597479" expanded="true" signature="4988:5052" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/api/ApiAjaxRequest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="993">
-          <caret line="125" column="21" lean-forward="false" selection-start-line="125" selection-start-column="21" selection-end-line="125" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/api/ApiAjaxAdapter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3278">
-          <caret line="163" column="63" lean-forward="false" selection-start-line="163" selection-start-column="63" selection-end-line="163" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -742,7 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="37" column="26" lean-forward="false" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -750,24 +664,49 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/panel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="21" column="61" lean-forward="true" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#form#0;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/panel/login.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
-          <caret line="50" column="50" lean-forward="true" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
+          <caret line="50" column="50" lean-forward="false" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/container.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/panel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="91" column="18" lean-forward="true" selection-start-line="91" selection-start-column="18" selection-end-line="91" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="51" column="18" lean-forward="true" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/api/ApiAjaxAdapter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="839">
+          <caret line="163" column="63" lean-forward="false" selection-start-line="163" selection-start-column="63" selection-end-line="163" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/api/ApiAjaxRequest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="38" column="20" lean-forward="true" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="21" />
           <folding />
         </state>
       </provider>

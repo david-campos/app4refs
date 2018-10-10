@@ -89,6 +89,29 @@ class SessionManager {
         return null;
     }
 
+    /**
+     * Gets the user and password of the basic authentication from the headers of the request
+     * or from the BODY of the request (given the request params)
+     * @param array $requestParams the request params after all the processing
+     * @return array
+     */
+    public function getUserAndPassword($requestParams) {
+        if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+            return [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
+        } else {
+            $authorization = $this->getAuthorizationHeader();
+            if (!empty($authorization)) {
+                if (preg_match('/Basic\s([0-9A-Fa-f=]+)/', $authorization, $matches)) {
+                    return  explode(':', base64_decode($matches[1]));
+                }
+            }
+            if (isset($requestParams['body']['user'], $requestParams['body']['password'])) {
+                return [$requestParams['body']['user'], $requestParams['body']['password']];
+            }
+        }
+        return [null,null];
+    }
+
     private function getAuthorizationHeader(){
         $headers = null;
         if (isset($_SERVER['Authorization'])) {
@@ -108,6 +131,7 @@ class SessionManager {
                 $headers = trim($requestHeaders['Authorization']);
             }
         }
+
         return $headers;
     }
 }
