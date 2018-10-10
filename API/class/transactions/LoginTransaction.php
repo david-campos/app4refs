@@ -27,7 +27,7 @@ class LoginTransaction extends Transaction {
         if (empty($user) || empty($pass)) {
             throw new UnauthorizedException(
                 'Please, send user and password with the basic authentication method or within the body with the fields \'user\' and \'password\'.',
-                UnauthorizedException::AUTHORISATION_BASIC);
+                UnauthorizedException::AUTHORISATION_BASIC_MODIFIED);
         } else {
             $this->user = $user;
             $this->receivedPassword = $pass;

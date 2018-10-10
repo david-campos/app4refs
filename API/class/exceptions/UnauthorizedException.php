@@ -12,6 +12,8 @@ class UnauthorizedException extends PrintableException {
     const AUTHORISATION_BASIC = 'Basic';
     /** @var string Authorisation type bearer */
     const AUTHORISATION_BEARER = 'Bearer';
+    /** @var string Authorisation type modified basic */
+    const AUTHORISATION_BASIC_MODIFIED = 'BasicAlike';
 
     /** @var string The authorisation type */
     private $type;

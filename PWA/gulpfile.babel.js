@@ -20,7 +20,7 @@ var packageJson = require('./package.json');
 var swPrecache  = require('sw-precache');
 var jsdoc = require('gulp-jsdoc3');
 
-var DEPLOYMENT_ROOT = '/alpha/public_html/'; //''
+var DEPLOYMENT_ROOT = '';//'/alpha/public_html/';
 
 var JS_DIR = 'js';
 var CSS_DIR = 'css';
