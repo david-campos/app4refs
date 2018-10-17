@@ -46,6 +46,11 @@ class ApiAjaxAdapter {
          * @private
          */
         this._deleteAuthorisation = false;
+        /**
+         * Params shared between all the requests
+         * @type {{}}
+         */
+        this.sharedParams = {'out': 'json'};
     }
 
     /**
@@ -154,7 +159,7 @@ class ApiAjaxAdapter {
      */
     _request(method, relativeUrl, urlParams, bodyObj, onSuccess, onError) {
         relativeUrl = ApiAjaxAdapter._cleanRelativeUrl(relativeUrl);
-        let url = this._baseUrl + relativeUrl + "?" + ApiAjaxAdapter._urlParams(urlParams);
+        let url = this._baseUrl + relativeUrl + "?" + this._urlParams(urlParams);
 
         let self = this;
         let request = new ApiAjaxRequest(
@@ -193,13 +198,16 @@ class ApiAjaxAdapter {
      * @returns {string}
      * @private
      */
-    static _urlParams(urlParams) {
-        // Json output always included
-        let params = "out=json";
-        for(let [key, val] of Object.entries(urlParams)) {
-            if(key !== 'out') {
-                params += encodeURIComponent(key) + "=" + encodeURIComponent(val);
+    _urlParams(urlParams) {
+        let merged = Object.assign(urlParams, this.sharedParams);
+        let params = "";
+        let notFirst = false;
+        for(let [key, val] of Object.entries(merged)) {
+            if(notFirst) {
+                params += "&";
             }
+            params += encodeURIComponent(key) + "=" + encodeURIComponent(val);
+            notFirst = true;
         }
         return params;
     }

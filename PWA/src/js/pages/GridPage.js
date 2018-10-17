@@ -138,7 +138,7 @@ class GridPage extends Page {
     _landscapeColumns() {
         let rows = Object.keys(this._icons).length / this._columns;
         if(rows <= 3) {
-            return rows;
+            return Math.ceil(rows);
         } else {
             return 4; // Never more than 4
         }

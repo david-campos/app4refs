@@ -203,7 +203,7 @@ class ApiService {
         return this._api.post(
             ApiService.buildLoginUrl(),
             {},
-            {},
+            {user: user, password: pass},
             (...x)=>this._loginSuccess(callback, ...x),
             (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
@@ -218,7 +218,7 @@ class ApiService {
     _loginSuccess(callback, request, token) {
         // Authorisation from now on
         this._api.setAuthorisation(AUTH_BEARER, token.token);
-
+        this._api.sharedParams['token'] = token.token;
         callback(token);
     }
 
@@ -245,7 +245,7 @@ class ApiService {
     _logoutSuccess(callback, request) {
         // Authorisation from now on is invalid, so just forget it
         this._api.cancelAuthorisation();
-
+        this._api.sharedParams['token'] = undefined;
         callback();
     }
 

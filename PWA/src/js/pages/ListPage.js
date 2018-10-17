@@ -234,7 +234,10 @@ class ListPage extends Page {
 
     static costAndLangHtmlFor(item) {
         let iconPayment = ResourcesProvider.getCostIconUrl(item.isFree?'free':'pay');
-        let strHtml = `<img src='${iconPayment}'>`;
+        let strHtml = "";
+        if(!item.isFree) {
+            strHtml = `<img src='${iconPayment}' alt="This item requires payment" title="This item requires payment">`;
+        }
         for(let lang of item.languageCodes) {
             let langIcon = ResourcesProvider.getLanguageIconUrl(lang);
             strHtml += `<img src='${langIcon}'>`;

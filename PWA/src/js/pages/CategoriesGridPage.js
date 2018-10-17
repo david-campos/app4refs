@@ -10,14 +10,13 @@ const CATEGORIES_GRID_PAGE_CLASS = "CategoriesGridPage";
 
 /**
  * Titles for the page based on the item-type
- * @type {{info: string, help: string, service: string, leisure: string, link: string}}
+ * @type {{info: string, help: string, service: string, leisure: string}}
  */
 const TITLES = {
     'info': 'Info',
-    'help': 'Help',
+    'help': 'Links',
     'service': 'Services',
-    'leisure': 'Leisure',
-    'link': 'Links'
+    'leisure': 'Leisure'
 };
 
 /**

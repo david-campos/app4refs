@@ -8,10 +8,9 @@
  */
 
 const ITEM_TYPES = [
+    'service',
     'info',
     'help',
-    'service',
     'leisure',
-    'link',
     'emergency'
 ];
