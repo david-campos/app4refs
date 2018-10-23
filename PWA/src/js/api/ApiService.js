@@ -203,7 +203,7 @@ class ApiService {
     login(user, pass, callback, errorCallback) {
         this._api.setAuthorisation(AUTH_BASIC, user, pass, true);
         return this._api.post(
-            ApiService.buildLoginUrl(),
+            ApiService.buildSessionUrl(),
             {},
             {user: user, password: pass},
             (...x)=>this._loginSuccess(callback, ...x),
@@ -225,6 +225,33 @@ class ApiService {
     }
 
     /**
+     * Changes the password of the current user (determined by the current token)
+     * @param {string} pass
+     * @param {string} newPass
+     * @param {ChangePasswordCallback} callback
+     * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
+     */
+    changePassword(pass, newPass, callback, errorCallback) {
+        return this._api.put(
+            ApiService.buildSessionUrl(),
+            {},
+            {password: pass, newPassword: newPass},
+            (...x)=>ApiService._changePasswordSuccess(callback, ...x),
+            (...x)=>ApiService._errorHandling(errorCallback, ...x)
+        );
+    }
+
+    /**
+     * Called when the password has been succesfully changed
+     * @param {ChangePasswordCallback} callback
+     * @param {ApiAjaxRequest} request
+     * @private
+     */
+    static _changePasswordSuccess(callback, request) {
+        callback();
+    }
+
+    /**
      * Logs out of the api making the token invalid from now on
      * @param {LogoutCallback} [callback]
      * @param {ApiErrorCallback} [errorCallback] - Function to be called when an error occurs
@@ -232,9 +259,9 @@ class ApiService {
      */
     logout(callback, errorCallback) {
         return this._api.del(
-            ApiService.buildLoginUrl(),
+            ApiService.buildSessionUrl(),
             {},
-            ()=>this._logoutSuccess(callback),
+            (...x)=>this._logoutSuccess(callback, ...x),
             (...x)=>ApiService._errorHandling(errorCallback, ...x));
     }
 
@@ -311,7 +338,7 @@ class ApiService {
     /**
      * Builds the url to sign in into the API
      */
-    static buildLoginUrl() {
+    static buildSessionUrl() {
         return `session`;
     }
 }
@@ -330,6 +357,9 @@ class ApiService {
  */
 /**
  * @callback LogoutCallback
+ */
+/**
+ * @callback ChangePasswordCallback
  */
 /**
  * @callback DeleteItemCallback

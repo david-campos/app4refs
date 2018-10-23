@@ -38,6 +38,9 @@ class Panel {
 
         this.element.find('.nav h4').text(`Welcome, ${token.user}!`);
         this.element.find('.nav #logoutBtn').click(()=>svc.logout(loggedOut));
+        this._passwordChangeForm = $('#passwordChangeModal').find('form');
+        this._passwordChangeForm.submit((event)=>this._changePassword(event));
+        $('#confirmPasswordBtn').click(()=>this._passwordChangeForm.submit());
         this._populateItemTypesPanel();
     }
 
@@ -56,6 +59,22 @@ class Panel {
             </div>`);
         this._errorsPanel.prepend(alert);
         console.log(status, errorMessage);
+    }
+
+    /**
+     * Displays a log to the user
+     * @param {string} message - Message
+     * @param {string} alertType - Bootstrap alert type (success, info, primary...)
+     */
+    log(message, alertType='success') {
+        let alert = $(
+            `<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
+                <strong>Info:</strong> ${message.htmlEscape()}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`);
+        this._errorsPanel.prepend(alert);
     }
 
     itemDragStart(event) {
@@ -155,6 +174,47 @@ class Panel {
                 this._itemTypesPanel.append(button);
             }
         });
+    }
+
+    _changePassword(event) {
+        event.preventDefault();
+
+        let passIpt = this._passwordChangeForm.find("#currentPass");
+        let invalidPass = this._passwordChangeForm.find("#invalidCurrentPass");
+        let newPassIpt = this._passwordChangeForm.find("#newPass");
+        let invalidNewPass = this._passwordChangeForm.find("#invalidNewPass");
+        let repeatPassIpt = this._passwordChangeForm.find("#repeatPass");
+        let invalidRepeatPass = this._passwordChangeForm.find("#invalidRepeatPass");
+
+        invalidPass.text('');
+        invalidNewPass.text('');
+        invalidRepeatPass.text('');
+
+        let pass = passIpt.val();
+        let newPass = newPassIpt.val();
+        let repeatPass = repeatPassIpt.val();
+
+        if(!pass) {
+            invalidPass.text('Introduce your password');
+        }
+        if(!newPass) {
+            invalidNewPass.text('Introduce your new password');
+        }
+        if(!repeatPass) {
+            invalidRepeatPass.text('Repeat your new password');
+        }
+
+        if(!(pass && repeatPass && newPass))
+            return;
+
+        if(repeatPass !== newPass) {
+            invalidRepeatPass.text('The new password and the repetition do not match.');
+        } else {
+            $('#passwordChangeModal').modal('hide');
+            this._svc.changePassword(pass, newPass,
+                ()=>this.log('Password changed.'),
+                this.displayError.bind(this));
+        }
     }
 
     _receivedCategories(categories) {
