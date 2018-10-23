@@ -55,6 +55,12 @@ class ItemsPanel {
         this._editedLi = null;
         this._itemsPanel.empty();
 
+        let cbEdit = (e) => this._editClicked(e);
+        let cbDelete = (e) => this._deleteItemClicked(e);
+        let cbDragSt = (e) => this._itemDragStart(e);
+        let cbDragEnd = (e) => this._itemDragEnd(e);
+        let cbClickedIcon = (e)=>this._itemIconClicked(e);
+
         if(this._currentCategory) {
             this._itemsCol.removeAttr("hidden");
             this._categoryCodeHolder.text(this._currentCategory.code);
@@ -66,12 +72,12 @@ class ItemsPanel {
                 let item = this._items[i];
                 let li = $(ItemsPanel._htmlForItem(i, item));
                 li.find("button.order-change").click(this._orderChangeCallback);
-                li.find("button.edit").click((e) => this._editClicked(e));
-                li.find("button.delete-item").click((e) => this._deleteItemClicked(e));
-                let moveButton = li.find("button.move-item");
-                moveButton.on('dragstart', (e) => this._itemDragStart(e));
-                moveButton.on('dragend', (e) => this._itemDragEnd(e));
-                li.find(".item-icon").click((e)=>this._itemIconClicked(e));
+                li.find("button.edit").click(cbEdit);
+                li.find("button.delete-item").click(cbDelete);
+                let moveButton = li.find("button.move-item")[0];
+                moveButton.addEventListener('dragstart', cbDragSt, false);
+                moveButton.addEventListener('dragend', cbDragEnd, false);
+                li.find(".item-icon").click(cbClickedIcon);
                 this._itemsPanel.append(li);
             }
         } else {

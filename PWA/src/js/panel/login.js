@@ -22,13 +22,15 @@ if('sessionStorage' in window) {
 
 $('#form-signin').submit(function(event){
     event.preventDefault();
+
+    $("#sessionExpired").css("display", "none");
     
     let user = $(this).find('#inputUser').val();
     let pass = $(this).find('#inputPassword').val();
     $(this).find('#inputPassword').val(''); // For security
 
     let svc = new ApiService(undefined, true);
-    svc.login(user, pass, (token)=>initPanel(svc, token));
+    svc.login(user, pass, (token)=>initPanel(svc, token), (...x)=>loginError(...x));
 });
 
 function initPanel(svc, token) {
@@ -55,8 +57,16 @@ function initPanel(svc, token) {
             sessionStorage.removeItem(SS_EXPIRES_KEY);
             sessionStorage.removeItem(SS_USER_KEY);
         }
-        $("#sessionExpired").css("display", "block");
+        $("#sessionExpired")
+            .text("The previous session has expired")
+            .css("display", "block");
     }
+}
+
+function loginError(status, error) {
+    $("#sessionExpired")
+        .text(error)
+        .css("display", "block");
 }
 
 function loggedOut() {

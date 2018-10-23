@@ -59,11 +59,24 @@ class Panel {
     }
 
     itemDragStart(event) {
-        let idx = parseInt($(event.currentTarget).closest("li.media").attr(ATTR_ITEM_IDX));
+        let li = $(event.currentTarget).closest("li.media");
+        let idx = parseInt(li.attr(ATTR_ITEM_IDX));
         this._dragging = true;
         this._categoriesCopy = this._categories;
-        event.originalEvent.dataTransfer.setData("item", idx);
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData("item", idx);
         this.element.addClass("dragging");
+
+        if (event.dataTransfer.setDragImage instanceof Function) {
+            let img = li.find(".item-icon img")[0];
+            let canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            let ctx = canvas.getContext('2d');
+            ctx.globalAlpha = 0.3;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            event.dataTransfer.setDragImage(canvas, img.width / 2, img.height / 2);
+        }
     }
 
     _itemDraginCategory(event) {
@@ -91,6 +104,7 @@ class Panel {
         if(this._dragging) {
             // prevent default to allow drop
             event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
         }
     }
 
@@ -117,12 +131,15 @@ class Panel {
 
     _itemDrop(event) {
         if(this._dragging) {
+            event.stopPropagation();
+            event.stopImmediatePropagation();
             event.preventDefault();
 
             $(event.currentTarget).removeClass("drop-allowed");
 
             let categoryCode = $(event.currentTarget).attr(ATTR_CATEGORY_CODE);
-            let itemIdx = event.originalEvent.dataTransfer.getData("item");
+            let itemIdx = event.dataTransfer.getData("item");
+            console.log(event.dataTransfer.getData("item"), event.dataTransfer);
             this._itemsPanel.itemDragged(itemIdx, categoryCode);
         }
     }
@@ -147,15 +164,18 @@ class Panel {
 
     _redrawCategoriesPanel() {
         this._categoriesPanel.empty();
+        let cbDragOver = (e)=>this._itemDragover(e);
+        let cbDragEnter = (e)=>this._itemDraginCategory(e);
+        let cbDragLeave = (e)=>this._itemDragout(e);
+        let cbDragDrop = (e)=>this._itemDrop(e);
         for(let cat of Object.values(this._categories)) {
             let catIcon = ResourcesProvider.getCategoryIconUrl(cat.code);
             let button = $(`<button ${ATTR_CATEGORY_CODE}="${cat.code}" class="list-group-item list-group-item-action" data-toggle="list"><img src='${catIcon}'></li>`);
             button.click(this._clickCategoryCallback);
-            button
-                .on('dragover', (e)=>this._itemDragover(e))
-                .on('dragenter', (e)=>this._itemDraginCategory(e))
-                .on('dragleave', (e)=>this._itemDragout(e))
-                .on('drop', (e)=>this._itemDrop(e));
+            button.on('dragenter', cbDragEnter)
+                .on('dragleave', cbDragLeave);
+            button[0].addEventListener('drop', cbDragDrop, false);
+            button[0].addEventListener('dragover', cbDragOver, false);
             this._categoriesPanel.append(button);
         }
     }
