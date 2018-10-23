@@ -19,8 +19,9 @@ const AUTH_BEARER = 'Bearer';
 class ApiAjaxAdapter {
     /**
      * @param {string} baseUrl - Base URL for the api
+     * @param {boolean} [noCache] - true if you don't want request to the API be cached
      */
-    constructor(baseUrl) {
+    constructor(baseUrl, noCache) {
         /**
          * @type {string}
          * @private
@@ -51,6 +52,10 @@ class ApiAjaxAdapter {
          * @type {{}}
          */
         this.sharedParams = {'out': 'json'};
+
+        if(noCache) {
+            this.sharedParams['no_cache'] = true;
+        }
     }
 
     /**

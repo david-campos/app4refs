@@ -20,7 +20,7 @@ var packageJson = require('./package.json');
 var swPrecache  = require('sw-precache');
 var jsdoc = require('gulp-jsdoc3');
 
-var DEPLOYMENT_ROOT = '';//'/alpha/public_html/';
+var DEPLOYMENT_ROOT = '/alpha/public_html/';
 
 var JS_DIR = 'js';
 var CSS_DIR = 'css';
@@ -111,7 +111,8 @@ function writeServiceWorkerFile(handleFetch, callback) {
     logger: fancylog,
     runtimeCaching: [{
       //https://googlechromelabs.github.io/sw-toolbox/api.html
-      urlPattern: /api_v1/,
+      // use the get param "no_cache" to avoid this cache
+      urlPattern: /api_v1[^?]*($|\?(((?!no_cache).)*(=[^&]*&?)?)*$)/,
       handler: 'fastest',
       options: {
         debug: handleFetch,

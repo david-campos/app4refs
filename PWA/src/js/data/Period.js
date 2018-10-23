@@ -27,7 +27,7 @@ const PERIOD_DAYS_STRS = {
 /**
  * @typedef {Object} PeriodMarker
  * @property {Period} startPeriod
- * @property {string} endDay
+ * @property {Period} endPeriod
  * @property {string} nextDay
  */
 
@@ -258,7 +258,7 @@ class Period {
             let next = periodsLeft.shift();
             let newSchedule = {
                 startPeriod: next,
-                endDay: next.endDayStr(),
+                endPeriod: next,
                 nextDay: next.nextDay()};
             let foundNextPeriod;
             do {
@@ -268,7 +268,7 @@ class Period {
                     // It has the same schedule and it starts the next day
                     if (period.hasSameHoursAs(newSchedule.startPeriod) &&
                         period.startDay === newSchedule.nextDay) {
-                        newSchedule.endDay = period.endDayStr();
+                        newSchedule.endPeriod = period;
                         newSchedule.nextDay = period.nextDay();
                         // Remove period from periodsLeft
                         periodsLeft.splice(idx, 1);

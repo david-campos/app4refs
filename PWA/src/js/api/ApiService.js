@@ -14,16 +14,18 @@ const API_BASE_URL = "api_v1";
 class ApiService {
     /**
      * @param {Token} [token] - Token to use already (if one)
+     * @param {boolean} [noCache] - true if you don't want request to the API be cached
      */
-    constructor(token) {
+    constructor(token, noCache) {
         /**
          * @type {ApiAjaxAdapter}
          * @private
          */
-        this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL);
+        this._api = new ApiAjaxAdapter(RESOURCE_BASE_URL+'/'+API_BASE_URL, noCache);
 
         if(token) {
             this._api.setAuthorisation(AUTH_BEARER, token.token);
+            this._api.sharedParams['token'] = token.token; // URL param
         }
     }
 

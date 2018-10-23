@@ -16,7 +16,7 @@ if('sessionStorage' in window) {
             expires: sessionStorage.getItem(SS_EXPIRES_KEY),
             user: sessionStorage.getItem(SS_USER_KEY)
         };
-        initPanel(new ApiService(token), token);
+        initPanel(new ApiService(token, true), token);
     }
 }
 
@@ -27,7 +27,7 @@ $('#form-signin').submit(function(event){
     let pass = $(this).find('#inputPassword').val();
     $(this).find('#inputPassword').val(''); // For security
 
-    let svc = new ApiService();
+    let svc = new ApiService(undefined, true);
     svc.login(user, pass, (token)=>initPanel(svc, token));
 });
 
@@ -83,7 +83,7 @@ function periodsStrFor(item) {
     let htmlStr = "";
     for(let schedule of startedSchedules) {
         let startDay = schedule.startPeriod.startDayStr();
-        let endDay = schedule.endDay;
+        let endDay = schedule.endPeriod.startDayStr();
         let startHour = schedule.startPeriod.startHourStr();
         let endHour = schedule.startPeriod.endHourStr();
         let days =

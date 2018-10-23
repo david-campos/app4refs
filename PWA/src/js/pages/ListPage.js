@@ -211,7 +211,7 @@ class ListPage extends Page {
         let htmlStr = "";
         for(let schedule of startedSchedules) {
             let startDay = schedule.startPeriod.startDayStr();
-            let endDay = schedule.endDay;
+            let endDay = schedule.endPeriod.startDayStr(); // We suppose periods do not last longer than 24h
             let days =
                 startDay !== endDay ?
                 `${startDay}-${endDay}` :
