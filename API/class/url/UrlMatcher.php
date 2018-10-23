@@ -8,6 +8,7 @@ use exceptions\UnknownResourceUriException;
 use formats\IApiOutputter;
 use HttpMethod;
 use transactions\ChangeItemIconTransaction;
+use transactions\ChangePasswordTransaction;
 use transactions\CreateItemTransaction;
 use transactions\DeleteItemTransaction;
 use transactions\GetCategoriesTransaction;
@@ -85,9 +86,10 @@ class UrlMatcher {
         $tmItem->put(HttpMethod::DELETE(), DeleteItemTransaction::class);
         $tmItem->put(HttpMethod::PUT(), UpdateItemTransaction::class);
 
-        $tmLogin = new TransactionMap();
-        $tmLogin->put(HttpMethod::POST(), LoginTransaction::class);
-        $tmLogin->put(HttpMethod::DELETE(), LogoutTransaction::class);
+        $tmSession = new TransactionMap();
+        $tmSession->put(HttpMethod::POST(), LoginTransaction::class);
+        $tmSession->put(HttpMethod::PUT(), ChangePasswordTransaction::class);
+        $tmSession->put(HttpMethod::DELETE(), LogoutTransaction::class);
 
         $tmItemIcon = new TransactionMap();
         $tmItemIcon->put(HttpMethod::POST(), ChangeItemIconTransaction::class);
@@ -97,8 +99,8 @@ class UrlMatcher {
             new UrlPattern('/categories/:categoryCode<str>/items/', $tmCategoryItems),
             new UrlPattern('/items/:itemId<int>', $tmItem),
             new UrlPattern('/items/', $tmItems),
-            new UrlPattern('/session/', $tmLogin),
-            new UrlPattern('/items/:itemId<int>/icon/', $tmItemIcon)
+            new UrlPattern('/items/:itemId<int>/icon/', $tmItemIcon),
+            new UrlPattern('/session/', $tmSession)
         ];
     }
 }

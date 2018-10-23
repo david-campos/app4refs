@@ -24,6 +24,7 @@ use Token;
  */
 class MysqliSessionsGateway implements ISessionsGateway {
     const SQL_LOGIN_GET_SALT = 'SELECT password,salt FROM users WHERE username = ?';
+    const SQL_CHANGE_PASSWORD = 'UPDATE users SET password=? WHERE username = ?';
     const SQL_LOGIN_INSERT_TOKEN = 'INSERT INTO tokens(access_token, expires, `user`) VALUES(?,?,?)';
     const SQL_DELETE_EXPIRED_TOKENS = 'DELETE FROM tokens WHERE UNIX_TIMESTAMP(expires) < UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 7 DAY))';
 
@@ -182,6 +183,57 @@ class MysqliSessionsGateway implements ISessionsGateway {
             throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
         }
         try {
+            if(!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+        } finally {
+            $stmt->close();
+        }
+    }
+
+    /**
+     * Changes the password for the user associated to the given token
+     * @param \Token $token - The token which authorised the user
+     * @param string $oldPassword - The current password for the user
+     * @param string $newPassword - The new password for the user
+     * @throws DatabaseInternalException
+     * @throws UserNotFoundException
+     */
+    function changePassword(\Token $token, string $oldPassword, string $newPassword) {
+        $salt = null;
+        $userName = $token->getUserName();
+
+        $stmt = $this->mysqli->prepare(static::SQL_LOGIN_GET_SALT);
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('s', $userName);
+            if(!$stmt->execute()) {
+                throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+            }
+            $stmt->bind_result($dbPass, $salt);
+            if(!$stmt->fetch()) {
+                throw new UserNotFoundException(
+                    IApiOutputter::HTTP_NOT_FOUND, "No user with name '$userName' found.");
+            }
+
+            $hashedPass = hash('sha512', $oldPassword.$salt);
+            if($hashedPass !== $dbPass) {
+                throw new IncorrectPasswordException();
+            }
+        } finally {
+            $stmt->close();
+        }
+
+        $hashedPass = hash('sha512', $newPassword.$salt);
+
+        $stmt = $this->mysqli->prepare(static::SQL_CHANGE_PASSWORD);
+        if($stmt === false) {
+            throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
+        }
+        try {
+            $stmt->bind_param('ss', $hashedPass, $userName);
             if(!$stmt->execute()) {
                 throw new DatabaseInternalException($this->mysqli->error, $this->mysqli->errno);
             }

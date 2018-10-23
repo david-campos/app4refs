@@ -42,4 +42,12 @@ interface ISessionsGateway {
      * @param string $token
      */
     function delete(string $token);
+
+    /**
+     * Changes the password for the user associated to the given token
+     * @param \Token $token - The token which authorised the user
+     * @param string $oldPassword - The current password for the user
+     * @param string $newPassword - The new password for the user
+     */
+    function changePassword(\Token $token, string $oldPassword, string $newPassword);
 }

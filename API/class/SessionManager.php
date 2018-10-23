@@ -79,9 +79,9 @@ class SessionManager {
                 throw new InvalidTokenException();
             }
         }
-        if (isset($requestParams['get']['token'])) {
-            if (preg_match('/[0-9A-Fa-f]+/', $requestParams['get']['token'])) {
-                return $requestParams['get']['token'];
+        if (isset($requestParams['get'][IApiInterface::TOKEN_PARAM])) {
+            if (preg_match('/[0-9A-Fa-f]+/', $requestParams['get'][IApiInterface::TOKEN_PARAM])) {
+                return $requestParams['get'][IApiInterface::TOKEN_PARAM];
             } else {
                 throw new InvalidTokenException();
             }
@@ -105,8 +105,12 @@ class SessionManager {
                     return  explode(':', base64_decode($matches[1]));
                 }
             }
-            if (isset($requestParams['body']['user'], $requestParams['body']['password'])) {
-                return [$requestParams['body']['user'], $requestParams['body']['password']];
+            if (isset(
+                $requestParams['body'][IApiInterface::SESSION_USER],
+                $requestParams['body'][IApiInterface::SESSION_PASSWORD])) {
+                return [
+                    $requestParams['body'][IApiInterface::SESSION_USER],
+                    $requestParams['body'][IApiInterface::SESSION_PASSWORD]];
             }
         }
         return [null,null];

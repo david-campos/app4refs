@@ -28,6 +28,8 @@ interface IApiInterface {
     const PERIOD_ID_CREATE_NEW_VALUE = 'new';
     /** @var integer Token duration in seconds. After this amount of time the token expires */
     const TOKEN_DURATION = 24*60*60;
+    /** @var string Key of the get param for the token */
+    const TOKEN_PARAM = 'token';
 
     // ITEM INTERFACE (texts for the items to output and input values)
     const ITEM_ID = 'itemId';
@@ -66,4 +68,9 @@ interface IApiInterface {
     const TOKEN_TOKEN = 'token';
     const TOKEN_EXPIRES = 'expires';
     const TOKEN_USER_NAME = 'user';
+
+    // SESSION INTERFACE
+    const SESSION_PASSWORD = 'password';
+    const SESSION_USER = 'user';
+    const SESSION_NEW_PASSWORD = 'newPassword';
 }

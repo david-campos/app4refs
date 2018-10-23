@@ -9,6 +9,7 @@ use exceptions\InvalidTokenException;
 use exceptions\UnauthorizedException;
 use formats\IApiOutputter;
 use gateways\GatewayFactory;
+use SessionManager;
 
 class LogoutTransaction extends Transaction {
     /** @var string */
@@ -22,10 +23,7 @@ class LogoutTransaction extends Transaction {
      * @throws UnauthorizedException
      */
     public function __construct($requestParams) {
-        $this->token = \SessionManager::getInstance()->getToken($requestParams);
-        if($this->token === null) {
-            throw new UnauthorizedException('No token found', UnauthorizedException::AUTHORISATION_BEARER);
-        }
+        $this->token = SessionManager::getInstance()->requireToken($requestParams)->getToken();
     }
 
     /**
