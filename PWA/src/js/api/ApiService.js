@@ -102,7 +102,7 @@ class ApiService {
         return this._api.del(
             ApiService.buildSingleItemUrl(item.itemId),
             {},
-            (...x)=> callback, // It does not return anything so nothing needs to be done
+            (...x)=> callback(), // It does not return anything so nothing needs to be done
             (...x)=> ApiService._errorHandling(errorCallback, ...x));
     }
 

@@ -75,8 +75,10 @@ class ItemsPanel {
                 li.find("button.edit").click(cbEdit);
                 li.find("button.delete-item").click(cbDelete);
                 let moveButton = li.find("button.move-item")[0];
-                moveButton.addEventListener('dragstart', cbDragSt, false);
-                moveButton.addEventListener('dragend', cbDragEnd, false);
+                if(moveButton) {
+                    moveButton.addEventListener('dragstart', cbDragSt, false);
+                    moveButton.addEventListener('dragend', cbDragEnd, false);
+                }
                 li.find(".item-icon").click(cbClickedIcon);
                 this._itemsPanel.append(li);
             }

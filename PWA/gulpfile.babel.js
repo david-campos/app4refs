@@ -132,7 +132,7 @@ function writeServiceWorkerFile(handleFetch, callback) {
       DIST_DIR + '/js/javascript.min.js'
     ],
     navigateFallback: DEPLOYMENT_ROOT + '/index.html',
-    navigateFallbackWhitelist: [/^\/a(\/.*)?$/],
+    navigateFallbackWhitelist: [/^\/?$/],
     stripPrefix: DIST_DIR + '/',
     replacePrefix: DEPLOYMENT_ROOT + '/',
     verbose: true
