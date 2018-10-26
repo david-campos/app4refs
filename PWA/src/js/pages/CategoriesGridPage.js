@@ -37,7 +37,7 @@ class CategoriesGridPage extends GridPage {
         let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache (in load)
 
         let icons = CategoriesGridPage._categoriesToIcons(categories);
-        let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
+        let columns = ( state ? state.columns : (itemType==='service'||itemType==='help'?3:2) ); // services and help is displayed in 3 cols
 
         super(columns, icons, null, TITLES[itemType], true, state);
 
