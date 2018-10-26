@@ -47,7 +47,7 @@ class ChangeItemIconTransaction extends Transaction {
     }
 
     private function deleteIfExists($icon) {
-        if(isset($icon) && trim($icon) !== '') {
+        if(isset($icon) && trim($icon) !== '' && trim($icon) !== 'no_icon.png') {
             $iconFile = \IApiInterface::ITEM_ICONS_DIR.$icon;
             if(file_exists($iconFile)) {
                 unlink($iconFile);
