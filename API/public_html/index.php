@@ -18,7 +18,8 @@ try {
         ", line ". $exception->getLine().
         ";".PHP_EOL."Trace:" . $exception->getTraceAsString());
     http_response_code(500);
-    die('Internal server exception');
+    header('Content-Type: application/json; charset=UTF-8');
+    die('{"error": "Internal server exception"}');
 } catch (Error $error) {
     // Same with errors
     error_log(
@@ -27,5 +28,6 @@ try {
         ", line " . $error->getLine().
         ";".PHP_EOL."Trace: " . $error->getTraceAsString());
     http_response_code(500);
-    die('Internal server error');
+    header('Content-Type: application/json; charset=UTF-8');
+    die('{"error":"Internal server error"}');
 }

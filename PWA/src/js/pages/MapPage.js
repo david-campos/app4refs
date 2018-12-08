@@ -114,9 +114,10 @@ class MapPage extends Page {
      * Called by ItemMap when the map is clicked
      */
     mapClicked() {
-        if(this._directionsPanel) {
+        // Nothing done, now maps opens external
+        /*if(this._directionsPanel) {
             this._directionsPanel.toggle();
-        }
+        }*/
     }
 
     /**

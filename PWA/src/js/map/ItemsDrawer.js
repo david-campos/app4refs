@@ -86,7 +86,7 @@ class ItemsDrawer {
 
     /**
      * Hides the marker associated to the given item Id,
-     * but it does not delete it from memory.
+     * but it does not del it from memory.
      * @param {int} itemId - The id which identifies the item used
      *             to create the marker.
      */
@@ -97,7 +97,7 @@ class ItemsDrawer {
     /**
      * Deletes the marker associated to the given itemId
      * @param {int} itemId - The id of the item whose associated marker
-     *             we wan to delete.
+     *             we wan to del.
      */
     deleteItemMarker(itemId) {
         if(this._markers.has(itemId)) {
@@ -187,7 +187,7 @@ class ItemsDrawer {
             if (this._showRouteButton) {
                 content += `<div class="marker-btns">`;
                 content += `<button class="route-btn">${ROUTE_BUTTON_SVG}</button>`;
-                content += `<button class="route-btn google">${GOOGLE_BUTTON_SVG}</button>`;
+                //content += `<button class="route-btn google">${GOOGLE_BUTTON_SVG}</button>`;
                 content += `</div>`;
             }
 
@@ -197,12 +197,12 @@ class ItemsDrawer {
             div.innerHTML = content;
 
             if(this._showRouteButton) {
-                let self = this;
+                /*let self = this;
                 div.childNodes[3].childNodes[0].addEventListener('click', () => {
                     self._itemSelected(this._infoItem);
                     self._info.close();
-                });
-                div.childNodes[3].childNodes[1].addEventListener('click', () => {
+                });*/
+                div.childNodes[3].childNodes[0].addEventListener('click', () => {
                     let link = ResourcesProvider.getExternalDirectionsUrl(this._infoItem);
                     window.open(link, "_blank");
                 });

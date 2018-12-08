@@ -10,6 +10,7 @@ use exceptions\InvalidParamInBodyException;
 use formats\IApiOutputter;
 use gateways\GatewayFactory;
 use Period;
+use SessionManager;
 
 class UpdateItemTransaction extends ItemParsingTransaction {
     /** @var int */
@@ -19,6 +20,7 @@ class UpdateItemTransaction extends ItemParsingTransaction {
         parent::__construct($requestParams);
         // We obtain the id from the URL
         $this->itemId = $requestParams['get']['itemId'];
+        SessionManager::getInstance()->requireToken($requestParams);
     }
 
 

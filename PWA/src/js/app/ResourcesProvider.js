@@ -50,14 +50,13 @@ const RP_MAP_SPRITESHEET = "sprite";
 
 /**
  * Main menu icons names
- * @type {{info: string, help: string, service: string, leisure: string, link: string, emergency: string}}
+ * @type {{info: string, help: string, service: string, leisure: string, emergency: string}}
  */
 const RP_MAIN_MENU_ICONS = {
     'info': 'infonew',
-    'help': 'helpnew',
+    'help': 'ser-internet',
     'service': 'servicesnew2',
     'leisure': 'leisurenew',
-    'link': 'ser-internet',
     'emergency': 'emergency'
 };
 

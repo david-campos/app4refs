@@ -70,16 +70,14 @@ a.item-call {
     text-transform: uppercase;
     background-color: #7C0D82;
     font-weight: bold;
-    margin: 0.5em 1% 0 1%; /*margin-top: 0.5em when one*/
-    float: left; /* remove when one */
+    margin: 0.5em 0;
 }
 
 .item-map {
     border-radius: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
-    width: 48%;
-    max-width: 17em;
+    width: 100%;
     border: 0.1em solid #6A3D57;
 }
 

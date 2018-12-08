@@ -15,13 +15,20 @@ const PERIOD_DAYS_STRS = {
 
 /**
  * @typedef {Object} PeriodObject
- * @property {int} periodId
+ * @property {int|string} periodId
  * @property {string} startDay
  * @property {int} startHour
  * @property {int} startMinutes
  * @property {string} endDay
  * @property {int} endHour
  * @property {int} endMinutes
+ */
+
+/**
+ * @typedef {Object} PeriodMarker
+ * @property {Period} startPeriod
+ * @property {Period} endPeriod
+ * @property {string} nextDay
  */
 
 /**
@@ -33,7 +40,7 @@ class Period {
      */
     constructor(object) {
         /**
-         * @type {int}
+         * @type {int|string}
          */
         this.periodId = object.periodId;
         /**
@@ -109,20 +116,36 @@ class Period {
 
         // Calculate the minutes since the start of the week for each start and end
         let minsSinceWeekStart = (weekDay * 24 + hour) * 60 + minute;
-        let startMSWS =
-            (PERIOD_DAYS.indexOf(this.startDay) * 24
-                + this.startHour) * 60
-            + this.startMinutes;
-        let endMSWS =
-            (PERIOD_DAYS.indexOf(this.endDay) * 24
-                + this.endHour) * 60
-            + this.endMinutes;
+        let startMSWS = this.startInMinutesSinceStartOfTheWeek();
+        let endMSWS = this.endInMinutesSinceStartOfTheWeek();
 
         if(startMSWS <= endMSWS) {
             return startMSWS <= minsSinceWeekStart && minsSinceWeekStart <= endMSWS;
         } else {
             return minsSinceWeekStart <= endMSWS || minsSinceWeekStart >= startMSWS;
         }
+    }
+
+    /**
+     * Returns the number of minutes passed from the start of the week
+     * until the start of the period
+     * @return {number}
+     */
+    startInMinutesSinceStartOfTheWeek() {
+        return (PERIOD_DAYS.indexOf(this.startDay) * 24
+            + this.startHour) * 60
+            + this.startMinutes;
+    }
+
+    /**
+     * Returns the number of minutes passed from the start of the week
+     * until the end of the period.
+     * @return {number}
+     */
+    endInMinutesSinceStartOfTheWeek() {
+        return (PERIOD_DAYS.indexOf(this.endDay) * 24
+                + this.endHour) * 60
+            + this.endMinutes;
     }
 
     /**
@@ -176,6 +199,21 @@ class Period {
     }
 
     /**
+     * Checks if this period and the indicated one are overlapping
+     * @param {Period} period - The other period
+     * @return {boolean} true if they overlap, false if they don't
+     */
+    overlaps(period) {
+        let a = this.startInMinutesSinceStartOfTheWeek();
+        let b = this.startInMinutesSinceStartOfTheWeek();
+        let c = period.startInMinutesSinceStartOfTheWeek();
+        let d = period.endInMinutesSinceStartOfTheWeek();
+
+        let mod = (7 * 24 + 23) * 60 + 59;
+        return Math.mod((c-a), mod) <= Math.mod((b-a), mod) || Math.mod((a-c), mod) <= Math.mod((d-c), mod);
+    }
+
+    /**
      * Returns the given hour and minutes as a string
      * @param {int} hour - Hour in the range [0, 23]
      * @param {int} minutes - Minutes in the range [0, 59]
@@ -202,5 +240,58 @@ class Period {
         } else {
             throw new Error(`Period::nextDay: Invalid day '${day}'.`)
         }
+    }
+
+    /**
+     * Groups all the periods with the same schedule
+     * @param {Period[]} periods - A list of periods, ordered by their end day.
+     * @return {PeriodMarker[]}
+     */
+    static groupPeriodsWithSameSchedule(periods) {
+        let periodsLeft = periods.slice();
+        /**
+         * @type {PeriodMarker[]}
+         */
+        let schedules = [];
+        // While there are periods to group
+        while(periodsLeft.length > 0) {
+            let next = periodsLeft.shift();
+            let newSchedule = {
+                startPeriod: next,
+                endPeriod: next,
+                nextDay: next.nextDay()};
+            let foundNextPeriod;
+            do {
+                foundNextPeriod = false;
+                for (let idx=0; idx < periodsLeft.length; idx++) {
+                    let period = periodsLeft[idx];
+                    // It has the same schedule and it starts the next day
+                    if (period.hasSameHoursAs(newSchedule.startPeriod) &&
+                        period.startDay === newSchedule.nextDay) {
+                        newSchedule.endPeriod = period;
+                        newSchedule.nextDay = period.nextDay();
+                        // Remove period from periodsLeft
+                        periodsLeft.splice(idx, 1);
+                        foundNextPeriod = true;
+                        break;
+                    }
+                }
+            } while(foundNextPeriod); // Repeat while next is found
+
+            // Check to join with previous ones
+            foundNextPeriod = false;
+            for (let schedule of schedules) {
+                if (schedule.startPeriod.hasSameHoursAs(newSchedule.startPeriod) &&
+                    newSchedule.nextDay === schedule.startPeriod.startDay) {
+                    schedule.startPeriod  = newSchedule.startPeriod;
+                    foundNextPeriod = true;
+                    break;
+                }
+            }
+            if(!foundNextPeriod) {
+                schedules.push(newSchedule);  // Add to the schedule
+            }
+        }
+        return schedules;
     }
 }

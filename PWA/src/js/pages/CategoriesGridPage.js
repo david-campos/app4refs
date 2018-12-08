@@ -10,14 +10,13 @@ const CATEGORIES_GRID_PAGE_CLASS = "CategoriesGridPage";
 
 /**
  * Titles for the page based on the item-type
- * @type {{info: string, help: string, service: string, leisure: string, link: string}}
+ * @type {{info: string, help: string, service: string, leisure: string}}
  */
 const TITLES = {
     'info': 'Info',
-    'help': 'Help',
+    'help': 'Links',
     'service': 'Services',
-    'leisure': 'Leisure',
-    'link': 'Links'
+    'leisure': 'Leisure'
 };
 
 /**
@@ -38,7 +37,7 @@ class CategoriesGridPage extends GridPage {
         let categories = ( state ? state.categories : {} ); // TODO: Get categories from the cache (in load)
 
         let icons = CategoriesGridPage._categoriesToIcons(categories);
-        let columns = ( state ? state.columns : (itemType==='service'?3:2) ); // services is displayed in 3 cols
+        let columns = ( state ? state.columns : (itemType==='service'||itemType==='help'?3:2) ); // services and help is displayed in 3 cols
 
         super(columns, icons, null, TITLES[itemType], true, state);
 

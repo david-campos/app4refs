@@ -128,11 +128,41 @@ CREATE TABLE IF NOT EXISTS `opening_hours` (
 )
 COMMENT "Opening hours periods for the items";
 
-CREATE TABLE log_table (
-    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    message VARCHAR(255) NOT NULL
-);
+/* Users
+ *   This table will store information about the users
+ *   for the control panel, which can modify the items
+ *   in the database. Passwords should be saved hashed
+ *   and salts added to avoid attacks by entropy analysis.
+ */
+CREATE TABLE IF NOT EXISTS `users` (
+    `username` VARCHAR(80) NOT NULL,
+    `password` CHAR(128) NOT NULL,
+    `salt` CHAR(128) NOT NULL,
+    
+    PRIMARY KEY (`username`)
+)
+COMMENT "Users stored in the database, they work by now as OAuth clients would do, more or less";
 
+/* Tokens
+ *   Thes table stores the tokens which give temporary
+ *   access to the logged users. This is simmilar to
+ *   a session storage. It is userful to have this to
+ *   ease extending the database to support OAuth 2.0.
+ */
+CREATE TABLE IF NOT EXISTS `tokens` (
+    `access_token` CHAR(64) NOT NULL,
+    `expires` TIMESTAMP NOT NULL,
+    
+    `user` VARCHAR(80) NOT NULL,
+    
+    PRIMARY KEY (`access_token`),
+    
+    FOREIGN KEY (`user`) REFERENCES `users`(`username`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+COMMENT "Tokens stored in the database which give temporary access for the users";
+ 
 DELIMITER $$
 /**
  * If the link given is not null and the category code has some associated item
@@ -157,7 +187,6 @@ CREATE PROCEDURE check_not_link(IN cat_code CHAR(10))
 BEGIN
     DECLARE my_link VARCHAR(255);
     SELECT `link` INTO my_link FROM categories WHERE category_code = cat_code;
-    INSERT INTO log_table(message) VALUES(cat_code);
     IF my_link IS NOT NULL THEN
         SIGNAL SQLSTATE '45001'
         SET MESSAGE_TEXT = 'A category with a non-null link value cannot have items';

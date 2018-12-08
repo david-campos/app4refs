@@ -7,7 +7,7 @@ RewriteBase /
 
 # Redirect /whatever to index.php
 RewriteCond %{REQUEST_URI} !/index.php\/?$
-RewriteRule ^\/?.+\/?$ "/index.php" [QSA,L,NC]
+RewriteRule ^\/?.+\/?$ "api_v1/index.php" [QSA,L,NC]
 
 #UTF-8
 AddDefaultCharset UTF-8
